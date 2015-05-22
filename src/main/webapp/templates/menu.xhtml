@@ -1,0 +1,27 @@
+
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+		<p:menu style="width:213px;height:483px;border:none;font-size:small;padding:0px;">
+                    <p:submenu label="Menü" icon="ui-icon ui-icon-refresh">
+			<p:menuitem value="Mitarbeiter"
+                                    url="/pages/page1.xhtml" />
+			<p:menuitem value="Kunden" 
+                                    url="/pages/page2.xhtml" />
+                        <p:menuitem value="Bestand"
+                                    url="/pages/page3.xhtml" />
+			<p:menuitem value="Rechnungen" 
+                                    url="/pages/page4.xhtml" />
+                    </p:submenu>
+		</p:menu>
+            </p:outputPanel>
+	</h:form>
+</ui:composition>
+
+
