@@ -1,9 +1,14 @@
 package com.forall.laundry.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * Created by jd on 5/11/15.
@@ -28,33 +33,39 @@ public class Customer implements Serializable{
         this.items = new HashSet<>();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    public Set<Item> getItems() {
+        return items;
+    }
+
     public void setItems(Set<Item> items) {
         this.items = items;
     }
 
-    public void setOrders(Set<Purchase> orders) {
-        this.purchases = orders;
+    public Set<Purchase> getPurchases() {
+        return purchases;
     }
 
-    public void addItem(Item item){
-        this.items.add(item);
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
     }
 
-    public void removeItem(Item item){
-        this.items.remove(item);
+    public String getName() {
+        return name;
     }
 
-    public Set<Item> getItems(){
-        return this.items;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    
 
     @Override
     public boolean equals(Object o) {

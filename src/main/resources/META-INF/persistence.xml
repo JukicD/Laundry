@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="laundryPU" transaction-type="RESOURCE_LOCAL">
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence                                   http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="laundryPU" transaction-type="JTA">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>java:jboss/datasources/LaundryDS</jta-data-source>
+    <class>com.forall.laundry.model.Customer</class>
+    <class>com.forall.laundry.model.Item</class>
+    <class>com.forall.laundry.model.Purchase</class>
+    <class>com.forall.laundry.model.Worker</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/laundry"/>
       <property name="javax.persistence.jdbc.user" value="jd"/>
       <property name="javax.persistence.jdbc.password" value="p1l1o1k1"/>
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
-      
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -20,7 +20,7 @@ public class Purchase implements Serializable{
     private Customer customer;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Worker> workers;
+    private final Set<Worker> workers;
 
     public int getId() {
         return id;
@@ -44,5 +44,27 @@ public class Purchase implements Serializable{
 
     public void setCustomer(Customer customer){
         this.customer = customer;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Purchase other = (Purchase) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 }

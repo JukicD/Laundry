@@ -1,10 +1,13 @@
 package com.forall.laundry.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * Created by jd on 5/11/15.
@@ -18,9 +21,9 @@ public class Item implements Serializable{
     private int id;
 
     @ManyToMany(mappedBy = "items")
-    private Set<Customer> customers;
+    private final Set<Customer> customers;
 
-    private String type;
+    private boolean borrowed;
 
     private int amount;
 
@@ -29,8 +32,8 @@ public class Item implements Serializable{
         this.customers = new HashSet<>();
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setBorrowed(boolean type) {
+        this.borrowed = type;
     }
 
     public void setAmount(int amount) {
@@ -45,8 +48,8 @@ public class Item implements Serializable{
         return customers;
     }
 
-    public String getType() {
-        return type;
+    public boolean isBorrowed() {
+        return borrowed;
     }
 
     public int getAmount() {
