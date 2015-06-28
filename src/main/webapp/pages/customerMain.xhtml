@@ -4,43 +4,50 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/templates/template.xhtml">
+    
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
-		<h:form>
-    <p:dataTable var="car" value="" widgetVar="carsTable"
-                 emptyMessage="No cars found with given criteria" filteredValue="" style="size: 30px" resizableColumns="true">
- 
+            
+        <h:form id="input">
+                <p:growl id="growl" showDetail="true" sticky="false" life="3500" showSummary="false"/>
+            <h:panelGrid id="grid" columns="2" cellpadding="5" cellspacing="1">
+
+                <h:outputLabel for="name" value="Gegenstand" style="font-weight:bold"/>                
+                <p:inputText id="name" value="#{userController.item.name}" required="true" requiredMessage="Gegenstand eingeben!" />
+
+                <h:outputLabel for="amount" value="Stück " style="font-weight:bold"/>             
+                <p:inputText id="amount" value="#{userController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
+                
+                <p:commandButton action = "#{userController.addItem}" value="Speichern" style="margin-right:10px"
+                                 icon="ui-icon-check"
+                                 actionListener="#{growlController.saveMessage}" update="itemTable" />
+            </h:panelGrid>
+            
+        <p:dataTable id="itemTable" var="item" value="#{userController.items}"
+                 emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
+           
         <f:facet name="header">
             <p:outputPanel>
-                <h:outputText value="Hotel Meierhofer" />
+                <h:outputText value="#{userController.name}" />
             </p:outputPanel>
         </f:facet>
         
-        <p:column filterBy="" headerText="Datum">
-            <f:facet name="filter">
-                <p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">
-                    <f:converter converterId="javax.faces.Integer" />
-                </p:spinner>
-            </f:facet>
-            <h:outputText value="" />
+        <p:column  headerText="Auftrag">
+            <h:outputText value="#{item.name}"/>
         </p:column>
  
-        <p:column filterBy="" headerText="Auftrag">
+        <p:column headerText="Gegenstand">
             <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('carsTable').filter()" >
                     <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="" />
+                    <f:selectItems value="#{userController.items}" />
                 </p:selectOneMenu>
             </f:facet>
             <h:outputText value="" />
         </p:column>
  
-        <p:column filterBy="" headerText="Gegenstand">
-            <h:outputText value="" />
-        </p:column>
- 
-        <p:column filterBy="" headerText="Status">
+        <p:column  headerText="Status">
             <f:facet name="filter">
                 <p:selectOneButton onchange="PF('carsTable').filter()" style="font-size: smaller">
                     <f:converter converterId="javax.faces.Boolean" />
@@ -49,16 +56,16 @@
                     <f:selectItem itemLabel="Eigen" itemValue="false" />
                 </p:selectOneButton>
             </f:facet>
-            <h:outputText value="" />
+            <h:outputText value="#{item.borrowed}" />
         </p:column>
  
-        <p:column filterBy="" headerText="Stück">
-            <h:outputText value="">
-                <f:convertNumber currencySymbol="$" type="currency"/>
+        <p:column headerText="Stück" >
+            <h:outputText value="#{item.amount}">
+                <f:converter converterId="javax.faces.Integer" />
             </h:outputText>
         </p:column>
-    </p:dataTable>
-</h:form>
+        </p:dataTable>  
+    </h:form>
 	</ui:define>
 </ui:composition>
 

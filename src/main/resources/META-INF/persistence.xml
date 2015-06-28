@@ -5,12 +5,12 @@
     <jta-data-source>java:jboss/datasources/LaundryDS</jta-data-source>
     <class>com.forall.laundry.model.Customer</class>
     <class>com.forall.laundry.model.Item</class>
-    <class>com.forall.laundry.model.Purchase</class>
     <class>com.forall.laundry.model.Worker</class>
+    <class>com.forall.laundry.model.Purchase</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/laundry"/>
-      <property name="javax.persistence.jdbc.user" value="jd"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.password" value="p1l1o1k1"/>
       <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>

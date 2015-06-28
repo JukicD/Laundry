@@ -1,13 +1,12 @@
 package com.forall.laundry.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by jd on 5/11/15.
@@ -20,16 +19,18 @@ public class Item implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToMany(mappedBy = "items")
-    private final Set<Customer> customers;
+    @ManyToOne(targetEntity = Customer.class)
+    private Customer customer;
+    
+    @NotNull
+    private String name;
 
     private boolean borrowed;
 
-    private int amount;
+    private Integer amount;
 
     public Item() {
-
-        this.customers = new HashSet<>();
+        amount = 0;
     }
 
     public void setBorrowed(boolean type) {
@@ -44,8 +45,8 @@ public class Item implements Serializable{
         return id;
     }
 
-    public Set<Customer> getCustomers() {
-        return customers;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public boolean isBorrowed() {
@@ -56,14 +57,20 @@ public class Item implements Serializable{
         return amount;
     }
 
-    public void addCustomer(Customer customer){
-        this.customers.add(customer);
+    public String getName() {
+        return name;
     }
 
-    public void removeCustomer(Customer customer){
-        this.customers.add(customer);
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public void setCustomer(Customer customers) {
+        this.customer = customers;
+    }
+    
+    
+   
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

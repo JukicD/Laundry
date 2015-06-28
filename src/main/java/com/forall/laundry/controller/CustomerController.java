@@ -66,8 +66,6 @@ public class CustomerController {
         this.customer = customer;
     }
     
-    
-    
     @Transactional
     public String remove(Worker search){
         

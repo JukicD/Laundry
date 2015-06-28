@@ -4,6 +4,7 @@
 	xmlns:p="http://primefaces.org/ui"
         template="/templates/template.xhtml"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
 	<ui:define name="metadata">
 	</ui:define>
 	<ui:define name="content">
@@ -22,9 +23,7 @@
                                  icon="ui-icon-check"
                                  actionListener="#{growlController.saveMessage}" update="growl"/>
             </h:panelGrid>
-          
-             
-              
+            
             <p:dataTable var="w" value="#{workerController.workers}" style="table-layout: auto" resizableColumns="true">
                 <p:column headerText="Vorname">
                     <h:outputText value="#{w.name}" />

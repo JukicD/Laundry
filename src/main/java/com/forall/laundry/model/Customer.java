@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by jd on 5/11/15.
@@ -21,12 +21,13 @@ public class Customer implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToMany
+    @OneToMany(targetEntity = Item.class)
     private Set<Item> items;
 
     @OneToMany
     private Set<Purchase> purchases;
 
+    @NotNull
     private String name;
 
     public Customer(){
@@ -63,6 +64,10 @@ public class Customer implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void addItem(Item item){
+        items.add(item);
     }
 
     
