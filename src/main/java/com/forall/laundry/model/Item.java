@@ -1,6 +1,7 @@
 package com.forall.laundry.model;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,14 +20,16 @@ public class Item implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne(targetEntity = Customer.class)
+    @ManyToOne
     private Customer customer;
     
     @NotNull
     private String name;
 
+    @Basic
     private boolean borrowed;
 
+    @NotNull
     private Integer amount;
 
     public Item() {
@@ -45,10 +48,6 @@ public class Item implements Serializable{
         return id;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     public boolean isBorrowed() {
         return borrowed;
     }
@@ -65,12 +64,18 @@ public class Item implements Serializable{
         this.name = name;
     }
 
-    public void setCustomer(Customer customers) {
-        this.customer = customers;
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
     
-    
-   
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

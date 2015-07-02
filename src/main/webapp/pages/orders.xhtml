@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml">
+    
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+            
+        <h:form id="input">
+    
+        <p:dataTable id="purchaseTable" var="purchase" value="#{userController.purchases}"
+                 emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
+            
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="#{userController.name}" />
+            </p:outputPanel>
+        </f:facet>
+        <p:column  headerText="Datum">
+            <h:outputText value="#{purchase.timeStamp}"/>
+        </p:column>
+ 
+        <p:column headerText="Auftrag">
+            <p:commandButton value="Ansehen" action="#{userController.setPurchase(purchase)}"/>
+        </p:column>
+ 
+        </p:dataTable>  
+    </h:form>
+	</ui:define>
+</ui:composition>
+
+

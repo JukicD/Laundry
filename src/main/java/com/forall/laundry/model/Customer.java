@@ -21,17 +21,22 @@ public class Customer implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToMany(targetEntity = Item.class)
-    private Set<Item> items;
-
     @OneToMany
-    private Set<Purchase> purchases;
+    private Set<Ordery> orders;
+    
+    @OneToMany
+    private Set<Item> items;
 
     @NotNull
     private String name;
 
     public Customer(){
-        this.items = new HashSet<>();
+        orders = new HashSet<>();
+        items = new HashSet<>();
+    }
+    
+    public void addItem(Item item){
+        items.add(item);
     }
 
     public int getId() {
@@ -42,20 +47,20 @@ public class Customer implements Serializable{
         this.id = id;
     }
 
+    public Set<Ordery> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Ordery> orders) {
+        this.orders = orders;
+    }
+    
     public Set<Item> getItems() {
         return items;
     }
 
     public void setItems(Set<Item> items) {
         this.items = items;
-    }
-
-    public Set<Purchase> getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(Set<Purchase> purchases) {
-        this.purchases = purchases;
     }
 
     public String getName() {
@@ -66,12 +71,6 @@ public class Customer implements Serializable{
         this.name = name;
     }
     
-    public void addItem(Item item){
-        items.add(item);
-    }
-
-    
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

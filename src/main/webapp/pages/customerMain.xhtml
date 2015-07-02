@@ -13,26 +13,25 @@
                 <p:growl id="growl" showDetail="true" sticky="false" life="3500" showSummary="false"/>
             <h:panelGrid id="grid" columns="2" cellpadding="5" cellspacing="1">
 
-                <h:outputLabel for="name" value="Gegenstand" style="font-weight:bold"/>                
-                <p:inputText id="name" value="#{userController.item.name}" required="true" requiredMessage="Gegenstand eingeben!" />
+                <h:outputLabel for="name" value="Gegenstand" style="font-weight:bold"/>               
+                <p:inputText id="name" value="#{userController.itemService.item.name}" required="true" requiredMessage="Gegenstand eingeben!" />
 
-                <h:outputLabel for="amount" value="Stück " style="font-weight:bold"/>             
-                <p:inputText id="amount" value="#{userController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
+                <h:outputLabel for="amount" value="Stück " style="font-weight:bold"/>         
+                <p:inputText id="amount" value="#{userController.itemService.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
                 
                 <p:commandButton action = "#{userController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
                                  actionListener="#{growlController.saveMessage}" update="itemTable" />
             </h:panelGrid>
-            
-        <p:dataTable id="itemTable" var="item" value="#{userController.items}"
+    
+                <p:dataTable id="itemTable" var="item" value="#{userController.customerService.allE}"
                  emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
-           
+            
         <f:facet name="header">
             <p:outputPanel>
-                <h:outputText value="#{userController.name}" />
+                <h:outputText value="#{userController.customerService.customer.name}" />
             </p:outputPanel>
         </f:facet>
-        
         <p:column  headerText="Auftrag">
             <h:outputText value="#{item.name}"/>
         </p:column>
@@ -41,7 +40,7 @@
             <f:facet name="filter">
                 <p:selectOneMenu onchange="PF('carsTable').filter()" >
                     <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                    <f:selectItems value="#{userController.items}" />
+                    <f:selectItems value="#{item.name}" />
                 </p:selectOneMenu>
             </f:facet>
             <h:outputText value="" />
@@ -64,8 +63,10 @@
                 <f:converter converterId="javax.faces.Integer" />
             </h:outputText>
         </p:column>
-        </p:dataTable>  
-    </h:form>
+        </p:dataTable>
+        </h:form>
+                <p:commandButton value="Rechnung abschließen" action="#{userController.addPurchase}" immediate="true"/>
+    
 	</ui:define>
 </ui:composition>
 

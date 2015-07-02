@@ -12,20 +12,24 @@
             
             <h:panelGrid id="grid" columns="2" cellpadding="10" cellspacing="1">
                 <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
-                <p:inputText id="name" value="#{customerController.customer.name}" required="true" label="Name" requiredMessage="Name eingeben!"/>
+                <p:inputText id="name" value="#{customerController.service.customer.name}" required="true" label="Name" requiredMessage="Name eingeben!"/>
 
                 <p:commandButton action = "#{customerController.persist}" value="Speichern" style="margin-right:10px" 
                                  actionListener="#{growlController.saveMessage}"/>
                 <p:commandButton onclick="history.back(); return false;" value="Abbrechen"/>
             </h:panelGrid>
             
-            <p:dataTable var="customer" value="#{customerController.customers}" resizableColumns="true">
+            <p:dataTable var="customer" value="#{customerController.service.all}" resizableColumns="true">
                 <p:column headerText="Kunde" style="width: 300px">
                     <h:outputText value="#{customer.name}" />
                 </p:column>
+         
+                <p:column>
+                    <p:commandButton value="Aktueller Auftrag" action="#{userController.setCustomer(customer, 'lastOrder')}" immediate="true"/>
+                </p:column>
                 
-                <p:column headerText="" style="">
-                    <p:commandButton value="Bearbeiten" action="#{userController.setCustomer(customer)}" immediate="true"/>
+                <p:column>
+                    <p:commandButton value="Vergangene Aufträge" action="#{userController.setCustomer(customer, 'oldOrder')}" immediate="true"/>
                 </p:column>
             </p:dataTable>
         </h:form>

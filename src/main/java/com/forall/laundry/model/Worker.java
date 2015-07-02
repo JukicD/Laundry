@@ -1,13 +1,10 @@
 package com.forall.laundry.model;
 
 import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
@@ -28,9 +25,6 @@ public class Worker implements Serializable{
     @NotNull
     private String name;
 
-    @ManyToMany(mappedBy = "workers", cascade = {CascadeType.ALL})
-    private Set<Purchase> purchases;
-
     public int getId() {
         return id;
     }
@@ -41,10 +35,6 @@ public class Worker implements Serializable{
 
     public String getName() {
         return name;
-    }
-
-    public Set<Purchase> getOrders() {
-        return purchases;
     }
 
     public void setSurname(String surname) {
