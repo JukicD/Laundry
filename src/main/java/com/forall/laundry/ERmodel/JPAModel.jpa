@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings theme="MAC" jaxb-support="false" id="_14362617619441" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:ns4="http://nbmodeler.java.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <jpa:entity class="Customer" compositePrimaryKeyType="NONE" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_14362617619784">
+        <jpa:named-query name="Customer.findAll">
+            <jpa:query>SELECT c FROM Customer c</jpa:query>
+        </jpa:named-query>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="int" visibile="true" id="_14362617619875">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+            <jpa:basic name="name" fetch="LAZY" attribute-type="java.lang.String" visibile="true" id="_14362617619928">
+                <annotation>@javax.validation.constraints.NotNull</annotation>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="address" attribute-type="String" visibile="true" id="_143626281746056">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:one-to-many name="ordery1" target-entity="Ordery" fetch="LAZY" collection-type="java.util.Collection" connected-entity-id="_1436262004039" visibile="true" id="_143626203712044">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Ordery" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1436262004039">
+        <jpa:attributes>
+            <jpa:id name="order_id" attribute-type="Long" visibile="true" id="_143626204980645">
+                <jpa:column unique="true" nullable="false" insertable="false" updatable="false" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+            <jpa:basic name="timestamp" fetch="LAZY" attribute-type="java.sql.Timestamp" visibile="true" id="_143626352781160">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:one-to-many name="ordery_item" target-entity="Item" fetch="LAZY" collection-type="java.util.Collection" connected-entity-id="_1436262613673" visibile="true" id="_143626401412762">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Item" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1436262613673">
+        <jpa:attributes>
+            <jpa:id name="item_id" attribute-type="Long" visibile="true" id="_143626296257559">
+                <jpa:column unique="true" nullable="false" insertable="false" updatable="false" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+            <jpa:basic name="amount" fetch="LAZY" attribute-type="int" visibile="true" id="_143626403537063">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="borrowed" attribute-type="boolean" visibile="true" id="_143635222129112">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:one-to-one name="item_product" target-entity="Product" fetch="LAZY" optional="true" primaryKey="false" connected-entity-id="_1436263805493" visibile="true" id="_143626411234065">
+                <jpa:join-table/>
+            </jpa:one-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Product" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1436263805493">
+        <jpa:attributes>
+            <jpa:id name="product_id" attribute-type="Long" visibile="true" id="_143626414792167">
+                <jpa:column unique="true" nullable="false" insertable="false" updatable="false"/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+            <jpa:basic name="price" fetch="LAZY" attribute-type="int" visibile="true" id="_143626417917368">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="name" fetch="LAZY" attribute-type="String" visibile="true" id="_143626423610369">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:diagram id="_14362617619462">
+        <plane elementRef="_14362617619441" id="_14362617619483_p">
+            <shape elementRef="_14362617619784" id="_14362617619784_gui">
+                <Bounds x="24.0" y="90.0" width="164.0" height="138.0"/>
+            </shape>
+            <shape elementRef="_1436262004039" id="_1436262004039_gui">
+                <Bounds x="284.0" y="58.0" width="145.0" height="118.0"/>
+            </shape>
+            <shape elementRef="_1436262613673" id="_1436262613673_gui">
+                <Bounds x="517.0" y="8.0" width="139.0" height="138.0"/>
+            </shape>
+            <shape elementRef="_1436263805493" id="_1436263805493_gui">
+                <Bounds x="626.0" y="228.0" width="151.0" height="106.0"/>
+            </shape>
+        </plane>
+    </jpa:diagram>
+</jpa:entity-mappings>

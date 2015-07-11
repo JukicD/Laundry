@@ -1,90 +1,82 @@
 package com.forall.laundry.model;
 
+
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by jd on 5/11/15.
- */
-
 @Entity
-public class Customer implements Serializable{
+@NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
+public class Customer implements Serializable {
 
+    @Basic
+    private String address;
+    
+    @NotNull
+    @Column(nullable=false)
+    @Basic(fetch=FetchType.LAZY)
+    private String name;
+    
+    
+    @Column(nullable=false)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @OneToMany
-    private Set<Ordery> orders;
-    
-    @OneToMany
-    private Set<Item> items;
-
-    @NotNull
-    private String name;
-
-    public Customer(){
-        orders = new HashSet<>();
-        items = new HashSet<>();
+    public Customer() {
+        
     }
-    
-    public void addItem(Item item){
-        items.add(item);
+   
+    public String getAddress() {
+        return this.address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+   
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+   
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public Set<Ordery> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Ordery> orders) {
-        this.orders = orders;
-    }
-    
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Customer)) return false;
-
-        Customer customer = (Customer) o;
-
-        if (id != customer.id) return false;
-
-        return true;
-    }
-
     @Override
     public int hashCode() {
-        return id;
+        int hash = 3;
+        hash = 97 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Customer other = (Customer) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 }

@@ -4,8 +4,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:b="http://bootsfaces.net/ui">
 	<center>
-		<h:outputText value="Ottos Wäscherei"/>
+            <h:outputStylesheet name="css/header.css"/>
+            <h:outputText id='header' styleClass="header-style" value='Seebacher Wäscherei'/>
 	</center>
 </ui:composition>

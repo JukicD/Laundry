@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package com.forall.laundry.controller;
+
+import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
@@ -19,22 +22,58 @@ import javax.inject.Named;
 public class ItemController implements Serializable{
     
     @Inject
-    private ItemService service;
+    private UserController userController;
+    
+    @Inject
+    private ItemService itemService;
+    
+    @Inject
+    private Item item;
+    
+    @Inject
+    private Product product;
     
     public ItemController(){
         
     }
     
-    public String persist(){
-        service.save();
-        return null;
+    public void addItem(){
+        item.setItem_product(product);
+        item.setBorrowed(true);
+        itemService.save(item);
+    }
+    
+    public UserController getUserController() {
+        return userController;
     }
 
-    public ItemService getService() {
-        return service;
+    public void setUserController(UserController userController) {
+        this.userController = userController;
     }
 
-    public void setService(ItemService service) {
-        this.service = service;
+    public ItemService getItemService() {
+        return itemService;
     }
+
+    public void setItemService(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    
+    
 }

@@ -11,7 +11,7 @@
             
         <h:form id="input">
     
-            <p:dataTable id="itemTable" var="item" value="#{oldOrdersController.items}"
+            <p:dataTable id="orderTable" var="order" value="#{orderyController.oldOrders}"
                  emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
             
         <f:facet name="header">
@@ -19,13 +19,17 @@
                 <h:outputText value="#{userController.customer.name}" />
             </p:outputPanel>
         </f:facet>
-        <p:column  headerText="Produkt">
-            <h:outputText value="#{item.item_product.productName}"/>
+        <p:column  headerText="#">
+            <h:outputText value="#{order.order_id}"/>
         </p:column>
- 
-        <p:column headerText="Anzahl">
-            <h:outputText value="#{item.amount}"/>
-        </p:column>
+                <p:column headerText="Datum">
+                    <h:outputText value="#{order.date}">
+                        <f:convertDateTime pattern="d-M-yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Auftrag ansehen" action="#{oldOrdersController.setup(order)}"/>
+                </p:column>
  
         </p:dataTable>  
     </h:form>

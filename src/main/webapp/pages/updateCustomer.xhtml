@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml"
+        xmlns:b="http://bootsfaces.net/ui">
+	<ui:define name="metadata"/>
+	<ui:define name="content">
+
+        <h:form>
+            
+            <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
+            
+            <h:panelGrid id="grid" columns="2" cellpadding="10" cellspacing="1">
+                <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
+                <p:inputText id="name" value="#{userController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
+
+                <h:outputLabel for="address" value="Adresse" style="font-weight: bold" />
+                <p:inputText id="address" value ="#{userController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
+
+                <p:commandButton action = "#{userController.update}" value="Speichern" style="margin-right:10px"
+                             actionListener="#{growlController.saveMessage}"/>
+                <p:commandButton onclick="history.back(); return false;" value="Abbrechen"/>
+            </h:panelGrid>
+        </h:form>
+            
+	</ui:define>
+</ui:composition>

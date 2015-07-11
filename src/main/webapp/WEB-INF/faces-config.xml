@@ -10,14 +10,25 @@
             <to-view-id>/pages/customerMain.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>oldOrder</from-outcome>
-            <to-view-id>/pages/orders.xhtml</to-view-id>
+            <from-outcome>update</from-outcome>
+            <to-view-id>/pages/updateCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>oldOrders</from-outcome>
+            <to-view-id>/pages/oldOrders.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/pages/customerMain.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>purchaseFinished</from-outcome>
+            <to-view-id>/pages/page2.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/updateCustomer.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>updateDone</from-outcome>
             <to-view-id>/pages/page2.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

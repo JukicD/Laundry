@@ -8,7 +8,7 @@ package com.forall.laundry.hibernate;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
-import com.forall.laundry.model.Worker;
+import com.forall.laundry.model.Product;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -32,7 +32,7 @@ public class HibernateUtil {
             configuration.addAnnotatedClass(Customer.class);
             configuration.addAnnotatedClass(Ordery.class);
             configuration.addAnnotatedClass(Item.class);
-            configuration.addAnnotatedClass(Worker.class);
+            configuration.addAnnotatedClass(Product.class);
             
             final ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
                                                         .applySettings(configuration.getProperties())

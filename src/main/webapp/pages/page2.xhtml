@@ -3,34 +3,56 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	template="/templates/template.xhtml">
+	template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:define name="metadata"/>
 	<ui:define name="content">
-            
+           
         <h:form>
             <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
-            
-            <h:panelGrid id="grid" columns="2" cellpadding="10" cellspacing="1">
-                <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
-                <p:inputText id="name" value="#{customerController.service.customer.name}" required="true" label="Name" requiredMessage="Name eingeben!"/>
 
-                <p:commandButton action = "#{customerController.persist}" value="Speichern" style="margin-right:10px" 
-                                 actionListener="#{growlController.saveMessage}"/>
-                <p:commandButton onclick="history.back(); return false;" value="Abbrechen"/>
+            <h:panelGrid id="customer_grid" columns="2" cellspacing="1">
+                <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
+                <p:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
+             
+                <h:outputLabel for="address" value="Adresse:" style="font-weight: bold" />
+                <p:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
+                
+             
+                <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
+                                  actionListener="#{growlController.saveMessage}" ajax="true" 
+                                  onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+
+                <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true"/>
+                <pe:blockUI widgetVar="blockUIWidget">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                        <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                    </h:panelGrid>
+                </pe:blockUI>
             </h:panelGrid>
             
-            <p:dataTable var="customer" value="#{customerController.service.all}" resizableColumns="true">
+            <br/>
+            <br/>
+            
+            <p:dataTable var="customer" value="#{customerController.allCustomers}" resizableColumns="true" tableStyle="width: auto"
+                         rendered="#{not empty customerController.allCustomers}">
                 <p:column headerText="Kunde" style="width: 300px">
                     <h:outputText value="#{customer.name}" />
                 </p:column>
-         
+
                 <p:column>
-                    <p:commandButton value="Aktueller Auftrag" action="#{userController.setCustomer(customer, 'lastOrder')}" immediate="true"/>
+                    <p:commandButton value="Aktueller Auftrag" action="#{userController.setup(customer, 'lastOrder')}" immediate="true" style="size: "/>
                 </p:column>
-                
+
                 <p:column>
-                    <p:commandButton value="Vergangene Aufträge" action="#{userController.setCustomer(customer, 'oldOrder')}" immediate="true"/>
+                    <p:commandButton value="Vergangene Aufträge" action="#{userController.setup(customer, 'oldOrders')}" immediate="true"/>
                 </p:column>
+
+                <p:column>
+                    <p:commandButton value="Bearbeiten" action="#{userController.setup(customer, 'update')}" immediate="true" />
+                </p:column>
+
             </p:dataTable>
         </h:form>
             
