@@ -5,7 +5,7 @@
     <jta-data-source>java:jboss/datasources/LaundryDS</jta-data-source>
     <class>com.forall.laundry.model.Customer</class>
     <class>com.forall.laundry.model.Item</class>
-    <class>com.forall.laundry.model.Worker</class>
+    <class>com.forall.laundry.model.Product</class>
     <class>com.forall.laundry.model.Ordery</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>

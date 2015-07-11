@@ -5,84 +5,35 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.hibernate.HibernateUtil;
-import com.forall.laundry.model.Customer;
+import com.forall.laundry.EntityDAO.ItemDAOImpl;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Ordery;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import javax.inject.Inject;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
  * @author jd
  */
-public class ItemService implements EntityService<Item, Customer>, Serializable{
-
+public class ItemService implements Serializable{
+    
     @Inject
-    private Item item;
+    private ItemDAOImpl itemDAOImpl;
     
-    public ItemService(){
-        
-    }
-    
-    @Override
-    public void save() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        try{
-            Transaction tx = session.beginTransaction();
-            try{
-                session.save(item);
-                tx.commit();
-            }catch (Exception e){
-                tx.rollback();
-                throw e;
-            }
-        }finally{
-            session.close();
-            item.setName(null);
-            item.setAmount(0);
-        }
+    public void save(Item item){
+        itemDAOImpl.saveOrUpdate(item);
     }
 
-    @Override
-    public Set<Item> getAll() {
-        final Session session = HibernateUtil.getSessionFactory().openSession();
-        Set<Item> resultSet = null;
-        
-        try{
-            final Transaction tx = session.beginTransaction();
-            try{
-                resultSet = (Set<Item>) session.createQuery("SELECT i FROM Item i").list().stream().collect(Collectors.toSet());
-                tx.commit();
-            }catch(Exception e){
-                tx.rollback();
-                throw e;
-            }
-        }finally{
-            session.close();
-        }
-        
-        return resultSet;
+    public ItemDAOImpl getItemDAOImpl() {
+        return itemDAOImpl;
     }
 
-    @Override
-    public <E> E getAllE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+    public void setItemDAOImpl(ItemDAOImpl itemDAOImpl) {
+        this.itemDAOImpl = itemDAOImpl;
     }
 
-    public Item getItem() {
-        return item;
+    public List<Item> getItemsFrom(Ordery order) {
+        return itemDAOImpl.getItemsFrom(order);
     }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-    
-    
-    
 }

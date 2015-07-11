@@ -5,102 +5,44 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.hibernate.HibernateUtil;
+import com.forall.laundry.EntityDAO.CustomerDAOImpl;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Ordery;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import javax.inject.Inject;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
  * @author jd
  */
-
- public class CustomerService implements EntityService<Customer, Item>, Serializable{
-
+public class CustomerService implements Serializable{
+    
     @Inject
-    private Customer customer;
-     
-    public CustomerService(){
-        
+    private CustomerDAOImpl dao;
+    
+    public void save(Customer customer){
+        dao.saveOrUpdate(customer);
     }
     
-    @Override
-    public void save() {
-        final Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        try{
-            final Transaction tx = session.beginTransaction();
-            try{
-                session.save(customer);
-                tx.commit();
-            }catch (Exception e){
-                tx.rollback();
-                throw e;
-            }
-        }finally{
-            session.close();
-            customer.setName(null);
-        }
+    public Ordery getCurrentOrder(Customer customer){
+        return dao.getCurrentOrder(customer);
     }
-
-    @Override
-    public Set<Customer> getAll() {
-        final Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        Set<Customer> resultSet = null;
-        try{
-            final Transaction tx = session.beginTransaction();
-            
-            try{
-                resultSet = (Set<Customer>) session.createQuery("SELECT c FROM Customer c")
-                                                   .list()
-                                                   .stream()
-                                                   .collect(Collectors.toSet());
-            tx.commit();
-            }catch (Exception e){
-                tx.rollback();
-                throw e;
-            }
-            
-        }finally{
-            session.close();
-        }
-        return resultSet;
+    
+    public List<Customer> getAllCustomers(){
+        return dao.getAllCustomers();
     }
-
-    @Override
-    public Set<Item> getAllE() {
-       final Session session = HibernateUtil.getSessionFactory().openSession();
-        Set<Item> resultSet = null;
-        try{
-            final Transaction tx = session.beginTransaction();
-            try{
-                resultSet = (Set<Item>) session.createQuery("SELECT i From Item i WHERE i.customer.id = :id")
-                                               .setParameter("id", customer.getId())
-                                               .list()
-                                               .stream()
-                                               .collect(Collectors.toSet());
-                tx.commit();
-            }catch (Exception e){
-                tx.rollback();
-                throw e;
-            }
-        }finally{
-            session.close();
-        }
-        return resultSet;
+    
+    public Customer getByName(String name){
+        return dao.findByName(name);
     }
-
-    public Customer getCustomer() {
-        return customer;
+    
+    public void saveOrupdate(Customer customer){
+        dao.saveOrUpdate(customer);
     }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    
+    public List<Item> getItems(Customer customer){
+        return dao.getItems(customer);
     }
 }

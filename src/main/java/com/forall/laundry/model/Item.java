@@ -1,95 +1,106 @@
 package com.forall.laundry.model;
 
+
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
-/**
- * Created by jd on 5/11/15.
- */
+import javax.persistence.OneToOne;
 
 @Entity
-public class Item implements Serializable{
+public class Item implements Serializable {
 
+    @Column(unique=true,updatable=false,insertable=false,nullable=false)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    @ManyToOne
-    private Customer customer;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long item_id;
     
-    @NotNull
-    private String name;
-
+    @Column(nullable=false)
+    @Basic(fetch=FetchType.LAZY)
+    private int amount;
+    
+    @ManyToOne
+    @JoinColumn(name="ordery_id")
+    private Ordery ordery;
+    
     @Basic
     private boolean borrowed;
-
-    @NotNull
-    private Integer amount;
+    
+    @OneToOne(fetch = FetchType.LAZY,targetEntity = Product.class)
+    private Product item_product;
 
     public Item() {
-        amount = 0;
-    }
 
-    public void setBorrowed(boolean type) {
-        this.borrowed = type;
+    }
+   
+    public int getAmount() {
+        return this.amount;
     }
 
     public void setAmount(int amount) {
         this.amount = amount;
     }
+   
+    public Long getItem_id() {
+        return this.item_id;
+    }
 
-    public int getId() {
-        return id;
+    public void setItem_id(Long item_id) {
+        this.item_id = item_id;
+    }
+   
+    public Product getItem_product() {
+        return this.item_product;
+    }
+
+    public void setItem_product(Product item_product) {
+        this.item_product = item_product;
     }
 
     public boolean isBorrowed() {
         return borrowed;
     }
 
-    public int getAmount() {
-        return amount;
+    public void setBorrowed(boolean borrowed) {
+        this.borrowed = borrowed;
     }
 
-    public String getName() {
-        return name;
+    public Ordery getOrdery() {
+        return ordery;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setOrdery(Ordery ordery) {
+        this.ordery = ordery;
     }
     
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
-
-        Item item = (Item) o;
-
-        if (id != item.id) return false;
-
-        return true;
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + Objects.hashCode(this.item_id);
+        return hash;
     }
 
     @Override
-    public int hashCode() {
-        return id;
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (!Objects.equals(this.item_id, other.item_id)) {
+            return false;
+        }
+        return true;
     }
+    
+    
 }

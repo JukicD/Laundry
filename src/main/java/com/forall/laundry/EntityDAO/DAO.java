@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.forall.laundry.service;
-
-import java.util.Set;
+package com.forall.laundry.EntityDAO;
 
 /**
  *
  * @author jd
  */
-public interface EntityService<T, E> {
+public interface DAO<T> {
     
-    public void save();
+    void create(T t);
     
-    public Set<T> getAll();
+    T getById(int id);
     
-    public <E> E getAllE();
+    void update(T t);
     
+    void delete(T t);
+    
+    void saveOrUpdate(T t);
 }
