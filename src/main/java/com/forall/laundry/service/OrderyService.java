@@ -5,38 +5,52 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.EntityDAO.OrderyDAOImpl;
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import java.util.List;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jd
  */
+@Stateless
 public class OrderyService {
+
+    @PersistenceContext
+    EntityManager em;
     
-    @Inject
-    private OrderyDAOImpl dao;
-    
-    public void saveOrUpdate(Ordery ordery){
-        dao.saveOrUpdate(ordery);
+    public List<Item> getItemsByOrderID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public OrderyDAOImpl getDao() {
-        return dao;
-    }
-
-    public void setDao(OrderyDAOImpl dao) {
-        this.dao = dao;
-    }
+    
+    public List<Item> getItemsFromCurrentOrder(Customer customer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }   
 
     public List<Ordery> getOrdersFrom(Customer customer) {
-       return dao.getOrdersFrom(customer);
+       
+        return em.createNamedQuery("Ordery.findCustomersOrders")
+                            .setParameter("id", customer.getId())
+                            .getResultList();
     }
 
     public List<Ordery> getOldOrdersFrom(Customer customer) {
-        return dao.getOldOrdersFrom(customer);
+        
+        return em.createNamedQuery("Ordery.findCustomersOldOrders")
+                            .setParameter("id", customer.getId())
+                            .getResultList();
+    }
+    
+    public void save(Ordery o){
+        em.merge(o);
+    }
+    
+    public void update(Ordery o){
+        em.merge(o);
     }
 }

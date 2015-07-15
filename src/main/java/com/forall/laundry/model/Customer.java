@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
-public class Customer implements Serializable {
+public class Customer implements Serializable, Comparable<Customer> {
 
     @Basic
     private String address;
@@ -23,7 +23,6 @@ public class Customer implements Serializable {
     @Column(nullable=false)
     @Basic(fetch=FetchType.LAZY)
     private String name;
-    
     
     @Column(nullable=false)
     @Id
@@ -41,6 +40,10 @@ public class Customer implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
    
     public String getName() {
         return this.name;
@@ -52,10 +55,6 @@ public class Customer implements Serializable {
    
     public int getId() {
         return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
@@ -78,5 +77,10 @@ public class Customer implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+        return this.name.compareTo(o.name);
     }
 }

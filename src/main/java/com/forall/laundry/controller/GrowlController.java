@@ -30,5 +30,4 @@ public class GrowlController {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Erfolgreich gespeichert !"));
     }
-    
 }

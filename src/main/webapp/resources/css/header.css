@@ -8,9 +8,18 @@ and open the template in the editor.
     Author     : jd
 */
 
-header-style {
-    color: #00cccc;
+.header-style {
+    color: #80B2FF;
     font-family: sans-serif;
-    
+    font-size: 2em;
+    text-align: match-parent;
+}
+
+.header-style2{
+    font-size: 80%;
+}
+
+.save-button{
+    background-color: #85E085;
 }
 

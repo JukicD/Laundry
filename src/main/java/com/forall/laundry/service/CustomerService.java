@@ -5,44 +5,63 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.EntityDAO.CustomerDAOImpl;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
-import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jd
  */
-public class CustomerService implements Serializable{
+@Stateless
+public class CustomerService {
     
-    @Inject
-    private CustomerDAOImpl dao;
+        @PersistenceContext
+        private EntityManager em;
+        
+        public List<Customer> getAllCustomers(){
+            
+            return em.createNamedQuery("Customer.findAll").getResultList();
+        }
+        
+    public Customer findById(int id) {
+        
+        return em.find(Customer.class, id);
+    }
+    
+    public List<Ordery> findOrdersById(int id) {
+ 
+            return (List<Ordery>) em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id")
+                                                        .setParameter("id", id)
+                                                        .getSingleResult();
+        
+    }
     
     public void save(Customer customer){
-        dao.saveOrUpdate(customer);
+            em.persist(customer);
     }
     
-    public Ordery getCurrentOrder(Customer customer){
-        return dao.getCurrentOrder(customer);
+    public void update(Customer customer){
+        em.merge(customer);
     }
     
-    public List<Customer> getAllCustomers(){
-        return dao.getAllCustomers();
+
+    public List<Item> getItems(Customer customer) {
+        
+      return em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.order_id = o.order_id")
+                        .setParameter("id", customer.getId())
+                        .getResultList();
+        
     }
-    
-    public Customer getByName(String name){
-        return dao.findByName(name);
-    }
-    
-    public void saveOrupdate(Customer customer){
-        dao.saveOrUpdate(customer);
-    }
-    
-    public List<Item> getItems(Customer customer){
-        return dao.getItems(customer);
+
+    public Ordery getCurrentOrder(Customer customer) {
+      
+            return (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE o.date IS NULL AND o.customer.id = :id")
+                    .setParameter("id", customer.getId())
+                    .getSingleResult();
     }
 }

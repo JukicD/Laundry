@@ -5,35 +5,31 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.EntityDAO.ItemDAOImpl;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
-import java.io.Serializable;
 import java.util.List;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jd
  */
-public class ItemService implements Serializable{
+@Stateless
+public class ItemService{
+
+    @PersistenceContext
+    EntityManager em;
     
-    @Inject
-    private ItemDAOImpl itemDAOImpl;
+    public List<Item> getItemsFrom(Ordery order) {
+        
+            return em.createNamedQuery("Item.fromOrder")
+                    .setParameter("id", order.getOrder_id())
+                    .getResultList();
+    }
     
     public void save(Item item){
-        itemDAOImpl.saveOrUpdate(item);
-    }
-
-    public ItemDAOImpl getItemDAOImpl() {
-        return itemDAOImpl;
-    }
-
-    public void setItemDAOImpl(ItemDAOImpl itemDAOImpl) {
-        this.itemDAOImpl = itemDAOImpl;
-    }
-
-    public List<Item> getItemsFrom(Ordery order) {
-        return itemDAOImpl.getItemsFrom(order);
+        em.persist(item);
     }
 }

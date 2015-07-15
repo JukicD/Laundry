@@ -38,10 +38,6 @@ public class Product implements Serializable {
         return this.product_id;
     }
 
-    public void setProduct_id(Long product_id) {
-        this.product_id = product_id;
-    }
-
     public String getProductName() {
         return name;
     }

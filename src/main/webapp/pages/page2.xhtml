@@ -7,21 +7,23 @@
                 xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:define name="metadata"/>
 	<ui:define name="content">
-           
+            
+
         <h:form>
+            
+            
             <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
 
-            <h:panelGrid id="customer_grid" columns="2" cellspacing="1">
-                <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
+            <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
+                <h:outputLabel id="label" for="name" value="Kunde:" style="font-weight:bold"/>             
                 <p:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
              
                 <h:outputLabel for="address" value="Adresse:" style="font-weight: bold" />
                 <p:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
                 
-             
                 <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
                                   actionListener="#{growlController.saveMessage}" ajax="true" 
-                                  onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+                                  onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" styleClass="save-button"/>
 
                 <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true"/>
                 <pe:blockUI widgetVar="blockUIWidget">

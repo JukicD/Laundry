@@ -2,11 +2,10 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-      
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/laundry</property>
-    <property name="hibernate.connection.username">jd</property>
+    <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">p1l1o1k1</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>

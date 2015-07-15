@@ -11,6 +11,7 @@ import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,10 +24,10 @@ import javax.inject.Named;
 @RequestScoped
 public class CustomerController implements Serializable{
     
-   @Inject
+   @EJB
    private CustomerService customerService;
    
-   @Inject
+   @EJB
    private OrderyService orderyService;
    
    @Inject
@@ -37,14 +38,14 @@ public class CustomerController implements Serializable{
         
         ordery.setCustomer(customer);
         customerService.save(customer);
-        orderyService.saveOrUpdate(ordery);
+        orderyService.save(ordery);
         
         customer.setName(null);
         customer.setAddress(null);
    }
    
-   public void saveOrupdate(){
-       customerService.saveOrupdate(customer);
+   public void update(){
+       customerService.update(customer);
    }
    
    public List<Customer> getAllCustomers(){

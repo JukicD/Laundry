@@ -11,7 +11,7 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,16 +27,9 @@ public class UserController implements Serializable{
     @Inject
     private Customer customer;
     
-    @Inject
-    private Ordery order;
-    
-    @Inject
+    @EJB
     private CustomerService customerService;
     
-    @PostConstruct
-    public void init(){
-        order = customerService.getCurrentOrder(customer);
-    }
     public UserController(){
         
     }
@@ -71,16 +64,6 @@ public class UserController implements Serializable{
     }
     
     public void update(){
-        customerService.saveOrupdate(customer);
-        customer.setName(null);
-        customer.setAddress(null);
-    }
-
-    public Ordery getOrder() {
-        return order;
-    }
-
-    public void setOrder(Ordery order) {
-        this.order = order;
+        customerService.update(customer);
     }
 }

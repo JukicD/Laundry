@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8830363a-48d7-4cbc-b54d-3bcf257e9e67">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="220"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#73B0E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#C3CFD9">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#C3CFD9">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#C3CFD9">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="bab55d99-c478-4003-a7b4-a8a0e5233a35"/>
+	<subDataset name="laundry" uuid="b6d30ca6-0352-4955-8b1a-48ea3c919605">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     customer."id" AS customer_id,
+     customer."address" AS customer_address,
+     customer."name" AS customer_name,
+     item."amount" AS item_amount,
+     product."name" AS product_name,
+     product."price" AS product_price,
+     ordery."time" AS ordery_time
+FROM
+     "public"."product" product INNER JOIN "public"."item" item ON product."product_id" = item."item_product_product_id"
+     INNER JOIN "public"."ordery" ordery ON item."ordery_id" = ordery."order_id"
+     INNER JOIN "public"."customer" customer ON ordery."customer_id" = customer."id"]]>
+		</queryString>
+		<field name="customer_id" class="java.lang.Integer"/>
+		<field name="customer_address" class="java.lang.String"/>
+		<field name="customer_name" class="java.lang.String"/>
+		<field name="item_amount" class="java.lang.Integer"/>
+		<field name="product_name" class="java.lang.String"/>
+		<field name="product_price" class="java.lang.Integer"/>
+		<field name="ordery_time" class="java.sql.Timestamp"/>
+		<group name="customer_name">
+			<groupExpression><![CDATA[$F{customer_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="laundry2" uuid="a5037114-0b52-4860-8df0-b56a1458f65f">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     item."item_id" AS item_item_id,
+     item."amount" AS item_amount,
+     item."borrowed" AS item_borrowed,
+     item."item_product_product_id" AS item_item_product_product_id,
+     item."ordery_id" AS item_ordery_id,
+     ordery."order_id" AS ordery_order_id,
+     ordery."time" AS ordery_time,
+     ordery."customer_id" AS ordery_customer_id,
+     product."product_id" AS product_product_id,
+     product."name" AS product_name,
+     product."price" AS product_price
+FROM
+     "public"."ordery" ordery INNER JOIN "public"."item" item ON ordery."order_id" = item."ordery_id"
+     INNER JOIN "public"."product" product ON item."item_product_product_id" = product."product_id"]]>
+		</queryString>
+		<field name="item_amount" class="java.lang.Integer"/>
+		<field name="product_name" class="java.lang.String"/>
+		<field name="product_price" class="java.lang.Integer"/>
+		<group name="product_name">
+			<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="New Dataset 1" uuid="c55f585b-9390-4bdc-8869-7a9b87581957">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     customer."id" AS customer_id,
+     customer."address" AS customer_address,
+     customer."name" AS customer_name,
+     item."item_id" AS item_item_id,
+     item."amount" AS item_amount,
+     item."borrowed" AS item_borrowed,
+     item."item_product_product_id" AS item_item_product_product_id,
+     item."ordery_id" AS item_ordery_id,
+     ordery."order_id" AS ordery_order_id,
+     ordery."time" AS ordery_time,
+     ordery."customer_id" AS ordery_customer_id,
+     product."product_id" AS product_product_id,
+     product."name" AS product_name,
+     product."price" AS product_price
+FROM
+     "public"."customer" customer INNER JOIN "public"."ordery" ordery ON customer."id" = ordery."customer_id"
+     INNER JOIN "public"."item" item ON ordery."order_id" = item."ordery_id"
+     INNER JOIN "public"."product" product ON item."item_product_product_id" = product."product_id"
+WHERE
+      ordery."customer_id" = customer."id";]]>
+		</queryString>
+		<field name="customer_name" class="java.lang.String"/>
+		<field name="customer_address" class="java.lang.String"/>
+		<field name="item_amount" class="java.lang.Integer"/>
+		<field name="product_name" class="java.lang.String"/>
+		<field name="product_price" class="java.lang.Integer"/>
+		<group name="customer_name">
+			<groupExpression><![CDATA[$F{customer_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Laundry" uuid="708a6b1a-f399-4c2a-965b-a9b98959825b">
+		<queryString language="SQL">
+			<![CDATA[SELECT "public".customer."name", "public".item.amount, "public".product."name", "public".product.price
+
+FROM "public".customer, "public".item,  "public".ordery, "public".product
+
+WHERE "public".ordery.customer_id = "public".customer.id AND "public".ordery.order_id = "public".item.ordery_id AND "public".item.item_product_product_id = "public".product.product_id;]]>
+		</queryString>
+		<field name="name" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="price" class="java.lang.Integer"/>
+		<group name="name">
+			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Laundry2" uuid="a05566cf-b4b4-4c5d-9091-ab5b2d3f866b">
+		<queryString language="SQL">
+			<![CDATA[SELECT "public".customer."name", "public".item.amount, "public".product."name", "public".product.price
+
+FROM "public".customer, "public".item,  "public".ordery, "public".product
+
+WHERE "public".customer.id = 1
+    AND "public".ordery.customer_id = "public".customer.id
+    AND "public".ordery.order_id = "public".item.ordery_id
+    AND "public".item.item_product_product_id = "public".product.product_id;]]>
+		</queryString>
+		<field name="name" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="price" class="java.lang.Integer"/>
+		<group name="name">
+			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="New Dataset 2" uuid="3d3cf05f-f8bc-4a3e-87b7-99cfe59f2df0">
+		<queryString language="SQL">
+			<![CDATA[SELECT "public".customer."name", "public".item.amount, "public".product."name", "public".product.price
+
+FROM "public".customer, "public".item,  "public".ordery, "public".product
+
+WHERE "public".customer.id = 1
+    AND "public".ordery.customer_id = "public".customer.id
+    AND "public".ordery.order_id = "public".item.ordery_id
+    AND "public".item.item_product_product_id = "public".product.product_id;]]>
+		</queryString>
+		<field name="name" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="price" class="java.lang.Integer"/>
+		<group name="name">
+			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="New Dataset 3" uuid="a4a48f3a-14b9-420a-bb1a-57c91bf41e2a">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+
+"public".customer."name" AS customer_name,
+"public".item.amount AS item_amount,
+"public".product."name" AS product_name,
+"public".product.price AS product_price
+
+FROM "public".customer, "public".item,  "public".ordery, "public".product
+
+WHERE "public".customer.id = 1
+    AND "public".ordery.customer_id = "public".customer.id
+    AND "public".ordery.order_id = "public".item.ordery_id
+    AND "public".item.item_product_product_id = "public".product.product_id;]]>
+		</queryString>
+		<field name="customer_name" class="java.lang.String"/>
+		<field name="item_amount" class="java.lang.Integer"/>
+		<field name="product_name" class="java.lang.String"/>
+		<field name="product_price" class="java.lang.Integer"/>
+		<group name="product_name">
+			<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT
+     customer."id" AS customer_id,
+     customer."address" AS customer_address,
+     customer."name" AS customer_name,
+     item."amount" AS item_amount,
+     item."borrowed" AS item_borrowed,
+     ordery."time" AS ordery_time,
+     product."name" AS product_name,
+     product."price" AS product_price
+FROM
+     "public"."customer" customer INNER JOIN "public"."ordery" ordery ON customer."id" = ordery."customer_id"
+     INNER JOIN "public"."item" item ON ordery."order_id" = item."ordery_id"
+     INNER JOIN "public"."product" product ON item."item_product_product_id" = product."product_id"]]>
+	</queryString>
+	<field name="customer_id" class="java.lang.Integer"/>
+	<field name="customer_address" class="java.lang.String"/>
+	<field name="customer_name" class="java.lang.String"/>
+	<field name="item_amount" class="java.lang.Integer"/>
+	<field name="item_borrowed" class="java.lang.Boolean"/>
+	<field name="ordery_time" class="java.sql.Timestamp"/>
+	<field name="product_name" class="java.lang.String"/>
+	<field name="product_price" class="java.lang.Integer"/>
+	<group name="customer_id">
+		<groupExpression><![CDATA[$F{customer_id}]]></groupExpression>
+	</group>
+	<group name="customer_name">
+		<groupExpression><![CDATA[$F{customer_name}]]></groupExpression>
+	</group>
+	<group name="customer_address">
+		<groupExpression><![CDATA[$F{customer_address}]]></groupExpression>
+	</group>
+	<group name="product_name">
+		<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="67" width="100" height="12" uuid="087ee04b-24f5-4cb8-85ba-bb8534c0a487"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Anschrift:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="93" width="113" height="13" uuid="b8b73a37-f436-4214-be95-ad2f7b25df37"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Gründbergstraße 91]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="106" width="58" height="12" uuid="e75382be-ac2f-43d3-ad25-7168e50d220e"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[4040 Linz]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20" uuid="cf0b19ad-1d8e-4de3-9efe-8039b19f44cc"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="79" width="86" height="12" uuid="3bf22d51-9f6b-4fb1-9de1-d0e78cb574b9"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<text><![CDATA[Otto Seebacher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="414" y="31" width="138" height="18" forecolor="#000000" uuid="e2c9e5db-c091-4405-b9ec-ce2b283753d4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Kunde]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="414" y="49" width="111" height="20" uuid="e9351fee-a2c6-4239-92c1-056c8e06d33b"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="67" width="100" height="12" uuid="6afd853e-c046-492d-89ce-122fcc40f930"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="2" y="0" width="249" height="67" uuid="fc58ff80-1257-42ae-b5c2-2840e5aad34d"/>
+				<imageExpression><![CDATA["/home/jd/Desktop/seebacher.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="244" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 7" style="table 7" x="2" y="0" width="550" height="244" uuid="02dc7eda-5260-4ad8-9d2f-16aa850b7993"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="New Dataset 3" uuid="04427e62-ca5c-4abf-9e15-d00170f9a5d9">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="82" uuid="136f5328-772a-430e-a4b3-5505429c93cd">
+						<jr:columnHeader style="table 7_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="10" y="0" width="72" height="20" uuid="0d48cfdf-7eda-4a11-9df0-a6f4568fd770"/>
+								<textElement>
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Anzahl]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 7_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="10" y="0" width="72" height="20" uuid="1ed2f88e-8051-4787-9e6f-9e9618de7b09"/>
+								<box leftPadding="0">
+									<pen lineStyle="Dashed" lineColor="#FEFEFE"/>
+									<topPen lineStyle="Dashed" lineColor="#FEFEFE"/>
+									<leftPen lineStyle="Dashed" lineColor="#FEFEFE"/>
+									<bottomPen lineStyle="Dashed" lineColor="#FEFEFE"/>
+									<rightPen lineStyle="Dashed" lineColor="#FEFEFE"/>
+								</box>
+								<textFieldExpression><![CDATA[$F{item_amount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="397" uuid="92903ae2-f55c-4e0c-bcc1-e6d07fcd274b">
+						<jr:tableFooter height="26" rowSpan="1"/>
+						<jr:columnHeader style="table 7_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="13" y="0" width="103" height="30" uuid="fb76f85a-bdd2-4a54-bcf4-0490f4b45c4a"/>
+								<textElement>
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Bezeichnung]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 7_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="13" y="0" width="90" height="20" uuid="3b2395bc-04a2-42ae-88d5-adf434747924"/>
+								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="0473d00b-e193-4561-aff6-7d3d6fda51ab">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:columnHeader style="table 7_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="11" y="0" width="59" height="30" uuid="c6dd53c7-8010-49a9-ad3a-31def82965b6"/>
+								<textElement>
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Preis]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 7_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="11" y="0" width="59" height="20" uuid="519f67b6-ab5a-4f5a-b955-8557b9445591"/>
+								<textFieldExpression><![CDATA[$F{product_price}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="18" uuid="573b8848-6974-4df0-97f3-ccfe96586409"/>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="81" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="8938433c-5b4b-4fe4-87f7-d4136b996080"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="445" y="61" width="80" height="20" uuid="ed00249a-5ec0-48ac-8aa1-b7365fd2cad6"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="525" y="61" width="40" height="20" uuid="4eaf27bd-af58-402e-8713-43e5feebdc5c"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
