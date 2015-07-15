@@ -49,4 +49,8 @@ public class OrderyService {
     public void save(Ordery o){
         em.merge(o);
     }
+    
+    public void update(Ordery o){
+        em.merge(o);
+    }
 }

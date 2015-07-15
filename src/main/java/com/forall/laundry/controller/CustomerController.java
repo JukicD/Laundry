@@ -27,7 +27,7 @@ public class CustomerController implements Serializable{
    @EJB
    private CustomerService customerService;
    
-   @Inject
+   @EJB
    private OrderyService orderyService;
    
    @Inject

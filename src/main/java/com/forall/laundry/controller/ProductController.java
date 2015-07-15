@@ -8,6 +8,7 @@ package com.forall.laundry.controller;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ProductService;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +24,7 @@ public class ProductController implements Serializable{
     @Inject
     private Product product;
     
-    @Inject
+    @EJB
     private ProductService productService;
 
     

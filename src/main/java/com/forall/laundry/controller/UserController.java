@@ -27,9 +27,6 @@ public class UserController implements Serializable{
     @Inject
     private Customer customer;
     
-    @Inject
-    private Ordery order;
-    
     @EJB
     private CustomerService customerService;
     
@@ -68,13 +65,5 @@ public class UserController implements Serializable{
     
     public void update(){
         customerService.update(customer);
-    }
-
-    public Ordery getOrder() {
-        return order;
-    }
-
-    public void setOrder(Ordery order) {
-        this.order = order;
     }
 }

@@ -28,7 +28,7 @@ public class LaundryBill {
     public static void main(String[] args) {
         try {
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             
             String path = "/home/jd/Desktop/test.pdf";
             

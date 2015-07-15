@@ -30,6 +30,9 @@
                 <p:column>
                     <p:commandButton value="Auftrag ansehen" action="#{oldOrdersController.setup(order)}"/>
                 </p:column>
+                <p:column headerText="Rechnung">
+                    <p:commandButton value="Rechnung" action="#{oldOrdersController.getBill(order)}"/>
+                </p:column>
  
         </p:dataTable>  
     </h:form>

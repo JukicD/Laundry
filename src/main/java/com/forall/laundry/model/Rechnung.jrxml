@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8830363a-48d7-4cbc-b54d-3bcf257e9e67">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="220"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -373,37 +373,39 @@ FROM
 	</background>
 	<title>
 		<band height="140" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="199" height="67" uuid="9bd25c9c-a127-4869-854f-a6d8f28751a0"/>
-				<imageExpression><![CDATA["/home/jd/Desktop/logo.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="2" y="67" width="100" height="12" uuid="087ee04b-24f5-4cb8-85ba-bb8534c0a487"/>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Anschrift:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="93" width="113" height="13" uuid="b8b73a37-f436-4214-be95-ad2f7b25df37"/>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Gründbergstraße 91]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="106" width="58" height="12" uuid="e75382be-ac2f-43d3-ad25-7168e50d220e"/>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[4040 Linz]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="455" y="0" width="100" height="20" uuid="cf0b19ad-1d8e-4de3-9efe-8039b19f44cc"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="79" width="86" height="12" uuid="3bf22d51-9f6b-4fb1-9de1-d0e78cb574b9"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<text><![CDATA[Otto Seebacher]]></text>
 			</staticText>
 			<staticText>
@@ -416,14 +418,21 @@ FROM
 			<textField>
 				<reportElement x="414" y="49" width="111" height="20" uuid="e9351fee-a2c6-4239-92c1-056c8e06d33b"/>
 				<textElement>
-					<font fontName="Serif"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="414" y="67" width="100" height="12" uuid="6afd853e-c046-492d-89ce-122fcc40f930"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="2" y="0" width="249" height="67" uuid="fc58ff80-1257-42ae-b5c2-2840e5aad34d"/>
+				<imageExpression><![CDATA["/home/jd/Desktop/seebacher.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -521,11 +530,16 @@ FROM
 			</line>
 			<textField>
 				<reportElement x="445" y="61" width="80" height="20" uuid="ed00249a-5ec0-48ac-8aa1-b7365fd2cad6"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="525" y="61" width="40" height="20" uuid="4eaf27bd-af58-402e-8713-43e5feebdc5c"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
