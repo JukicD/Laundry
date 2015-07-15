@@ -5,9 +5,9 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.service.ItemService;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Product;
-import com.forall.laundry.service.ItemService;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

@@ -12,9 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Item.all", query = "SELECT i FROM Item i"),
+        @NamedQuery(name = "Item.fromCustomer", query = "SELECT i From Item i, Ordery o, Customer c WHERE o.customer.id = :id"),
+        @NamedQuery(name ="Item.fromOrder", query = "SELECT i FROM Item i WHERE i.ordery.order_id = :id")})
 public class Item implements Serializable {
 
     @Column(unique=true,updatable=false,insertable=false,nullable=false)
@@ -33,7 +39,7 @@ public class Item implements Serializable {
     @Basic
     private boolean borrowed;
     
-    @OneToOne(fetch = FetchType.LAZY,targetEntity = Product.class)
+    @OneToOne
     private Product item_product;
 
     public Item() {
@@ -50,10 +56,6 @@ public class Item implements Serializable {
    
     public Long getItem_id() {
         return this.item_id;
-    }
-
-    public void setItem_id(Long item_id) {
-        this.item_id = item_id;
     }
    
     public Product getItem_product() {

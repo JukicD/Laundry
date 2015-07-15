@@ -56,7 +56,7 @@ public class OrderyController implements Serializable{
         
         order.setCustomer(customer);
         
-        customerService.saveOrupdate(customer);
+        customerService.update(customer);
         
         item.setOrdery(order);
         item.setItem_product(product);
@@ -64,21 +64,24 @@ public class OrderyController implements Serializable{
         
         productService.save(product);
         itemService.save(item);
-        orderyService.saveOrUpdate(order);
+        orderyService.save(order);
+        
+        product.setProductName(null);
+        item.setAmount(0);
     }
     
     public void finishOrder(){
         Ordery order = userController.getCurrentOrder();
         order.setDate(new Date());
-        orderyService.saveOrUpdate(order);
+        orderyService.save(order);
         
         Ordery o = new Ordery();
         Customer customer = userController.getCustomer();
         
         o.setCustomer(customer);
         
-        customerService.saveOrupdate(customer);
-        orderyService.saveOrUpdate(o);
+        customerService.update(customer);
+        orderyService.save(o);
     }
     
     public List<Ordery> getOrders(){

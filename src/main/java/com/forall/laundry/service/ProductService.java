@@ -5,32 +5,24 @@
  */
 package com.forall.laundry.service;
 
-import com.forall.laundry.EntityDAO.ProductDAOImpl;
 import com.forall.laundry.model.Product;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jd
  */
+@Stateless
 public class ProductService {
+
+    @PersistenceContext
+    EntityManager em;
     
-    @Inject
-    private ProductDAOImpl productDAO;
-
-    public ProductService() {
-    }
-
+    
     public void save(Product product){
-        productDAO.saveOrUpdate(product);
-    }
-    
-    public ProductDAOImpl getProductDAO() {
-        return productDAO;
-    }
-
-    public void setProductDAO(ProductDAOImpl productDAO) {
-        this.productDAO = productDAO;
+        em.persist(product);
     }
     
 }

@@ -43,7 +43,4 @@ public class OldOrdersController implements Serializable{
     public void setOrder(Ordery order) {
         this.order = order;
     }
-    
-    
-    
 }

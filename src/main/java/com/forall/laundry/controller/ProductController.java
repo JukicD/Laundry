@@ -49,7 +49,4 @@ public class ProductController implements Serializable{
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
-    
-    
-    
 }
