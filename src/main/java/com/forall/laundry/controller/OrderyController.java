@@ -94,11 +94,10 @@ public class OrderyController implements Serializable{
             order.setDate(new Date());
             
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
-             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/model/Rechnung.jrxml");
+             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
             Map parameter = new HashMap();
-            System.out.println("CUSTOMER:  " + customer.getId());
             parameter.put("customer_id_param", customer.getId());
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
             
