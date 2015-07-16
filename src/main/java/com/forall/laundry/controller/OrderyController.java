@@ -18,7 +18,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -88,12 +90,17 @@ public class OrderyController implements Serializable{
     public void finishOrder(){
         try {
             Ordery order = userController.getCurrentOrder();
+            Customer customer = userController.getCustomer();
             order.setDate(new Date());
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
              JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/model/Rechnung.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
-            JasperPrint print = JasperFillManager.fillReport(report, null, con);
+            
+            Map parameter = new HashMap();
+            System.out.println("CUSTOMER:  " + customer.getId());
+            parameter.put("customer_id_param", customer.getId());
+            JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
             
           
             byte[] bill =  JasperExportManager.exportReportToPdf(print);
@@ -102,7 +109,7 @@ public class OrderyController implements Serializable{
             orderyService.save(order);
             
             Ordery o = new Ordery();
-            Customer customer = userController.getCustomer();
+            
             
             o.setCustomer(customer);
          
