@@ -34,6 +34,7 @@ public class CustomerController implements Serializable{
    private Customer customer;
 
    public void createCustomer(){
+       
         Ordery ordery = new Ordery();
         
         ordery.setCustomer(customer);

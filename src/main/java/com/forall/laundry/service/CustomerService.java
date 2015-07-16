@@ -5,11 +5,13 @@
  */
 package com.forall.laundry.service;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,6 +24,9 @@ public class CustomerService {
     
         @PersistenceContext
         private EntityManager em;
+        
+        @Inject
+        AppLogger logger;
         
         public List<Customer> getAllCustomers(){
             
@@ -42,7 +47,13 @@ public class CustomerService {
     }
     
     public void save(Customer customer){
+        try{
             em.persist(customer);
+            logger.info("CUSTOMER CREATED ! Name: " + customer.getName() + ", Address: " +customer.getAddress() + ", ID: " + customer.getId());
+        }catch (Exception e){
+            logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created !");
+        }
+            
     }
     
     public void update(Customer customer){
