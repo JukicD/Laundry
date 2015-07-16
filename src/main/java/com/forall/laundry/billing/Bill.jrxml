@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="12"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -100,52 +100,48 @@ WHERE c.id = $P{customer_id_param} AND o.customer_id = c.id AND o.order_id = i.o
 	<field name="item_amount" class="java.lang.Integer"/>
 	<field name="product_name" class="java.lang.String"/>
 	<field name="product_price" class="java.lang.Integer"/>
+	<group name="Waren">
+		<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="132" splitType="Stretch">
+		<band height="496" splitType="Stretch">
 			<staticText>
-				<reportElement x="33" y="92" width="84" height="12" uuid="efd952bd-8252-4363-8734-03f8b84f39cb"/>
+				<reportElement x="35" y="59" width="84" height="12" uuid="efd952bd-8252-4363-8734-03f8b84f39cb"/>
 				<text><![CDATA[Otto Seebacher]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="104" width="109" height="13" uuid="08b80dd4-1fc4-4446-ac40-efe8575b6496"/>
+				<reportElement x="37" y="71" width="109" height="13" uuid="08b80dd4-1fc4-4446-ac40-efe8575b6496"/>
 				<text><![CDATA[Gründbergstraße 91]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="35" y="117" width="55" height="13" uuid="24d71f8a-99cf-49c4-a3fa-4a08a422acbf"/>
+				<reportElement x="37" y="84" width="55" height="13" uuid="24d71f8a-99cf-49c4-a3fa-4a08a422acbf"/>
 				<text><![CDATA[4040 Linz]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="428" y="92" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
+				<reportElement x="421" y="97" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
 				<text><![CDATA[Kunde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="428" y="105" width="127" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
+				<reportElement x="421" y="110" width="127" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
 				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="428" y="115" width="127" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
+				<reportElement x="421" y="120" width="127" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
 				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="455" y="27" width="100" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
+				<reportElement x="448" y="0" width="100" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="35" y="0" width="294" height="78" uuid="0117a0e1-646e-4ef6-a96a-b3132c9c8cfb"/>
+				<reportElement x="35" y="0" width="198" height="47" uuid="0117a0e1-646e-4ef6-a96a-b3132c9c8cfb"/>
 				<imageExpression><![CDATA["/home/jd/NetBeansProjects/Laundry/src/main/webapp/resources/images/seebacher.png"]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<detail>
-		<band height="234" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="33" y="39" width="520" height="195" uuid="c6915795-40de-4869-b509-5ce9bed31ea4"/>
+				<reportElement key="table 2" style="table 2" x="35" y="158" width="513" height="299" uuid="c6915795-40de-4869-b509-5ce9bed31ea4"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Laundry" uuid="8ae17855-bc59-4a38-8112-20ee9a49d8b9">
 						<datasetParameter name="table_customer_id">
@@ -198,9 +194,12 @@ WHERE c.id = $P{customer_id_param} AND o.customer_id = c.id AND o.order_id = i.o
 				</jr:table>
 			</componentElement>
 		</band>
-	</detail>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
 	<columnFooter>
-		<band height="93" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="fdc6678a-5edb-4ecf-b259-31e5c85d88e2"/>
 				<graphicElement>
@@ -210,7 +209,7 @@ WHERE c.id = $P{customer_id_param} AND o.customer_id = c.id AND o.order_id = i.o
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="435" y="0" width="80" height="20" uuid="5485c343-415b-45cd-a20e-701ef36c387b"/>
 				<textElement textAlignment="Right"/>
