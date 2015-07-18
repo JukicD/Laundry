@@ -23,3 +23,9 @@ and open the template in the editor.
     background-color: #85E085;
 }
 
+.panel-menu{
+    color: #80B2FF;
+    font-style: normal;
+    font: menu;
+}
+

@@ -1,68 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.forall.laundry.controller;
-
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
+ 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-
-/**
- *
- * @author jd
- */
-@Named
+import javax.faces.bean.ViewScoped;
+ 
+@ManagedBean(name="dtFilterView")
 @ViewScoped
-public class FilterView implements Serializable{
-    
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-    
-    private List<Item> items;
-    
-    private List<Item> filteredItems;
-    
-    @ManagedProperty("#{customerItems}")
-    private Customer customer;
-
+public class FilterView implements Serializable {
+     
+    private List<Car> cars;
+     
+    private List<Car> filteredCars;
+     
+    @ManagedProperty("#{carService}")
+    private CarService service;
+ 
     @PostConstruct
-    public void init(){
-        items = emf.createEntityManager()
-                .createQuery("SELECT i FROM Item i WHERE i.customer.id = :id")
-                .setParameter("id", customer.getId())
-                .getResultList();
+    public void init() {
+        cars = service.createCars(10);
     }
-
-    public List<Item> getItems() {
-        return items;
+     
+    public boolean filterByPrice(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if(filterText == null||filterText.equals("")) {
+            return true;
+        }
+         
+        if(value == null) {
+            return false;
+        }
+         
+        return ((Comparable) value).compareTo(Integer.valueOf(filterText)) > 0;
     }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
+     
+    public List<String> getBrands() {
+        return service.getBrands();
     }
-
-    public List<Item> getFilteredItems() {
-        return filteredItems;
+     
+    public List<String> getColors() {
+        return service.getColors();
     }
-
-    public void setFilteredItems(List<Item> filteredItems) {
-        this.filteredItems = filteredItems;
+     
+    public List<Car> getCars() {
+        return cars;
     }
-
-    public Customer getCustomer() {
-        return customer;
+ 
+    public List<Car> getFilteredCars() {
+        return filteredCars;
     }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+ 
+    public void setFilteredCars(List<Car> filteredCars) {
+        this.filteredCars = filteredCars;
+    }
+ 
+    public void setService(CarService service) {
+        this.service = service;
     }
 }

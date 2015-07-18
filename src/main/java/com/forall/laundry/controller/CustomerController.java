@@ -5,6 +5,7 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
@@ -32,6 +33,9 @@ public class CustomerController implements Serializable{
    
    @Inject
    private Customer customer;
+   
+   @Inject
+   private AppLogger logger;
 
    public void createCustomer(){
        
@@ -40,6 +44,8 @@ public class CustomerController implements Serializable{
         ordery.setCustomer(customer);
         customerService.save(customer);
         orderyService.save(ordery);
+        
+        logger.info("CUSTOMER CREATED");
         
         customer.setName(null);
         customer.setAddress(null);
@@ -75,4 +81,14 @@ public class CustomerController implements Serializable{
     public void setOrderyService(OrderyService orderyService) {
         this.orderyService = orderyService;
     }
+
+    public AppLogger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(AppLogger logger) {
+        this.logger = logger;
+    }
+    
+    
 }

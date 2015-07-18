@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author jd
  */
 @Stateless
-public class ItemService{
+public class ItemService {
 
     @PersistenceContext
     EntityManager em;

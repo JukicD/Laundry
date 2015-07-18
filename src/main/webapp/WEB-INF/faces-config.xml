@@ -6,16 +6,8 @@
     <navigation-rule>
         <from-view-id>/pages/page2.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>lastOrder</from-outcome>
-            <to-view-id>/pages/customerMain.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
             <from-outcome>update</from-outcome>
             <to-view-id>/pages/updateCustomer.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>oldOrders</from-outcome>
-            <to-view-id>/pages/oldOrders.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -30,6 +22,17 @@
         <navigation-case>
             <from-outcome>updateDone</from-outcome>
             <to-view-id>/pages/page2.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/customerList.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>oldOrder</from-outcome>
+            <to-view-id>/pages/oldOrders.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>lastOrder</from-outcome>
+            <to-view-id>/pages/customerMain.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+	<ui:define name="metadata"/>
+	<ui:define name="content">
+            
+
+        <h:form id="customerInput">
+            
+            
+            <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
+            
+            <p:dataTable var="customer" value="#{customerFilter.customers}" resizableColumns="true" widgetVar="customersTable" tableStyle="width: auto"
+                         emptyMessage="Keine Kunden vorhanden!" filteredValue="#{customerFilter.filteredCustomers}">
+                
+                <p:column filterBy='#{customer.name}' headerText="Kunde" style="width: 300px" filterMatchMode="contains">
+                    <h:outputText value="#{customer.name}" />
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="Aktueller Auftrag" action="#{userController.setup(customer, 'lastOrder')}" immediate="true" style="size: "/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="Vergangene Aufträge" action="#{userController.setup(customer, 'oldOrders')}" immediate="true"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="Bearbeiten" action="#{userController.setup(customer, 'update')}" immediate="true" />
+                </p:column>
+
+            </p:dataTable>
+            </h:form>
+	</ui:define>
+</ui:composition>
