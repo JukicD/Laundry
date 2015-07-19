@@ -29,3 +29,7 @@ and open the template in the editor.
     font: menu;
 }
 
+.ui-menubar .ui-menuitem-link {
+   font-size: 10px;
+}
+

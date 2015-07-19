@@ -47,11 +47,11 @@ public class CustomerController implements Serializable{
         customerService.save(customer);
         orderyService.save(ordery);
         
-        logger.info(customer.toString());
+        logger.info("CUSTOMER CREATED: " +customer.toString());
        }catch (Exception e){
            logger.error("FAILURE SAVING: " +customer.toString());
        }finally{
-           customer.setAddress(null);
+        customer.setAddress(null);
         customer.setCompanyName(null);
         customer.setPhoneNumber(null);
         customer.setZipCode(null);
@@ -62,7 +62,12 @@ public class CustomerController implements Serializable{
    }
    
    public void update(){
-       customerService.update(customer);
+       try{
+           customerService.update(customer);
+           logger.info("Customer " + customer.getName() + " was updated!");
+       }catch (Exception e){
+           logger.error("Update Failed ! " + customer.getName());
+       }
    }
    
    public List<Customer> getAllCustomers(){
@@ -99,6 +104,4 @@ public class CustomerController implements Serializable{
     public void setLogger(AppLogger logger) {
         this.logger = logger;
     }
-    
-    
 }

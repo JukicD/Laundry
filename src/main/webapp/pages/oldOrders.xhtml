@@ -1,27 +1,26 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	template="/templates/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml">
     
-	<ui:define name="metadata">
-	</ui:define>
-	<ui:define name="content">
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+        
+        <h:form id="oldOrdersList">
             
-        <h:form id="input">
-    
             <p:dataTable id="orderTable" var="order" value="#{orderyController.oldOrders}"
-                 emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
-            
-        <f:facet name="header">
-            <p:outputPanel>
-                <h:outputText value="#{userController.customer.name}" />
-            </p:outputPanel>
-        </f:facet>
-        <p:column  headerText="#">
-            <h:outputText value="#{order.order_id}"/>
-        </p:column>
+                         emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
+                
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="#{userController.customer.name}" />
+                    </p:outputPanel>
+                </f:facet>
+                <p:column  headerText="#">
+                    <h:outputText value="#{order.order_id}"/>
+                </p:column>
                 <p:column headerText="Datum">
                     <h:outputText value="#{order.date}">
                         <f:convertDateTime pattern="d-M-yyyy" />
@@ -33,10 +32,10 @@
                 <p:column headerText="Rechnung">
                     <p:commandButton value="Rechnung" action="#{oldOrdersController.getBill(order)}"/>
                 </p:column>
- 
-        </p:dataTable>  
-    </h:form>
-	</ui:define>
+                
+            </p:dataTable>  
+        </h:form>
+    </ui:define>
 </ui:composition>
 
 

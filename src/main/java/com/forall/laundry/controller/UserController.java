@@ -9,10 +9,14 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -58,9 +62,13 @@ public class UserController implements Serializable{
         this.customerService = customerService;
     }
 
-    public String setup(Customer customer, String nav){
+    public void setup(Customer customer, String nav){
         this.customer = customer;
-        return nav;
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(nav);
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void update(){

@@ -4,27 +4,6 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <navigation-rule>
-        <from-view-id>/pages/page2.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>update</from-outcome>
-            <to-view-id>/pages/updateCustomer.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>/pages/customerMain.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>purchaseFinished</from-outcome>
-            <to-view-id>/pages/page2.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>/pages/updateCustomer.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>updateDone</from-outcome>
-            <to-view-id>/pages/page2.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
         <from-view-id>/pages/customerList.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>oldOrder</from-outcome>
@@ -33,6 +12,10 @@
         <navigation-case>
             <from-outcome>lastOrder</from-outcome>
             <to-view-id>/pages/customerMain.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>update</from-outcome>
+            <to-view-id>/pages/updateCustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

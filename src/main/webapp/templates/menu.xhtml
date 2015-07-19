@@ -6,25 +6,29 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui">
-    
+  
     <h:form>
-        <h:form>
-            <p:growl autoUpdate="true"/>
+        
+        <p:growl autoUpdate="true"/>
+        
+        <p:panelMenu style="width: auto">
             
-            <p:panelMenu style="width: auto">
-                
-                <p:submenu label="Mitarbeiter" styleClass="panel-menu">
-                    
-                    <p:menuitem value="Erstellen"  icon="ui-icon-star" style="font-size: 14px" />
-                </p:submenu>
-                <p:submenu label ="Kunden" styleClass="panel-menu">
-                    <p:menuitem value="Liste" url ="/pages/customerList.xhtml" icon="ui-icon-script" style="font-size: 14px"/>
-                    <p:menuitem value ="Erstellen" url="/pages/createCustomer.xhtml" icon="ui-icon-star" style="font-size: 14px"/>
-                    <p:menuitem value="Bearbeiten" icon="ui-icon-wrench" style="font-size: 14px"/>
-                </p:submenu>
-                
-            </p:panelMenu>
-        </h:form>
+            <p:submenu label="Mitarbeiter" styleClass="panel-menu">
+                <p:menuitem value="Erstellen"  icon="ui-icon-star" style="font-size: 14px" />
+            </p:submenu>
+            
+            <p:submenu label ="Kunden" styleClass="panel-menu">
+                <p:menuitem value="Liste" url ="/pages/customerList.xhtml" icon="ui-icon-script" style="font-size: 14px"/>
+                <p:menuitem value ="Erstellen" url="/pages/createCustomer.xhtml" icon="ui-icon-star" style="font-size: 14px"/>
+                <p:menuitem value="Bearbeiten" url ="/pages/updateCustomer.xhtml" icon="ui-icon-wrench" style="font-size: 14px"/>
+            </p:submenu>
+            <p:submenu label="Angebote" styleClass="panel-menu">
+                <p:menuitem value="Erstellen" icon="ui-icon-star" style="font-size: 14px"/>
+            </p:submenu>
+            <p:submenu label="Einstellungen" styleClass="panel-menu">
+                <p:menuitem value="Rechnung" style="font-size: 14px"/>
+            </p:submenu>
+        </p:panelMenu>
     </h:form>
 </ui:composition>
 

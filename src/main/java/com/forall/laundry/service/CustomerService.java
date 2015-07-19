@@ -52,8 +52,7 @@ public class CustomerService {
             logger.info("CUSTOMER CREATED ! Name: " + customer.getName() + ", Address: " +customer.getAddress() + ", ID: " + customer.getId());
         }catch (Exception e){
             logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created !");
-        }
-            
+        } 
     }
     
     public void update(Customer customer){

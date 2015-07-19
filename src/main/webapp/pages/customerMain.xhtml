@@ -5,13 +5,13 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/template.xhtml">
     
-    <ui:define name="metadata">
-    </ui:define>
+    
     <ui:define name="content">
         
-        <h:form id="input">
-            <p:growl id="growl" showDetail="true" sticky="false" life="3500" showSummary="false"/>
-            <h:panelGrid id="grid" columns="2" cellpadding="5" cellspacing="1">
+        <h:form id="customerMain">
+            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
+            <p:growl showDetail="false" sticky="false" life="3500" showSummary="true"/>
+            <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 
                 <h:outputLabel for="productName" value="Gegenstand" style="font-weight:bold"/>         
                 <p:inputText id="productName" value="#{orderyController.product.productName}" required="true" requiredMessage="Gegenstand eingeben!" />
@@ -19,44 +19,32 @@
                 <h:outputLabel for="amount" value="Stück " style="font-weight:bold"/>         
                 <p:inputText id="amount" value="#{orderyController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
                 
-                <p:commandButton action = "#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
+                <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
-                                 actionListener="#{growlController.saveMessage}" update="itemTable" />
+                                 actionListener="#{growlController.saveMessage}" update="itemTable" ajax="true">
+                    
+                </p:commandButton>
             </h:panelGrid>
             
             <p:dataTable id="itemTable" var="item" value="#{userController.items}"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!" 
-                         filteredValue="" style="size: 30px" resizableColumns="true"
+                         style="size: 30px" resizableColumns="true"
                          rendered="#{not empty userController.items}">
                 
-                <f:facet name="header">
+                <f:facet name="customerHeader">
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}" />
                     </p:outputPanel>
                 </f:facet>
+                
                 <p:column  headerText="Auftrag">
                     <h:outputText value="#{item.item_product.productName}"/>
                 </p:column>
                 
                 <p:column headerText="Gegenstand">
-                    <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('carsTable').filter()" >
-                            <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-                            <f:selectItems value="#{item.item_product.productName}" />
-                        </p:selectOneMenu>
-                    </f:facet>
                     <h:outputText value="#{item.item_id}" />
                 </p:column>
                 
                 <p:column  headerText="Status">
-                    <f:facet name="filter">
-                        <p:selectOneButton onchange="PF('carsTable').filter()" style="font-size: smaller">
-                            <f:converter converterId="javax.faces.Boolean" />
-                            <f:selectItem itemLabel="Beide" itemValue=""/>
-                            <f:selectItem itemLabel="Geliehen" itemValue="true" />
-                            <f:selectItem itemLabel="Eigen" itemValue="false" />
-                        </p:selectOneButton>
-                    </f:facet>
                     <h:outputText value="#{item.borrowed}" />
                 </p:column>
                 
@@ -68,6 +56,7 @@
             </p:dataTable>
             <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true"/>
         </h:form>
+            
         
     </ui:define>
 </ui:composition>
