@@ -33,3 +33,15 @@ and open the template in the editor.
    font-size: 10px;
 }
 
+.east-panel{
+    border: none;
+}
+
+.calendar {
+    width: 50px;
+}
+
+.ui-datepicker {
+    font-size: 12px!important;
+}
+
