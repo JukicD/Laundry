@@ -48,16 +48,17 @@ public class CustomerController implements Serializable{
         orderyService.save(ordery);
         
         logger.info("CUSTOMER CREATED: " +customer.toString());
+        
        }catch (Exception e){
            logger.error("FAILURE SAVING: " +customer.toString());
        }finally{
-        customer.setAddress(null);
-        customer.setCompanyName(null);
-        customer.setPhoneNumber(null);
-        customer.setZipCode(null);
-        customer.setCustomerNumber(0);
-        customer.setMailAddress(null);
-        customer.setName(null);
+            customer.setAddress(null);
+            customer.setCompanyName(null);
+            customer.setPhoneNumber(null);
+            customer.setZipCode(null);
+            customer.setCustomerNumber(0);
+            customer.setMailAddress(null);
+            customer.setName(null);
        }
    }
    

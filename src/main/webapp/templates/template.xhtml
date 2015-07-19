@@ -27,16 +27,14 @@
                 <p:layoutUnit position="west" id="west" style="height:580px;overflow:hidden; width: fit-content">
                     <ui:include src="menu.xhtml" />
                 </p:layoutUnit>
-                 
-                <p:layoutUnit position="east" id="east" resizable="true" closable="true" collapsible="true" style="width: fit-content" size="230">
+                    
+                <p:layoutUnit position="east" id="east" resizable="true" closable="true" collapsible="true"  size="230">
                     <p:layout>
-                        <p:layoutUnit position="center" size="100" styleClass="east-panel" style="width: fit-content">
+                        <p:layoutUnit position="center" size="100" styleClass="east-panel">
                             <h:form>
-                                <p:calendar mode="inline" navigator="none" size="3"/>
+                                <p:calendar mode="inline" navigator="none"/>
                             </h:form>
-                            
                         </p:layoutUnit>
-                 
                     </p:layout>
                 </p:layoutUnit>
                 <p:layoutUnit position="center" id="centerLayout">
