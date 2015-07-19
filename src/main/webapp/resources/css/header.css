@@ -30,7 +30,7 @@ and open the template in the editor.
 }
 
 .ui-menubar .ui-menuitem-link {
-   font-size: 10px;
+   font-size: 10px!important;
 }
 
 .east-panel{
@@ -45,3 +45,11 @@ and open the template in the editor.
     font-size: 12px!important;
 }
 
+.ui-panelmenu-header {
+    font-size: 16px!important;
+    font-weight: normal!important;
+}
+
+.ui-menu-list {
+    font-size: 14px!important;
+}

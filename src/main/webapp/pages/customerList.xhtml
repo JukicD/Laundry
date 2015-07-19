@@ -13,7 +13,7 @@
             
             <p:growl sticky="false" life="3500" showDetail="false"/>
             <p:dataTable id="customerTable" var="customer" value="#{customerFilter.customers}" resizableColumns="true" widgetVar="customersList" tableStyle="width: auto"
-                         emptyMessage="Keine Kunden vorhanden!" filteredValue="#{customerFilter.filteredCustomers}" rendered='#{not empty customerFilter.customers}'>
+                         emptyMessage="Keine Kunden vorhanden!" filteredValue="#{customerFilter.filteredCustomers}" rendered='#{not empty customerFilter.customers}' style="margin-left: auto; margin-right: auto; margin: 0; padding: 0;">
                 <p:column filterBy="#{customer.name}" headerText="Kunde" style="width: 300px" filterMatchMode="contains">
                     
                     <h:outputText value="#{customer.name}" />
