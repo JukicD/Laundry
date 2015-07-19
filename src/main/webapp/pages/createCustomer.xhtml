@@ -10,8 +10,8 @@
         
         
         <h:form id="customerInput">
-           <p:ajaxStatus onstart="statusDialog.show()" onsuccess="statusDialog.hide()"/>
-            <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
+            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
+            <p:growl sticky="false" life="3500" showDetail="false"/>
                 
             <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
                 
@@ -30,7 +30,7 @@
                 <p:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
                     
                 <h:outputLabel for="zipCode" value="Postleitzahl/Ort" style="font-weight: bold" />
-                <p:inputText id="zipCode" value ="#{customerController.customer.address}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
+                <p:inputText id="zipCode" value ="#{customerController.customer.zipCode}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
                     
                 <h:outputLabel for="eMail" value="E-Mail" style="font-weight: bold" />
                 <p:inputText id="eMail" value ="#{customerController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>

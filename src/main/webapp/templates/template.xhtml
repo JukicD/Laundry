@@ -6,29 +6,29 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:b="http://bootsfaces.net/ui">
-                    
-    <f:view contentType="text/html" id="fview">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Page template with PrimeFaces</title>
-        <ui:debug/>
-        <f:metadata>
-            <ui:insert name="metadata" />
-        </f:metadata>
             
+    <f:view encoding="UTF-8" contentType="text/html">
+        <ui:insert name="metadata" />
         <h:head>
             
+        </h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title> Laundry </title>
+            
+        <h:body>
+            <ui:debug/>
                 
-                <p:layout fullPage="true" resizeTitle="resize" style="background-color:#DEFCFF;">
+            <p:layout fullPage="true" resizeTitle="resize">
                 
                 <p:layoutUnit position="north" size="60" id="north">
                     <ui:include src="header.xhtml" />
                 </p:layoutUnit>
                     
-                    <p:layoutUnit position="west" id="west" style="height:580px;overflow:hidden; width: fit-content">
+                <p:layoutUnit position="west" id="west" style="height:580px;overflow:hidden; width: fit-content">
                     <ui:include src="menu.xhtml" />
                 </p:layoutUnit>
                     
-                <p:layoutUnit	styleClass="layoutUnitCenter" position="center">
+                <p:layoutUnit position="center" id="centerLayout">
                     <h:form id="mainForm">
                         <ui:insert name="content"/>
                     </h:form>
@@ -38,11 +38,7 @@
                     <ui:include src="footer.xhtml" />
                 </p:layoutUnit>
                     
-            </p:layout>
-        </h:head>
-            
-        <h:body onload="statusDialog.hide();">
+            </p:layout>  
         </h:body>
-        
     </f:view>
 </html>		

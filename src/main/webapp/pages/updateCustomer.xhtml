@@ -1,29 +1,53 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	template="/templates/template.xhtml"
-        xmlns:b="http://bootsfaces.net/ui">
-	<ui:define name="metadata"/>
-	<ui:define name="content">
-
-        <h:form>
-            
+                            xmlns:ui="http://java.sun.com/jsf/facelets"
+                            xmlns:h="http://java.sun.com/jsf/html"
+                            xmlns:p="http://primefaces.org/ui"
+                            xmlns:f="http://java.sun.com/jsf/core"
+                            template="/templates/template.xhtml"
+                            xmlns:pe="http://primefaces.org/ui/extensions">
+    
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+        
+        <h:form id="customerInput_update">
             <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
-            
-            <h:panelGrid id="grid" columns="2" cellpadding="10" cellspacing="1">
-                <h:outputLabel for="name" value="Kunde:" style="font-weight:bold"/>             
-                <p:inputText id="name" value="#{userController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
-
-                <h:outputLabel for="address" value="Adresse" style="font-weight: bold" />
-                <p:inputText id="address" value ="#{userController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
-
-                <p:commandButton action = "#{userController.update}" value="Speichern" style="margin-right:10px"
-                             actionListener="#{growlController.saveMessage}"/>
-                <p:commandButton onclick="history.back(); return false;" value="Abbrechen"/>
+                
+            <h:panelGrid id="customer_grid_update" columns="2" cellspacing="1" cellpadding="5">
+                
+                <h:outputLabel id="label_update" for="name_update" value="Kunde:" style="font-weight:bold"/>
+                <p:inputText id="name_update" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
+                    
+                <h:outputLabel for="companyName_update" value="Firmenbezeichnung:" style="font-weight: bold" />
+                <p:inputText id="companyName_update" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
+                    
+                <h:outputLabel for="customerNumber_update" value="Kundennummer:" style="font-weight: bold" />
+                <p:inputText id="customerNumber_update" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
+                    
+                <h:outputLabel for="address_update" value="Adresse:" style="font-weight: bold" />
+                <p:inputText id="address_update" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
+                    
+                <h:outputLabel for="zipCode_update" value="Postleitzahl/Ort" style="font-weight: bold" />
+                <p:inputText id="zipCode_update" value ="#{customerController.customer.address}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
+                    
+                <h:outputLabel for="eMail_update" value="E-Mail" style="font-weight: bold" />
+                <p:inputText id="eMail_update" value ="#{customerController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>
+                    
+                <h:outputLabel for="phoneNumber_update" value="Telefon-Nummer:" style="font-weight: bold" />
+                <p:inputText id="phoneNumber_update" value ="#{customerController.customer.phoneNumber}" required="true" requiredMessage="Telefon-Nr eingeben!"/>
+                    
+                <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
+                                  actionListener="#{growlController.saveMessage}" ajax="true" 
+                                  onclick="PF('blockUIWidget2').block()" oncomplete="PF('blockUIWidget2').unblock()" styleClass="save-button">
+                </p:commandButton>
+                    
+                <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true"/>
+                <pe:blockUI widgetVar="blockUIWidget2">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                        <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                    </h:panelGrid>
+                </pe:blockUI>
             </h:panelGrid>
         </h:form>
-            
-	</ui:define>
+    </ui:define>
 </ui:composition>
