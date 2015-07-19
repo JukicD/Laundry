@@ -8,20 +8,23 @@
                 xmlns:b="http://bootsfaces.net/ui">
     
     <h:form>
-        <p:outputPanel id="menuPanel" layout="block">
-            <p:menu style="width: fit-content;height: auto;border:none;font-size:small;padding:0px;">
-                <p:submenu label="Menü" icon="ui-icon ui-icon-refresh">
-                    <p:menuitem value="Mitarbeiter"
-                                url="/pages/page1.xhtml"/>
-                    <p:menuitem value="Kunden" 
-                                url="/pages/page2.xhtml" />
-                    <p:menuitem value="Waren"
-                                url="/pages/page3.xhtml" />
-                    <p:menuitem value="Rechnungen" 
-                                url="/pages/page4.xhtml" />
+        <h:form>
+            <p:growl autoUpdate="true"/>
+            
+            <p:panelMenu style="width: auto">
+                
+                <p:submenu label="Mitarbeiter" styleClass="panel-menu">
+                    
+                    <p:menuitem value="Erstellen"  icon="ui-icon-star" style="font-size: 14px" />
                 </p:submenu>
-            </p:menu>
-        </p:outputPanel>
+                <p:submenu label ="Kunden" styleClass="panel-menu">
+                    <p:menuitem value="Liste" url ="/pages/customerList.xhtml" icon="ui-icon-script" style="font-size: 14px"/>
+                    <p:menuitem value ="Erstellen" url="/pages/createCustomer.xhtml" icon="ui-icon-star" style="font-size: 14px"/>
+                    <p:menuitem value="Bearbeiten" icon="ui-icon-wrench" style="font-size: 14px"/>
+                </p:submenu>
+                
+            </p:panelMenu>
+        </h:form>
     </h:form>
 </ui:composition>
 

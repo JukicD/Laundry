@@ -6,6 +6,7 @@
 package com.forall.laundry.logger;
 
 
+import java.io.Serializable;
 import javax.ejb.Startup;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 @Startup
 @Singleton
-public class AppLogger {
+public class AppLogger implements Serializable{
     
     private final Logger logger = LoggerFactory.getLogger(AppLogger.class);
     
