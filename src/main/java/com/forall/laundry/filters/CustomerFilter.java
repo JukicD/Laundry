@@ -41,10 +41,23 @@ public class CustomerFilter implements Serializable{
         customers = cs.getAllCustomers();
     }
     
-    public boolean filterByName(String value, String filter, Locale locale){
+    public boolean filterByName(Object value, Object filter, Locale locale){
+        String filterText = (filter == null) ? null : filter.toString();
+        logger.info("Filtertext: " + filterText);
         
-        logger.info(filter + " " + value);
-        return value.equals(filter);
+        if(filterText == null || filterText.equals("")){
+            return true;
+        }
+        
+        if(value == null){
+            return false;
+        }
+        
+        return value.toString().compareTo(filterText) > 0;
+    }
+    
+    public int sortByName(Object c1, Object c2){
+       return ((Customer)c1).getName().compareTo(((Customer)c2).getName());
     }
 
     public CustomerService getCs() {

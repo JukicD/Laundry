@@ -46,6 +46,16 @@ public class Customer implements Serializable, Comparable<Customer> {
     public Customer() {
         
     }
+    
+    public void clearFields(){
+        name = null;
+        customerNumber = 0;
+        address = null;
+        companyName = null;
+        mailAddress = null;
+        phoneNumber = null;
+        zipCode = null;
+    }
 
     public int getId() {
         return id;
@@ -134,5 +144,10 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Override
     public int compareTo(Customer o) {
         return this.name.compareTo(o.name);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "id=" + id + ", name=" + name + ", customerNumber=" + customerNumber + ", address=" + address + ", companyName=" + companyName + ", mailAddress=" + mailAddress + ", phoneNumber=" + phoneNumber + ", zipCode=" + zipCode + '}';
     }
 }
