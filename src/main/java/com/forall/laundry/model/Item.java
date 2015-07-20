@@ -2,6 +2,8 @@ package com.forall.laundry.model;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
@@ -30,7 +33,7 @@ public class Item implements Serializable {
     
     @Column(nullable=false)
     @Basic(fetch=FetchType.LAZY)
-    private int amount;
+    private Integer amount;
     
     @ManyToOne
     @JoinColumn(name="ordery_id")
@@ -41,16 +44,24 @@ public class Item implements Serializable {
     
     @OneToOne
     private Product item_product;
-
+    
+    @Transient
+    private BigDecimal sum;
+    
     public Item() {
 
     }
+    
+    public BigDecimal getSum(){
+        System.out.println(item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP));
+        return item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
+    }
    
-    public int getAmount() {
+    public Integer getAmount() {
         return this.amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
    

@@ -2,6 +2,7 @@ package com.forall.laundry.model;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class Product implements Serializable {
     private Long product_id;
     
     @Basic
-    private int price;
+    private BigDecimal price;
 
     @Basic
     private String name;
@@ -25,13 +26,21 @@ public class Product implements Serializable {
     public Product() {
 
     }
-   
-    public int getPrice() {
-        return this.price;
+
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
    
     public Long getProduct_id() {

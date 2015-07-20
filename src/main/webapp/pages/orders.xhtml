@@ -27,7 +27,8 @@
                 </p:column>
                 
                 <p:column headerText="Preis">
-                    <h:outputText value="#{item.amount * item.item_product.price}"/>
+                    <h:outputText value="#{item.sum}">
+                    </h:outputText>
                 </p:column>
                 
             </p:dataTable>  
