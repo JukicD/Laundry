@@ -7,17 +7,21 @@
     
     
     <ui:define name="content">
-        
+        <h:outputLabel value="Lieferung für: #{userController.customer.name}"/>
+        <p:separator/>
         <h:form id="customerMain">
             <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
             <p:growl showDetail="false" sticky="false" life="3500" showSummary="true"/>
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 
-                <h:outputLabel for="productName" value="Gegenstand" style="font-weight:bold"/>         
+                <h:outputLabel for="productName" value="Gegenstand:"/>         
                 <p:inputText id="productName" value="#{orderyController.product.productName}" required="true" requiredMessage="Gegenstand eingeben!" />
                 
-                <h:outputLabel for="amount" value="Stück " style="font-weight:bold"/>         
+                <h:outputLabel for="amount" value="Stück:" style="font-weight:bold"/>         
                 <p:inputText id="amount" value="#{orderyController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
+                
+                <h:outputLabel for="product_price" value="Preis/Stück:"/>
+                <p:inputText id="product_price" value="#{orderyController.product.price}"/>
                 
                 <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
@@ -25,7 +29,7 @@
                     
                 </p:commandButton>
             </h:panelGrid>
-            
+            <p:separator/>
             <p:dataTable id="itemTable" var="item" value="#{userController.items}"
                          style="size: 30px" resizableColumns="true"
                          rendered="#{not empty userController.items}">
@@ -54,7 +58,7 @@
                     </h:outputText>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true"/>
+            <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true" rendered="#{not empty userController.items}"/>
         </h:form>
             
         

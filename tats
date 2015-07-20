@@ -1,0 +1,196 @@
+[33mcommit 5f607d718cbd21c929fd5be66b2242e005326c2a[m
+Merge: 20593d9 cc97f27
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Mon Jul 20 09:38:00 2015 +0200
+
+    Merge pull request #9 from JukicD/workingOnCustomers
+    
+    added some css for menubar
+
+[33mcommit cc97f271dea72c83f012da1784c6504f3d0d4b34[m
+Author: jd <jd@jdpc>
+Date:   Mon Jul 20 09:37:29 2015 +0200
+
+    added some css for menubar
+
+[33mcommit 20593d957e9b33d3a1da2bba0fc49de1d7968fa9[m
+Merge: ff04e8d a5228a4
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sun Jul 19 19:36:11 2015 +0200
+
+    Merge pull request #8 from JukicD/workingOnCustomers
+    
+    added some css for menubar
+
+[33mcommit a5228a4ae47689e3eff0e408c15b787b330a158d[m
+Author: jd <jd@jdpc>
+Date:   Sun Jul 19 19:34:20 2015 +0200
+
+    added some css for menubar
+
+[33mcommit ff04e8d2c248529141375e6b7b9f6b746393dd54[m
+Merge: c8cda1b 2f420e0
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sun Jul 19 18:37:09 2015 +0200
+
+    Merge pull request #7 from JukicD/workingOnCustomers
+    
+    added east-panel
+
+[33mcommit 2f420e04dc417eeef717b7d38027fc988b327d93[m
+Author: jd <jd@jdpc>
+Date:   Sun Jul 19 18:14:35 2015 +0200
+
+    added east-panel
+
+[33mcommit c8cda1bba31d68b6496d296588881805e3142048[m
+Merge: c5d6961 02f3195
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sun Jul 19 17:15:16 2015 +0200
+
+    Merge pull request #6 from JukicD/workingOnCustomers
+    
+    filter works
+
+[33mcommit 02f31957c1c77bf33256c5225e385d26d468abd6[m
+Author: jd <jd@jdpc>
+Date:   Sun Jul 19 17:14:46 2015 +0200
+
+    filter works
+
+[33mcommit c5d6961fd67b4ecc4bd4bd18863d2760c6629233[m
+Merge: 3b17d46 4fb296f
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sun Jul 19 11:49:07 2015 +0200
+
+    Merge pull request #5 from JukicD/workingOnCustomers
+    
+    Working on customers
+
+[33mcommit 4fb296f723c3570b953a85fc218e1fbb1877e3f1[m
+Author: jd <jd@jdpc>
+Date:   Sun Jul 19 11:36:45 2015 +0200
+
+    customer filter works
+
+[33mcommit 15d7b8d67f1e518d5583525a02ad60c243f9b3da[m
+Author: jd <jd@jdpc>
+Date:   Sat Jul 18 18:34:14 2015 +0200
+
+    ToDo: customer filter
+
+[33mcommit 3b17d467dcb4ecc2281a2a6d9b72d997298a249e[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Thu Jul 16 16:23:38 2015 +0200
+
+    billing fixed
+
+[33mcommit d7c0583d78042686103418d19d65ee02df75df16[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Thu Jul 16 14:53:32 2015 +0200
+
+    billing fixed
+
+[33mcommit 709e38d960b4601c2b32668221b259a6bec03917[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Thu Jul 16 14:04:00 2015 +0200
+
+    billing fixed
+
+[33mcommit 8ef83a562903a8563abfe65850672b96175eb99e[m
+Merge: 8806815 0bbbcad
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Thu Jul 16 09:05:10 2015 +0200
+
+    Merge pull request #4 from JukicD/EBCPattern
+    
+    billing refined
+
+[33mcommit 0bbbcadc181427ed531640b2aed723b91190c672[m
+Author: jd <jd@jdpc>
+Date:   Thu Jul 16 09:04:29 2015 +0200
+
+    billing refined
+
+[33mcommit 88068150819afe2fa94f22c40e30228cafc74226[m
+Merge: 81a5863 7da1132
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Wed Jul 15 17:35:01 2015 +0200
+
+    Merge pull request #3 from JukicD/billing
+    
+    Billing
+
+[33mcommit 7da113209a494704967f87f1c94d231fbf1e9662[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Wed Jul 15 17:13:46 2015 +0200
+
+    billing works
+
+[33mcommit d7eaf0d04996714cf1772af7a3b39323a8f7b6ad[m
+Author: jd <jd@jdpc>
+Date:   Wed Jul 15 08:56:32 2015 +0200
+
+    add
+
+[33mcommit 81a5863d622effcc12a904e894e2437a109f21d0[m
+Merge: 6064b40 4e87a4c
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sat Jul 11 15:38:09 2015 +0200
+
+    Merge pull request #2 from JukicD/ToDo
+    
+    Refactored Architecture, added EntityService class
+
+[33mcommit 4e87a4cd14eafb560af5ff6e4b40bf1597675b1e[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Sat Jul 11 15:36:07 2015 +0200
+
+    Refactored Architecture, added EntityService class
+
+[33mcommit 6064b409906e1ac558819c694f13a359e9d88f82[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Thu Jul 2 14:57:52 2015 +0200
+
+    Refactored Architecture, added EntityService class
+
+[33mcommit 2b8dba2e31c7c1f1ff559be4e35dac3cd755c036[m
+Merge: b23fb66 16a3428
+Author: jd <jd@jdpc>
+Date:   Sun Jun 28 22:17:21 2015 +0200
+
+    Merge origin/master
+
+[33mcommit b23fb66a0e84e70364450bf4087d7017d2fd325a[m
+Author: jd <jd@jdpc>
+Date:   Sun Jun 28 22:17:06 2015 +0200
+
+    add
+
+[33mcommit f3807139a04433cc9c65b71ec35455b1eb8c3b88[m
+Author: jd <jd@jdpc>
+Date:   Sun Jun 28 21:15:44 2015 +0200
+
+[33mcommit 16a34283b1e249022b5c923b49dcb2217d559ba5[m
+Author: Jukic Dejan <jukic-dejan@hotmail.com>
+Date:   Sun Jun 28 21:09:43 2015 +0200
+
+    Update persistence.xml
+
+[33mcommit 05f3eb22b53b58041d08a3fc6dfdba1558ecde0d[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Fri Jun 26 17:25:01 2015 +0200
+
+    added view
+
+[33mcommit e5dadc25caec02ea96e0f0308cd9b97cb2275eb7[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Fri May 22 16:54:22 2015 +0200
+
+    working view
+
+[33mcommit 384e5287c7a0e8975eb5c75925cad7030b4afcba[m
+Author: jd <jukic-dejan@hotmail.com>
+Date:   Tue May 12 17:36:21 2015 +0200
+
+    working build

@@ -10,9 +10,9 @@ import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 /**
  * Hibernate Utility class with a convenient method to get Session Factory
@@ -34,9 +34,9 @@ public class HibernateUtil {
             configuration.addAnnotatedClass(Item.class);
             configuration.addAnnotatedClass(Product.class);
             
-            final ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+            final ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                                                         .applySettings(configuration.getProperties())
-                                                        .buildServiceRegistry();
+                                                        .build();
             
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         }

@@ -19,13 +19,13 @@
                     <h:outputText value="#{customer.name}" />
                                   
                 </p:column>
-                    
+                   
                 <p:column>
-                    <p:commandButton value="Aktueller Auftrag" action="#{userController.setup(customer, '/pages/customerMain.xhtml')}" immediate="true" style="size: "/>
+                    <p:commandButton value="Aktuelle Lieferung" action="#{userController.setup(customer, '/pages/customerMain.xhtml')}" immediate="true" style="size: " update=":mainForm"/>
                 </p:column>
                     
                 <p:column>
-                    <p:commandButton value="Vergangene Aufträge" action="#{userController.setup(customer, '/pages/oldOrders.xhtml')}" immediate="true"/>
+                    <p:commandButton value="Vergangene Lieferungen" action="#{userController.setup(customer, '/pages/oldOrders.xhtml')}" immediate="true"/>
                 </p:column>
                     
                 <p:column>

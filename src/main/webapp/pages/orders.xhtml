@@ -26,6 +26,10 @@
                     <h:outputText value="#{item.amount}"/>
                 </p:column>
                 
+                <p:column headerText="Preis">
+                    <h:outputText value="#{item.amount * item.item_product.price}"/>
+                </p:column>
+                
             </p:dataTable>  
         </h:form>
     </ui:define>

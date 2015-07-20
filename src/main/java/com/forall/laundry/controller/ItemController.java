@@ -44,6 +44,10 @@ public class ItemController implements Serializable{
         itemService.save(item);
     }
     
+    public Integer getPrice(){
+        return product.getPrice() * item.getAmount();
+    }
+    
     public UserController getUserController() {
         return userController;
     }
