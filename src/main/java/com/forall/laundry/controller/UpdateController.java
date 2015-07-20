@@ -21,8 +21,8 @@ import javax.persistence.PersistenceContext;
 @RequestScoped
 public class UpdateController implements Serializable{
     
-    @PersistenceContext
-     private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
     
    @Inject
    private Customer customer;
@@ -46,6 +46,4 @@ public class UpdateController implements Serializable{
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-   
-    
 }
