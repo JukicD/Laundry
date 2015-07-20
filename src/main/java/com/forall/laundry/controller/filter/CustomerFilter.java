@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.forall.laundry.filters;
+package com.forall.laundry.controller.filter;
 
 
 import com.forall.laundry.logger.AppLogger;

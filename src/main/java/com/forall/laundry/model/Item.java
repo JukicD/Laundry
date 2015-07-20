@@ -53,7 +53,6 @@ public class Item implements Serializable {
     }
     
     public BigDecimal getSum(){
-        System.out.println(item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP));
         return item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
     }
    
@@ -114,6 +113,4 @@ public class Item implements Serializable {
         }
         return true;
     }
-    
-    
 }

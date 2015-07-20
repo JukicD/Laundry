@@ -5,8 +5,10 @@
  */
 package com.forall.laundry.service;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Product;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,9 +22,21 @@ public class ProductService {
     @PersistenceContext
     EntityManager em;
     
+    @Inject
+    AppLogger logger;
     
     public void save(Product product){
         em.persist(product);
+    }
+
+    public void update(Product editedProduct) {
+        try{
+             em.merge(editedProduct);
+             logger.info("Product was successfully updated! " + editedProduct.toString());
+        }catch (Exception e){
+            logger.error("Failure updating Product!" + editedProduct.toString());
+        }
+       
     }
     
 }

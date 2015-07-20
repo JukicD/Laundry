@@ -5,10 +5,12 @@
  */
 package com.forall.laundry.service;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,6 +24,9 @@ public class ItemService {
     @PersistenceContext
     EntityManager em;
     
+    @Inject
+    AppLogger logger;
+    
     public List<Item> getItemsFrom(Ordery order) {
         
             return em.createNamedQuery("Item.fromOrder")
@@ -31,5 +36,14 @@ public class ItemService {
     
     public void save(Item item){
         em.persist(item);
+    }
+    
+    public void update(Item item){
+        try{
+            em.merge(item);
+            logger.info("Successfully updated : " +item.toString());
+        }catch (Exception e){
+            logger.error("Update-Failure! " + item.toString());
+        }
     }
 }
