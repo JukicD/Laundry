@@ -22,7 +22,6 @@
                 
                 <h:outputLabel for="product_price" value="Preis/Stück:"/>
                 <p:inputText id="product_price" value="#{orderyController.product.price}">
-                    <f:converter converterId="javax.faces.Float" />
                 </p:inputText>
                 
                 <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"

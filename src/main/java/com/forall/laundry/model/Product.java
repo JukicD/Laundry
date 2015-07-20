@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Product implements Serializable {
     private Long product_id;
     
     @Basic
+    @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price;
 
     @Basic
@@ -33,6 +35,7 @@ public class Product implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+        
     }
 
     public String getName() {
