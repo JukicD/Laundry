@@ -9,21 +9,35 @@
     <ui:define name="content">
         
         <h:form id="lastOrders">
-            
+            <p:remoteCommand name="onCellEdit" action="#{editController.onCellEdit}" update="lastOrders" />
             <p:dataTable id="orders" var="item" value="#{oldOrdersController.items}"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!" style="size: 30px" resizableColumns="true">
+                         emptyMessage="Der Kunde hat noch keine Aufträge!" style="size: 30px" resizableColumns="true"
+                         editable="true" editMode="cell">
                 
+                <p:ajax event="cellEdit" oncomplete="onCellEdit()" listener="#{editController.onCellEdit}" />
                 <f:facet name="header"> 
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}" />
                     </p:outputPanel>
                 </f:facet>
                 <p:column  headerText="Produkt">
-                    <h:outputText value="#{item.item_product.productName}"/>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.item_product.name}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="modelInput" value="#{item.item_product.name}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                    
                 </p:column>
                 
                 <p:column headerText="Anzahl">
                     <h:outputText value="#{item.amount}"/>
+                </p:column>
+                
+                <p:column headerText="Einzelpreis">
+                    <h:outputText value="#{item.item_product.price}"/>
                 </p:column>
                 
                 <p:column headerText="Preis">

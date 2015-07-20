@@ -17,7 +17,7 @@
                 <h:outputLabel for="productName" value="Gegenstand:"/>         
                 <p:inputText id="productName" value="#{orderyController.product.productName}" required="true" requiredMessage="Gegenstand eingeben!" />
                 
-                <h:outputLabel for="amount" value="Stück:" style="font-weight:bold"/>         
+                <h:outputLabel for="amount" value="Stück:"/>         
                 <p:inputText id="amount" value="#{orderyController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
                 
                 <h:outputLabel for="product_price" value="Preis/Stück:"/>
@@ -33,7 +33,7 @@
             <p:separator/>
             <p:dataTable id="itemTable" var="item" value="#{userController.items}"
                          style="size: 30px" resizableColumns="true"
-                         rendered="#{not empty userController.items}">
+                         rendered="#{not empty userController.items}" editable="true">
                 
                 <f:facet name="customerHeader">
                     <p:outputPanel>
