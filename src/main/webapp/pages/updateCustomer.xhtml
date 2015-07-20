@@ -8,34 +8,33 @@
     
     <ui:define name="metadata"/>
     <ui:define name="content">
-        
         <h:form id="customerInput_update">
             <p:growl id="growl" sticky="false" life="3500" showDetail="false"/>
                 
             <h:panelGrid id="customer_grid_update" columns="2" cellspacing="1" cellpadding="5">
                 
                 <h:outputLabel id="label_update" for="name_update" value="Kunde:" style="font-weight:bold"/>
-                <p:inputText id="name_update" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
+                <p:inputText id="name_update" value="#{userController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                     
                 <h:outputLabel for="companyName_update" value="Firmenbezeichnung:" style="font-weight: bold" />
-                <p:inputText id="companyName_update" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
+                <p:inputText id="companyName_update" value ="#{userController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
                     
                 <h:outputLabel for="customerNumber_update" value="Kundennummer:" style="font-weight: bold" />
-                <p:inputText id="customerNumber_update" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
+                <p:inputText id="customerNumber_update" value ="#{userController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
                     
                 <h:outputLabel for="address_update" value="Adresse:" style="font-weight: bold" />
-                <p:inputText id="address_update" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
+                <p:inputText id="address_update" value ="#{userController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
                     
                 <h:outputLabel for="zipCode_update" value="Postleitzahl/Ort" style="font-weight: bold" />
-                <p:inputText id="zipCode_update" value ="#{customerController.customer.address}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
+                <p:inputText id="zipCode_update" value ="#{userController.customer.address}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
                     
                 <h:outputLabel for="eMail_update" value="E-Mail" style="font-weight: bold" />
-                <p:inputText id="eMail_update" value ="#{customerController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>
+                <p:inputText id="eMail_update" value ="#{userController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>
                     
                 <h:outputLabel for="phoneNumber_update" value="Telefon-Nummer:" style="font-weight: bold" />
-                <p:inputText id="phoneNumber_update" value ="#{customerController.customer.phoneNumber}" required="true" requiredMessage="Telefon-Nr eingeben!"/>
+                <p:inputText id="phoneNumber_update" value ="#{userController.customer.phoneNumber}" required="true" requiredMessage="Telefon-Nr eingeben!"/>
                     
-                <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
+                <p:commandButton  action = "#{userController.update}" value="Speichern" style="margin-right:10px" 
                                   actionListener="#{growlController.saveMessage}" ajax="true" 
                                   onclick="PF('blockUIWidget2').block()" oncomplete="PF('blockUIWidget2').unblock()" styleClass="save-button">
                 </p:commandButton>

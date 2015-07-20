@@ -23,12 +23,6 @@ and open the template in the editor.
     background-color: #85E085;
 }
 
-.panel-menu{
-    color: #80B2FF;
-    font-style: normal;
-    font: menu;
-}
-
 .ui-menubar .ui-menuitem-link {
    font-size: 10px!important;
 }
@@ -43,13 +37,23 @@ and open the template in the editor.
 
 .ui-datepicker {
     font-size: 12px!important;
+    border-radius: 0px!important;
 }
 
 .ui-panelmenu-header {
     font-size: 16px!important;
     font-weight: normal!important;
+    border-radius: 0px!important;
 }
 
 .ui-menu-list {
     font-size: 14px!important;
+}
+
+.ui-layout-container .ui-datepicker-inline .ui-datepicker-prev .ui-datepicker-next .ui-widget-header .ui-helper-clearfix .ui-corner-all{
+    border-radius: 0px!important;
+}
+
+.ui-layout-unit, ui-panel-menu .ui-panelmenu-panel {
+    border-radius: 0px!important;
 }

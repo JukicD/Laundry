@@ -8,34 +8,31 @@
     <ui:define name="metadata"/>
     <ui:define name="content">
         
-        
         <h:form id="customerInput">
             <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
             <p:growl sticky="false" life="3500" showDetail="false"/>
                 
             <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
                 
-                <h:outputLabel id="label" for="name" value="Kunde:" style="font-weight:bold"/>
-                <p:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!">
-                
-                </p:inputText>
+                <h:outputLabel id="label" for="name" value="Kunde:"/>
+                <p:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                     
-                <h:outputLabel for="companyName" value="Firmenbezeichnung:" style="font-weight: bold" />
+                <h:outputLabel for="companyName" value="Firmenbezeichnung:"/>
                 <p:inputText id="companyName" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
                     
-                <h:outputLabel for="customerNumber" value="Kundennummer:" style="font-weight: bold" />
+                <h:outputLabel for="customerNumber" value="Kundennummer:" />
                 <p:inputText id="customerNumber" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
                     
-                <h:outputLabel for="address" value="Adresse:" style="font-weight: bold" />
+                <h:outputLabel for="address" value="Adresse:"/>
                 <p:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
                     
-                <h:outputLabel for="zipCode" value="Postleitzahl/Ort" style="font-weight: bold" />
+                <h:outputLabel for="zipCode" value="Postleitzahl/Ort"/>
                 <p:inputText id="zipCode" value ="#{customerController.customer.zipCode}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
                     
-                <h:outputLabel for="eMail" value="E-Mail" style="font-weight: bold" />
+                <h:outputLabel for="eMail" value="E-Mail"/>
                 <p:inputText id="eMail" value ="#{customerController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>
                     
-                <h:outputLabel for="phoneNumber" value="Telefon-Nummer:" style="font-weight: bold" />
+                <h:outputLabel for="phoneNumber" value="Telefon-Nummer:"/>
                 <p:inputText id="phoneNumber" value ="#{customerController.customer.phoneNumber}" required="true" requiredMessage="Telefon-Nr eingeben!"/>
                     
                 <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
