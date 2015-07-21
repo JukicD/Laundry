@@ -2,6 +2,7 @@ package com.forall.laundry.controller.edit;
 
 import com.forall.laundry.controller.OldOrdersController;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
 import java.io.Serializable;
@@ -11,7 +12,6 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.event.CellEditEvent;
 
 @Named
 @ViewScoped
@@ -33,8 +33,16 @@ public class EditController implements Serializable{
         items = itemService.getItemsFrom(oc.getOrder());
     }
     
-    public void onCellEdit(CellEditEvent event) {
-        System.out.println("TEST"); // NOT FIRED
+    public void onCellEdit(Item item) {
+        
+        Item i = itemService.find(item.getItem_id());
+        Product p = i.getItem_product();
+        p.setName(item.getName());
+        System.out.println("TEST " + p.getName());
+        i.setItem_product(p);
+        productService.update(p);
+        
+        
     }
 
     public ItemService getItemService() {

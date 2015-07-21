@@ -65,6 +65,10 @@ public class Item implements Serializable {
     public Integer getAmount() {
         return this.amount;
     }
+    
+    public void setName(String name){
+        item_product.setName(name);
+    }
 
     public void setAmount(Integer amount) {
         this.amount = amount;
@@ -101,6 +105,13 @@ public class Item implements Serializable {
     public BigDecimal getSinglePrice() {
         return item_product.getPrice();
     }
+
+    public Product getItem_product() {
+        return item_product;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {
