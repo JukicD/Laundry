@@ -9,42 +9,37 @@
     <ui:define name="content">
         
         <h:form id="lastOrders">
-            <p:growl showDetail="true" id="msg"/>
-            <p:dataTable id="orders" var="item" value="#{editController.oldItems}"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!" style="size: 30px"
-                         editable="true" editMode="cell">
-                <p:ajax event="cellEdit" listener="#{editController.updateData}" update=":mainForm:lastOrders:orders" />
+            
+            <p:dataTable id="orders" 
+                         var="item"
+                         value="#{editController.items}"
+                         emptyMessage="Der Kunde hat noch keine Aufträge!" 
+                         style="size: 30px"
+                         editable="true" 
+                         editMode="cell">
+                
+                <p:ajax event="cellEdit" listener="#{editController.onCellEdit}" update=":mainForm:lastOrders:orders"/>
                 
                 <f:facet name="header"> 
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}" />
                     </p:outputPanel>
-                    <h:outputText value="#{oldOrdersController.order.date}">
-                        <f:convertDateTime pattern="dd.MM.yy" />
-                    </h:outputText>
+                    <p:outputPanel>
+                        <h:outputText value="#{oldOrdersController.order.date}">
+                            <f:convertDateTime pattern="dd.MM.yy" />
+                        </h:outputText>
+                    </p:outputPanel>
                 </f:facet>
                 
-                <p:column  headerText="Produkt">
+                <p:column  headerText="Amount">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{item.amount}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <h:inputText id="modelInput" value="#{item.amount}"/>
+                            <p:inputText id="modelInput" value="#{item.amount}"/>
                         </f:facet>
                     </p:cellEditor>
-                </p:column>
-                
-                <p:column headerText="Anzahl">
-                    <h:outputText value="#{item.amount}"/>
-                </p:column>
-                
-                <p:column headerText="Einzelpreis">
-                    <h:outputText value="#{item.singlePrice}"/>
-                </p:column>
-                
-                <p:column headerText="Preis">
-                    <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
