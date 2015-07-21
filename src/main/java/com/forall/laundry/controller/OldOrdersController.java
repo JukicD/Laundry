@@ -85,7 +85,7 @@ public class OldOrdersController implements Serializable{
         String sql = "SELECT \"public\".ordery.bill FROM \"public\".ordery WHERE \"public\".ordery.order_id = ?";
         
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry", "postgres", "p1l1o1k1");
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry", "jd", "p1l1o1k1");
             stmt = conn.prepareStatement(sql);
             stmt.setLong(1, o.getOrder_id());
             
@@ -115,6 +115,4 @@ public class OldOrdersController implements Serializable{
         }
        
     }
-    
-    
 }
