@@ -46,4 +46,8 @@ public class ItemService {
             logger.error("Update-Failure! " + item.toString());
         }
     }
+    
+    public Item find(long id){
+        return em.find(Item.class, id);
+    }
 }

@@ -50,14 +50,6 @@ public class Product implements Serializable {
         return this.product_id;
     }
 
-    public String getProductName() {
-        return name;
-    }
-
-    public void setProductName(String name) {
-        this.name = name;
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;
@@ -79,4 +71,11 @@ public class Product implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" + "product_id=" + product_id + ", price=" + price + ", name=" + name + '}';
+    }
+    
+    
 }

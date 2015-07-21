@@ -17,7 +17,6 @@
             
         <h:body>
             <ui:debug/>
-                
             <p:layout fullPage="true" resizeTitle="resize">
                 
                 <p:layoutUnit position="north" size="60" id="north">
@@ -30,13 +29,16 @@
                     
                 <p:layoutUnit position="east" id="east" resizable="true" closable="true" collapsible="true"  size="230">
                     <p:layout>
+                        
                         <p:layoutUnit position="center" size="100" styleClass="east-panel">
                             <h:form>
                                 <p:calendar mode="inline" navigator="none"/>
                             </h:form>
                         </p:layoutUnit>
+                        
                     </p:layout>
                 </p:layoutUnit>
+                
                 <p:layoutUnit position="center" id="centerLayout">
                     <h:form id="mainForm">
                         <ui:insert name="content"/>
@@ -50,4 +52,4 @@
             </p:layout>  
         </h:body>
     </f:view>
-</html>		
+</html>

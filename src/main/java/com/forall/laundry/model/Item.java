@@ -48,6 +48,12 @@ public class Item implements Serializable {
     @Transient
     private BigDecimal sum;
     
+    @Transient
+    private String name;
+    
+    @Transient
+    private BigDecimal singlePrice;
+    
     public Item() {
 
     }
@@ -59,6 +65,10 @@ public class Item implements Serializable {
     public Integer getAmount() {
         return this.amount;
     }
+    
+    public void setName(String name){
+        item_product.setName(name);
+    }
 
     public void setAmount(Integer amount) {
         this.amount = amount;
@@ -68,10 +78,6 @@ public class Item implements Serializable {
         return this.item_id;
     }
    
-    public Product getItem_product() {
-        return this.item_product;
-    }
-
     public void setItem_product(Product item_product) {
         this.item_product = item_product;
     }
@@ -91,7 +97,22 @@ public class Item implements Serializable {
     public void setOrdery(Ordery ordery) {
         this.ordery = ordery;
     }
+
+    public String getName() {
+        return item_product.getName();
+    }
+
+    public BigDecimal getSinglePrice() {
+        return item_product.getPrice();
+    }
+
+    public Product getItem_product() {
+        return item_product;
+    }
     
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 3;
