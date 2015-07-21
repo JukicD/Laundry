@@ -13,10 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.CellEditEvent;
 
-/**
- *
- * @author jd
- */
 @Named
 @ViewScoped
 public class EditController implements Serializable{
@@ -38,7 +34,7 @@ public class EditController implements Serializable{
     }
     
     public void onCellEdit(CellEditEvent event) {
-        System.out.println("TEST");
+        System.out.println("TEST"); // NOT FIRED
     }
 
     public ItemService getItemService() {

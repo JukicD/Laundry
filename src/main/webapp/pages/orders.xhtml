@@ -18,7 +18,7 @@
                          editable="true" 
                          editMode="cell">
                 
-                <p:ajax event="cellEdit" listener="#{editController.onCellEdit}" update=":mainForm:lastOrders:orders"/>
+                <p:ajax event="cellEdit" listener="#{editController.onCellEdit}" update=":mainForm:lastOrders:orders" immediate="true" process="@this"/>
                 
                 <f:facet name="header"> 
                     <p:outputPanel>
@@ -45,5 +45,3 @@
         </h:form>
     </ui:define>
 </ui:composition>
-
-
