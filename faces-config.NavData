@@ -15,9 +15,9 @@
         <Node id="templates/header.xhtml" x="2281" y="338" zoom="true"/>
         <Node id="templates/footer.xhtml" x="689" y="32" zoom="true"/>
         <Node id="pages/customerList.xhtml" x="646" y="199" zoom="true"/>
-        <Node id="templates/template.xhtml" x="1910" y="32" zoom="true"/>
         <Node id="pages/createCustomer.xhtml" x="25" y="71" zoom="true"/>
         <Node id="pages/oldOrders.xhtml" x="215" y="277" zoom="true"/>
+        <Node id="templates/template.xhtml" x="1910" y="32" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

@@ -83,7 +83,7 @@ public class OrderyController implements Serializable{
         itemService.save(item);
         orderyService.save(order);
         
-        product.setProductName(null);
+        product.setName(null);
         item.setAmount(0);
     }
     
