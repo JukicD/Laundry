@@ -15,7 +15,7 @@
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 
                 <h:outputLabel for="productName" value="Gegenstand:"/>         
-                <p:inputText id="productName" value="#{orderyController.product.productName}" required="true" requiredMessage="Gegenstand eingeben!" />
+                <p:inputText id="productName" value="#{orderyController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
                 
                 <h:outputLabel for="amount" value="Stück:"/>         
                 <p:inputText id="amount" value="#{orderyController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
@@ -42,7 +42,7 @@
                 </f:facet>
                 
                 <p:column  headerText="Auftrag">
-                    <h:outputText value="#{item.item_product.productName}"/>
+                    <h:outputText value="#{item.name}"/>
                 </p:column>
                 
                 <p:column headerText="Gegenstand">
