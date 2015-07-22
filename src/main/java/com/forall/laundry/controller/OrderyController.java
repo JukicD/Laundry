@@ -90,7 +90,6 @@ public class OrderyController implements Serializable{
             product.setName(null);
             item.setAmount(0);
             product.setPrice(null);
-            //FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerMain.xhtml");
             editController.init();
     }
     
