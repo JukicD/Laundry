@@ -31,7 +31,12 @@
                     <p:layout>
                         
                         <p:layoutUnit position="center" size="100" styleClass="east-panel">
-                                <p:calendar mode="inline" navigator="none"/>
+                            <h:form>
+                                <p:calendar mode="inline" navigator="none">
+                                    <p:ajax listener="#{dateController.update}" event="dateSelect"/>
+                                </p:calendar>
+                            </h:form>
+                                
                         </p:layoutUnit>
                         
                     </p:layout>
