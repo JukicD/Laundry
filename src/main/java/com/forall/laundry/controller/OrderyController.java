@@ -13,6 +13,7 @@ import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.ProductService;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,26 +67,30 @@ public class OrderyController implements Serializable{
     @EJB
     private CustomerService customerService;
     
-    
     public void addItem(){
         
-        Customer customer = userController.getCustomer();
-        Ordery order = userController.getCurrentOrder();
-        
-        order.setCustomer(customer);
-        
-        customerService.update(customer);
-        
-        item.setOrdery(order);
-        item.setItem_product(product);
-        order.addItem(item);
-        
-        productService.save(product);
-        itemService.save(item);
-        orderyService.save(order);
-        
-        product.setName(null);
-        item.setAmount(0);
+        try {
+            Customer customer = userController.getCustomer();
+            Ordery order = userController.getCurrentOrder();
+            
+            order.setCustomer(customer);
+            
+            customerService.update(customer);
+            
+            item.setOrdery(order);
+            item.setItem_product(product);
+            order.addItem(item);
+            
+            productService.save(product);
+            itemService.save(item);
+            orderyService.save(order);
+            
+            product.setName(null);
+            item.setAmount(0);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerMain.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void finishOrder(){
@@ -112,7 +118,8 @@ public class OrderyController implements Serializable{
          
             customerService.update(customer);
             orderyService.save(o);
-        } catch (JRException | SQLException ex) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerList.xhtml");
+        } catch (JRException | SQLException | IOException ex) {
             Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

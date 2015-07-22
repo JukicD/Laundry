@@ -40,7 +40,7 @@ public class EditController implements Serializable{
         if(viewID.equals("/pages/customerMain.xhtml")){
             items = userController.getItems();
         }else if(viewID.equals("/pages/orders.xhtml")){
-            items = itemService.getItemsFrom(userController.getCurrentOrder());
+            items = itemService.getItemsFrom(oc.getOrder());
         }
     }
     
@@ -89,6 +89,4 @@ public class EditController implements Serializable{
     public void setUserController(UserController userController) {
         this.userController = userController;
     }
-    
-    
 }

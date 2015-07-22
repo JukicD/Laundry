@@ -11,7 +11,7 @@
         <p:separator/>
         <h:form id="customerMain">
             
-            <p:growl showDetail="false" sticky="false" life="3500" showSummary="true"/>
+            <p:growl id="msgs" showDetail="false" sticky="false" life="3500" showSummary="true"/>
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 
                 <h:outputLabel for="productName" value="Gegenstand:"/>         
@@ -28,9 +28,8 @@
                 
                 <p:commandButton id="saveButton" action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
-                                 actionListener="#{growlController.saveMessage}" 
-                                 ajax="true" 
-                                 update=":customerMain:itemTable">
+                                 actionListener="#{growlController.saveMessage}" >
+                    <f:ajax execute="@form" render="msgs"/>
                 </p:commandButton>
             </h:panelGrid>
     
@@ -93,8 +92,9 @@
                             <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
-        </h:form>
             <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true" rendered="#{not empty userController.items}"/>
+        </h:form>
+            
     </ui:define>
 </ui:composition>
 
