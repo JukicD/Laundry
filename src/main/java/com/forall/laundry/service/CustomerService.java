@@ -57,6 +57,7 @@ public class CustomerService {
     
     public void update(Customer customer){
         em.merge(customer);
+        logger.info("Customer successfully updated! " + customer.toString());
     }
     
 
@@ -65,7 +66,6 @@ public class CustomerService {
       return em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.order_id = o.order_id")
                         .setParameter("id", customer.getId())
                         .getResultList();
-        
     }
 
     public Ordery getCurrentOrder(Customer customer) {

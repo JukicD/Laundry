@@ -109,10 +109,11 @@ public class Item implements Serializable {
     public Product getItem_product() {
         return item_product;
     }
-    
-    
-    
 
+    public void setSinglePrice(BigDecimal singlePrice) {
+        this.singlePrice = singlePrice;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

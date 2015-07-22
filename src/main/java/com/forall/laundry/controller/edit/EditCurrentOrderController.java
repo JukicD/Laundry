@@ -51,7 +51,6 @@ public class EditCurrentOrderController implements Serializable{
          Item i = itemService.find(item.getItem_id());
         Product p = i.getItem_product();
         p.setName(item.getName());
-        System.out.println("TEST " + p.getName());
         i.setItem_product(p);
         productService.update(p);
     }

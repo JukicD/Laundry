@@ -5,6 +5,7 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.controller.edit.EditController;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
@@ -25,8 +26,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import net.sf.jasperreports.engine.JRException;
@@ -43,7 +44,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class OrderyController implements Serializable{
     
     @Inject
@@ -67,14 +68,15 @@ public class OrderyController implements Serializable{
     @EJB
     private CustomerService customerService;
     
+    @Inject
+    EditController editController;
+    
     public void addItem(){
         
-        try {
+       
             Customer customer = userController.getCustomer();
             Ordery order = userController.getCurrentOrder();
-            
             order.setCustomer(customer);
-            
             customerService.update(customer);
             
             item.setOrdery(order);
@@ -87,10 +89,9 @@ public class OrderyController implements Serializable{
             
             product.setName(null);
             item.setAmount(0);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerMain.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            product.setPrice(null);
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerMain.xhtml");
+            editController.init();
     }
     
     public void finishOrder(){
@@ -118,6 +119,7 @@ public class OrderyController implements Serializable{
          
             customerService.update(customer);
             orderyService.save(o);
+            
             FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerList.xhtml");
         } catch (JRException | SQLException | IOException ex) {
             Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,6 +3,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 template="/templates/template.xhtml">
     
     
@@ -26,11 +27,20 @@
                 <h:outputLabel value="Leihwäsche:" for="borrowed"/>
                 <p:selectBooleanCheckbox id="borrowed" value="#{orderyController.item.borrowed}" />
                 
-                <p:commandButton id="saveButton" action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
+                <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
-                                 actionListener="#{growlController.saveMessage}" >
-                    <f:ajax execute="@form" render="msgs"/>
+                                 actionListener="#{growlController.saveMessage}"
+                                 ajax="true"
+                                 update="@form"
+                                 resetValues="@form">
+                    
                 </p:commandButton>
+                 <pe:blockUI widgetVar="blockUIWidget">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                        <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                    </h:panelGrid>
+                </pe:blockUI>
             </h:panelGrid>
     
             <p:separator/>
@@ -56,7 +66,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="nameInput" value="#{item.name}">
-                                <f:ajax execute="nameInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                                <f:ajax execute="nameInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -69,7 +79,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="amountInput" value="#{item.amount}">
-                                <f:ajax execute="amuntInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                                <f:ajax execute="amuntInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -81,8 +91,9 @@
                             <h:outputText value="#{item.singlePrice}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <h:inputText id="singlpriceInput" value="#{item.singlePrice}">
-                                <f:ajax execute="singlepriceInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                            <h:inputText id="singlepriceInput" value="#{item.singlePrice}">
+                                <f:converter converterId="javax.faces.BigDecimal" />
+                                <f:ajax execute="singlepriceInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -92,7 +103,12 @@
                             <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true" rendered="#{not empty userController.items}"/>
+            <p:commandButton 
+                value="Rechnung abschließen" 
+                action="#{orderyController.finishOrder}" 
+                immediate="true" 
+                rendered="#{not empty userController.items}"
+                onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
         </h:form>
             
     </ui:define>
