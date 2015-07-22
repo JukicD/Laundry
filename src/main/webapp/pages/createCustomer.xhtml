@@ -9,9 +9,10 @@
     <ui:define name="content">
         
         <h:form id="customerInput">
-            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
+            
             <p:growl sticky="false" life="3500" showDetail="false"/>
-                
+            <p:ajaxStatus>
+               
             <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
                 
                 <h:outputLabel id="label" for="name" value="Kunde:"/>
@@ -38,7 +39,7 @@
                 <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
                                   actionListener="#{growlController.saveMessage}" ajax="true" 
                                   onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" styleClass="save-button">
-                    <p:resetInput target="customer_grid" />
+                    
                 </p:commandButton>
                     
                 <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true"/>
@@ -49,6 +50,7 @@
                     </h:panelGrid>
                 </pe:blockUI>
             </h:panelGrid>
+                </p:ajaxStatus>
         </h:form>
     </ui:define>
 </ui:composition>

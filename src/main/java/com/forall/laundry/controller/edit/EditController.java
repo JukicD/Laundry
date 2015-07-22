@@ -1,14 +1,15 @@
 package com.forall.laundry.controller.edit;
 
 import com.forall.laundry.controller.OldOrdersController;
+import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.Item;
-import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,23 +27,27 @@ public class EditController implements Serializable{
     @Inject
     private OldOrdersController oc;
     
+    @Inject
+    private UserController userController;
+    
     private List<Item> items;
     
     @PostConstruct
     public void init(){
-        items = itemService.getItemsFrom(oc.getOrder());
+        
+        String viewID = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        
+        if(viewID.equals("/pages/customerMain.xhtml")){
+            items = userController.getItems();
+        }else if(viewID.equals("/pages/orders.xhtml")){
+            items = itemService.getItemsFrom(userController.getCurrentOrder());
+        }
     }
     
     public void onCellEdit(Item item) {
         
-        Item i = itemService.find(item.getItem_id());
-        Product p = i.getItem_product();
-        p.setName(item.getName());
-        System.out.println("TEST " + p.getName());
-        i.setItem_product(p);
-        productService.update(p);
-        
-        
+        productService.update(item.getItem_product());
+        itemService.update(item);
     }
 
     public ItemService getItemService() {
@@ -76,4 +81,14 @@ public class EditController implements Serializable{
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
+
+    public UserController getUserController() {
+        return userController;
+    }
+
+    public void setUserController(UserController userController) {
+        this.userController = userController;
+    }
+    
+    
 }

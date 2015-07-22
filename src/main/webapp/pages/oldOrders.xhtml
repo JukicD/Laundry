@@ -33,10 +33,11 @@
                 </p:column>
                 
                 <p:column>
-                    <p:commandButton value="Rechnung" action="#{oldOrdersController.getBill(order)}"/>
+                    <p:selectBooleanCheckbox />
                 </p:column>
             </p:dataTable>
-            
+            <p:separator/>
+            <p:commandButton value="Lieferschein erstellen" action="#{oldOrdersController.getBill(order)}"/>
         </h:form>
     </ui:define>
 </ui:composition>

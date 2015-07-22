@@ -10,7 +10,7 @@
         <h:outputLabel value="Lieferung für: #{userController.customer.name}"/>
         <p:separator/>
         <h:form id="customerMain">
-            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
+            
             <p:growl showDetail="false" sticky="false" life="3500" showSummary="true"/>
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 
@@ -21,46 +21,80 @@
                 <p:inputText id="amount" value="#{orderyController.item.amount}" required="true" requiredMessage="Stückzahl eingeben!"/>
                 
                 <h:outputLabel for="product_price" value="Preis/Stück:"/>
-                <p:inputText id="product_price" value="#{orderyController.product.price}">
-                </p:inputText>
+                <p:inputText id="product_price" value="#{orderyController.product.price}"/>
                 
-                <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
+                <h:outputLabel value="Leihwäsche:" for="borrowed"/>
+                <p:selectBooleanCheckbox id="borrowed" value="#{orderyController.item.borrowed}" />
+                
+                <p:commandButton id="saveButton" action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
                                  icon="ui-icon-check"
-                                 actionListener="#{growlController.saveMessage}" update="itemTable" ajax="true">
-                    
+                                 actionListener="#{growlController.saveMessage}" 
+                                 ajax="true" 
+                                 update=":customerMain:itemTable">
                 </p:commandButton>
             </h:panelGrid>
+    
             <p:separator/>
-            <p:dataTable id="itemTable" var="item" value="#{userController.items}"
-                         style="size: 30px" resizableColumns="true"
-                         rendered="#{not empty userController.items}" editable="true">
-                
+            
+            <p:dataTable widgetVar="itmtbl" id="itemTable"
+                         value="#{editController.items}" var="item"
+                         style="size: 30px"
+                         resizableColumns="true"
+                         rendered="#{not empty userController.items}"
+                         editable="true"
+                         editMode="cell">
+            
                 <f:facet name="customerHeader">
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}" />
                     </p:outputPanel>
                 </f:facet>
                 
-                <p:column  headerText="Auftrag">
-                    <h:outputText value="#{item.name}"/>
+                <p:column  headerText="Ware">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.name}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="nameInput" value="#{item.name}">
+                                <f:ajax execute="nameInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="Gegenstand">
-                    <h:outputText value="#{item.item_id}" />
+                <p:column  headerText="Anzahl">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.amount}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="amountInput" value="#{item.amount}">
+                                <f:ajax execute="amuntInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 
-                <p:column  headerText="Status">
-                    <h:outputText value="#{item.borrowed}" />
+                <p:column  headerText="Einzelpreis">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.singlePrice}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="singlpriceInput" value="#{item.singlePrice}">
+                                <f:ajax execute="singlepriceInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:customerMain:itemTable"/>
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="Stück" >
-                    <h:outputText value="#{item.amount}">
-                        <f:converter converterId="javax.faces.Integer" />
-                    </h:outputText>
+                <p:column  headerText="Summe">
+                            <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true" rendered="#{not empty userController.items}"/>
         </h:form>
+            <p:commandButton value="Rechnung abschließen" action="#{orderyController.finishOrder}" immediate="true" rendered="#{not empty userController.items}"/>
     </ui:define>
 </ui:composition>
 

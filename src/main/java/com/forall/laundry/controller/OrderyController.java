@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import net.sf.jasperreports.engine.JRException;
@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  * @author jd
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class OrderyController implements Serializable{
     
     @Inject
@@ -93,7 +93,7 @@ public class OrderyController implements Serializable{
             Customer customer = userController.getCustomer();
             order.setDate(new Date());
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
              JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
@@ -108,8 +108,6 @@ public class OrderyController implements Serializable{
             orderyService.save(order);
             
             Ordery o = new Ordery();
-            
-            
             o.setCustomer(customer);
          
             customerService.update(customer);

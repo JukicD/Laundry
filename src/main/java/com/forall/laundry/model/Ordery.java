@@ -46,6 +46,9 @@ public class Ordery implements Serializable {
     @Type(type = "org.hibernate.type.BinaryType")
     @Basic
     private byte[] bill;
+    
+    @Basic
+    private boolean partOfBill;
 
     public Ordery() {
        items = new ArrayList<>();
@@ -101,6 +104,16 @@ public class Ordery implements Serializable {
     public void setBill(byte[] bill) {
         this.bill = bill;
     }
+
+    public boolean isPartOfBill() {
+        return partOfBill;
+    }
+
+    public void setPartOfBill(boolean partOfBill) {
+        this.partOfBill = partOfBill;
+    }
+    
+    
     
     
 
