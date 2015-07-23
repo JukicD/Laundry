@@ -32,9 +32,9 @@
                                  actionListener="#{growlController.saveMessage}"
                                  ajax="true"
                                  update="@form"
-                                 resetValues="@form">
-                    
+                                 resetValues=":customerMain">
                 </p:commandButton>
+                
                  <pe:blockUI widgetVar="blockUIWidget">
                     <h:panelGrid columns="2">
                         <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
@@ -42,10 +42,10 @@
                     </h:panelGrid>
                 </pe:blockUI>
             </h:panelGrid>
-    
+        
             <p:separator/>
             
-            <p:dataTable widgetVar="itmtbl" id="itemTable"
+            <p:dataTable id="itemTable"
                          value="#{editController.items}" var="item"
                          style="size: 30px"
                          resizableColumns="true"
@@ -103,6 +103,7 @@
                             <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
+            
             <p:commandButton 
                 value="Rechnung abschließen" 
                 action="#{orderyController.finishOrder}" 
@@ -110,7 +111,6 @@
                 rendered="#{not empty userController.items}"
                 onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
         </h:form>
-            
     </ui:define>
 </ui:composition>
 

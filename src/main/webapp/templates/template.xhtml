@@ -14,9 +14,10 @@
         </h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title> Laundry </title>
-            
+        
         <h:body>
             <ui:debug/>
+            
             <p:layout fullPage="true" resizeTitle="resize">
                 
                 <p:layoutUnit position="north" size="60" id="north">
@@ -28,19 +29,13 @@
                 </p:layoutUnit>
                     
                 <p:layoutUnit position="east" id="east" resizable="true" closable="true" collapsible="true"  size="230">
-                    <p:layout>
-                        
-                        <p:layoutUnit position="center" size="100" styleClass="east-panel">
-                                <p:calendar mode="inline" navigator="none"/>
-                        </p:layoutUnit>
-                        
-                    </p:layout>
+                    <ui:insert name="east-content"/>
                 </p:layoutUnit>
-                
+                    
                 <p:layoutUnit position="center" id="centerLayout">
                     
-                        <ui:insert name="content"/>
-                   
+                    <ui:insert name="content"/>
+                        
                 </p:layoutUnit>
                     
                 <p:layoutUnit position="south" resizable="true" id="south">

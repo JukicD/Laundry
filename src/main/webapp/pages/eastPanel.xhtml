@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:define name="metadata"/>
+    <ui:define name="east-content">
+        
+            <h:form id="eastPanelForm">
+            <p:calendar mode="inline" navigator="none" value="#{dateController.date}">
+                <p:ajax event="dateSelect" listener="#{dateController.onDateSelect}" update="@form"/>
+            </p:calendar>
+            <h:outputText value="#{dateController.date}" id="out"/>
+        </h:form>
+    </ui:define>    
+</ui:composition>

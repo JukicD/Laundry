@@ -10,7 +10,8 @@
         
         <h:form id="oldOrdersList">
             <p:dataTable id="orderTable" var="order" value="#{orderyController.oldOrders}"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
+                         emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true"
+                         scrollable="true" scrollHeight="525">
                 
                 <f:facet name="header">
                     <p:outputPanel>
@@ -33,7 +34,7 @@
                 </p:column>
                 
                 <p:column>
-                    <p:selectBooleanCheckbox />
+                    <p:selectBooleanCheckbox value="#{oldOrdersController.order.partOfBill}" />
                 </p:column>
             </p:dataTable>
             <p:separator/>
