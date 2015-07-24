@@ -13,7 +13,7 @@
         <h:form id="customerMain">
             
             <p:growl id="msgs" showDetail="false" sticky="false" life="3500" showSummary="true"/>
-            <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
+            <h:panelGrid id="itemGrid" columns="2" cellpadding="5" cellspacing="1">
                 
                 <h:outputLabel for="productName" value="Gegenstand:"/>         
                 <p:inputText id="productName" value="#{orderyController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
@@ -32,8 +32,7 @@
                                  actionListener="#{growlController.saveMessage}"
                                  ajax="true"
                                  update="@form"
-                                 resetValues=":customerMain">
-                </p:commandButton>
+                                 process="@form"/>
                 
                  <pe:blockUI widgetVar="blockUIWidget">
                     <h:panelGrid columns="2">
@@ -79,7 +78,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="amountInput" value="#{item.amount}">
-                                <f:ajax execute="amuntInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
+                                <f:ajax execute="amountInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -109,7 +108,8 @@
                 action="#{orderyController.finishOrder}" 
                 immediate="true" 
                 rendered="#{not empty userController.items}"
-                onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+                onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                update="@form"/>
         </h:form>
     </ui:define>
 </ui:composition>

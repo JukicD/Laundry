@@ -30,12 +30,12 @@ public class LaundryBill {
             
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             
-            String path = "/home/jd/Desktop/test.pdf";
+            
             
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/model/Rechnung.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             JasperPrint print = JasperFillManager.fillReport(report, null, con);
-            
+            String path = "/home/jd/Desktop/test.pdf";
             JasperExportManager.exportReportToPdfFile(print, path);
             
             

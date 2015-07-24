@@ -57,10 +57,11 @@ public class OrderyController implements Serializable{
     private CustomerService customerService;
     
     @EJB
-    BillingService billingService;
+    private BillingService billingService;
     
     @Inject
     EditController editController;
+    
     
     public void addItem(){
         

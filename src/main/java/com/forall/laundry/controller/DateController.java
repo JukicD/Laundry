@@ -5,6 +5,7 @@
  */
 package com.forall.laundry.controller;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
@@ -13,22 +14,14 @@ import org.primefaces.event.SelectEvent;
  *
  * @author jd
  */
-
 @Named
-public class DateController {
+public class DateController implements Serializable{
     
+    public void update(SelectEvent event){
+        
+        Date date = (Date) event.getObject();
+        System.out.println(date);
+        
+    }
     
-    private Date date;
-    
-    public void onDateSelect(SelectEvent event){
-        System.out.println("TEST");
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

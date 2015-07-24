@@ -35,7 +35,14 @@ public class ItemService {
     }
     
     public void save(Item item){
-        em.persist(item);
+        try{
+            em.persist(item);
+            logger.info("ITEM SUCCESSFULLY CREATED! " + item.toString());
+        }catch (Exception e){
+            logger.error("ERROR CREATING ITEM ! " + item.toString());
+        
+    }
+        
     }
     
     public void update(Item item){

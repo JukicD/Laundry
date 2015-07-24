@@ -29,7 +29,7 @@ public class Item implements Serializable {
     @Column(unique=true,updatable=false,insertable=false,nullable=false)
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long item_id;
+    private Integer item_id;
     
     @Column(nullable=false)
     @Basic(fetch=FetchType.LAZY)
@@ -74,7 +74,7 @@ public class Item implements Serializable {
         this.amount = amount;
     }
    
-    public Long getItem_id() {
+    public Integer getItem_id() {
         return this.item_id;
     }
    
@@ -134,5 +134,10 @@ public class Item implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", borrowed=" + borrowed + ", item_product=" + item_product + ", sum=" + sum + ", name=" + name + ", singlePrice=" + singlePrice + '}';
     }
 }
