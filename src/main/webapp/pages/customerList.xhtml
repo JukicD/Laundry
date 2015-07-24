@@ -10,28 +10,31 @@
         
         
         <h:form id="customerList">
+            <p:contextMenu for="customerTable">
+                <p:menuitem value="Aktueller Auftrag" icon="ui-icon-search" url="/pages/customerMain.xhtml"/>
+                <p:menuitem value="Vergangene Aufträge" icon="ui-icon-close" url="/pages/oldOrders.xhtml"/>
+                <p:menuitem value="Bearbeiten" icon="ui-icon-close" url="/pages/updateCustomer.xhtml"/>
+            </p:contextMenu>
             
-            <p:growl sticky="false" life="3500" showDetail="false"/>
-            <p:dataTable id="customerTable" var="customer" value="#{customerFilter.customers}" resizableColumns="true" widgetVar="customersList" tableStyle="width: auto"
-                         emptyMessage="Keine Kunden vorhanden!" filteredValue="#{customerFilter.filteredCustomers}" rendered='#{not empty customerFilter.customers}' style="margin-left: auto; margin-right: auto; margin: 0; padding: 0;">
+            <p:dataTable id="customerTable" 
+                         var="customer" value="#{customerFilter.customers}" 
+                         resizableColumns="true" 
+                         widgetVar="customersList" 
+                         tableStyle="width: auto"
+                         emptyMessage="Keine Kunden vorhanden!" 
+                         filteredValue="#{customerFilter.filteredCustomers}" 
+                         rendered='#{not empty customerFilter.customers}' style="margin-left: auto; margin-right: auto; margin: 0; padding: 0;"
+                         rowKey="#{customer.id}"
+                         selection="#{customerSelectionController.selectedCustomer}"
+                         selectionMode="single">
+                <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+                
                 <p:column filterBy="#{customer.name}" headerText="Kunde" style="width: 300px" filterMatchMode="contains">
                     
                     <h:outputText value="#{customer.name}" />
                                   
                 </p:column>
-                   
-                <p:column>
-                    <p:commandButton value="Aktuelle Lieferung" action="#{userController.setup(customer, '/pages/customerMain.xhtml')}" immediate="true"/>
-                </p:column>
-                    
-                <p:column>
-                    <p:commandButton value="Vergangene Lieferungen" action="#{userController.setup(customer, '/pages/oldOrders.xhtml')}" immediate="true"/>
-                </p:column>
-                    
-                <p:column>
-                    <p:commandButton value="Bearbeiten" action="#{userController.setup(customer, '/pages/updateCustomer.xhtml')}" immediate="true" />
-                </p:column>
-                    
+                       
             </p:dataTable>
         </h:form>
     </ui:define>

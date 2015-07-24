@@ -8,9 +8,10 @@ package com.forall.laundry.controller.selection;
 import com.forall.laundry.controller.OrderyController;
 import com.forall.laundry.model.Ordery;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
@@ -21,7 +22,7 @@ import org.primefaces.event.UnselectEvent;
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class OrderySelectionController implements Serializable{
     
     @Inject
@@ -43,6 +44,10 @@ public class OrderySelectionController implements Serializable{
     public void onRowUnselect(UnselectEvent event) {
         
         System.out.println("REMOVE ORDER");
+    }
+    
+    public void unselectAll(){
+        selectedOrders = new ArrayList<>();
     }
 
     public List<Ordery> getSelectedOrders() {

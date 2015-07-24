@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.forall.laundry.service;
 
 import com.forall.laundry.model.Customer;
@@ -35,11 +35,16 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 public class BillingService {
     
     @EJB
-    OrderyService orderyService;
+            OrderyService orderyService;
     
     public void createBill(Customer customer, List<Ordery> orders) throws JRException{
-  
+        assert(!orders.isEmpty());
+        
         try {
+            if(orders.isEmpty()){
+                throw new IllegalArgumentException("No Orders selected !");
+            }
+            
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
@@ -56,6 +61,8 @@ public class BillingService {
             JasperExportManager.exportReportToPdfFile(print, path);
         } catch (SQLException ex) {
             Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException e){
+            
         }
     }
     
