@@ -10,19 +10,15 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;
+import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.ProductService;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -30,14 +26,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
@@ -68,12 +56,15 @@ public class OrderyController implements Serializable{
     @EJB
     private CustomerService customerService;
     
+    @EJB
+    private BillingService billingService;
+    
     @Inject
     EditController editController;
     
+    
     public void addItem(){
         
-       
             Customer customer = userController.getCustomer();
             Ordery order = userController.getCurrentOrder();
             order.setCustomer(customer);
@@ -99,18 +90,6 @@ public class OrderyController implements Serializable{
             Customer customer = userController.getCustomer();
             order.setDate(new Date());
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
-             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
-            JasperReport report = JasperCompileManager.compileReport(design);
-            
-            Map parameter = new HashMap();
-            parameter.put("customer_id_param", customer.getId());
-            JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
-            
-          
-            byte[] bill =  JasperExportManager.exportReportToPdf(print);
-            
-            order.setBill(bill);
             orderyService.save(order);
             
             Ordery o = new Ordery();
@@ -120,7 +99,7 @@ public class OrderyController implements Serializable{
             orderyService.save(o);
             
             FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerList.xhtml");
-        } catch (JRException | SQLException | IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

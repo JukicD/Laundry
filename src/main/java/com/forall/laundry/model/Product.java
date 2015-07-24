@@ -35,7 +35,6 @@ public class Product implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-        
     }
 
     public String getName() {

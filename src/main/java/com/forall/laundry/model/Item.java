@@ -135,4 +135,9 @@ public class Item implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", borrowed=" + borrowed + ", item_product=" + item_product + ", sum=" + sum + ", name=" + name + ", singlePrice=" + singlePrice + '}';
+    }
 }

@@ -33,6 +33,7 @@
                                  ajax="true"
                                  update="@form"
                                  process="@form"/>
+                
                  <pe:blockUI widgetVar="blockUIWidget">
                     <h:panelGrid columns="2">
                         <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
@@ -77,7 +78,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="amountInput" value="#{item.amount}">
-                                <f:ajax execute="amuntInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
+                                <f:ajax execute="amountInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -106,7 +107,8 @@
                 action="#{orderyController.finishOrder}" 
                 immediate="true" 
                 rendered="#{not empty userController.items}"
-                onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+                onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                update="@form"/>
         </h:form>
             
     </ui:define>

@@ -33,15 +33,25 @@
                             <h:outputText value="#{item.name}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <h:inputText id="modelInput" value="#{item.name}">
-                                <f:ajax execute="modelInput" event="change" listener="#{editController.onCellEdit(item)}" render=":mainForm:lastOrders:orders"/>
+                            <h:inputText id="productInput" value="#{item.name}">
+                                <f:ajax execute="productInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="Anzahl">
-                    <h:outputText value="#{item.amount}"/>
+                <p:column  headerText="Anzahl">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.amount}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="amntnpt" value="#{item.amount}">
+                                <f:converter converterId="javax.faces.Integer" />
+                                <f:ajax execute="amntnpt" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 
                 <p:column headerText="Einzelpreis">

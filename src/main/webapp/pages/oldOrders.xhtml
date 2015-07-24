@@ -10,14 +10,15 @@
         
         <h:form id="oldOrdersList">
             <p:dataTable id="orderTable" var="order" value="#{orderyController.oldOrders}"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true">
+                         emptyMessage="Der Kunde hat noch keine Aufträge!" filteredValue="" style="size: 30px" resizableColumns="true"
+                         selection="#{orderySelectionController.selectedOrders}" rowKey="#{order.order_id}">
                 
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}"/>
                     </p:outputPanel>
                 </f:facet>
-                
+                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
                 <p:column  headerText="#">
                     <h:outputText value="#{order.order_id}"/>
                 </p:column>
@@ -32,9 +33,7 @@
                     <p:commandButton value="Lieferung ansehen" action="#{oldOrdersController.setup(order)}"/>
                 </p:column>
                 
-                <p:column>
-                    <p:selectBooleanCheckbox />
-                </p:column>
+                
             </p:dataTable>
             <p:separator/>
             <p:commandButton value="Lieferschein erstellen" action="#{oldOrdersController.getBill(order)}"/>
