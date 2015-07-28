@@ -117,8 +117,6 @@ public class Customer implements Serializable, Comparable<Customer> {
         this.zipCode = zipCode;
     }
     
-    
-
     @Override
     public int hashCode() {
         int hash = 3;

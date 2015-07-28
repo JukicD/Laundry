@@ -29,7 +29,7 @@ public class BillingController implements Serializable{
     private BillingService billingService;
     
     public void getBill(List<Ordery> orders, Customer customer){
-        
+        System.out.println("BILL");
         try {
             billingService.createBill(customer, orders);
         } catch (JRException ex) {

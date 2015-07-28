@@ -11,9 +11,9 @@
         
         <h:form id="customerList">
             <p:contextMenu for="customerTable">
-                <p:menuitem value="Aktueller Auftrag" icon="ui-icon-search" url="/pages/customerMain.xhtml"/>
-                <p:menuitem value="Vergangene Aufträge" icon="ui-icon-close" url="/pages/oldOrders.xhtml"/>
-                <p:menuitem value="Bearbeiten" icon="ui-icon-close" url="/pages/updateCustomer.xhtml"/>
+                <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" url="/pages/customerMain.xhtml"/>
+                <p:menuitem value="Vergangene Lieferung" icon="ui-icon-folder-collapsed" url="/pages/oldOrders.xhtml"/>
+                <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" url="/pages/updateCustomer.xhtml"/>
             </p:contextMenu>
             
             <p:dataTable id="customerTable" 
@@ -23,18 +23,17 @@
                          tableStyle="width: auto"
                          emptyMessage="Keine Kunden vorhanden!" 
                          filteredValue="#{customerFilter.filteredCustomers}" 
-                         rendered='#{not empty customerFilter.customers}' style="margin-left: auto; margin-right: auto; margin: 0; padding: 0;"
+                         rendered='#{not empty customerFilter.customers}' style="margin-left: auto; margin-right: auto; margin: 0; padding: 0;" draggableColumns="true" draggableRows="true"
                          rowKey="#{customer.id}"
                          selection="#{customerSelectionController.selectedCustomer}"
                          selectionMode="single">
+                
+                <p:ajax event="contextMenu" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
                 <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
                 
-                <p:column filterBy="#{customer.name}" headerText="Kunde" style="width: 300px" filterMatchMode="contains">
-                    
+                <p:column filterBy="#{customer.name}" sortBy="#{customer.name}" headerText="Kunde" style="width: 300px" filterMatchMode="contains">
                     <h:outputText value="#{customer.name}" />
-                                  
                 </p:column>
-                       
             </p:dataTable>
         </h:form>
     </ui:define>

@@ -3,17 +3,20 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml">
+                template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
     
     <ui:define name="metadata"/>
     <ui:define name="content">
         
         <h:form id="oldOrdersList">
-           
             
-            <p:dataTable id="orderTable" var="order" value="#{orderySelectionController.orders}"
+            <p:growl id="oldOrdersGrowl" showDetail="true"/>
+            <p:dataTable id="orderTable" 
+                         var="order" value="#{orderySelectionController.orders}"
                          emptyMessage="Der Kunde hat noch keine Aufträge!" style="size: 30px" resizableColumns="true"
-                         selection="#{orderySelectionController.selectedOrders}" rowKey="#{order.order_id}"
+                         selection="#{orderySelectionController.selectedOrders}" 
+                         rowKey="#{order.order_id}"
                          rowSelectMode="multiple"
                          scrollable="true"
                          scrollHeight="560">
@@ -42,8 +45,18 @@
                 
             </p:dataTable>
             <p:separator/>
-            <p:commandButton value="Lieferschein erstellen" 
-                             action="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"/>
+            <p:commandButton 
+                             value="Lieferschein erstellen" 
+                             action="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
+                             onclick="PF('blockUIWidget').block()" 
+                             oncomplete="PF('blockUIWidget').unblock()"
+                             update="@form"/>
+            <pe:blockUI widgetVar="blockUIWidget">
+                <h:panelGrid columns="2">
+                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                    <h:outputText value="Rechnung wird erstellt..." style="white-space: nowrap;"/>
+                </h:panelGrid>
+            </pe:blockUI>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -11,47 +11,63 @@
         <h:form id="customerInput">
             <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
             <p:growl sticky="false" life="3500" showDetail="false"/>
-               
+            <h1 style="font-size: 20px">Bezeichnung</h1>
+            <p:separator/>
             <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
                 
-                <h:outputLabel id="label" for="name" value="Kunde:"/>
-                <p:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
-                    
-                <h:outputLabel for="companyName" value="Firmenbezeichnung:"/>
-                <p:inputText id="companyName" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
-                    
-                <h:outputLabel for="customerNumber" value="Kundennummer:" />
-                <p:inputText id="customerNumber" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
-                    
-                <h:outputLabel for="address" value="Adresse:"/>
-                <p:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
-                    
-                <h:outputLabel for="zipCode" value="Postleitzahl/Ort"/>
-                <p:inputText id="zipCode" value ="#{customerController.customer.zipCode}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
-                    
-                <h:outputLabel for="eMail" value="E-Mail"/>
-                <p:inputText id="eMail" value ="#{customerController.customer.mailAddress}" required="true" requiredMessage="E-Mail eingeben!"/>
-                    
-                <h:outputLabel for="phoneNumber" value="Telefon-Nummer:"/>
-                <p:inputText id="phoneNumber" value ="#{customerController.customer.phoneNumber}" required="true" requiredMessage="Telefon-Nr eingeben!"/>
-                    
-                <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px" 
-                                  actionListener="#{growlController.saveMessage}" ajax="true" 
-                                  onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" styleClass="save-button"
-                                  update="customer_grid"
-                                  process="@form">
-                    
-                    <p:resetInput target=":customerInput:customer_grid"/>
-                </p:commandButton>
-                    
-                <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true"/>
-                <pe:blockUI widgetVar="blockUIWidget">
-                    <h:panelGrid columns="2">
-                        <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
-                        <h:outputText value="Please wait..." style="white-space: nowrap;"/>
-                    </h:panelGrid>
-                </pe:blockUI>
+                <p:outputLabel id="label" for="name" value="Kunde:"/>
+                <h:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
+                
+                <p:outputLabel for="companyName" value="Firmenbezeichnung:"/>
+                <h:inputText id="companyName" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
+                
+                <p:outputLabel for="customerNumber" value="Kundennummer:" />
+                <h:inputText id="customerNumber" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
+                
+                <p:outputLabel for="address" value="Adresse:"/>
+                <h:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
+                
+                <p:outputLabel for="zipCode" value="Postleitzahl/Ort"/>
+                <h:inputText id="zipCode" value ="#{customerController.customer.zipCode}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
+                
             </h:panelGrid>
+            <h1 style="font-size: 20px">Kontaktdaten</h1>
+            <p:separator/>
+            
+            <h:panelGrid id="contactPanel" columns="2" cellspacing="1" cellpadding="5">
+                <p:outputLabel for="eMail" value="E-Mail:"/>
+                <h:inputText id="eMail" value ="#{customerController.customer.mailAddress}"/>
+                
+                <p:outputLabel for="phoneNumber" value="Telefon-Nummer:"/>
+                <h:inputText id="phoneNumber" value ="#{customerController.customer.phoneNumber}"/>
+            </h:panelGrid>
+            
+            <h1 style="font-size: 20px">Rechnungstext</h1>
+            <p:separator/>
+            
+            <h:panelGrid>
+                <pe:ckEditor id="customerText"  toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
+                
+            </pe:ckEditor>
+            </h:panelGrid>
+            <p:separator/>
+            <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px; border-radius: 0px" 
+                              actionListener="#{growlController.saveMessage}" ajax="true" 
+                              onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" styleClass="save-button"
+                              update="customer_grid"
+                              process="@form">
+                
+                <p:resetInput target=":customerInput:customer_grid"/>
+            </p:commandButton>
+            
+            <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true" style="border-radius: 0px"/>
+            <pe:blockUI widgetVar="blockUIWidget">
+                <h:panelGrid columns="2">
+                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle" rendered="true"/>
+                    <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                </h:panelGrid>
+            </pe:blockUI>
+            
         </h:form>
     </ui:define>
 </ui:composition>

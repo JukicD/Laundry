@@ -50,7 +50,7 @@ and open the template in the editor.
     font-size: 14px!important;
 }
 
-.ui-layout-container .ui-datepicker-inline .ui-datepicker-prev .ui-datepicker-next .ui-widget-header .ui-helper-clearfix .ui-corner-all .ui-inputfield{
+.ui-layout-container .ui-datepicker-inline .ui-datepicker-prev .ui-datepicker-next .ui-widget-header .ui-helper-clearfix .ui-inputfield{
     border-radius: 0px!important;
 }
 
@@ -61,4 +61,8 @@ and open the template in the editor.
 .ui-button-text {
     font-size: 14px!important;
     font-weight: normal!important;
+}
+
+.ui-state-active {
+    color: #212121!important;
 }

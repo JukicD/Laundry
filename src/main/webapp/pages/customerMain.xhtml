@@ -26,22 +26,23 @@
                 <h:outputLabel value="Leihwäsche:" for="borrowed"/>
                 <p:selectBooleanCheckbox id="borrowed" value="#{orderyController.item.borrowed}" />
                 
-                <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
-                                 icon="ui-icon-check"
-                                 actionListener="#{growlController.saveMessage}"
-                                 ajax="true"
-                                 update="@form"
-                                 process="@form"/>
                 
-                 <pe:blockUI widgetVar="blockUIWidget">
-                    <h:panelGrid columns="2">
-                        <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
-                        <h:outputText value="Please wait..." style="white-space: nowrap;"/>
-                    </h:panelGrid>
-                </pe:blockUI>
             </h:panelGrid>
-        
             <p:separator/>
+            <p:commandButton action="#{orderyController.addItem}" value="Speichern" style="margin-right:10px"
+                             icon="ui-icon-check"
+                             actionListener="#{growlController.saveMessage}"
+                             ajax="true"
+                             update="@form"
+                             process="@form"/>
+            
+            <pe:blockUI widgetVar="blockUIWidget">
+                <h:panelGrid columns="2">
+                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                    <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                </h:panelGrid>
+            </pe:blockUI>
+            
             
             <p:dataTable id="itemTable"
                          value="#{editController.items}" var="item"
@@ -50,7 +51,7 @@
                          rendered="#{not empty userController.items}"
                          editable="true"
                          editMode="cell">
-            
+                
                 <f:facet name="customerHeader">
                     <p:outputPanel>
                         <h:outputText value="#{userController.customer.name}" />
@@ -98,12 +99,12 @@
                 </p:column>
                 
                 <p:column  headerText="Summe">
-                            <h:outputText value="#{item.sum}"/>
+                    <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
             
             <p:commandButton 
-                value="Rechnung abschließen" 
+                value="Lieferung abschließen" 
                 action="#{orderyController.finishOrder}" 
                 immediate="true" 
                 rendered="#{not empty userController.items}"

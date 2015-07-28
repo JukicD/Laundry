@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
@@ -36,18 +37,17 @@ public class OrderySelectionController implements Serializable{
         orders = orderyController.getOldOrders();
     }
     public void onRowSelect(SelectEvent event) {
-        
-         System.out.println("ADD ORDER" + selectedOrders.size());
             
     }
- 
-    public void onRowUnselect(UnselectEvent event) {
-        
-        System.out.println("REMOVE ORDER");
+    
+    public void reset(){
+        System.out.println("RESET");
+        selectedOrders = new ArrayList<>();
+        RequestContext.getCurrentInstance().update(":oldOrderList:orderTable");
     }
     
-    public void unselectAll(){
-        selectedOrders = new ArrayList<>();
+    public void onRowUnselect(UnselectEvent event) {
+    
     }
 
     public List<Ordery> getSelectedOrders() {

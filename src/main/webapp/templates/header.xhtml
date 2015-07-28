@@ -7,9 +7,33 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui">
     
+    <style type="text/css">
+        .ui-layout-north {
+            z-index:20 !important;
+            overflow:visible !important;
+            
+        }
+        
+        .ui-layout-north .ui-layout-unit-content {
+            overflow:visible !important;
+            font-size: 16px !important;
+        }
+    </style>
+    <h:form>
+        <p:menubar>
+            <p:submenu label="Kunden">
+                <p:menuitem value="Neu" icon="ui-icon-star" url="/pages/createCustomer.xhtml"/>
+                <p:menuitem value="Bestehende" icon="ui-icon-script" url="/pages/customerList.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Mitarbeiter">
+                <p:menuitem value="Neu" icon="ui-icon-star" url=""/>
+            </p:submenu>
+            <p:submenu label="Rechnungen">
+                <p:menuitem value="Übersicht"/>
+                <p:menuitem value="Einstellungen" url="/pages/billSettings.xhtml"/>
+            </p:submenu>
+        </p:menubar>
+    </h:form>
     
-        <h:outputStylesheet name="css/header.css"/>
-        <h:outputText id='header' styleClass="header-style" value="Seebacher" />
-        <h:outputText value="Wäscherei" styleClass="header-style2"/>
-   
+    
 </ui:composition>

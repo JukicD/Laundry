@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+                    
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+        
+        <h:form>
+            <h1 style="font-size: 20px">Überschrift</h1>
+            <p:separator/>
+            <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
+                <p:outputLabel for="ownName" value="Firmenbezeichnung:" style="font-size: 16px"/>
+                <h:inputText id="ownName" />
+                    
+                <p:outputLabel for="ownAddress" value="Adresse:" style="font-size: 16px"/>
+                <h:inputText id="ownAddress" />
+                    
+                <p:outputLabel for="ownUID" value="UID Nr.:" style="font-size: 16px"/>
+                <h:inputText id="ownUID" />
+                    
+            </h:panelGrid>
+            <br/>
+            <br/>
+            <h1 style="font-size: 20px">Begrüßungstext</h1>
+            <p:separator/>
+            <p:growl id="growl" showDetail="true" />
+            <pe:ckEditor id="editor" value="#{editorController.content}" toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
+                
+            </pe:ckEditor>
+             <br/>
+            <br/>
+            <h1 style="font-size: 20px">Information</h1>
+            <p:separator/>
+            <pe:ckEditor id="offers" value="#{editorController.content}" toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
+                
+            </pe:ckEditor>
+        </h:form>
+    </ui:define>
+</ui:composition>
