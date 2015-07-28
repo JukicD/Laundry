@@ -38,17 +38,28 @@
                 <p:outputLabel for="eMail" value="E-Mail:"/>
                 <h:inputText id="eMail" value ="#{customerController.customer.mailAddress}"/>
                 
-                <p:outputLabel for="phoneNumber" value="Telefon-Nummer:"/>
+                <p:outputLabel for="phoneNumber" value="Telefonnummer:"/>
                 <h:inputText id="phoneNumber" value ="#{customerController.customer.phoneNumber}"/>
             </h:panelGrid>
+            
+            <h1 style="font-size: 20px">Zusätzliche Information</h1>
+            <p:separator/>
+            
+            <h:panelGrid id="informationPanel" columns="2" cellspacing="1" cellpadding="5">
+                <p:outputLabel for="skonto" value="Skonto:"/>
+                <h:inputText id="skonto" value ="#{customerController.customer.skonto}"/>
+                
+                <p:outputLabel for="dueTime" value="Fälligkeitsdauer:"/>
+                <h:inputText id="dueTime" value ="#{customerController.customer.dueTime}"/>
+            </h:panelGrid>
+           
             
             <h1 style="font-size: 20px">Rechnungstext</h1>
             <p:separator/>
             
             <h:panelGrid>
-                <pe:ckEditor id="customerText"  toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
                 
-            </pe:ckEditor>
+                <p:editor id="greetingsEditor" widgetVar="editorWidget" width="600" value="#{customerController.customer.billingText}"/>
             </h:panelGrid>
             <p:separator/>
             <p:commandButton  action = "#{customerController.createCustomer}" value="Speichern" style="margin-right:10px; border-radius: 0px" 
@@ -67,7 +78,6 @@
                     <h:outputText value="Please wait..." style="white-space: nowrap;"/>
                 </h:panelGrid>
             </pe:blockUI>
-            
         </h:form>
     </ui:define>
 </ui:composition>

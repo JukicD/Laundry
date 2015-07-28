@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="182"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -126,7 +126,10 @@ WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.order_
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select c."name" AS customer_name, c."address" AS customer_address, i.amount AS item_amount, p."name" AS product_name, p.price AS product_price FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
+		<![CDATA[select c."name" AS customer_name, c."address" AS customer_address, i.amount AS item_amount, p."name" AS product_name, p.price AS product_price, c."billingtext" AS customer_text
+
+
+FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
 
 WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.order_id = i.ordery_id AND i.item_product_product_id = p.product_id;]]>
 	</queryString>
@@ -135,6 +138,7 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 	<field name="item_amount" class="java.lang.Integer"/>
 	<field name="product_name" class="java.lang.String"/>
 	<field name="product_price" class="java.math.BigDecimal"/>
+	<field name="customer_text" class="java.lang.String"/>
 	<group name="Waren">
 		<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
 	</group>
@@ -231,6 +235,11 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<textField>
+				<reportElement x="0" y="409" width="555" height="75" uuid="df607f4a-20c3-45c2-974a-d8a8580dbb0a"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{customer_text}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

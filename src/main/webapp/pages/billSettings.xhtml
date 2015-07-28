@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/template.xhtml"
                 xmlns:pe="http://primefaces.org/ui/extensions">
-                    
+    
     <ui:define name="metadata"/>
     <ui:define name="content">
         
@@ -15,29 +15,49 @@
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 <p:outputLabel for="ownName" value="Firmenbezeichnung:" style="font-size: 16px"/>
                 <h:inputText id="ownName" />
-                    
+                
                 <p:outputLabel for="ownAddress" value="Adresse:" style="font-size: 16px"/>
                 <h:inputText id="ownAddress" />
-                    
+                
                 <p:outputLabel for="ownUID" value="UID Nr.:" style="font-size: 16px"/>
                 <h:inputText id="ownUID" />
-                    
+                
             </h:panelGrid>
             <br/>
             <br/>
             <h1 style="font-size: 20px">Begrüßungstext</h1>
-            <p:separator/>
+            <p:separator style=""/>
             <p:growl id="growl" showDetail="true" />
-            <pe:ckEditor id="editor" value="#{editorController.content}" toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
-                
-            </pe:ckEditor>
-             <br/>
+            <h:form>           
+                <p:editor id="greetingsEditor" widgetVar="editorWidget" value="#{editorView.text}" width="600"/>
+        
+                <h:panelGrid columns="2" style="margin-top: 10px">
+                    <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
+            
+                    <p:commandButton value="Clear" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+                </h:panelGrid>
+        
+                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                    <h:outputText id="display" value="#{editorView.text}" escape="false" />
+                </p:dialog>
+            </h:form> 
+            <br/>
             <br/>
             <h1 style="font-size: 20px">Information</h1>
             <p:separator/>
-            <pe:ckEditor id="offers" value="#{editorController.content}" toolbar="[['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'SpellChecker', 'Scayt']]">
-                
-            </pe:ckEditor>
+            <h:form>           
+                <p:editor id="informationEditor" widgetVar="editorWidget" value="#{editorView.text}" width="600" style="alignment-adjust: middle"/>
+        
+                <h:panelGrid columns="2" style="margin-top: 10px">
+                    <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
+            
+                    <p:commandButton value="Clear" type="button" onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+                </h:panelGrid>
+        
+                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                    <h:outputText id="display" value="#{editorView.text}" escape="false" />
+                </p:dialog>
+            </h:form> 
         </h:form>
     </ui:define>
 </ui:composition>

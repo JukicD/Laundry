@@ -1,7 +1,7 @@
 package com.forall.laundry.model;
 
-
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,10 +23,9 @@ public class Customer implements Serializable, Comparable<Customer> {
     @NotNull
     @Basic(fetch=FetchType.LAZY)
     private String name;
-    
-    @NotNull
+     
     @Basic
-    private int customerNumber;
+    private Integer customerNumber;
     
     @Basic
     private String address;
@@ -43,7 +42,21 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Basic
     private String zipCode;
     
+    @Basic
+    private BigDecimal skonto;
+    
+    @Basic
+    private int dueTime;
+    
+    @Basic
+    private String billingText;
+    
+    @Basic
+    private boolean isActive;
+    
     public Customer() {
+        isActive = true;
+        customerNumber = 0;
         
     }
     
@@ -115,6 +128,38 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getBillingText() {
+        return billingText;
+    }
+
+    public void setBillingText(String billingText) {
+        this.billingText = billingText;
+    }
+
+    public BigDecimal getSkonto() {
+        return skonto;
+    }
+
+    public void setSkonto(BigDecimal skonto) {
+        this.skonto = skonto;
+    }
+
+    public int getDueTime() {
+        return dueTime;
+    }
+
+    public void setDueTime(int dueTime) {
+        this.dueTime = dueTime;
     }
     
     @Override

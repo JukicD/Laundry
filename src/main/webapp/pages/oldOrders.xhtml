@@ -19,7 +19,8 @@
                          rowKey="#{order.order_id}"
                          rowSelectMode="multiple"
                          scrollable="true"
-                         scrollHeight="560">
+                         scrollHeight="560"
+                         tableStyle="width:auto; height:auto">
                 
                 <f:facet name="header">
                     <p:outputPanel>
@@ -39,14 +40,18 @@
                     </h:outputText>
                 </p:column>
                 
+                <p:column width="">
+                    <p:commandButton icon="ui-icon-clipboard" action="#{oldOrdersController.setup(order)}"/>
+                </p:column>
                 <p:column>
-                    <p:commandButton value="Lieferung ansehen" action="#{oldOrdersController.setup(order)}"/>
+                    <p:commandButton icon="ui-icon-pencil" action="#{oldOrdersController.setup(order)}"/>
                 </p:column>
                 
             </p:dataTable>
             <p:separator/>
             <p:commandButton 
-                             value="Lieferschein erstellen" 
+                             value="Lieferschein erstellen"
+                             icon="ui-icon-print"
                              action="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
                              onclick="PF('blockUIWidget').block()" 
                              oncomplete="PF('blockUIWidget').unblock()"
