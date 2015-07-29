@@ -111,7 +111,7 @@ public class Item implements Serializable {
     }
 
     public void setSinglePrice(BigDecimal singlePrice) {
-        this.singlePrice = singlePrice;
+        item_product.setPrice(singlePrice);
     }
     
     @Override

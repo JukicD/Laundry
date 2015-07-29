@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="182"/>
+	<property name="ireport.y" value="175"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -126,10 +126,11 @@ WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.order_
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select c."name" AS customer_name, c."address" AS customer_address, i.amount AS item_amount, p."name" AS product_name, p.price AS product_price, c."billingtext" AS customer_text
+		<![CDATA[SELECT c."name" AS customer_name, c."address" AS customer_address, i.amount AS item_amount, p."name" AS product_name, p.price AS product_price, c."billingtext" AS customer_text, b.ownname AS bill_ownname, b.address AS bill_address, b.uid AS bill_uid,
+b.information AS own_information, b.welcome AS own_welcome, c."zipcode" AS customer_zip
 
 
-FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
+FROM "public".customer c, "public".item i, "public".ordery o, "public".product p, "public".bill b
 
 WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.order_id = i.ordery_id AND i.item_product_product_id = p.product_id;]]>
 	</queryString>
@@ -139,6 +140,12 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 	<field name="product_name" class="java.lang.String"/>
 	<field name="product_price" class="java.math.BigDecimal"/>
 	<field name="customer_text" class="java.lang.String"/>
+	<field name="bill_ownname" class="java.lang.String"/>
+	<field name="bill_address" class="java.lang.String"/>
+	<field name="bill_uid" class="java.lang.String"/>
+	<field name="own_information" class="java.lang.String"/>
+	<field name="own_welcome" class="java.lang.String"/>
+	<field name="customer_zip" class="java.lang.String"/>
 	<group name="Waren">
 		<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
 	</group>
@@ -146,41 +153,25 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="496" splitType="Stretch">
+		<band height="425" splitType="Stretch">
 			<staticText>
-				<reportElement x="35" y="59" width="84" height="12" uuid="efd952bd-8252-4363-8734-03f8b84f39cb"/>
-				<text><![CDATA[Otto Seebacher]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="37" y="71" width="109" height="13" uuid="08b80dd4-1fc4-4446-ac40-efe8575b6496"/>
-				<text><![CDATA[Gründbergstraße 91]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="37" y="84" width="55" height="13" uuid="24d71f8a-99cf-49c4-a3fa-4a08a422acbf"/>
-				<text><![CDATA[4040 Linz]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="421" y="97" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
+				<reportElement x="398" y="77" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
 				<text><![CDATA[Kunde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="421" y="110" width="127" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
+				<reportElement x="398" y="90" width="127" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
 				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="421" y="120" width="127" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
+				<reportElement x="398" y="100" width="127" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
 				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="448" y="0" width="100" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
+				<reportElement x="425" y="0" width="100" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="35" y="0" width="198" height="47" uuid="0117a0e1-646e-4ef6-a96a-b3132c9c8cfb"/>
-				<imageExpression><![CDATA["/home/jd/NetBeansProjects/Laundry/src/main/webapp/resources/images/seebacher.png"]]></imageExpression>
-			</image>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="179" width="555" height="213" uuid="7d437c53-28b3-4585-a4dc-e0d05820ec7b"/>
+				<reportElement key="table 3" style="table 3" x="36" y="198" width="489" height="94" uuid="7d437c53-28b3-4585-a4dc-e0d05820ec7b"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Laundry" uuid="9db050fe-b5fc-4320-a7ce-f9b5aaaa84e9">
 						<datasetParameter name="item_ids">
@@ -236,9 +227,38 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="0" y="409" width="555" height="75" uuid="df607f4a-20c3-45c2-974a-d8a8580dbb0a"/>
+				<reportElement x="150" y="0" width="213" height="13" uuid="d027b8a0-3d4b-4079-a746-0cb85cb784d0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{bill_ownname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="13" width="213" height="13" uuid="7fcf66e5-5b7b-4721-8bdd-b9c9a5ae5753"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{bill_address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="26" width="213" height="13" uuid="7fba618c-f1ad-4a1c-9bb8-c2deeacfad3e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["UID: " + $F{bill_uid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="166" width="489" height="32" uuid="b42cb9d8-f296-4929-bd06-d0fc36cf8e2d"/>
 				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{own_welcome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="112" width="127" height="14" uuid="342dd538-361d-4031-b345-6a43c5f9c7a2"/>
+				<textFieldExpression><![CDATA[$F{customer_zip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="292" width="489" height="49" uuid="df607f4a-20c3-45c2-974a-d8a8580dbb0a"/>
+				<textElement textAlignment="Center" markup="html"/>
 				<textFieldExpression><![CDATA[$F{customer_text}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="341" width="489" height="84" uuid="febd26fa-5af3-4e0e-898e-cc3a32408282"/>
+				<textElement textAlignment="Center" markup="html"/>
+				<textFieldExpression><![CDATA[$F{own_information}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -246,7 +266,7 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnFooter>
-		<band height="24" splitType="Stretch">
+		<band height="27" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="fdc6678a-5edb-4ecf-b259-31e5c85d88e2"/>
 				<graphicElement>
@@ -258,12 +278,12 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="435" y="0" width="80" height="20" uuid="5485c343-415b-45cd-a20e-701ef36c387b"/>
+				<reportElement x="405" y="0" width="80" height="20" uuid="5485c343-415b-45cd-a20e-701ef36c387b"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="515" y="0" width="40" height="20" uuid="31d0d118-1ed7-4d35-a98c-60fcd5a8dbac"/>
+				<reportElement x="485" y="0" width="40" height="20" uuid="31d0d118-1ed7-4d35-a98c-60fcd5a8dbac"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>

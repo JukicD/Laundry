@@ -36,6 +36,9 @@
                              update="@form"
                              process="@form"/>
             
+            <br/>
+            <br/>
+            
             <pe:blockUI widgetVar="blockUIWidget">
                 <h:panelGrid columns="2">
                     <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
@@ -91,7 +94,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="singlepriceInput" value="#{item.singlePrice}">
-                                <f:converter converterId="javax.faces.BigDecimal" />
+                                
                                 <f:ajax execute="singlepriceInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
@@ -102,7 +105,7 @@
                     <h:outputText value="#{item.sum}"/>
                 </p:column>
             </p:dataTable>
-            
+            <br/>
             <p:commandButton 
                 value="Lieferung abschließen" 
                 action="#{orderyController.finishOrder}" 
@@ -113,5 +116,3 @@
         </h:form>
     </ui:define>
 </ui:composition>
-
-

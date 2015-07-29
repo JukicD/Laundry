@@ -5,6 +5,8 @@
 */
 package com.forall.laundry.service;
 
+import com.forall.laundry.logger.AppLogger;
+import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import java.sql.Connection;
@@ -18,6 +20,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.RollbackException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -35,7 +41,28 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 public class BillingService {
     
     @EJB
-            OrderyService orderyService;
+    OrderyService orderyService;
+    
+    
+    @PersistenceContext
+    EntityManager em;
+    
+    @Inject
+    AppLogger logger;
+    
+    public void save(Bill bill){
+        try{
+            em.merge(bill);
+            logger.info("Bill Saved!");
+        }catch (RollbackException e){
+            logger.error("ERROR ! Bill was not saved !");
+        }
+    }
+    
+    public Bill getBill(Bill bill){
+        return em.find(Bill.class, 8);
+    }
+    
     
     public void createBill(Customer customer, List<Ordery> orders) throws JRException{
         assert(!orders.isEmpty());

@@ -1,22 +1,46 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	template="/templates/template.xhtml">
-	<ui:define name="metadata">
-	</ui:define>
-	<ui:define name="content">
-		<h:form>
-    
-        <p:messages autoUpdate="true"/>
- 
-        <h:panelGrid id="grid" columns="1" cellpadding="5">
-            <p:commandButton action = "#{workerController.redirectToAddWorker}" value="Mitarbeiter anlegen" style="margin-right:10px" />
-            <p:commandButton action = "#{workerController.redirectToMaintainWorker}" value="Mitarbeiter verwalten" ajax="false" style ="margin-right:10px" />
-        </h:panelGrid>
-</h:form>
-	</ui:define>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content">
+        
+            
+            <h:form id="workerMain">
+            
+            <p:growl id="msgsWorker" showDetail="false" sticky="false" life="3500" showSummary="true"/>
+            <h:panelGrid id="workerGrid" columns="2" cellpadding="5" cellspacing="1">
+                
+                <h:outputLabel for="firstName" value="Vorname:"/>         
+                <p:inputText id="firstName" value="#{workerController.worker.firstName}" required="true" requiredMessage="Gegenstand eingeben!" />
+                
+                <h:outputLabel for="lastName" value="Nachname:"/>         
+                <p:inputText id="lastName" value="#{workerController.worker.lastName}" required="true" requiredMessage="Stückzahl eingeben!"/>
+                
+            </h:panelGrid>
+            <p:separator/>
+            <p:commandButton action="#{workerController.save}" value="Speichern" style="margin-right:10px"
+                             icon="ui-icon-check"
+                             actionListener="#{growlController.saveMessage}"
+                             ajax="true"
+                             update="@form"
+                             process="@form"/>
+            
+            <br/>
+            <br/>
+            
+            <pe:blockUI widgetVar="blockUIWidget">
+                <h:panelGrid columns="2">
+                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
+                    <h:outputText value="Please wait..." style="white-space: nowrap;"/>
+                </h:panelGrid>
+            </pe:blockUI>
+        </h:form>
+    </ui:define>
 </ui:composition>
 
 

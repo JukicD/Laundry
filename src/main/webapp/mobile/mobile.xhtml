@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+          
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+        
+    <h:head>
+        
+    </h:head>
+        
+    <h:body>
+        
+        <pm:page id="first">
+                
+            <pm:content>
+                <h:form>
+                    <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3"  rows="4">
+                       
+                            <h:panelGrid columns="1" style="width:100%">
+                                <p:commandButton value="#{worker.firstName} #{worker.lastName}" style="height: 100px; font-size: 22px"
+                                                 action="#{mobileNavigationController.setup(worker)}"
+                                                 actionListener="#{mobileNavigationController.gotoSecond}"/>
+                                <p:button outcome="pm:second" value="page2"/> 
+                            </h:panelGrid>
+                         
+                    </p:dataGrid>
+                </h:form>   
+                    
+            </pm:content>
+        </pm:page>
+            
+        <pm:page id="second">
+                
+            <pm:content>
+                <h:outputText value="#{mobileNavigationController.worker.firstName}"/>
+            </pm:content>
+        </pm:page>
+                     
+    </h:body>
+        
+</html>

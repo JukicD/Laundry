@@ -21,22 +21,26 @@ public class Bill implements Serializable{
     @GeneratedValue
     private int id;
     
-    private String header;
+    private String ownName;
     
     private String address;
     
     private String UID;
+    
+    private String welcome;
+    
+    private String information;
 
     public int getId() {
         return id;
     }
 
-    public String getHeader() {
-        return header;
+    public String getOwnName() {
+        return ownName;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setOwnName(String ownName) {
+        this.ownName = ownName;
     }
 
     public String getAddress() {
@@ -54,7 +58,20 @@ public class Bill implements Serializable{
     public void setUID(String UID) {
         this.UID = UID;
     }
-    
-    
-    
+
+    public String getWelcome() {
+        return welcome;
+    }
+
+    public void setWelcome(String welcome) {
+        this.welcome = welcome;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }  
 }
