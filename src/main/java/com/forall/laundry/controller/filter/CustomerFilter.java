@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,6 +23,7 @@ import javax.inject.Named;
  * @author jd
  */
 @Named
+@ViewScoped
 public class CustomerFilter implements Serializable{
     
     @EJB
