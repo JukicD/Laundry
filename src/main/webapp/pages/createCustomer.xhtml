@@ -63,11 +63,11 @@
         <p:commandButton  
                           actionListener="#{customerController.createCustomer}"
                           value="Speichern" style="margin-right:10px; border-radius: 0px"
-                          update=":customerList:customerTable"
+                          update=":customerList:customerTable addCustomerForm :customerList:customerTable"
                           process="@form">
             
             <p:resetInput target="@form" />
-            
+            <f:actionListener binding="#{customerFilter.init()}"/>
             <f:actionListener binding="#{growlController.saveMessage('Kunde erfolgreich erstellt !')}"/>
         </p:commandButton>
         
