@@ -15,15 +15,11 @@ import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.ProductService;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -76,7 +72,7 @@ public class OrderyController implements Serializable{
             
             productService.save(product);
             itemService.save(item);
-            orderyService.save(order);
+            orderyService.update(order);
             
             product.setName(null);
             item.setAmount(0);
@@ -85,22 +81,17 @@ public class OrderyController implements Serializable{
     }
     
     public void finishOrder(){
-        try {
-            Ordery order = userController.getCurrentOrder();
-            order.setDate(new Date());
-            
-            orderyService.save(order);
-            
-            Ordery o = new Ordery();
-            o.setCustomer(userController.getCustomer());
-         
-            customerService.update(userController.getCustomer());
-            orderyService.save(o);
-            
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/customerList.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(OrderyController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Ordery order = userController.getCurrentOrder();
+        
+        System.out.println("CUSTOMER: "+userController.getCustomer().getName());
+        System.out.println("ORDER: " + order.getOrder_id());
+        order.setDate(new Date());
+        System.out.println("ORDER DATE: " +order.getDate());
+        orderyService.update(order);
+        Ordery o = new Ordery();
+        o.setCustomer(userController.getCustomer());
+        customerService.update(userController.getCustomer());
+        orderyService.save(o);
     }
     
     public List<Ordery> getOrders(){

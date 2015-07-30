@@ -60,6 +60,7 @@ public class UserController implements Serializable{
 
     public void setup(Customer customer){
         this.customer = customer;
+        System.out.println(this.customer.getName());
     }
     
     public void update(){

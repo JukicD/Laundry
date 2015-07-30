@@ -17,16 +17,13 @@
                 
             <pm:content>
                 <h:form>
-                    <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3"  rows="4">
+                    
                        
-                            <h:panelGrid columns="1" style="width:100%">
-                                <p:commandButton value="#{worker.firstName} #{worker.lastName}" style="height: 100px; font-size: 22px"
-                                                 action="#{mobileNavigationController.setup(worker)}"
-                                                 actionListener="#{mobileNavigationController.gotoSecond}"/>
-                                <p:button outcome="pm:second" value="page2"/> 
-                            </h:panelGrid>
+                            
+                        <p:button value="test" outcome="pm:second"/>
+                            
                          
-                    </p:dataGrid>
+                    
                 </h:form>   
                     
             </pm:content>

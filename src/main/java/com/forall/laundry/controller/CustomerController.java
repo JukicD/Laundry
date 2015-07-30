@@ -41,9 +41,9 @@ public class CustomerController implements Serializable{
        
        try{
            
-         Ordery ordery = new Ordery();
-        
+        Ordery ordery = new Ordery();
         ordery.setCustomer(customer);
+        
         customerService.save(customer);
         orderyService.save(ordery);
         

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,14 +33,9 @@ public class EditController implements Serializable{
     
     @PostConstruct
     public void init(){
-        
-        String viewID = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        
-        if(viewID.equals("/pages/customerMain.xhtml")){
-            items = userController.getItems();
-        }else if(viewID.equals("/pages/orders.xhtml")){
-            items = itemService.getItemsFrom(oc.getOrder());
-        }
+
+       items = userController.getItems();
+
     }
     
     public void onCellEdit(Item item) {

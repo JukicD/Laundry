@@ -8,7 +8,6 @@ package com.forall.laundry.controller.navigator;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Worker;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,7 +16,6 @@ import javax.inject.Named;
  * @author jd
  */
 @Named
-@SessionScoped
 public class MobileNavigationController implements Serializable{
     
     @Inject
@@ -26,8 +24,12 @@ public class MobileNavigationController implements Serializable{
     @Inject
     private Customer customer;
 
-    public void setup(Worker worker){
-        this.worker = worker;
+    public String setup(Worker worker){
+        
+            this.worker = worker;
+            
+            return "second?facesRedirect=true";
+            
     }
     
     public Worker getWorker() {

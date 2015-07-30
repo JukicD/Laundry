@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+          
+    <f:view contentType="text/html">
+        <h:head>
+            <title>
+                <ui:insert name="title">PrimeFaces ShowCase</ui:insert>
+            </title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"></link>
+            <style type="text/css">
+                body {
+                    background-image: url(#{resource['images/blue-wallpaper-7.jpg']});
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+                    
+                    
+                    
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+                    
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </h:head>
+            
+        <h:body>
+            
+            
+            
+            <p:growl showDetail="true" sticky="true"/>
+            <h:form>
+                <p:menubar>
+                    
+                    
+                    <p:submenu label="Kunden">
+                        <p:menuitem value="Neu" onclick="PF('addCustomer').show()"/>
+                    </p:submenu>
+                        
+                        
+                </p:menubar>
+            </h:form>
+                
+                
+                
+                
+                
+            <p:dialog header="Kundenliste" widgetVar="customer" height="400" width="600" minimizable="true" maximizable="true">
+                
+                    <ui:include src="/pages/customerList.xhtml"/>
+                
+                    
+                
+            </p:dialog>
+            <p:dialog id="customerMainDialog2" header="Kundenaufträge" widgetVar="customerMainDialog" height="400" width="600" minimizable="true" maximizable="true" dynamic="true">
+                
+                    <ui:include src="/pages/customerMain.xhtml"/>
+                
+                    
+                
+            </p:dialog>
+            
+            <p:dialog header="Kunden anlegen" widgetVar="addCustomer" height="400" width="600" minimizable="true" maximizable="true" style="width: auto">
+                    
+                <ui:include src="/pages/createCustomer.xhtml"/>
+                   
+            </p:dialog>
+            
+            
+            <h:form>
+                <p:dock>
+                    
+                    <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()"/>
+                
+                </p:dock>
+            </h:form>
+                
+                
+            <script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/sh.js"></script>
+            <script language="javascript">
+                dp.SyntaxHighlighter.ClipboardSwf = '#{request.contextPath}/syntaxhighlighter/scripts/clipboard.swf';
+                dp.SyntaxHighlighter.HighlightAll('code');
+            </script>
+                
+        </h:body>
+            
+            
+    </f:view>
+        
+</html>
