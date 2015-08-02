@@ -26,15 +26,19 @@
             <p:separator style=""/>
             
                   
-            <p:editor id="greetingsEditor" widgetVar="editorWidget" value="#{billingController.bill.welcome}" width="600"/>
+            <p:editor id="greetingsEditor" widgetVar="greetingWidget" value="#{billingController.bill.welcome}" width="600"/>
         
             <br/>
             <br/>
             
             <h1 style="font-size: 20px">Information</h1>
             <p:separator/>
-            <p:editor id="informationEditor" widgetVar="editorWidget" value="#{billingController.bill.information}" width="600" style="alignment-adjust: middle"/>
-            <p:commandButton value="Speichern" icon="ui-icon-save" action="#{billingController.save}" process="@form"/>
+            <p:editor id="informationEditor" widgetVar="informationWidget" value="#{billingController.bill.information}" width="600"/>
+            <p:commandButton 
+                value="Speichern" 
+                icon="ui-icon-check" 
+                actionListener="#{billingController.save}"
+                process="@form"
+                update="@form"/>
         </h:form>
-    </ui:define>
 </ui:composition>

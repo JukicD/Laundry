@@ -35,6 +35,8 @@ public class WorkerController implements Serializable{
     }
     public void save(){
         workerService.save(worker);
+        worker.setFirstName(null);
+        worker.setLastName(null);
     }
     
     public void update(){

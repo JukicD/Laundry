@@ -7,8 +7,7 @@
         
         <h:form id="customerList">
             <p:contextMenu for="customerTable">
-                <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" onclick="#{editController.init()}" oncomplete="PF('customerMainDialog').show()" update="customerMainDialog2 customerMain"/>
-                <p:menuitem value="Vergangene Lieferung" icon="ui-icon-folder-collapsed" url="/pages/oldOrders.xhtml"/>
+                <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel"/>
                 <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" url="/pages/updateCustomer.xhtml"/>
             </p:contextMenu>
             
@@ -26,6 +25,7 @@
                 
                 <p:ajax event="contextMenu" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
                 <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+                <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"  update="customerPanel"/>
                 
                 <p:column filterBy="#{customer.name}" sortBy="#{customer.name}" headerText="Kunde" style="width: 300px" filterMatchMode="contains">
                     <h:outputText value="#{customer.name}" />

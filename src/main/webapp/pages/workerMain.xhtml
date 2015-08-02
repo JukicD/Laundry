@@ -3,13 +3,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
                 xmlns:pe="http://primefaces.org/ui/extensions">
-    <ui:define name="metadata">
-    </ui:define>
-    <ui:define name="content">
-        
-            
+
             <h:form id="workerMain">
             
             <p:growl id="msgsWorker" showDetail="false" sticky="false" life="3500" showSummary="true"/>
@@ -23,24 +18,16 @@
                 
             </h:panelGrid>
             <p:separator/>
-            <p:commandButton action="#{workerController.save}" value="Speichern" style="margin-right:10px"
+            <p:commandButton actionListener="#{workerController.save}" value="Speichern" style="margin-right:10px"
                              icon="ui-icon-check"
-                             actionListener="#{growlController.saveMessage}"
                              ajax="true"
                              update="@form"
-                             process="@form"/>
-            
-            <br/>
-            <br/>
-            
-            <pe:blockUI widgetVar="blockUIWidget">
-                <h:panelGrid columns="2">
-                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle;" rendered="true"/>
-                    <h:outputText value="Please wait..." style="white-space: nowrap;"/>
-                </h:panelGrid>
-            </pe:blockUI>
+                             process="@form">
+            <p:resetInput target="@form" />
+            <f:actionListener binding="#{growlController.saveMessage('Mitarbeiter erfolgreich erstellt !')}"/>
+            </p:commandButton>
+             
         </h:form>
-    </ui:define>
 </ui:composition>
 
 

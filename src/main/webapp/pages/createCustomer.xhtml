@@ -63,7 +63,7 @@
         <p:commandButton  
                           actionListener="#{customerController.createCustomer}"
                           value="Speichern" style="margin-right:10px; border-radius: 0px"
-                          update=":customerList:customerTable addCustomerForm :customerList:customerTable"
+                          update=":customerList:customerTable addCustomerForm"
                           process="@form">
             
             <p:resetInput target="@form" />

@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -34,13 +33,7 @@ public class BillingController implements Serializable{
     @Inject
     private Bill bill;
     
-    @PostConstruct
-    public void init(){
-        bill = billingService.getBill(bill);
-    }
-    
     public void getBill(List<Ordery> orders, Customer customer){
-        System.out.println("BILL");
         try {
             billingService.createBill(customer, orders);
         } catch (JRException ex) {

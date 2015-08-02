@@ -35,60 +35,60 @@
         </h:head>
             
         <h:body>
-            
-            
-            
             <p:growl showDetail="true" sticky="true"/>
             <h:form>
+                
                 <p:menubar>
-                    
-                    
                     <p:submenu label="Kunden">
                         <p:menuitem value="Neu" onclick="PF('addCustomer').show()"/>
                     </p:submenu>
+                    
                     <p:submenu label="Mitarbeiter">
-                        <p:menuitem value="Neu"/>
+                        <p:menuitem value="Neu" onclick="PF('addWorker').show()"/>
+                    </p:submenu>
+                    
+                    <p:submenu label="Rechnungen">
+                        <p:menuitem value="Einstellungen" onclick="PF('billSettings').show()"/>
                     </p:submenu>
                        
-                        
                 </p:menubar>
             </h:form>
-                
-                
-                
-                
-                
-            <p:dialog id="customerListDialog" header="Kundenliste" widgetVar="customer" height="400" width="600" minimizable="true" maximizable="true">
-                
-                    <ui:include src="/pages/customerList.xhtml"/>
-                
-                    
-                
+
+            <p:dialog id="customerListDialog" 
+                      header="Kundenliste" 
+                      widgetVar="customer" 
+                      height="400" width="600" minimizable="true" dynamic="true">
+                <p:outputPanel id="customerPanel">
+                    <ui:include src="/pages/#{navigationController.site}.xhtml"/>
+                </p:outputPanel>
             </p:dialog>
-            <p:dialog id="customerMainDialog2" header="Kundenaufträge" widgetVar="customerMainDialog" height="400" width="600" minimizable="true" maximizable="true" dynamic="true">
-                
-                    <ui:include src="/pages/customerMain.xhtml"/>
-                
-                    
-                
-            </p:dialog>
-            
-            <p:dialog header="Kunden anlegen" widgetVar="addCustomer" height="400" width="600" minimizable="true" maximizable="true" style="width: auto">
-                    
+
+            <p:dialog 
+                header="Kunden anlegen" 
+                widgetVar="addCustomer" height="400" width="600" minimizable="true" style="width: auto">
                 <ui:include src="/pages/createCustomer.xhtml"/>
-                   
             </p:dialog>
             
+            <p:dialog header="Mitarbeiter anlegen"
+                      widgetVar="addWorker"
+                      height="400" width="600" minimizable="true">
+                          
+                <ui:include src="/pages/workerMain.xhtml"/>
+            </p:dialog>
             
+            <p:dialog header="Einstellungen"
+                      widgetVar="billSettings"
+                      height="400"
+                      width="600"
+                      minimizable="true">
+                <ui:include src="/pages/billSettings.xhtml"/>
+            </p:dialog>
             <h:form>
                 <p:dock>
-                    
                     <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()"/>
-                
                 </p:dock>
             </h:form>
-                
-                
+            
             <script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/sh.js"></script>
             <script language="javascript">
                 dp.SyntaxHighlighter.ClipboardSwf = '#{request.contextPath}/syntaxhighlighter/scripts/clipboard.swf';
