@@ -3,14 +3,10 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
                 xmlns:pe="http://primefaces.org/ui/extensions">
-    <ui:define name="metadata"/>
-    <ui:define name="content">
-        
+    
         <h:form id="customerUpdate">
-            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"  />
-            <p:growl sticky="false" life="3500" showDetail="false"/>
+            <p:growl id="updateGrowl" sticky="false" life="3500" showDetail="false"/>
             
             <h1 style="font-size: 20px">Bezeichnung</h1>
             <p:separator/>
@@ -63,22 +59,12 @@
                 <p:editor id="greetingsEditor_update" widgetVar="editorWidget" width="600" value="#{userController.customer.billingText}"/>
             </h:panelGrid>
             <p:separator/>
-            <p:commandButton  action = "#{userController.update}" value="Speichern" style="margin-right:10px; border-radius: 0px" 
-                              actionListener="#{growlController.saveMessage}" ajax="true" 
-                              onclick="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" styleClass="save-button"
-                              update="customer_grid_update"
-                              process="@form">
-                
-                <p:resetInput target=":customerUpdate:customer_grid_update"/>
+            <p:commandButton  value="Speichern" style="margin-right:10px; border-radius: 0px" 
+                              actionListener="#{userController.update}" update="customerUpdate"> 
+                <f:actionListener binding="#{growlController.saveMessage('Erfolgreich gespeichert !')}"/>
+                <f:actionListener binding="#{navigationController.setSite('customerList')}"/>
             </p:commandButton>
             
-            <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true" style="border-radius: 0px"/>
-            <pe:blockUI widgetVar="blockUIWidget">
-                <h:panelGrid columns="2">
-                    <p:graphicImage id="loader" name="images/ajax-loader.gif" style="margin-right: 12px; vertical-align: middle" rendered="true"/>
-                    <h:outputText value="Please wait..." style="white-space: nowrap;"/>
-                </h:panelGrid>
-            </pe:blockUI>
+            <p:commandButton value="Zurück" actionListener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
         </h:form>
-    </ui:define>
 </ui:composition>

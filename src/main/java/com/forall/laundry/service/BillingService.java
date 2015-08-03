@@ -43,7 +43,6 @@ public class BillingService {
     @EJB
     OrderyService orderyService;
     
-    
     @PersistenceContext
     EntityManager em;
     
@@ -72,7 +71,7 @@ public class BillingService {
                 throw new IllegalArgumentException("No Orders selected !");
             }
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
@@ -81,8 +80,6 @@ public class BillingService {
             System.out.println(getItemIDs(orders));
             parameter.put("item_id_list", getItemIDs(orders));
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
-            
-            
             
             String path = "/home/jd/Desktop/wohoo.pdf";
             JasperExportManager.exportReportToPdfFile(print, path);

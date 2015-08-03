@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="175"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -126,26 +126,49 @@ WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.order_
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT c."name" AS customer_name, c."address" AS customer_address, i.amount AS item_amount, p."name" AS product_name, p.price AS product_price, c."billingtext" AS customer_text, b.ownname AS bill_ownname, b.address AS bill_address, b.uid AS bill_uid,
-b.information AS own_information, b.welcome AS own_welcome, c."zipcode" AS customer_zip
+		<![CDATA[SELECT
+c."name" AS customer_name,
+c."address" AS customer_address,
+c."billingtext" AS customer_text,
+c."zipcode" AS customer_zip,
+c."companyname" AS customer_companyName,
+c."customernumber" AS customer_number,
+i.amount AS item_amount,
+p."name" AS product_name,
+p.price AS product_price,
+b.ownname AS bill_ownname,
+b.address AS bill_address,
+b.uid AS bill_uid,
+b.information AS own_information,
+b.welcome AS own_welcome
 
+FROM
+"public".ordery o,
+"public".customer c,
+"public".product p,
+"public".item i,
+"public".bill b
 
-FROM "public".customer c, "public".item i, "public".ordery o, "public".product p, "public".bill b
-
-WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.order_id = i.ordery_id AND i.item_product_product_id = p.product_id;]]>
+WHERE
+$X{IN, i.item_id::varChar,item_id_list} AND
+o.customer_id = c.id AND
+o.order_id = i.ordery_id AND
+i.item_product_product_id = p.product_id;]]>
 	</queryString>
 	<field name="customer_name" class="java.lang.String"/>
 	<field name="customer_address" class="java.lang.String"/>
+	<field name="customer_text" class="java.lang.String"/>
+	<field name="customer_zip" class="java.lang.String"/>
+	<field name="customer_companyname" class="java.lang.String"/>
+	<field name="customer_number" class="java.lang.Integer"/>
 	<field name="item_amount" class="java.lang.Integer"/>
 	<field name="product_name" class="java.lang.String"/>
 	<field name="product_price" class="java.math.BigDecimal"/>
-	<field name="customer_text" class="java.lang.String"/>
 	<field name="bill_ownname" class="java.lang.String"/>
 	<field name="bill_address" class="java.lang.String"/>
 	<field name="bill_uid" class="java.lang.String"/>
 	<field name="own_information" class="java.lang.String"/>
 	<field name="own_welcome" class="java.lang.String"/>
-	<field name="customer_zip" class="java.lang.String"/>
 	<group name="Waren">
 		<groupExpression><![CDATA[$F{product_name}]]></groupExpression>
 	</group>
@@ -155,23 +178,24 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 	<title>
 		<band height="425" splitType="Stretch">
 			<staticText>
-				<reportElement x="398" y="77" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
-				<text><![CDATA[Kunde:]]></text>
+				<reportElement x="36" y="90" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
+				<text><![CDATA[Firma]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="398" y="90" width="127" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
+				<reportElement x="36" y="103" width="241" height="12" uuid="9387d3c3-364b-4bf9-82dd-5087266642cb"/>
 				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="398" y="100" width="127" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
+				<reportElement x="36" y="127" width="241" height="12" uuid="bd13981e-4978-4694-b63b-c8298e3c6fea"/>
 				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="425" y="0" width="100" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
+				<reportElement x="441" y="146" width="76" height="20" uuid="16209da7-d667-40fe-b637-84d2d8ea5933"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="36" y="198" width="489" height="94" uuid="7d437c53-28b3-4585-a4dc-e0d05820ec7b"/>
+				<reportElement key="table 3" style="table 3" x="36" y="225" width="489" height="67" uuid="7d437c53-28b3-4585-a4dc-e0d05820ec7b"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Laundry" uuid="9db050fe-b5fc-4320-a7ce-f9b5aaaa84e9">
 						<datasetParameter name="item_ids">
@@ -179,48 +203,93 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="d18cf325-5057-4eeb-8e62-198d5cf524ca">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20">
+					<jr:column width="63" uuid="d18cf325-5057-4eeb-8e62-198d5cf524ca">
+						<jr:tableHeader style="table 3_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="58" height="30" uuid="3189d21a-b9e1-4957-a225-76f67267897e"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Position]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="b9baef6a-2d13-45a4-af2a-52678b115c45"/>
-								<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
+								<reportElement x="5" y="0" width="58" height="20" uuid="b2bcbe08-3b27-47a5-89d5-887a903bd4af"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="14a87e23-21e7-40a7-a8c2-eba191329a43">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20">
+					<jr:column width="54" uuid="14a87e23-21e7-40a7-a8c2-eba191329a43">
+						<jr:tableHeader style="table 3_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="49" height="30" uuid="46472555-c895-4858-84ce-6902df5b02e1"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Menge]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="af5da838-b05d-4b75-8afe-00fc9ad626d4"/>
-								<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="1cedfda3-65da-4b25-85c7-48823413e38c">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="0bcdd2fd-bb27-41d0-9a87-14b1bce5181f"/>
+								<reportElement x="5" y="0" width="49" height="20" uuid="937ff921-1c81-46e5-af0d-749b8e0a1e33"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{item_amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="2e2eec13-d6d8-4818-9379-7f8e2067127f">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20">
+					<jr:column width="184" uuid="1cedfda3-65da-4b25-85c7-48823413e38c">
+						<jr:tableHeader style="table 3_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="179" height="30" uuid="b16008d0-69f9-40dc-84fb-764fb4d03dd8"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Bezeichnung]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="4236c4ef-8c07-480c-95ee-df7c84a0aac9"/>
+								<reportElement x="5" y="0" width="179" height="20" uuid="fabe88b3-c73f-4214-a7ee-d06e63d75991"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="a7691be0-af84-49b5-ab36-eecd21cfee37">
-						<jr:tableHeader style="table 3_TH" height="30"/>
-						<jr:detailCell style="table 3_TD" height="20">
+					<jr:column width="90" uuid="2e2eec13-d6d8-4818-9379-7f8e2067127f">
+						<jr:tableHeader style="table 3_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="6" y="0" width="84" height="30" uuid="ea491b09-bbb9-46b5-9c9a-1b2019824110"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Einzelpreis]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="b123791f-054b-420a-8111-d59f4972b716"/>
+								<reportElement x="6" y="0" width="84" height="20" uuid="bb0162ab-f670-4a57-af64-67f9ebeca0a1"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{product_price}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="98" uuid="a7691be0-af84-49b5-ab36-eecd21cfee37">
+						<jr:tableHeader style="table 3_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="5" y="0" width="93" height="30" uuid="fb25690d-713c-4a74-8108-fd6e4a044331"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Gesamtpreis]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="11" y="0" width="87" height="20" uuid="09de0578-19a2-4cac-933e-77dd28744b59"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount})).setScale(2, RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -242,12 +311,12 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 				<textFieldExpression><![CDATA["UID: " + $F{bill_uid}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="36" y="166" width="489" height="32" uuid="b42cb9d8-f296-4929-bd06-d0fc36cf8e2d"/>
+				<reportElement x="36" y="166" width="489" height="59" uuid="b42cb9d8-f296-4929-bd06-d0fc36cf8e2d"/>
 				<textElement markup="html"/>
 				<textFieldExpression><![CDATA[$F{own_welcome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="398" y="112" width="127" height="14" uuid="342dd538-361d-4031-b345-6a43c5f9c7a2"/>
+				<reportElement x="36" y="139" width="241" height="14" uuid="342dd538-361d-4031-b345-6a43c5f9c7a2"/>
 				<textFieldExpression><![CDATA[$F{customer_zip}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -260,6 +329,50 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 				<textElement textAlignment="Center" markup="html"/>
 				<textFieldExpression><![CDATA[$F{own_information}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="36" y="115" width="241" height="12" uuid="74b3f2cb-7703-47ab-ac11-53e2845fd79e"/>
+				<textFieldExpression><![CDATA[$F{customer_companyname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="352" y="146" width="48" height="20" uuid="ad6077f3-cd78-48f5-8fd8-4dc00da3721d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Datum]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="347" y="46" width="178" height="120" uuid="5bc9e459-33b0-477b-865e-2c9b14957598"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textField>
+					<reportElement x="130" y="81" width="40" height="20" uuid="03d865dd-9ff7-4ed6-a57c-c6e2fa4587f4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{customer_number}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="5" y="80" width="100" height="20" uuid="7a2d7f28-eafa-4653-bfd4-8fca9241f769"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Kundennummer]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="5" y="61" width="69" height="20" uuid="12202d8c-49e5-4907-918a-f4ce4db4f8a2"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Nummer]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="33" width="178" height="1" uuid="8f8221cf-8cd9-4f60-b015-135fdba3e021"/>
+				</line>
+				<staticText>
+					<reportElement x="0" y="0" width="178" height="33" uuid="56b1b7f5-abb5-4d0a-ab5d-645d7a2e7069"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="18" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rechnung]]></text>
+				</staticText>
+			</frame>
 		</band>
 	</title>
 	<pageHeader>
@@ -278,9 +391,9 @@ WHERE $X{IN, i.item_id::varChar,item_id_list} AND o.customer_id = c.id AND o.ord
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="405" y="0" width="80" height="20" uuid="5485c343-415b-45cd-a20e-701ef36c387b"/>
+				<reportElement x="425" y="0" width="60" height="20" uuid="5485c343-415b-45cd-a20e-701ef36c387b"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" von"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="485" y="0" width="40" height="20" uuid="31d0d118-1ed7-4d35-a98c-60fcd5a8dbac"/>

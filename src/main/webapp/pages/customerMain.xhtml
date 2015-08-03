@@ -103,7 +103,7 @@
                 value="Lieferung abschließen" 
                 actionListener="#{orderyController.finishOrder}" 
                 rendered="#{not empty userController.items}"
-                update="@form :oldOrdersList:orderTable"
+                update="@form"
                 immediate="true"
                 process="@form">
                 <f:actionListener binding="#{growlController.saveMessage('Lieferung abgeschlossen !')}"/>

@@ -34,11 +34,8 @@
                     </h:outputText>
                 </p:column>
                     
-                <p:column width="">
-                    <p:commandButton icon="ui-icon-clipboard" action="#{oldOrdersController.setup(order)}"/>
-                </p:column>
                 <p:column>
-                    <p:commandButton icon="ui-icon-pencil" action="#{oldOrdersController.setup(order)}"/>
+                    <p:commandButton icon="ui-icon-clipboard" action="#{oldOrdersController.setup(order)}" actionListener="#{navigationController.setSite('orders')}" update="customerPanel"/>
                 </p:column>
                     
             </p:dataTable>

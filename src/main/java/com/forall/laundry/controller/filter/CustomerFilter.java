@@ -91,9 +91,5 @@ public class CustomerFilter implements Serializable{
 
     public void setLogger(AppLogger logger) {
         this.logger = logger;
-    }
-    
-    
-    
-    
+    }  
 }

@@ -30,7 +30,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="productInput" value="#{item.name}">
-                                <f:ajax execute="productInput" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
+                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -43,15 +43,25 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="amntnpt" value="#{item.amount}">
+                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
                                 <f:converter converterId="javax.faces.Integer" />
-                                <f:ajax execute="amntnpt" event="change" listener="#{editController.onCellEdit(item)}" render="@form"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 
-                <p:column headerText="Einzelpreis">
-                    <h:outputText value="#{item.singlePrice}"/>
+                 <p:column  headerText="Einzelpreis">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.singlePrice}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText id="singlepriceInput2" value="#{item.singlePrice}">
+                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
+                                
+                            </h:inputText>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 
                 <p:column headerText="Preis">
@@ -59,5 +69,6 @@
                     </h:outputText>
                 </p:column>
             </p:dataTable>
+            <p:commandButton value="Zurück" action="#{navigationController.setSite('oldOrders')}" update="customerPanel"/>
         </h:form>
 </ui:composition>

@@ -30,6 +30,8 @@ public class Bill implements Serializable{
     private String welcome;
     
     private String information;
+    
+    private Long number;
 
     public int getId() {
         return id;
@@ -73,5 +75,13 @@ public class Bill implements Serializable{
 
     public void setInformation(String information) {
         this.information = information;
-    }  
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
 }

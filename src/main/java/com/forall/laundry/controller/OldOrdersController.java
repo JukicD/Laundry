@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -36,7 +35,7 @@ import javax.persistence.PersistenceContext;
  * @author jd
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class OldOrdersController implements Serializable{
     
     @Inject
@@ -54,11 +53,6 @@ public class OldOrdersController implements Serializable{
     
     public void setup(Ordery order){
         this.order = order;
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/pages/orders.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(OldOrdersController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
     }
     
     

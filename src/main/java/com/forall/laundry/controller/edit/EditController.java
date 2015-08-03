@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class EditController implements Serializable{
     
     @EJB
@@ -34,7 +34,7 @@ public class EditController implements Serializable{
     @PostConstruct
     public void init(){
 
-       items = userController.getItems();
+       items = oc.getItems();
 
     }
     
