@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:bnu="http://bootsfaces.net/ui">
+    
+    
+    
+    
+        <h:form id='statisticForm'>
+        <p:tabView>
+            <p:tab title="Gesamtumsatz">
+                
+                <h:panelGrid columns="2" cellspacing="1" cellpadding="5">
+                    <p:outputLabel for="fromDate" value="Von:" />
+                    <p:calendar id="fromDate" value="#{statisticController.from}" />
+                    <p:outputLabel for="toDate" value="Bis:" />
+                    <p:calendar id="toDate" value="#{statisticController.to}" />
+                    <p:commandButton value="Anzeigen" action="#{statisticController.createLineChart}" actionListener="#{statisticController.setEntered(true)}" update="statisticPanel"/>
+                </h:panelGrid>
+                <p:chart type="bar" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.entered}" responsive="true"/>
+            </p:tab>
+            <p:tab title="Umsatz pro Kunde">
+                <h1>Kunde</h1>
+            </p:tab>
+        </p:tabView>
+        </h:form>
+    
+</ui:composition>

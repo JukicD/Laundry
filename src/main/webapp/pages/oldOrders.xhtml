@@ -14,7 +14,10 @@
                          selection="#{orderySelectionController.selectedOrders}"
                          rowKey="#{order.order_id}"
                          rowSelectMode="multiple"
-                         scrollable="true">
+                         scrollable="true"
+                         editable="true"
+                         editMode="cell">
+                         
                              
                 <f:facet name="header">
                     <p:outputPanel>
@@ -27,7 +30,9 @@
                 <p:column  headerText="#">
                     <h:outputText value="#{order.order_id}"/>
                 </p:column>
-                    
+                
+                
+                
                 <p:column headerText="Datum">
                     <h:outputText value="#{order.date}">
                         <f:convertDateTime pattern="d.M.yy" />

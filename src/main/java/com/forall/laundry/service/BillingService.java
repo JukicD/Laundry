@@ -63,7 +63,7 @@ public class BillingService {
     }
     
     
-    public void createBill(Customer customer, List<Ordery> orders) throws JRException{
+    public void createBill(Customer customer, List<Ordery> orders) {
         assert(!orders.isEmpty());
         
         try {
@@ -71,19 +71,18 @@ public class BillingService {
                 throw new IllegalArgumentException("No Orders selected !");
             }
             
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
             Map parameter = new HashMap();
-            System.out.println(getItemIDs(orders).size() + " " + getItemIDs(orders).get(0));
-            System.out.println(getItemIDs(orders));
             parameter.put("item_id_list", getItemIDs(orders));
+            
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
             
             String path = "/home/jd/Desktop/wohoo.pdf";
             JasperExportManager.exportReportToPdfFile(print, path);
-        } catch (SQLException ex) {
+        } catch (SQLException | JRException ex) {
             Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException e){
             
@@ -92,11 +91,12 @@ public class BillingService {
     
     private List<String> getItemIDs(List<Ordery> orderys){
         
-        return orderys.parallelStream()
-                .map(f -> f.getItems())
-                .flatMap(f -> f.stream())
-                .map(f -> f.getItem_id())
-                .map(f -> f.toString())
-                .collect(Collectors.toList());
+        return orderys
+                    .parallelStream()
+                    .map(f -> f.getItems())
+                    .flatMap(f -> f.stream())
+                    .map(f -> f.getItem_id())
+                    .map(f -> f.toString())
+                    .collect(Collectors.toList());
     }
 }

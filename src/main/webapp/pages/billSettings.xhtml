@@ -16,7 +16,10 @@
                 <h:inputText id="ownAddress" value="#{billingController.bill.address}" />
                 
                 <p:outputLabel for="ownUID" value="UID Nr.:" style="font-size: 16px"/>
-                <h:inputText id="ownUID" value="#{billingController.bill.UID}"/>  
+                <h:inputText id="ownUID" value="#{billingController.bill.UID}"/>
+                
+                <p:outputLabel for="number" value="Rechnungsnummer:" style="font-size: 16px"/>
+                <h:inputText id="number" value="#{billingController.bill.number}"/>
             </h:panelGrid>
             
             <br/>

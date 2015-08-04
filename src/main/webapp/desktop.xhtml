@@ -57,9 +57,20 @@
             <p:dialog id="customerListDialog" 
                       header="Kundenliste" 
                       widgetVar="customer" 
-                      height="400" width="600" minimizable="true" dynamic="true">
+                      height="400" width="600" minimizable="true" dynamic="true" closable="true">
+                <p:ajax event="close" listener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
                 <p:outputPanel id="customerPanel">
                     <ui:include src="/pages/#{navigationController.site}.xhtml"/>
+                </p:outputPanel>
+            </p:dialog>
+             
+            <p:dialog id="statisticDialog"
+                      widgetVar="statistic"
+                      header="Statistik" 
+                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true">
+                
+                <p:outputPanel id="statisticPanel">
+                    <ui:include src="/pages/statistic.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
 
@@ -86,6 +97,7 @@
             <h:form>
                 <p:dock>
                     <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()"/>
+                    <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()"/>
                 </p:dock>
             </h:form>
             
