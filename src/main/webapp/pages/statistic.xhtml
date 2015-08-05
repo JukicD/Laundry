@@ -6,9 +6,6 @@
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:bnu="http://bootsfaces.net/ui">
     
-    
-    
-    
         <h:form id='statisticForm'>
         <p:tabView>
             <p:tab title="Gesamtumsatz">
@@ -20,7 +17,7 @@
                     <p:calendar id="toDate" value="#{statisticController.to}" />
                     <p:commandButton value="Anzeigen" action="#{statisticController.createLineChart}" actionListener="#{statisticController.setEntered(true)}" update="statisticPanel"/>
                 </h:panelGrid>
-                <p:chart type="bar" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.entered}" responsive="true"/>
+                <p:chart type="line" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.entered}" responsive="true"/>
             </p:tab>
             <p:tab title="Umsatz pro Kunde">
                 <h1>Kunde</h1>
