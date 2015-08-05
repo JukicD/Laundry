@@ -42,7 +42,7 @@ public class CustomerService {
  
             return (List<Ordery>) em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id")
                                                         .setParameter("id", id)
-                                                        .getSingleResult();
+                                                        .getResultList();
         
     }
     

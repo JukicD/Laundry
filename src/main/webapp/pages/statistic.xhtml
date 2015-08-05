@@ -6,9 +6,10 @@
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:bnu="http://bootsfaces.net/ui">
     
-        <h:form id='statisticForm'>
-        <p:tabView>
-            <p:tab title="Gesamtumsatz">
+    <h:form id='statisticForm'>
+        <p:tabView dynamic="true">
+            <p:ajax event="tabChange" listener="#{statisticController.onTabChange}" update="@form"/>
+            <p:tab title="Gesamtumsatz" id="grossProfit">
                 
                 <h:panelGrid columns="2" cellspacing="1" cellpadding="5">
                     <p:outputLabel for="fromDate" value="Von:" />
@@ -19,10 +20,12 @@
                 </h:panelGrid>
                 <p:chart type="line" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.entered}" responsive="true"/>
             </p:tab>
+            <p:tab title="Umsatz aller Kunden" id="customerProfit">
+                   <p:chart type="bar" model="#{statisticController.model2}" style="height:300px;" responsive="true"/>
+            </p:tab>
             <p:tab title="Umsatz pro Kunde">
                 <h1>Kunde</h1>
             </p:tab>
         </p:tabView>
-        </h:form>
-    
+    </h:form>
 </ui:composition>
