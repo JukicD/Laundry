@@ -35,7 +35,10 @@
                                         
                         <p:resetInput target="@form" />
                     </p:commandButton>
-            <p:commandButton value="Zurück" action="#{navigationController.setSite('customerList')}" update="customerPanel" immediate="true"/>
+            <p:commandButton value="Zurück" 
+                             action="#{customerNavigationController.setSite('customerList')}" 
+                             update="customerPanel" 
+                             immediate="true"/>
             
             <br/>
             <br/>

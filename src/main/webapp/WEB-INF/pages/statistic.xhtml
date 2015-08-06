@@ -6,9 +6,9 @@
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:bnu="http://bootsfaces.net/ui">
     
-    <h:form id='statisticForm'>
-        <p:tabView dynamic="true">
-            <p:ajax event="tabChange" listener="#{statisticController.onTabChange}" update="@form"/>
+    <h:form>
+        <p:tabView dynamic="true" cache="true" id="statisticTab">
+            <p:ajax event="tabChange" listener="#{statisticController.onTabChange}" update="statisticTab"/>
             <p:tab title="Gesamtumsatz" id="grossProfit">
                 
                 <h:panelGrid columns="2" cellspacing="1" cellpadding="5">
@@ -16,12 +16,12 @@
                     <p:calendar id="fromDate" value="#{statisticController.from}" />
                     <p:outputLabel for="toDate" value="Bis:" />
                     <p:calendar id="toDate" value="#{statisticController.to}" />
-                    <p:commandButton value="Anzeigen" action="#{statisticController.createLineChart}" actionListener="#{statisticController.setEntered(true)}" update="statisticPanel"/>
+                    <p:commandButton value="Anzeigen" action="#{statisticController.createLineChart}" actionListener="#{statisticController.setGrossProfitEntered(true)}" update="statisticTab"/>
                 </h:panelGrid>
-                <p:chart type="line" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.entered}" responsive="true"/>
+                <p:chart type="line" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.grossProfitEntered}" responsive="true"/>
             </p:tab>
             <p:tab title="Umsatz aller Kunden" id="customerProfit">
-                   <p:chart type="bar" model="#{statisticController.model2}" style="height:300px;" responsive="true"/>
+                <p:chart type="bar" model="#{statisticController.model2}" rendered="#{statisticController.customerProfitEntered}" style="height:300px;" responsive="true"/>
             </p:tab>
             <p:tab title="Umsatz pro Kunde">
                 <h1>Kunde</h1>

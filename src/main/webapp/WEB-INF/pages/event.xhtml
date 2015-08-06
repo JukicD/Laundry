@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:bnu="http://bootsfaces.net/ui">
+        
+    
+        <p:tabView id="eventTab" cache="true" dynamic="true">
+            <p:tab title="Heute">
+                <h:form>
+                    <p:dataTable id="todayTable"
+                             var="order" value="#{orderyController.todaysOrders}"
+                             emptyMessage="Heute gibt es noch keine Aufträge." style="size: 30px" resizableColumns="true"
+                             scrollable="true"
+                             reflow="true">
+                            
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="#{order.date}"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    
+                    <p:column  headerText="Kunde">
+                        <h:outputText value="#{order.customer.name}"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <p:commandButton icon="ui-icon-clipboard" 
+                                         action="#{oldOrdersController.setup(order)}" 
+                                         actionListener="#{eventNavigationController.setSite('orders')}" 
+                                         update="eventPanel">
+                            <f:actionListener binding="#{navigationController.setNavigationContext('event')}"/>
+                            <f:actionListener binding="#{navigationController.setUpdate('eventPanel')}"/>
+                        </p:commandButton>
+                    </p:column>
+                    
+                </p:dataTable>
+                </h:form>
+                
+            </p:tab>
+            <p:tab title="Diese Woche">
+                
+            </p:tab>
+            <p:tab title="Dieser Monar">
+                
+            </p:tab>
+            <p:tab title="Benutzerdefiniert">
+                
+            </p:tab>
+        </p:tabView>
+</ui:composition>

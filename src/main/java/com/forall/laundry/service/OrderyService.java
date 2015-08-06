@@ -46,6 +46,20 @@ public class OrderyService {
                             .getResultList();
     }
     
+    public List<Ordery> getOrdersFrom(int day, int month, int year){
+        
+        List<Ordery> orders = em.createQuery("SELECT o From Ordery o "
+                                                                    + "WHERE EXTRACT(DAY FROM time) = :day "
+                                                                        + "AND EXTRACT(MONTH FROM time) = :month "
+                                                                        + "AND EXTRACT(YEAR FROM time) = :year")
+                                                                     .setParameter("day", day)
+                                                                     .setParameter("month", month)
+                                                                     .setParameter("year", year)
+                                                                     .getResultList();
+        System.out.println(day + " " + month + " " +year + " " + orders.size());
+        return orders;
+                
+    }
     public void save(Ordery o){
         em.merge(o);
     }

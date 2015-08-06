@@ -49,16 +49,22 @@ public class StatisticController implements Serializable{
     
     private BarChartModel model2;
     
-    private boolean entered;
+    private boolean grossProfitEntered;
+    
+    private boolean customerProfitEntered;
     
     
     public void onTabChange(TabChangeEvent event){
         System.out.println(event.getTab().getId());
         switch (event.getTab().getId()) {
             case "grossProfit":
+                customerProfitEntered = false;
+                grossProfitEntered = true;
                 createLineChart();
                 break;
             case "customerProfit":
+                customerProfitEntered = true;
+                grossProfitEntered = false;
                 createBarChart();
                 break;
         }
@@ -135,17 +141,8 @@ public class StatisticController implements Serializable{
         return to;
     }
     
-    public void setTo(Date to) {
-        entered = true;
-        this.to = to;
-    }
-    
-    public boolean isEntered() {
-        return entered;
-    }
-    
-    public void setEntered(boolean entered) {
-        this.entered = true;
+    public void setTo(Date date){
+        this.to = date;
     }
     
     public LineChartModel getModel() {
@@ -163,6 +160,23 @@ public class StatisticController implements Serializable{
     public void setModel2(BarChartModel model2) {
         this.model2 = model2;
     }
+
+    public boolean isGrossProfitEntered() {
+        return grossProfitEntered;
+    }
+
+    public void setGrossProfitEntered(boolean grossProfitEntered) {
+        this.grossProfitEntered = grossProfitEntered;
+    }
+
+    public boolean isCustomerProfitEntered() {
+        return customerProfitEntered;
+    }
+
+    public void setCustomerProfitEntered(boolean customerProfitEntered) {
+        this.customerProfitEntered = customerProfitEntered;
+    }
+    
     
     
 }

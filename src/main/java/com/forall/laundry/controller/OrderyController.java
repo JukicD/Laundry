@@ -16,6 +16,7 @@ import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.ProductService;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -81,6 +82,7 @@ public class OrderyController implements Serializable{
     }
     
     public void finishOrder(){
+        
         Ordery order = userController.getCurrentOrder();
         
         System.out.println("CUSTOMER: "+userController.getCustomer().getName());
@@ -92,6 +94,19 @@ public class OrderyController implements Serializable{
         o.setCustomer(userController.getCustomer());
         customerService.update(userController.getCustomer());
         orderyService.save(o);
+    }
+    
+    public List<Ordery> getTodaysOrders(){
+        
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH)+1;
+        int year = cal.get(Calendar.YEAR);
+        
+        return orderyService.getOrdersFrom(day, month, year);
     }
     
     public List<Ordery> getOrders(){
@@ -116,45 +131,5 @@ public class OrderyController implements Serializable{
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public ItemService getItemService() {
-        return itemService;
-    }
-
-    public void setItemService(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    public ProductService getProductService() {
-        return productService;
-    }
-
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
-    public UserController getUserController() {
-        return userController;
-    }
-
-    public void setUserController(UserController userController) {
-        this.userController = userController;
-    }
-
-    public OrderyService getOrderyService() {
-        return orderyService;
-    }
-
-    public void setOrderyService(OrderyService orderyService) {
-        this.orderyService = orderyService;
-    }
-
-    public CustomerService getCustomerService() {
-        return customerService;
-    }
-
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
     }
 }

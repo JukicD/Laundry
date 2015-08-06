@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.forall.laundry.controller;
+package com.forall.laundry.controller.navigator;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 /**
@@ -15,14 +15,14 @@ import javax.inject.Named;
  * @author jd
  */
 @Named
-@ApplicationScoped
-public class NavigationController implements Serializable{
+@ViewScoped
+public class EventNavigationController implements Serializable{
     
     private String site;
 
     @PostConstruct
     public void init(){
-        site ="customerList";
+        site ="event";
     }
     public String getSite() {
         return site;

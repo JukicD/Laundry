@@ -40,7 +40,11 @@
                 </p:column>
                     
                 <p:column>
-                    <p:commandButton icon="ui-icon-clipboard" action="#{oldOrdersController.setup(order)}" actionListener="#{navigationController.setSite('orders')}" update="customerPanel"/>
+                    <p:commandButton icon="ui-icon-clipboard" 
+                                     action="#{oldOrdersController.setup(order)}" 
+                                     actionListener="#{navigationController.setSite('orders')}" 
+                                     update="customerPanel">
+                    </p:commandButton>
                 </p:column>
                     
             </p:dataTable>
@@ -50,6 +54,8 @@
                 icon="ui-icon-print"
                 actionListener="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
                 update="@form"/>
-            <p:commandButton value="Zurück" action="#{navigationController.setSite('customerList')}" update="customerPanel"/>
+            <p:commandButton value="Zurück"
+                             action="#{navigationController.setSite('customerList')}"
+                             update="customerPanel"/>
         </h:form>
 </ui:composition>
