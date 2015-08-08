@@ -112,10 +112,6 @@ public class Ordery implements Serializable {
     public void setPartOfBill(boolean partOfBill) {
         this.partOfBill = partOfBill;
     }
-    
-    
-    
-    
 
     @Override
     public int hashCode() {
