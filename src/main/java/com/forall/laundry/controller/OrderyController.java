@@ -130,8 +130,10 @@ public class OrderyController implements Serializable{
                 });
         
         List<Ordery> weeksOrders = orderyService.getOrdersFromThisWeek(daysOfWeek);
-        weeksOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         
+        if(weeksOrders != null){
+            weeksOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        } 
         return weeksOrders;
     }
     
