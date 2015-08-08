@@ -105,7 +105,7 @@ public class OrderyController implements Serializable{
         int month = cal.get(Calendar.MONTH)+1;
         int year = cal.get(Calendar.YEAR);
         
-        return orderyService.getOrdersFrom(day, month, year);
+        return orderyService.getOrdersFromToday(day, month, year);
     }
     
     public List<Ordery> getThisWeeksOrders(){
@@ -129,10 +129,25 @@ public class OrderyController implements Serializable{
                     daysOfWeek.add(cal);
                 });
         
-        List<Ordery> weeksOrders = orderyService.getOrdersFrom(daysOfWeek);
+        List<Ordery> weeksOrders = orderyService.getOrdersFromThisWeek(daysOfWeek);
         weeksOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         
         return weeksOrders;
+    }
+    
+    public List<Ordery> getThisMonthsOrders(){
+        Date today = new Date();
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        
+        List<Ordery> monthsOrders = orderyService.getOrdersFromMonth(month, year);
+        monthsOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        
+        return monthsOrders;
     }
     
     public List<Ordery> getOrders(){

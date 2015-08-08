@@ -49,7 +49,7 @@ public class OrderyService {
                             .getResultList();
     }
     
-    public List<Ordery> getOrdersFrom(int day, int month, int year){
+    public List<Ordery> getOrdersFromToday(int day, int month, int year){
         
         List<Ordery> orders = em.createQuery("SELECT o From Ordery o "
                                                                     + "WHERE EXTRACT(DAY FROM time) = :day "
@@ -63,7 +63,7 @@ public class OrderyService {
                 
     }
     
-    public List<Ordery> getOrdersFrom(List<Calendar> daysOfWeek){
+    public List<Ordery> getOrdersFromThisWeek(List<Calendar> daysOfWeek){
         List<Ordery> weeksOrders = new ArrayList<>();
         daysOfWeek
                 .parallelStream()
@@ -90,6 +90,17 @@ public class OrderyService {
                 });
 
         return weeksOrders;
+    }
+    
+    public List<Ordery> getOrdersFromMonth(int month, int year){
+        
+        List<Ordery> orders = em.createQuery("SELECT o From Ordery o "
+                                                    + "WHERE EXTRACT(MONTH FROM time) = :month "
+                                                    + "AND EXTRACT(YEAR FROM time) = :year")
+                            .setParameter("month", month)
+                            .setParameter("year", year)
+                            .getResultList();
+        return orders;
     }
     public void save(Ordery o){
         em.merge(o);

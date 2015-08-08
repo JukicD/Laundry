@@ -27,7 +27,6 @@ public class MobileNavigationController implements Serializable{
     public String setup(Worker worker){
         
             this.worker = worker;
-            
             return "second?facesRedirect=true";
             
     }
