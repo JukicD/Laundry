@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.forall.laundry.controller;
 
 import com.forall.laundry.controller.edit.EditController;
@@ -16,9 +16,11 @@ import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.ProductService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,7 +46,7 @@ public class OrderyController implements Serializable{
     @EJB
     private ItemService itemService;
     
-    @EJB 
+    @EJB
     private ProductService productService;
     
     @EJB
@@ -57,38 +59,35 @@ public class OrderyController implements Serializable{
     private BillingService billingService;
     
     @Inject
-    EditController editController;
+            EditController editController;
     
     
     public void addItem(){
         
-            Customer customer = userController.getCustomer();
-            Ordery order = userController.getCurrentOrder();
-            order.setCustomer(customer);
-            customerService.update(customer);
-            
-            item.setOrdery(order);
-            item.setItem_product(product);
-            order.addItem(item);
-            
-            productService.save(product);
-            itemService.save(item);
-            orderyService.update(order);
-            
-            product.setName(null);
-            item.setAmount(0);
-            product.setPrice(null);
-            editController.init();
+        Customer customer = userController.getCustomer();
+        Ordery order = userController.getCurrentOrder();
+        order.setCustomer(customer);
+        customerService.update(customer);
+        
+        item.setOrdery(order);
+        item.setItem_product(product);
+        order.addItem(item);
+        
+        productService.save(product);
+        itemService.save(item);
+        orderyService.update(order);
+        
+        product.setName(null);
+        item.setAmount(0);
+        product.setPrice(null);
+        editController.init();
     }
     
     public void finishOrder(){
         
         Ordery order = userController.getCurrentOrder();
-        
-        System.out.println("CUSTOMER: "+userController.getCustomer().getName());
-        System.out.println("ORDER: " + order.getOrder_id());
         order.setDate(new Date());
-        System.out.println("ORDER DATE: " +order.getDate());
+       
         orderyService.update(order);
         Ordery o = new Ordery();
         o.setCustomer(userController.getCustomer());
@@ -109,6 +108,30 @@ public class OrderyController implements Serializable{
         return orderyService.getOrdersFrom(day, month, year);
     }
     
+    public List<Ordery> getThisWeeksOrders(){
+        Date today = new Date();
+        List<Calendar> daysOfWeek = new ArrayList<>();
+        
+        IntStream
+                .iterate(2, n -> n+1)
+                .limit(7)
+                .forEach(n ->
+                {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setFirstDayOfWeek(Calendar.MONDAY);
+                    cal.setTime(today);
+                     
+                    if(n != 8){
+                        cal.set(Calendar.DAY_OF_WEEK, n);
+                    }else{
+                        cal.set(Calendar.DAY_OF_WEEK, 1);
+                    }
+                    daysOfWeek.add(cal);
+                });
+        
+        return orderyService.getOrdersFrom(daysOfWeek);
+    }
+    
     public List<Ordery> getOrders(){
         return orderyService.getOrdersFrom(userController.getCustomer());
     }
@@ -116,19 +139,19 @@ public class OrderyController implements Serializable{
     public List<Ordery> getOldOrders(){
         return orderyService.getOldOrdersFrom(userController.getCustomer());
     }
-
+    
     public Item getItem() {
         return item;
     }
-
+    
     public void setItem(Item item) {
         this.item = item;
     }
-
+    
     public Product getProduct() {
         return product;
     }
-
+    
     public void setProduct(Product product) {
         this.product = product;
     }

@@ -39,7 +39,6 @@ public class CustomerFilter implements Serializable{
     @PostConstruct
     public void init(){
         customers = cs.getAllCustomers();
-        customers.stream().forEach(f -> System.out.println(f.getName()));
     }
     
     public boolean filterByName(Object value, Object filter, Locale locale){

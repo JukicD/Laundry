@@ -8,12 +8,13 @@
     <f:view contentType="text/html">
         <h:head>
             <title>
-                <ui:insert name="title">PrimeFaces ShowCase</ui:insert>
+                <ui:insert name="title">Wäscherei Seebacher</ui:insert>
             </title>
             <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"></link>
             <style type="text/css">
+                
                 body {
                     background-image: url(#{resource['images/blue-wallpaper-7.jpg']});
                     margin: 0;
@@ -60,10 +61,8 @@
                       height="400" width="600" minimizable="true" dynamic="true" closable="true">
                 <p:ajax event="close" listener="#{customerNavigationController.setSite('customerList')}" update="customerPanel"/>
                 <p:outputPanel id="customerPanel">
-                    
                         <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
-                    
-                    
+                        
                 </p:outputPanel>
             </p:dialog>
              
@@ -78,7 +77,8 @@
             </p:dialog>
             
             <p:dialog id="eventDialog"
-                               widgetVar="event">
+                               widgetVar="event"
+                               style="width: fit-content">
                 <p:outputPanel id="eventPanel">
                     <ui:include src="/WEB-INF/pages/#{eventNavigationController.site}.xhtml"/>
                 </p:outputPanel>

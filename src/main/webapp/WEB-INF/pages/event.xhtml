@@ -5,49 +5,78 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:bnu="http://bootsfaces.net/ui">
-        
-    
-        <p:tabView id="eventTab" cache="true" dynamic="true">
+                    
+    <h:form>
+        <p:tabView id="eventTab" cache="true" dynamic="true" style="width:fit-content ">
             <p:tab title="Heute">
-                <h:form>
-                    <p:dataTable id="todayTable"
-                             var="order" value="#{orderyController.todaysOrders}"
-                             emptyMessage="Heute gibt es noch keine Aufträge." style="size: 30px" resizableColumns="true"
+                
+                <p:dataTable id="todayTable"
+                             var="order" 
+                             value="#{orderyController.todaysOrders}"
+                             emptyMessage="Heute gibt es noch keine Aufträge." 
+                             style="size: 30px; width: auto"
+                             resizableColumns="true"
                              scrollable="true"
                              reflow="true">
-                            
+                                 
                     <f:facet name="header">
                         <p:outputPanel>
-                            <h:outputText value="#{order.date}"/>
+                            <h:outputText value="#{order.date}">
+                                <f:convertDateTime pattern="dd.MM.yy" />
+                            </h:outputText>
                         </p:outputPanel>
                     </f:facet>
+                        
+                    <p:column  headerText="Kunde">
+                        <h:outputText value="#{order.customer.name}"/>
+                    </p:column>
+                        
+                    <p:column>
+                        <p:commandButton icon="ui-icon-clipboard" 
+                                         action="#{oldOrdersController.setup(order)}" 
+                                         actionListener="#{eventNavigationController.setSite('eventOrders')}" 
+                                         update="eventPanel">
+                            <f:actionListener binding="#{userController.setCustomer(order.customer)}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                      
+            </p:tab>
+            <p:tab title="Diese Woche">
+                <p:dataTable id="thisWeeksTable"
+                             var="order" 
+                             value="#{orderyController.thisWeeksOrders}"
+                             emptyMessage="Heute gibt es noch keine Aufträge." 
+                             style="size: 30px; width: auto"
+                             resizableColumns="true"
+                             scrollable="true"
+                             reflow="true">
+ 
+                    <p:column  headerText="Datum">
+                        <h:outputText value="#{order.date}">
+                            <f:convertDateTime pattern="d.M.yy" />
+                        </h:outputText>
+                    </p:column>
                     
                     <p:column  headerText="Kunde">
                         <h:outputText value="#{order.customer.name}"/>
                     </p:column>
-                    
+                        
                     <p:column>
                         <p:commandButton icon="ui-icon-clipboard" 
                                          action="#{oldOrdersController.setup(order)}" 
-                                         actionListener="#{eventNavigationController.setSite('orders')}" 
+                                         actionListener="#{eventNavigationController.setSite('eventOrders')}" 
                                          update="eventPanel">
-                            <f:actionListener binding="#{navigationController.setNavigationContext('event')}"/>
-                            <f:actionListener binding="#{navigationController.setUpdate('eventPanel')}"/>
+                            <f:actionListener binding="#{userController.setCustomer(order.customer)}"/>
                         </p:commandButton>
                     </p:column>
-                    
                 </p:dataTable>
-                </h:form>
-                
             </p:tab>
-            <p:tab title="Diese Woche">
-                
-            </p:tab>
-            <p:tab title="Dieser Monar">
+            <p:tab title="Dieser Monat">
                 
             </p:tab>
             <p:tab title="Benutzerdefiniert">
-                
             </p:tab>
         </p:tabView>
+    </h:form>
 </ui:composition>

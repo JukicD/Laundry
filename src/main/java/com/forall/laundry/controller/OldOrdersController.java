@@ -74,7 +74,6 @@ public class OldOrdersController implements Serializable{
 
     public void getBill(Ordery o){
         
-        System.out.println("RECHNUNG WIRD GEDRUCKT!" + o.getOrder_id());
         PreparedStatement stmt = null;
         String sql = "SELECT \"public\".ordery.bill FROM \"public\".ordery WHERE \"public\".ordery.order_id = ?";
         

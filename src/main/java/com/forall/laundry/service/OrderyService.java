@@ -8,9 +8,12 @@ package com.forall.laundry.service;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -56,9 +59,37 @@ public class OrderyService {
                                                                      .setParameter("month", month)
                                                                      .setParameter("year", year)
                                                                      .getResultList();
-        System.out.println(day + " " + month + " " +year + " " + orders.size());
         return orders;
                 
+    }
+    
+    public List<Ordery> getOrdersFrom(List<Calendar> daysOfWeek){
+        List<Ordery> weeksOrders = new ArrayList<>();
+        daysOfWeek
+                .parallelStream()
+                .forEach( cal-> {
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+                    int month = cal.get(Calendar.MONTH) + 1;
+                    int year = cal.get(Calendar.YEAR);
+                    
+                    List<Ordery> orders = null;
+                    try{
+                        orders = em.createQuery("SELECT o From Ordery o "
+                                                                    + "WHERE EXTRACT(DAY FROM time) = :day "
+                                                                    + "AND EXTRACT(MONTH FROM time) = :month "
+                                                                    + "AND EXTRACT(YEAR FROM time) = :year")
+                                            .setParameter("day", day)
+                                            .setParameter("month", month)
+                                            .setParameter("year", year)
+                                            .getResultList();
+                   }catch (NoResultException e){ 
+                        
+                   }
+                   
+                    weeksOrders.addAll(orders);
+                });
+
+        return weeksOrders;
     }
     public void save(Ordery o){
         em.merge(o);

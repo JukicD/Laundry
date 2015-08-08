@@ -30,6 +30,5 @@ public class CustomerNavigationController implements Serializable{
 
     public void setSite(String site) {
         this.site = site;
-        System.out.println(this.site);
     }
 }

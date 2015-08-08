@@ -23,8 +23,8 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.BarChartSeries;
+import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 
 /**
@@ -55,7 +55,6 @@ public class StatisticController implements Serializable{
     
     
     public void onTabChange(TabChangeEvent event){
-        System.out.println(event.getTab().getId());
         switch (event.getTab().getId()) {
             case "grossProfit":
                 customerProfitEntered = false;
@@ -92,21 +91,34 @@ public class StatisticController implements Serializable{
         for(int i = monthFrom; i <= monthTo; i++){
             
             BigDecimal monthSum = statisticService.getSumFromMonth(i, yearTo);
-            System.out.println(monthSum.setScale(2, RoundingMode.HALF_UP));
             series.set(format.format(calFrom.getTime()), monthSum.setScale(2, RoundingMode.HALF_UP));
+            
+            BigDecimal addition = new BigDecimal(233);
+            calFrom.add(Calendar.MONTH, 1);
+            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+            
+            addition = new BigDecimal(123);
+            calFrom.add(Calendar.MONTH, 1);
+            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+            
+            addition = new BigDecimal(666);
+            calFrom.add(Calendar.MONTH, 1);
+            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+            
+            addition = new BigDecimal(333);
+            calFrom.add(Calendar.MONTH, 1);
+            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+ 
         }
         
         model.addSeries(series);
-       
         model.setZoom(true);
         model.getAxis(AxisType.Y).setLabel("Euro");
-        DateAxis axis = new DateAxis("Datum");
         
-        axis.setTickAngle(-50);
+        CategoryAxis axis = new CategoryAxis("Datum");
         axis.setTickFormat("%b %y");
 
         model.getAxes().put(AxisType.X, axis);
-
     }
     
     public void createBarChart(){

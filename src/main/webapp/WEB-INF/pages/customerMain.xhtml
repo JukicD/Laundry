@@ -36,7 +36,7 @@
                         <p:resetInput target="@form" />
                     </p:commandButton>
             <p:commandButton value="Zurück" 
-                             action="#{customerNavigationController.setSite('customerList')}" 
+                             action="#{navigationController.setSite('customerList')}" 
                              update="customerPanel" 
                              immediate="true"/>
             
@@ -106,7 +106,7 @@
                 value="Lieferung abschließen" 
                 actionListener="#{orderyController.finishOrder}" 
                 rendered="#{not empty userController.items}"
-                update="@form"
+                update="@form eventPanel"
                 immediate="true"
                 process="@form">
                 <f:actionListener binding="#{growlController.saveMessage('Lieferung abgeschlossen !')}"/>

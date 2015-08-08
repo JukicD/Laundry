@@ -20,8 +20,6 @@ public class DateController implements Serializable{
     public void update(SelectEvent event){
         
         Date date = (Date) event.getObject();
-        System.out.println(date);
-        
     }
     
 }

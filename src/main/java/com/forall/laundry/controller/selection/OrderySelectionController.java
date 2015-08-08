@@ -41,7 +41,6 @@ public class OrderySelectionController implements Serializable{
     }
     
     public void reset(){
-        System.out.println("RESET");
         selectedOrders = new ArrayList<>();
         RequestContext.getCurrentInstance().update(":oldOrderList:orderTable");
     }
