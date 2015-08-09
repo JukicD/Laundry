@@ -6,7 +6,8 @@
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:bnu="http://bootsfaces.net/ui">
     
-    <h:form>
+    <h:form id="statisticForm">
+        <p:growl id="chartMsg" showDetail="true" showSummary="false"/>
         <p:tabView dynamic="true" cache="true" id="statisticTab">
             <p:ajax event="tabChange" listener="#{statisticController.onTabChange}" update="statisticTab"/>
             <p:tab title="Gesamtumsatz" id="grossProfit">
@@ -18,13 +19,19 @@
                     <p:calendar id="toDate" value="#{statisticController.to}" />
                     <p:commandButton value="Anzeigen" action="#{statisticController.createLineChart}" actionListener="#{statisticController.setGrossProfitEntered(true)}" update="statisticTab"/>
                 </h:panelGrid>
-                <p:chart type="line" model="#{statisticController.model}" style="height:300px;" rendered="#{statisticController.grossProfitEntered}" responsive="true"/>
+                <p:chart type="line" 
+                         model="#{statisticController.model}" 
+                         style="height:300px;" rendered="#{statisticController.grossProfitEntered}" 
+                         responsive="true"/>
             </p:tab>
             <p:tab title="Umsatz aller Kunden" id="customerProfit">
-                <p:chart type="bar" model="#{statisticController.model2}" rendered="#{statisticController.customerProfitEntered}" style="height:300px;" responsive="true"/>
-            </p:tab>
-            <p:tab title="Umsatz pro Kunde">
-                <h1>Kunde</h1>
+                <p:chart type="bar" 
+                         model="#{statisticController.customerModel}" 
+                         rendered="#{statisticController.customerProfitEntered}" 
+                         style="height:300px;" 
+                         responsive="true">
+                    <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('customerStatistic').show()" update="customerSummary"/>
+                </p:chart>
             </p:tab>
         </p:tabView>
     </h:form>

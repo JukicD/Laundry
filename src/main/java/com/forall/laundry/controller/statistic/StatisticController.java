@@ -6,6 +6,8 @@
 package com.forall.laundry.controller.statistic;
 
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.StatisticService;
 import java.io.Serializable;
@@ -15,9 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -45,13 +49,17 @@ public class StatisticController implements Serializable{
     
     private Date to;
     
-    private LineChartModel model;
+    private LineChartModel grossModel;
     
-    private BarChartModel model2;
+    private BarChartModel customerModel;
+    
+    private BarChartModel specificCustomerModel;
     
     private boolean grossProfitEntered;
     
     private boolean customerProfitEntered;
+    
+    private String name;
     
     
     public void onTabChange(TabChangeEvent event){
@@ -71,7 +79,7 @@ public class StatisticController implements Serializable{
     public void createLineChart(){
         
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-        model = new LineChartModel();
+        grossModel = new LineChartModel();
         ChartSeries series = new ChartSeries();
         
         Calendar calFrom = Calendar.getInstance();
@@ -111,19 +119,19 @@ public class StatisticController implements Serializable{
  
         }
         
-        model.addSeries(series);
-        model.setZoom(true);
-        model.getAxis(AxisType.Y).setLabel("Euro");
+        grossModel.addSeries(series);
+        grossModel.setZoom(true);
+        grossModel.getAxis(AxisType.Y).setLabel("Euro");
         
         CategoryAxis axis = new CategoryAxis("Datum");
         axis.setTickFormat("%b %y");
 
-        model.getAxes().put(AxisType.X, axis);
+        grossModel.getAxes().put(AxisType.X, axis);
     }
     
     public void createBarChart(){
-        System.out.println("bar");
-        model2 = new BarChartModel();
+        
+        customerModel = new BarChartModel();
         
         ChartSeries series = new BarChartSeries();
         
@@ -131,14 +139,56 @@ public class StatisticController implements Serializable{
         
         List<Customer> customers = customerService.getAllCustomers();
         
-        customers.stream().forEach((customer) -> {
-            series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
-        });
+        customers
+                .stream()
+                .forEach((customer) -> 
+                {
+                   series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
+                });
         
-        Axis xAxis = model2.getAxis(AxisType.X);
+        Axis xAxis = customerModel.getAxis(AxisType.X);
         xAxis.setTickAngle(-50);
-        model2.getAxes().put(AxisType.X, xAxis);
-        model2.addSeries(series);
+        Axis yAxis = customerModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Euro");
+        customerModel.getAxes().put(AxisType.X, xAxis);
+        customerModel.getAxes().put(AxisType.Y, yAxis);
+        customerModel.addSeries(series);
+    }
+    
+    
+    
+    public void itemSelect(ItemSelectEvent event){
+        
+        this.name = customerModel.getTicks().get(event.getItemIndex());
+        createSpecificCustomerModel();
+    }
+    
+    private void createSpecificCustomerModel(){
+        specificCustomerModel = new BarChartModel();
+        
+        ChartSeries series = new BarChartSeries();
+        series.setLabel(name);
+        
+        Customer customer = customerService.findByName(name);
+        List<Ordery> ordery = customerService.findOrdersById(customer.getId());
+        
+        List<Item> items = ordery
+                                                .parallelStream()
+                                                .flatMap(o -> o.getItems().parallelStream())
+                                                .collect(Collectors.toList());
+        items
+                .stream()
+                .forEach((item) -> {
+                    series.set(item.getItem_product().getName(), item.getSum().setScale(2, RoundingMode.HALF_UP));
+                });
+        
+        Axis xAxis = specificCustomerModel.getAxis(AxisType.X);
+        xAxis.setTickAngle(-50);
+        Axis yAxis = specificCustomerModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Euro");
+        specificCustomerModel.getAxes().put(AxisType.X, xAxis);
+        specificCustomerModel.getAxes().put(AxisType.Y, yAxis);
+        specificCustomerModel.addSeries(series);
     }
     
     public Date getFrom() {
@@ -158,19 +208,19 @@ public class StatisticController implements Serializable{
     }
     
     public LineChartModel getModel() {
-        return model;
+        return grossModel;
     }
     
-    public void setModel(LineChartModel model) {
-        this.model = model;
+    public void setGrossModel(LineChartModel model) {
+        this.grossModel = model;
     }
 
-    public BarChartModel getModel2() {
-        return model2;
+    public BarChartModel getCustomerModel() {
+        return customerModel;
     }
 
-    public void setModel2(BarChartModel model2) {
-        this.model2 = model2;
+    public void setCustomerModel(BarChartModel model2) {
+        this.customerModel = model2;
     }
 
     public boolean isGrossProfitEntered() {
@@ -188,7 +238,20 @@ public class StatisticController implements Serializable{
     public void setCustomerProfitEntered(boolean customerProfitEntered) {
         this.customerProfitEntered = customerProfitEntered;
     }
-    
-    
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BarChartModel getSpecificCustomerModel() {
+        return specificCustomerModel;
+    }
+
+    public void setSpecificCustomerModel(BarChartModel specificCustomerModel) {
+        this.specificCustomerModel = specificCustomerModel;
+    }
 }

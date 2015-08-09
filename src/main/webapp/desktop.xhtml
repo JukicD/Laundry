@@ -76,6 +76,15 @@
                 </p:outputPanel>
             </p:dialog>
             
+            <p:dialog id="customerSummary"
+                      widgetVar="customerStatistic"
+                      header="Zusammenfassug für #{statisticController.name}"
+                height="100%" width="80%" minimizable="true" closable="true" dynamic="true">
+                <p:outputPanel id="customerStatisticPanel">
+                    <ui:include src="/WEB-INF/pages/customerStatistic.xhtml"/>
+                </p:outputPanel>
+            </p:dialog>
+            
             <p:dialog id="eventDialog"
                                widgetVar="event"
                                style="width: fit-content">
