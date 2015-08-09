@@ -92,6 +92,14 @@
                     <ui:include src="/WEB-INF/pages/#{eventNavigationController.site}.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
+            
+            <p:dialog id="borrowDialog"
+                               widgetVar="borrow"
+                               style="width: fit-content">
+                <p:outputPanel id="borrowPanel">
+                    <ui:include src="/WEB-INF/pages/borrowed.xhtml"/>
+                </p:outputPanel>
+            </p:dialog>
 
             <p:dialog 
                 header="Kunden anlegen" 
@@ -118,6 +126,7 @@
                     <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()"/>
                     <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()"/>
                     <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()"/>
+                    <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
                 </p:dock>
             </h:form>
             
@@ -129,5 +138,4 @@
                 
         </h:body>
     </f:view>
-        
 </html>

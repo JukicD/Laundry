@@ -6,9 +6,9 @@
 package com.forall.laundry.controller.statistic;
 
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.StatisticService;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,7 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.stream.IntStream;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -44,6 +45,9 @@ public class StatisticController implements Serializable{
     
     @EJB
     private CustomerService customerService;
+    
+    @EJB
+    private ItemService itemService;
     
     private Date from;
     
@@ -141,6 +145,7 @@ public class StatisticController implements Serializable{
         
         customers
                 .stream()
+                .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue())
                 .forEach((customer) -> 
                 {
                    series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
@@ -170,16 +175,17 @@ public class StatisticController implements Serializable{
         series.setLabel(name);
         
         Customer customer = customerService.findByName(name);
-        List<Ordery> ordery = customerService.findOrdersById(customer.getId());
+        List<Ordery> ordery = customerService.findOrdersById(customer.getId()); 
         
-        List<Item> items = ordery
-                                                .parallelStream()
-                                                .flatMap(o -> o.getItems().parallelStream())
-                                                .collect(Collectors.toList());
-        items
-                .stream()
-                .forEach((item) -> {
-                    series.set(item.getItem_product().getName(), item.getSum().setScale(2, RoundingMode.HALF_UP));
+        
+        List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(customer);
+
+        IntStream
+                .iterate(0, n -> n+1)
+                .limit(sums.size() - 1)
+                .forEach(n -> 
+                {
+                    series.set(sums.get(n).getKey(), sums.get(n).getValue());
                 });
         
         Axis xAxis = specificCustomerModel.getAxis(AxisType.X);

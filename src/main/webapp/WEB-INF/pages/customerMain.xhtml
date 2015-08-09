@@ -106,7 +106,7 @@
                 value="Lieferung abschließen" 
                 actionListener="#{orderyController.finishOrder}" 
                 rendered="#{not empty userController.items}"
-                update="@form eventPanel"
+                update="@form eventPanel statisticPanel customerStatisticPanel"
                 immediate="true"
                 process="@form">
                 <f:actionListener binding="#{growlController.saveMessage('Lieferung abgeschlossen !')}"/>
