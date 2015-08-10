@@ -7,7 +7,6 @@
                 xmlns:bnu="http://bootsfaces.net/ui">
     
     <h:form id="statisticForm">
-        <p:growl id="chartMsg" showDetail="true" showSummary="false"/>
         <p:tabView dynamic="true" cache="true" id="statisticTab">
             <p:ajax event="tabChange" listener="#{statisticController.onTabChange}" update="statisticTab"/>
             <p:tab title="Gesamtumsatz" id="grossProfit">

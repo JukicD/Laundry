@@ -54,8 +54,11 @@ public class Item implements Serializable {
     @Transient
     private BigDecimal singlePrice;
     
+    @Transient
+    private BigDecimal totalSum;
+    
     public Item() {
-
+        
     }
     
     public BigDecimal getSum(){

@@ -2,6 +2,7 @@ package com.forall.laundry.controller.edit;
 
 import com.forall.laundry.controller.OldOrdersController;
 import com.forall.laundry.controller.UserController;
+import com.forall.laundry.controller.statistic.StatisticController;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
@@ -12,6 +13,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 @Named
 @RequestScoped
@@ -29,6 +31,9 @@ public class EditController implements Serializable{
     @Inject
     private UserController userController;
     
+    @Inject
+    private StatisticController statisticController;
+    
     private List<Item> items;
     
     @PostConstruct
@@ -42,6 +47,12 @@ public class EditController implements Serializable{
         
         productService.update(item.getItem_product());
         itemService.update(item);
+        statisticController.setName(userController.getCustomer().getName());
+        statisticController.update();
+        
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("statisticPanel");
+        context.update("customerStatisticPanel");
     }
 
     public ItemService getItemService() {

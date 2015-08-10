@@ -6,7 +6,6 @@
 package com.forall.laundry.controller.statistic;
 
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.StatisticService;
@@ -70,8 +69,6 @@ public class StatisticController implements Serializable{
         switch (event.getTab().getId()) {
             case "grossProfit":
                 customerProfitEntered = false;
-                grossProfitEntered = true;
-                createLineChart();
                 break;
             case "customerProfit":
                 customerProfitEntered = true;
@@ -146,7 +143,7 @@ public class StatisticController implements Serializable{
         customers
                 .stream()
                 .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue())
-                .forEach((customer) -> 
+                .forEach( customer -> 
                 {
                    series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
                 });
@@ -160,11 +157,14 @@ public class StatisticController implements Serializable{
         customerModel.addSeries(series);
     }
     
-    
-    
     public void itemSelect(ItemSelectEvent event){
         
         this.name = customerModel.getTicks().get(event.getItemIndex());
+        createSpecificCustomerModel();
+    }
+    
+    public void update(){
+        createBarChart();
         createSpecificCustomerModel();
     }
     
@@ -175,8 +175,6 @@ public class StatisticController implements Serializable{
         series.setLabel(name);
         
         Customer customer = customerService.findByName(name);
-        List<Ordery> ordery = customerService.findOrdersById(customer.getId()); 
-        
         
         List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(customer);
 

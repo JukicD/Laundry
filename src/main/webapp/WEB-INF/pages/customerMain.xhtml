@@ -110,6 +110,8 @@
                 immediate="true"
                 process="@form">
                 <f:actionListener binding="#{growlController.saveMessage('Lieferung abgeschlossen !')}"/>
+                <f:actionListener binding="#{statisticController.setName(userController.customer.name)}"/>
+                <f:actionListener binding="#{statisticController.update()}"/>
             </p:commandButton>
         </h:form>
 </ui:composition>

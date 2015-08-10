@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -80,11 +79,7 @@ public class CustomerService {
         
         List<Customer> customers = em.createQuery("SELECT c FROM Customer c WHERE c.name = :name").setParameter("name", name).getResultList();
         
-        if(customers.size() == 1){
+        
             return customers.get(0);
-        }else{
-            throw new NonUniqueResultException();
-        }
-         
     }
 }
