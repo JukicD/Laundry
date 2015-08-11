@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions">
         
-        <h:form>
+        <h:form id="billForm">
             <h1 style="font-size: 20px">Überschrift</h1>
             <p:separator/>
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
@@ -27,8 +27,7 @@
             
             <h1 style="font-size: 20px">Begrüßungstext</h1>
             <p:separator style=""/>
-            
-                  
+
             <p:editor id="greetingsEditor" widgetVar="greetingWidget" value="#{billingController.bill.welcome}" width="600"/>
         
             <br/>
@@ -37,6 +36,7 @@
             <h1 style="font-size: 20px">Information</h1>
             <p:separator/>
             <p:editor id="informationEditor" widgetVar="informationWidget" value="#{billingController.bill.information}" width="600"/>
+            
             <p:commandButton 
                 value="Speichern" 
                 icon="ui-icon-check" 

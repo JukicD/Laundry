@@ -9,6 +9,8 @@ import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -81,5 +83,29 @@ public class CustomerService {
         
         
             return customers.get(0);
+    }
+    
+    public List<Customer> getCustomersFrom(Date date){
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        
+        
+        List<Customer> customers =  em
+                .createQuery("SELECT c FROM Ordery o, Customer c "
+                        + "WHERE o.customer.id. = c.id"
+                        + "AND EXTRACT(DAY FROM time) = :day "
+                        + "AND EXTRACT(MONTH FROM time) = :month "
+                        + "AND EXTRACT(YEAR FROM time) = :year")
+                .setParameter("day", day)
+                .setParameter("month", month)
+                .setParameter("year", year)
+                .getResultList();
+        
+        return customers;
     }
 }

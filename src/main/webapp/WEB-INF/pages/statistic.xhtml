@@ -20,15 +20,13 @@
                 </h:panelGrid>
                 <p:chart type="line" 
                          model="#{statisticController.model}" 
-                         style="height:300px;" rendered="#{statisticController.grossProfitEntered}" 
-                         responsive="true"/>
+                         style="height:300px;" rendered="#{statisticController.grossProfitEntered}"/>
             </p:tab>
             <p:tab title="Umsatz aller Kunden" id="customerProfit">
                 <p:chart type="bar" 
                          model="#{statisticController.customerModel}" 
                          rendered="#{statisticController.customerProfitEntered}" 
-                         style="height:300px;" 
-                         responsive="true">
+                         style="height:300px;">
                     <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('customerStatistic').show()" update="customerSummary"/>
                 </p:chart>
             </p:tab>

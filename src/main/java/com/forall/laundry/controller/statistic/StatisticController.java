@@ -180,7 +180,7 @@ public class StatisticController implements Serializable{
 
         IntStream
                 .iterate(0, n -> n+1)
-                .limit(sums.size() - 1)
+                .limit(sums.size())
                 .forEach(n -> 
                 {
                     series.set(sums.get(n).getKey(), sums.get(n).getValue());

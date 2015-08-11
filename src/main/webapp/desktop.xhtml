@@ -22,9 +22,7 @@
                     font-family: geneva, arial, helvetica, sans-serif;
                     font-size:80%;
                 }
-                    
-                    
-                    
+                         
                 .ui-dialog .ui-terminal {
                     border:0;
                 }
@@ -43,82 +41,105 @@
                     <p:submenu label="Kunden">
                         <p:menuitem value="Neu" onclick="PF('addCustomer').show()"/>
                     </p:submenu>
-                    
+                        
                     <p:submenu label="Mitarbeiter">
                         <p:menuitem value="Neu" onclick="PF('addWorker').show()"/>
                     </p:submenu>
-                    
+                        
                     <p:submenu label="Rechnungen">
                         <p:menuitem value="Einstellungen" onclick="PF('billSettings').show()"/>
                     </p:submenu>
-                       
+                        
                 </p:menubar>
             </h:form>
-
+                
             <p:dialog id="customerListDialog" 
                       header="Kundenliste" 
                       widgetVar="customer" 
-                      height="400" width="600" minimizable="true" dynamic="true" closable="true">
+                      height="400" width="600" minimizable="true" dynamic="true" closable="true"
+                      hideEffect="clip">
                 <p:ajax event="close" listener="#{customerNavigationController.setSite('customerList')}" update="customerPanel"/>
                 <p:outputPanel id="customerPanel">
-                        <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
-                        
+                    <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
-             
+                
             <p:dialog id="statisticDialog"
                       widgetVar="statistic"
                       header="Statistik" 
-                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true">
-                
+                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
+                      hideEffect="clip">
+                          
                 <p:outputPanel id="statisticPanel">
                     <ui:include src="/WEB-INF/pages/statistic.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
-            
+                
             <p:dialog id="customerSummary"
                       widgetVar="customerStatistic"
                       header="Zusammenfassug für #{statisticController.name}"
-                height="100%" width="80%" minimizable="true" closable="true" dynamic="true">
+                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
+                      hideEffect="clip">
                 <p:outputPanel id="customerStatisticPanel">
                     <ui:include src="/WEB-INF/pages/customerStatistic.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
-            
+                
             <p:dialog id="eventDialog"
-                               widgetVar="event"
-                               style="width: fit-content">
+                      widgetVar="event"
+                      position="center"
+                      minimizable="true"
+                      maximizable="true"
+                      height="470" width="600"
+                      hideEffect="clip">
                 <p:outputPanel id="eventPanel">
-                    <ui:include src="/WEB-INF/pages/#{eventNavigationController.site}.xhtml"/>
+                    <ui:include src="/WEB-INF/pages/event.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
             
+            <p:dialog id="scheduleDialog"
+                      widgetVar="schedule"
+                      position="center"
+                      minimizable="true"
+                      maximizable="true"
+                      height="470" width="600"
+                      hideEffect="clip">
+                <p:outputPanel id="schedulePanel">
+                    <ui:include src="/WEB-INF/pages/#{scheduleNavigator.site}.xhtml"/>
+                </p:outputPanel>
+            </p:dialog>
+                
             <p:dialog id="borrowDialog"
-                               widgetVar="borrow"
-                               style="width: fit-content">
+                      widgetVar="borrow"
+                      style="width: fit-content"
+                      hideEffect="clip">
                 <p:outputPanel id="borrowPanel">
                     <ui:include src="/WEB-INF/pages/borrowed.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
-
+                
             <p:dialog 
                 header="Kunden anlegen" 
-                widgetVar="addCustomer" height="400" width="600" minimizable="true" style="width: auto">
+                widgetVar="addCustomer" height="400" width="600" minimizable="true" style="width: auto"
+                hideEffect="clip">
                 <ui:include src="/WEB-INF/pages/createCustomer.xhtml"/>
             </p:dialog>
-            
+                
             <p:dialog header="Mitarbeiter anlegen"
                       widgetVar="addWorker"
-                      height="400" width="600" minimizable="true">
+                      height="400" width="600" minimizable="true"
+                      hideEffect="clip">
                           
                 <ui:include src="/WEB-INF/pages/workerMain.xhtml"/>
             </p:dialog>
-            
+                
             <p:dialog header="Einstellungen"
                       widgetVar="billSettings"
                       height="400"
                       width="600"
-                      minimizable="true">
+                      minimizable="true"
+                      dynamic="true"
+                      hideEffect="clip">
                 <ui:include src="/WEB-INF/pages/billSettings.xhtml"/>
             </p:dialog>
             <h:form>
@@ -129,7 +150,7 @@
                     <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
                 </p:dock>
             </h:form>
-            
+                
             <script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/sh.js"></script>
             <script language="javascript">
                 dp.SyntaxHighlighter.ClipboardSwf = '#{request.contextPath}/syntaxhighlighter/scripts/clipboard.swf';

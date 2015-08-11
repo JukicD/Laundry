@@ -11,6 +11,7 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BillingService;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -30,12 +31,20 @@ public class BillingController implements Serializable{
     @Inject
     private Bill bill;
     
+    @PostConstruct
+    public void init(){
+        this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
+    }
     public void getBill(List<Ordery> orders, Customer customer){
         billingService.createBill(customer, orders);
     }
     
     public void save(){
-        billingService.save(bill);
+        if(billingService.getBill() != null){
+            billingService.update(bill);
+        }else{
+            billingService.save(bill);
+        }
     }
 
     public Bill getBill() {

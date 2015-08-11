@@ -8,7 +8,7 @@
         <h:form id="customerList">
             <p:contextMenu for="customerTable">
                 <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel"/>
-                <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{customerNavigationController.setSite('updateCustomer')}" update="customerPanel"/>
+                <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/>
             </p:contextMenu>
             
             <p:dataTable id="customerTable" 

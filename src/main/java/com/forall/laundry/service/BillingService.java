@@ -22,6 +22,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.RollbackException;
 import net.sf.jasperreports.engine.JRException;
@@ -51,15 +52,31 @@ public class BillingService {
     
     public void save(Bill bill){
         try{
-            em.merge(bill);
+            em.persist(bill);
             logger.info("Bill Saved!");
         }catch (RollbackException e){
             logger.error("ERROR ! Bill was not saved !");
         }
     }
     
-    public Bill getBill(Bill bill){
-        return em.find(Bill.class, 8);
+    public void update(Bill bill){
+         try{
+            em.merge(bill);
+            logger.info("Bill updated!");
+        }catch (RollbackException e){
+            logger.error("ERROR ! Bill was not updated !");
+        }
+    }
+    
+    public Bill getBill(){
+        Bill bill;
+        try{
+            bill = (Bill) em.createQuery("Select b FROM Bill b").setMaxResults(1).getSingleResult();
+        }catch (NoResultException e){
+            return null;
+        }
+       
+        return bill;
     }
     
     
