@@ -6,6 +6,7 @@
 package com.forall.laundry.controller.statistic;
 
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Item;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.StatisticService;
@@ -58,11 +59,13 @@ public class StatisticController implements Serializable{
     
     private BarChartModel specificCustomerModel;
     
+    private LineChartModel specificItemFromCustomerModel;
+    
     private boolean grossProfitEntered;
     
     private boolean customerProfitEntered;
     
-    private String name;
+    private Customer selectedCustomer;
     
     
     public void onTabChange(TabChangeEvent event){
@@ -157,10 +160,17 @@ public class StatisticController implements Serializable{
         customerModel.addSeries(series);
     }
     
+    public void customerSelect(ItemSelectEvent event){
+        
+        selectedCustomer = customerService.findByName(customerModel.getTicks().get(event.getItemIndex()));
+        createSpecificCustomerModel();
+    }
+    
     public void itemSelect(ItemSelectEvent event){
         
-        this.name = customerModel.getTicks().get(event.getItemIndex());
-        createSpecificCustomerModel();
+        String itemName = specificCustomerModel.getTicks().get(event.getItemIndex());
+        List<Item> specificItems = itemService.getSpecificItems(itemName, selectedCustomer);
+        createLineChartForSpecificItemFromCustomer();
     }
     
     public void update(){
@@ -168,15 +178,68 @@ public class StatisticController implements Serializable{
         createSpecificCustomerModel();
     }
     
+    private void createLineChartForSpecificItemFromCustomer(){
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        specificItemFromCustomerModel = new LineChartModel();
+//        ChartSeries series = new ChartSeries();
+//        
+//        Calendar calFrom = Calendar.getInstance();
+//        calFrom.setTime(from);
+//        
+//        Calendar calTo = Calendar.getInstance();
+//        calFrom.setTime(to);
+//        
+//        int monthFrom = calFrom.get(Calendar.MONTH);
+//        int monthTo = calTo.get(Calendar.MONTH);
+//        
+//        int yearFrom = calFrom.get(Calendar.YEAR);
+//        int yearTo = calFrom.get(Calendar.YEAR);
+//        
+//        series.setLabel("Umsatz");
+//        
+//        for(int i = monthFrom; i <= monthTo; i++){
+//            
+//            BigDecimal monthSum = statisticService.getSumFromMonth(i, yearTo);
+//            series.set(format.format(calFrom.getTime()), monthSum.setScale(2, RoundingMode.HALF_UP));
+//            
+//            BigDecimal addition = new BigDecimal(233);
+//            calFrom.add(Calendar.MONTH, 1);
+//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+//            
+//            addition = new BigDecimal(123);
+//            calFrom.add(Calendar.MONTH, 1);
+//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+//            
+//            addition = new BigDecimal(666);
+//            calFrom.add(Calendar.MONTH, 1);
+//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+//            
+//            addition = new BigDecimal(333);
+//            calFrom.add(Calendar.MONTH, 1);
+//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
+// 
+//        }
+//        
+//        grossModel.addSeries(series);
+//        grossModel.setZoom(true);
+//        grossModel.getAxis(AxisType.Y).setLabel("Euro");
+//        
+//        CategoryAxis axis = new CategoryAxis("Datum");
+//        axis.setTickFormat("%b %y");
+//
+//        grossModel.getAxes().put(AxisType.X, axis);
+    }
+    
     private void createSpecificCustomerModel(){
         specificCustomerModel = new BarChartModel();
         
         ChartSeries series = new BarChartSeries();
-        series.setLabel(name);
+        series.setLabel(selectedCustomer.getName());
         
-        Customer customer = customerService.findByName(name);
         
-        List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(customer);
+        
+        List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(selectedCustomer);
 
         IntStream
                 .iterate(0, n -> n+1)
@@ -243,14 +306,6 @@ public class StatisticController implements Serializable{
         this.customerProfitEntered = customerProfitEntered;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public BarChartModel getSpecificCustomerModel() {
         return specificCustomerModel;
     }
@@ -258,4 +313,14 @@ public class StatisticController implements Serializable{
     public void setSpecificCustomerModel(BarChartModel specificCustomerModel) {
         this.specificCustomerModel = specificCustomerModel;
     }
+
+    public Customer getSelectedCustomer() {
+        return selectedCustomer;
+    }
+
+    public void setSelectedCustomer(Customer selectedCustomer) {
+        this.selectedCustomer = selectedCustomer;
+    }
+    
+    
 }

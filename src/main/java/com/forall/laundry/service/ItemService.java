@@ -97,4 +97,20 @@ public class ItemService {
         return ordered;
         
     }
+    
+    public List<Item> getSpecificItems(final String name, final Customer customer){
+        
+        System.out.println("CUSTOMER: " + customer.getName() + " " + customer.getId());
+//        SELECT i, p."name", c."name", o."time"  FROM "public".item i, "public".ordery o, "public".product p, "public".customer c WHERE c.id = 37 AND o.customer_id = c.id AND p."name" LIKE 'Wäsche' AND i.ordery_id = o.order_id AND i.item_product_product_id = p.product_id;
+        List<Item> items = em.createQuery("Select i FROM Item i, Ordery o, Product p, Customer c WHERE c.id = :id AND c.id = o.customer.id AND i.ordery.order_id = o.order_id AND i.item_product.product_id = p.product_id AND p.name LIKE :name ORDER BY o.date ASC")
+                .setParameter("id", customer.getId())
+                .setParameter("name", name)
+                .getResultList();
+        
+        items.forEach(f -> System.out.println(f.getName() + " " + f.getOrdery().getDate() + " " + f.getOrdery().getCustomer().getName()));
+        
+        return items;
+        
+        
+    }
 }

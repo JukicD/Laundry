@@ -47,7 +47,7 @@ public class EditController implements Serializable{
         
         productService.update(item.getItem_product());
         itemService.update(item);
-        statisticController.setName(userController.getCustomer().getName());
+        statisticController.setSelectedCustomer(userController.getCustomer());
         statisticController.update();
         
         RequestContext context = RequestContext.getCurrentInstance();

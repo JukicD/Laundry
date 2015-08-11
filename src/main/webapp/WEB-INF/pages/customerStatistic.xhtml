@@ -12,6 +12,7 @@
                          rendered="#{statisticController.customerProfitEntered}" 
                          style="height:300px;" 
                          responsive="true">
+            <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('customerItemStatistic').show()"/>
                 </p:chart>
     </h:form>
 </ui:composition>

@@ -11,8 +11,6 @@
                 <ui:insert name="title">Wäscherei Seebacher</ui:insert>
             </title>
             <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
-            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
-            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css"></link>
             <style type="text/css">
                 
                 body {
@@ -77,7 +75,7 @@
                 
             <p:dialog id="customerSummary"
                       widgetVar="customerStatistic"
-                      header="Zusammenfassug für #{statisticController.name}"
+                      header="Zusammenfassug für #{statisticController.selectedCustomer.name}"
                       height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
                       hideEffect="clip">
                 <p:outputPanel id="customerStatisticPanel">
@@ -150,13 +148,6 @@
                     <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
                 </p:dock>
             </h:form>
-                
-            <script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/sh.js"></script>
-            <script language="javascript">
-                dp.SyntaxHighlighter.ClipboardSwf = '#{request.contextPath}/syntaxhighlighter/scripts/clipboard.swf';
-                dp.SyntaxHighlighter.HighlightAll('code');
-            </script>
-                
         </h:body>
     </f:view>
 </html>

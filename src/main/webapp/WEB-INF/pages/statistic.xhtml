@@ -27,7 +27,10 @@
                          model="#{statisticController.customerModel}" 
                          rendered="#{statisticController.customerProfitEntered}" 
                          style="height:300px;">
-                    <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('customerStatistic').show()" update="customerSummary"/>
+                    <p:ajax event="itemSelect" 
+                            listener="#{statisticController.customerSelect}"
+                            oncomplete="PF('customerStatistic').show()" 
+                            update="customerSummary"/>
                 </p:chart>
             </p:tab>
         </p:tabView>
