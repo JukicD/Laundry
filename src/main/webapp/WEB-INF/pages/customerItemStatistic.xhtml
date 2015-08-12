@@ -7,12 +7,11 @@
     xmlns:bnu="http://bootsfaces.net/ui">
                     
     <h:form>
-        <p:chart type="bar" 
-                 model="#{statisticController.specificCustomerModel}" 
-                         rendered="#{statisticController.customerProfitEntered}" 
-                         style="height:300px;" 
-                         responsive="true">
-            <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('specificItem').show()" update="specificItemDialog"/>
+        <p:chart type="line" 
+                 model="#{statisticController.specificItemFromCustomerModel}"
+                         style="height:400px;" 
+                         responsive="true"
+                         rendered="#{statisticController.customerItemSelected}">
                 </p:chart>
     </h:form>
 </ui:composition>

@@ -65,8 +65,13 @@ public class StatisticController implements Serializable{
     
     private boolean customerProfitEntered;
     
+    private boolean customerItemSelected;
+    
     private Customer selectedCustomer;
     
+    private List<Item> specificItems;
+    
+    private String itemName;
     
     public void onTabChange(TabChangeEvent event){
         switch (event.getTab().getId()) {
@@ -168,67 +173,41 @@ public class StatisticController implements Serializable{
     
     public void itemSelect(ItemSelectEvent event){
         
-        String itemName = specificCustomerModel.getTicks().get(event.getItemIndex());
-        List<Item> specificItems = itemService.getSpecificItems(itemName, selectedCustomer);
+        
+        itemName = specificCustomerModel.getTicks().get(event.getItemIndex());
         createLineChartForSpecificItemFromCustomer();
+        customerItemSelected = true;
     }
     
     public void update(){
         createBarChart();
         createSpecificCustomerModel();
+        createLineChartForSpecificItemFromCustomer();
     }
     
     private void createLineChartForSpecificItemFromCustomer(){
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        specificItems = itemService.getSpecificItems(itemName, selectedCustomer);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
         specificItemFromCustomerModel = new LineChartModel();
-//        ChartSeries series = new ChartSeries();
-//        
-//        Calendar calFrom = Calendar.getInstance();
-//        calFrom.setTime(from);
-//        
-//        Calendar calTo = Calendar.getInstance();
-//        calFrom.setTime(to);
-//        
-//        int monthFrom = calFrom.get(Calendar.MONTH);
-//        int monthTo = calTo.get(Calendar.MONTH);
-//        
-//        int yearFrom = calFrom.get(Calendar.YEAR);
-//        int yearTo = calFrom.get(Calendar.YEAR);
-//        
-//        series.setLabel("Umsatz");
-//        
-//        for(int i = monthFrom; i <= monthTo; i++){
-//            
-//            BigDecimal monthSum = statisticService.getSumFromMonth(i, yearTo);
-//            series.set(format.format(calFrom.getTime()), monthSum.setScale(2, RoundingMode.HALF_UP));
-//            
-//            BigDecimal addition = new BigDecimal(233);
-//            calFrom.add(Calendar.MONTH, 1);
-//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
-//            
-//            addition = new BigDecimal(123);
-//            calFrom.add(Calendar.MONTH, 1);
-//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
-//            
-//            addition = new BigDecimal(666);
-//            calFrom.add(Calendar.MONTH, 1);
-//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
-//            
-//            addition = new BigDecimal(333);
-//            calFrom.add(Calendar.MONTH, 1);
-//            series.set(format.format(calFrom.getTime()), addition.setScale(2, RoundingMode.HALF_UP));
-// 
-//        }
-//        
-//        grossModel.addSeries(series);
-//        grossModel.setZoom(true);
-//        grossModel.getAxis(AxisType.Y).setLabel("Euro");
-//        
-//        CategoryAxis axis = new CategoryAxis("Datum");
-//        axis.setTickFormat("%b %y");
-//
-//        grossModel.getAxes().put(AxisType.X, axis);
+        ChartSeries series = new ChartSeries();
+       
+        
+        series.setLabel("Umsatz");
+        
+        specificItems.stream().forEach((item) -> {
+            series.set(format.format(item.getOrdery().getDate()), item.getSum().setScale(2, RoundingMode.HALF_UP));
+        });
+        
+        specificItemFromCustomerModel.addSeries(series);
+        specificItemFromCustomerModel.setZoom(true);
+        specificItemFromCustomerModel.getAxis(AxisType.Y).setLabel("Euro");
+        
+        CategoryAxis axis = new CategoryAxis("Datum");
+        axis.setTickFormat("%d %b %y");
+
+        specificItemFromCustomerModel.getAxes().put(AxisType.X, axis);
+        //RequestContext.getCurrentInstance().update("specificItemDialog");
     }
     
     private void createSpecificCustomerModel(){
@@ -321,6 +300,34 @@ public class StatisticController implements Serializable{
     public void setSelectedCustomer(Customer selectedCustomer) {
         this.selectedCustomer = selectedCustomer;
     }
+
+    public LineChartModel getSpecificItemFromCustomerModel() {
+        return specificItemFromCustomerModel;
+    }
+
+    public void setSpecificItemFromCustomerModel(LineChartModel specificItemFromCustomerModel) {
+        this.specificItemFromCustomerModel = specificItemFromCustomerModel;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public boolean isCustomerItemSelected() {
+        return customerItemSelected;
+    }
+
+    public void setCustomerItemSelected(boolean customerItemSelected) {
+        this.customerItemSelected = customerItemSelected;
+    }
+    
+    
+    
+    
     
     
 }
