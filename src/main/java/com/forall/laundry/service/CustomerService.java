@@ -65,7 +65,7 @@ public class CustomerService {
 
     public List<Item> getItems(Customer customer) {
         
-      return em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.order_id = o.order_id")
+      return em.createQuery("SELECT i FROM Item i, Ordery o  WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.order_id = o.order_id")
                         .setParameter("id", customer.getId())
                         .getResultList();
     }

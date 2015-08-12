@@ -9,10 +9,15 @@
     <h:form>
         <p:chart type="bar" 
                  model="#{statisticController.specificCustomerModel}" 
-                         rendered="#{statisticController.customerProfitEntered}" 
+                 rendered="#{not empty statisticController.selectedCustomer}" 
                          style="height:300px;" 
                          responsive="true">
             <p:ajax event="itemSelect" listener="#{statisticController.itemSelect}" oncomplete="PF('specificItem').show()" update="specificItemDialog"/>
+            
                 </p:chart>
+        
+        <p:commandButton value="Alle Waren" actionListener="#{statisticController.allItems}" update="customerStatisticPanel" action="#{statisticNavigationController.setSite('customerStatisticAll')}">
+            
+        </p:commandButton>
     </h:form>
 </ui:composition>

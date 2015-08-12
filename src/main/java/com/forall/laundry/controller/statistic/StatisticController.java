@@ -31,6 +31,7 @@ import org.primefaces.model.chart.BarChartSeries;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
@@ -60,6 +61,8 @@ public class StatisticController implements Serializable{
     private BarChartModel specificCustomerModel;
     
     private LineChartModel specificItemFromCustomerModel;
+    
+    private LineChartModel allItemsFromCustomerModel;
     
     private boolean grossProfitEntered;
     
@@ -237,6 +240,46 @@ public class StatisticController implements Serializable{
         specificCustomerModel.addSeries(series);
     }
     
+    public void allItems(){
+        allItemsFromCustomerModel = new LineChartModel();
+        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
+        
+       
+        List<Item> items = itemService.getAllItems(selectedCustomer);
+        ChartSeries series = new LineChartSeries();
+        System.out.println("ITEMS: " + items.size());
+        items.stream().forEach( (Item i) -> series.set(format.format(i.getOrdery().getDate()), i.getSum().setScale(2, RoundingMode.HALF_UP)));
+        items.forEach((Item i) -> System.out.println(i.getOrdery().getCustomer().getName() + " " + i.getItem_product().getName() + " " + i.getOrdery().getDate()));
+        
+//        Map<String, List<Item>> test = items.parallelStream().collect(Collectors.groupingBy(i -> i.getItem_product().getName()));
+//        
+//        test.keySet().stream()
+//                .forEach( (String key) ->
+//        {
+//            ChartSeries series = new LineChartSeries();
+//            
+//            test.get(key)
+//                    .stream()
+//                    .sorted((Item i1, Item i2) -> i1.getOrdery().getDate().compareTo(i2.getOrdery().getDate()))
+//                    .forEach((Item i) -> 
+//                        {
+//                            System.out.println("ITEM NAME: " + i.getName() + " ITEM DATE: " + i.getOrdery().getDate());
+//                            series.set(format.format(i.getOrdery().getDate()), i.getSum().setScale(2, RoundingMode.HALF_UP));
+//                        });
+//            
+//            series.setLabel(key);
+//            allItemsFromCustomerModel.addSeries(series);
+//        });
+        series.getData().entrySet().stream().forEach((Map.Entry<Object, Number> e) -> System.out.println("KEY: " + e.getKey() + " Value: " + e.getValue()));
+        allItemsFromCustomerModel.addSeries(series);
+        allItemsFromCustomerModel.setLegendPosition("e");
+        allItemsFromCustomerModel.getAxis(AxisType.Y).setLabel("Euro");
+        CategoryAxis axis = new CategoryAxis("Datum");
+        
+        axis.setTickFormat("%d %b %y");
+        allItemsFromCustomerModel.getAxes().put(AxisType.X, axis);
+    }
+    
     public Date getFrom() {
         return from;
     }
@@ -324,10 +367,12 @@ public class StatisticController implements Serializable{
     public void setCustomerItemSelected(boolean customerItemSelected) {
         this.customerItemSelected = customerItemSelected;
     }
-    
-    
-    
-    
-    
-    
+
+    public LineChartModel getAllItemsFromCustomerModel() {
+        return allItemsFromCustomerModel;
+    }
+
+    public void setAllItemsFromCustomerModel(LineChartModel allItemsFromCustomerModel) {
+        this.allItemsFromCustomerModel = allItemsFromCustomerModel;
+    }   
 }

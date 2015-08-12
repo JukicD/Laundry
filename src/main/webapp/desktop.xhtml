@@ -78,8 +78,9 @@
                       header="Zusammenfassug für #{statisticController.selectedCustomer.name}"
                       height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
                       hideEffect="clip">
+                <p:ajax event="close" listener="#{statisticNavigationController.setSite('customerStatistic')}" update="customerStatisticPanel"/>
                 <p:outputPanel id="customerStatisticPanel">
-                    <ui:include src="/WEB-INF/pages/customerStatistic.xhtml"/>
+                    <ui:include src="/WEB-INF/pages/#{statisticNavigationController.site}.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
                 

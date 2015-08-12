@@ -107,4 +107,13 @@ public class ItemService {
         
         return items;
     }
+    
+    public List<Item> getAllItems(Customer customer){
+        
+        List<Item> items = em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND i.ordery.order_id = o.order_id ORDER BY o.date ASC")
+                .setParameter("id", customer.getId())
+                .getResultList();
+        
+        return items;
+    }
 }
