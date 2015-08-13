@@ -241,43 +241,36 @@ public class StatisticController implements Serializable{
     }
     
     public void allItems(){
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
         allItemsFromCustomerModel = new LineChartModel();
-        final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
+        Map<String, List<Item>> itemsByName = itemService.getItemsGroupedByName(selectedCustomer);
         
+        itemsByName.entrySet().stream().sorted((Map.Entry entry1, Map.Entry entry2) -> ((List<Item>)entry1.getValue()).size() - ((List<Item>)entry2.getValue()).size());
        
-        List<Item> items = itemService.getAllItems(selectedCustomer);
-        ChartSeries series = new LineChartSeries();
-        System.out.println("ITEMS: " + items.size());
-        items.stream().forEach( (Item i) -> series.set(format.format(i.getOrdery().getDate()), i.getSum().setScale(2, RoundingMode.HALF_UP)));
-        items.forEach((Item i) -> System.out.println(i.getOrdery().getCustomer().getName() + " " + i.getItem_product().getName() + " " + i.getOrdery().getDate()));
         
-//        Map<String, List<Item>> test = items.parallelStream().collect(Collectors.groupingBy(i -> i.getItem_product().getName()));
-//        
-//        test.keySet().stream()
-//                .forEach( (String key) ->
-//        {
-//            ChartSeries series = new LineChartSeries();
-//            
-//            test.get(key)
-//                    .stream()
-//                    .sorted((Item i1, Item i2) -> i1.getOrdery().getDate().compareTo(i2.getOrdery().getDate()))
-//                    .forEach((Item i) -> 
-//                        {
-//                            System.out.println("ITEM NAME: " + i.getName() + " ITEM DATE: " + i.getOrdery().getDate());
-//                            series.set(format.format(i.getOrdery().getDate()), i.getSum().setScale(2, RoundingMode.HALF_UP));
-//                        });
-//            
-//            series.setLabel(key);
-//            allItemsFromCustomerModel.addSeries(series);
-//        });
-        series.getData().entrySet().stream().forEach((Map.Entry<Object, Number> e) -> System.out.println("KEY: " + e.getKey() + " Value: " + e.getValue()));
-        allItemsFromCustomerModel.addSeries(series);
-        allItemsFromCustomerModel.setLegendPosition("e");
+        
+        itemsByName.keySet().stream().forEach((String key) -> 
+        
+        {
+            System.out.println("FIRST KEY: " + key);
+           LineChartSeries series = new LineChartSeries();
+           List<Item> items = itemsByName.get(key);
+           
+           Map<Date, BigDecimal> sums = itemService.getSumOfItems(items);
+           sums.entrySet().stream().forEach((Map.Entry entry) -> System.out.println("KEY: " + entry.getKey() + " KEY: " + key ));
+           sums.keySet().stream().forEach((Date dateKey) -> series.set(format.format(dateKey), sums.get(dateKey)));
+           series.setLabel(key);
+           allItemsFromCustomerModel.addSeries(series);
+            
+        });
+        allItemsFromCustomerModel.setZoom(true);
         allItemsFromCustomerModel.getAxis(AxisType.Y).setLabel("Euro");
+        allItemsFromCustomerModel.setLegendPosition("e");
         CategoryAxis axis = new CategoryAxis("Datum");
-        
-        axis.setTickFormat("%d %b %y");
+        axis.setTickFormat("%b %y");
+
         allItemsFromCustomerModel.getAxes().put(AxisType.X, axis);
+       
     }
     
     public Date getFrom() {

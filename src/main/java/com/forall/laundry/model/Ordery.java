@@ -3,6 +3,7 @@ package com.forall.laundry.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +51,19 @@ public class Ordery implements Serializable {
     @Basic
     private boolean partOfBill;
 
+    
+    public Date trimedDate(){
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        
+        return cal.getTime();
+    }
     public Ordery() {
        items = new ArrayList<>();
     }

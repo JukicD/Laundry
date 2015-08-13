@@ -10,12 +10,15 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -108,6 +111,13 @@ public class ItemService {
         return items;
     }
     
+    /**
+     * 
+     * @param customer The customer of whom all Items will be returned.
+     * 
+     * @return Returns a list of items which are ordered ascending according to the date of the containing ordery.
+     *                 
+     */
     public List<Item> getAllItems(Customer customer){
         
         List<Item> items = em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND i.ordery.order_id = o.order_id ORDER BY o.date ASC")
@@ -116,4 +126,45 @@ public class ItemService {
         
         return items;
     }
+    
+    /**
+     *  Sums up items which have the same name and same dd-MM-yyyy date.
+     * 
+     * @param items List of items with same name.
+     * 
+     * @return sums up items with same name and same da
+     */
+    public Map<Date, BigDecimal> getSumOfItems(List<Item> items){
+        
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
+        Map<Date, List<Item>> orderByDate = items.stream().collect(Collectors.groupingBy((Item i) -> i.getOrdery().trimedDate()));
+        
+        Map<Date, BigDecimal> orderedSums = new TreeMap<>((Object o1, Object o2) -> ((Date)o1).compareTo(((Date)o2)));
+                
+             Map<Date, BigDecimal> sums = orderByDate
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap( // key is the date, mapped-value is derived from List<Item> which is the value
+                                            (Map.Entry key) ->(Date)key.getKey(), 
+                                            (Map.Entry values) -> (
+                                                                                    // stream of List<Item> is reduced to a sum
+                                                                                    (List<Item>)values.getValue())
+                                                                                                                 .stream()
+                                                                                                                 .map((Item i) -> i.getSum())
+                                                                                                                 .reduce(BigDecimal.ZERO, BigDecimal::add)));
+        orderedSums.putAll(sums);
+       return orderedSums;
+    }
+    
+    /**
+     * 
+     * @param customer Customer
+     * @return Returns a map in which all Items are grouped according to their name.
+     */
+    public Map<String, List<Item>> getItemsGroupedByName(Customer customer){
+        
+         return getAllItems(customer)
+                 .stream()
+                 .collect(Collectors.groupingBy(Item::getName));
+         }
 }
