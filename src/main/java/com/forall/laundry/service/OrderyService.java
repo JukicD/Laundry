@@ -8,8 +8,10 @@ package com.forall.laundry.service;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -101,6 +103,17 @@ public class OrderyService {
                             .setParameter("year", year)
                             .getResultList();
         return orders;
+    }
+    
+    public List<Ordery> getOrdersBetween(Date from, Date to, int customerID){
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(format.format(from) + " " + format.format(to));
+        return em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date BETWEEN :from AND :to")
+                                .setParameter("id", customerID)
+                                .setParameter("from", from)
+                                .setParameter("to", to)
+                                .getResultList();
     }
     public void save(Ordery o){
         em.merge(o);

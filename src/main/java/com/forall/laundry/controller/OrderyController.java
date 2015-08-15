@@ -143,7 +143,7 @@ public class OrderyController implements Serializable{
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
         
-        int month = cal.get(Calendar.MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
         
         List<Ordery> monthsOrders = orderyService.getOrdersFromMonth(month, year);
@@ -158,6 +158,11 @@ public class OrderyController implements Serializable{
     
     public List<Ordery> getOldOrders(){
         return orderyService.getOldOrdersFrom(userController.getCustomer());
+    }
+    
+    public List<Ordery> getOrdersFrom(Date from, Date to){
+        
+       return orderyService.getOrdersBetween(from, to, userController.getCustomer().getId());
     }
     
     public Item getItem() {
