@@ -7,14 +7,16 @@ package com.forall.laundry.controller.filter;
 
 import com.forall.laundry.controller.OrderyController;
 import com.forall.laundry.model.Ordery;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.event.SelectEvent;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -36,6 +38,8 @@ public class OldOrdersFilter implements Serializable{
     private Date dateTo;
     
     private List<Ordery> orders;
+
+    private boolean isChoosingDate;
     
     @PostConstruct
     public void init(){
@@ -43,15 +47,32 @@ public class OldOrdersFilter implements Serializable{
     }
     
     public void filter(){
-        
+        System.out.println(command);
         switch(command){
-            case "all": orders = orderyController.getOldOrders(); break;
-            case "recent": orders = orderyController.getThisMonthsOrders(); break;
-            case "date": 
+            case "all":
+                orders = orderyController.getOldOrders();
+                dateFrom = null;
+                dateTo = null;
+                break;
+            case "recent":
+                orders = orderyController.getThisMonthsOrders();
+                dateFrom = null;
+                dateTo = null;
+                break;
+            case "date":
+                isChoosingDate = true;
+
                                 if(dateFrom != null && dateTo != null){
-                                    orders = orderyController.getOrdersFrom(dateFrom, dateTo); break;
+
+                                    orders = orderyController.getOrdersFrom(dateFrom, dateTo);
+                                    isChoosingDate = false;
+                                    break;
                                 }
         }
+    }
+
+    public void onClose() {
+        isChoosingDate = false;
     }
     
     public void filterOrders(SelectEvent event){
@@ -99,5 +120,13 @@ public class OldOrdersFilter implements Serializable{
 
     public void setOrders(List<Ordery> orders) {
         this.orders = orders;
-    } 
+    }
+
+    public boolean isChoosingDate() {
+        return isChoosingDate;
+    }
+
+    public void setIsChoosingDate(boolean isChoosingDate) {
+        this.isChoosingDate = isChoosingDate;
+    }
 }

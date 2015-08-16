@@ -10,21 +10,18 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;
-import com.forall.laundry.service.BillingService;
-import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.ItemService;
-import com.forall.laundry.service.OrderyService;
-import com.forall.laundry.service.ProductService;
+import com.forall.laundry.service.*;
+
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *

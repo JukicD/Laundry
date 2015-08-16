@@ -6,12 +6,13 @@
 package com.forall.laundry.controller;
 
 import com.forall.laundry.model.Customer;
-import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 
 /**
  *

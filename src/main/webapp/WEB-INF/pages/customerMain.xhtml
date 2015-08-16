@@ -3,7 +3,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:pe="http://primefaces.org/ui/extensions">
+        >
         <h:outputLabel value="Lieferung für: #{userController.customer.name}"/>
         <p:separator/>
         
@@ -23,7 +23,6 @@
                 
                 <h:outputLabel value="Leihwäsche:" for="borrowed"/>
                 <p:selectBooleanCheckbox id="borrowed" value="#{orderyController.item.borrowed}" />
-                
                 
             </h:panelGrid>
             <p:separator/>

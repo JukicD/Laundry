@@ -7,9 +7,10 @@ package com.forall.laundry.controller.navigator;
 
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Worker;
-import java.io.Serializable;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *

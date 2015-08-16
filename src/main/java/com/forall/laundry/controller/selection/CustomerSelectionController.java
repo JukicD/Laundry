@@ -6,9 +6,10 @@
 package com.forall.laundry.controller.selection;
 
 import com.forall.laundry.model.Customer;
-import java.io.Serializable;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *

@@ -1,15 +1,10 @@
 package com.forall.laundry.model;
 
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
 public class Product implements Serializable {
@@ -65,10 +60,7 @@ public class Product implements Serializable {
             return false;
         }
         final Product other = (Product) obj;
-        if (!Objects.equals(this.product_id, other.product_id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.product_id, other.product_id);
     }
 
     @Override

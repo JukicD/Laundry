@@ -8,11 +8,12 @@ package com.forall.laundry.controller;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
-import java.io.Serializable;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *

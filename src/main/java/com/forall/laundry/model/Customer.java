@@ -1,15 +1,9 @@
 package com.forall.laundry.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
@@ -178,10 +172,7 @@ public class Customer implements Serializable, Comparable<Customer> {
             return false;
         }
         final Customer other = (Customer) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     @Override

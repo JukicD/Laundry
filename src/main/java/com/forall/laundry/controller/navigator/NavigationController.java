@@ -5,10 +5,10 @@
  */
 package com.forall.laundry.controller.navigator;
 
-import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *

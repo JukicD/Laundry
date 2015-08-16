@@ -10,6 +10,13 @@ import com.forall.laundry.model.Item;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.StatisticService;
+import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.chart.*;
+
+import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,19 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.event.TabChangeEvent;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.BarChartSeries;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *

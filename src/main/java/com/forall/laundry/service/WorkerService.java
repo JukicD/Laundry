@@ -6,11 +6,12 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.model.Worker;
-import java.io.Serializable;
-import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *

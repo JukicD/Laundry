@@ -9,14 +9,15 @@ package com.forall.laundry.controller.filter;
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.service.CustomerService;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
 
 /**
  *

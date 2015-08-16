@@ -6,12 +6,13 @@
 package com.forall.laundry.controller.filter;
 
 import com.forall.laundry.model.Customer;
+import org.primefaces.event.SelectEvent;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import org.primefaces.event.SelectEvent;
 
 /**
  *

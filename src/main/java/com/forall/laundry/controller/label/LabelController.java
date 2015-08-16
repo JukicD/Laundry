@@ -6,11 +6,12 @@
 package com.forall.laundry.controller.label;
 
 import com.forall.laundry.controller.UserController;
-import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  *

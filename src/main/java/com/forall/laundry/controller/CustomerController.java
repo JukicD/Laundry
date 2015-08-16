@@ -10,12 +10,13 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
-import java.io.Serializable;
-import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *

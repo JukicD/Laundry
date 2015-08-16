@@ -6,14 +6,15 @@ import com.forall.laundry.controller.statistic.StatisticController;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
-import java.io.Serializable;
-import java.util.List;
+import org.primefaces.context.RequestContext;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+import java.io.Serializable;
+import java.util.List;
 
 @Named
 @RequestScoped

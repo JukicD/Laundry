@@ -1,23 +1,11 @@
 package com.forall.laundry.model;
 
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
@@ -133,10 +121,7 @@ public class Item implements Serializable {
             return false;
         }
         final Item other = (Item) obj;
-        if (!Objects.equals(this.item_id, other.item_id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.item_id, other.item_id);
     }
 
     @Override

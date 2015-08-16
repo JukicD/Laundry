@@ -7,16 +7,17 @@ package com.forall.laundry.controller.selection;
 
 import com.forall.laundry.controller.OrderyController;
 import com.forall.laundry.model.Ordery;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

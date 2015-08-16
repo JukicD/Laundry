@@ -7,6 +7,7 @@ package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Product;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

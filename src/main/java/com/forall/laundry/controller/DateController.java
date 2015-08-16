@@ -5,10 +5,11 @@
  */
 package com.forall.laundry.controller;
 
+import org.primefaces.event.SelectEvent;
+
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
-import javax.inject.Named;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
