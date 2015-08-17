@@ -56,7 +56,7 @@ public class OrderyController implements Serializable{
     private BillingService billingService;
     
     @Inject
-            EditController editController;
+    EditController editController;
     
     
     public void addItem(){
@@ -147,6 +147,10 @@ public class OrderyController implements Serializable{
         monthsOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         
         return monthsOrders;
+    }
+
+    public List<Ordery> getThisMonthsOrdersFrom(){
+        return orderyService.getThisMonthsOrdersFrom(userController.getCustomer());
     }
     
     public List<Ordery> getOrders(){

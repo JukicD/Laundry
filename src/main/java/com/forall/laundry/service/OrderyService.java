@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.spi.CalendarNameProvider;
 
 /**
  *
@@ -108,14 +109,42 @@ public class OrderyService {
     
     public List<Ordery> getOrdersBetween(Date from, Date to, int customerID){
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(format.format(from) + " " + format.format(to));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(to);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        to = cal.getTime();
+
         return em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date BETWEEN :from AND :to")
                                 .setParameter("id", customerID)
                                 .setParameter("from", from)
                                 .setParameter("to", to)
                                 .getResultList();
     }
+
+    public List<Ordery> getThisMonthsOrdersFrom(Customer customer) {
+
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date beginningOfMonth = cal.getTime();
+        cal.setTime(today);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        today = cal.getTime();
+        System.out.println(today + " " + beginningOfMonth + " " + customer.getId());
+        List<Ordery> orders = em.createQuery("SELECT o FROM Ordery o WHERE o.date BETWEEN :beginningOfMonth AND :today AND o.customer.id = :id")
+                .setParameter("beginningOfMonth", today)
+                .setParameter("today", beginningOfMonth)
+                .setParameter("id", customer.getId())
+                .getResultList();
+
+        return orders;
+    }
+
     public void save(Ordery o){
         em.merge(o);
     }
@@ -123,4 +152,6 @@ public class OrderyService {
     public void update(Ordery o){
         em.merge(o);
     }
+
+
 }

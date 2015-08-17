@@ -10,15 +10,12 @@
     <p:growl id="oldOrdersGrowl" showDetail="true"/>
         
         <h:form>
-        
-        <h3>Custom Layout</h3>
         <p:outputPanel id="customPanel" style="margin-bottom:10px">
-
             <p:selectOneButton id="customButton" value="#{oldOrdersFilter.command}">
                 <f:selectItem itemLabel="Aktuell" itemValue="recent"/>
                 <f:selectItem itemLabel="Alle" itemValue="all"/>
                 <f:selectItem itemLabel="Benutzerdefiniert" itemValue="date"/>
-                <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="customerPanel dateDialog"/>
+                <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="customerPanel dateDialog datePanel"/>
             </p:selectOneButton>
     </p:outputPanel>
 </h:form>

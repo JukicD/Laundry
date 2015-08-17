@@ -62,7 +62,7 @@
             </p:dialog>
 
             <p:dialog id="dateDialog" widgetVar="date" visible="#{oldOrdersFilter.choosingDate}" modal="true"
-                      resizable="false">
+                      resizable="false" closable="false">
                 <p:ajax event="close" listener="#{oldOrdersFilter.onClose}"/>
                 <p:outputPanel id="datePanel">
                     <h:form>

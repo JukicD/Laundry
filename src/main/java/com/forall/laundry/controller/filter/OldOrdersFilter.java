@@ -11,6 +11,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,7 +44,7 @@ public class OldOrdersFilter implements Serializable{
     
     @PostConstruct
     public void init(){
-        orders = orderyController.getThisMonthsOrders();
+        orders = orderyController.getThisMonthsOrdersFrom();
     }
     
     public void filter(){
@@ -51,13 +52,16 @@ public class OldOrdersFilter implements Serializable{
         switch(command){
             case "all":
                 orders = orderyController.getOldOrders();
+                System.out.println(orders.size());
                 dateFrom = null;
                 dateTo = null;
+                isChoosingDate = false;
                 break;
             case "recent":
-                orders = orderyController.getThisMonthsOrders();
+                orders = orderyController.getThisMonthsOrdersFrom();
                 dateFrom = null;
                 dateTo = null;
+                isChoosingDate = false;
                 break;
             case "date":
                 isChoosingDate = true;
