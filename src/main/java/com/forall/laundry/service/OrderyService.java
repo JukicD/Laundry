@@ -128,17 +128,22 @@ public class OrderyService {
         cal.setTime(today);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MINUTE);
         cal.clear(Calendar.MILLISECOND);
-
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        Date beginningOfMonth = cal.getTime();
-        cal.setTime(today);
         cal.add(Calendar.DAY_OF_MONTH, 1);
         today = cal.getTime();
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.MILLISECOND);
+        Date beginningOfMonth = cal.getTime();
+
         System.out.println(today + " " + beginningOfMonth + " " + customer.getId());
         List<Ordery> orders = em.createQuery("SELECT o FROM Ordery o WHERE o.date BETWEEN :beginningOfMonth AND :today AND o.customer.id = :id")
-                .setParameter("beginningOfMonth", today)
-                .setParameter("today", beginningOfMonth)
+                .setParameter("beginningOfMonth", beginningOfMonth)
+                .setParameter("today", today)
                 .setParameter("id", customer.getId())
                 .getResultList();
 

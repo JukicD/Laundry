@@ -1,10 +1,18 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-        >
-                    
-                    
-    <p:schedule id="schedule" value="#{scheduleView.model}" widgetVar="myschedule" timeZone="GMT+1">
-        <p:ajax event="dateSelect" oncomplete="PF('schedule').show()" listener='#{scheduleFilter.onDateSelect}'/>
-    </p:schedule>
-</ui:composition> 
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form>
+        <p:outputPanel id="customEventPanel">
+            <p:selectOneButton id="customSelectButton" value="#{eventOrdersFilter.command}" >
+                <f:selectItem itemLabel="Heute" itemValue="today"/>
+                <f:selectItem itemLabel="Diese Woche" itemValue="week"/>
+                <f:selectItem itemLabel="Dieser Monat" itemValue="month"/>
+                <f:selectItem itemLabel="Benutzerdefiniert" itemValue="custom"/>
+                <p:ajax event="change" listener="#{eventOrdersFilter.filter}"/>
+            </p:selectOneButton>
+        </p:outputPanel>
+    </h:form>
+</ui:composition>

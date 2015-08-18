@@ -38,7 +38,7 @@ public class EventOrdersFilter implements Serializable{
 
     @PostConstruct
     public void init(){
-        command = "today";
+
     }
 
     public void filter(){

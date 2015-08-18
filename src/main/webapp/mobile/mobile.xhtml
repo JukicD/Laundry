@@ -3,39 +3,44 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pm="http://primefaces.org/mobile">
-          
-    <f:view renderKitId="PRIMEFACES_MOBILE" />
-        
-    <h:head>
-        
-    </h:head>
-        
-    <h:body>
-        
-        <pm:page id="first">
-                
-            <pm:content>
-                <h:form>
-                    
-                       
-                            
-                        <p:button value="test" outcome="pm:second"/>
-                            
-                         
-                    
-                </h:form>   
-                    
-            </pm:content>
-        </pm:page>
-            
-        <pm:page id="second">
-                
-            <pm:content>
-                <h:outputText value="#{mobileNavigationController.worker.firstName}"/>
-            </pm:content>
-        </pm:page>
-                     
-    </h:body>
-        
+      xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+
+</h:head>
+
+<h:body>
+
+    <pm:page id="first">
+
+        <pm:content>
+            <h:form>
+                <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
+                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileNavigationController.gotoSecond}"/>
+                </p:dataGrid>
+            </h:form>
+        </pm:content>
+    </pm:page>
+
+
+    <pm:page id="second">
+
+        <pm:content>
+            <h:form>
+                <p:outputLabel value="Schnellsuche:" for="themePojo" />
+                <p:autoComplete id="themePojo" placeholder="Namen eingeben" type="search" completeMethod="#{mobileAutoCompleteFilter.selectedCustomers}"
+                                var="customer" itemLabel="#{customer.name}" itemValue="#{customer.name}" autocomplete="off" forceSelection="true">
+                    <p:ajax event="itemSelect" listener="#{mobileAutoCompleteFilter.onItemSelect}"/>
+                </p:autoComplete>
+            </h:form>
+
+        </pm:content>
+    </pm:page>
+    <pm:page id="third">
+        <p>third</p>
+    </pm:page>
+</h:body>
+
 </html>

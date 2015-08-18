@@ -31,6 +31,10 @@ public class MobileNavigationController implements Serializable{
             return "second?facesRedirect=true";
             
     }
+
+    public String goTo(String dest){
+        return dest;
+    }
     
     public Worker getWorker() {
         return worker;
@@ -49,6 +53,6 @@ public class MobileNavigationController implements Serializable{
     }
     
     public String gotoSecond(){
-        return "pm:second";
+        return "pm:second?transition=slide";
     }
 }

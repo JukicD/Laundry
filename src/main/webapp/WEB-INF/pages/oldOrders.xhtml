@@ -2,71 +2,68 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-        >
-                    
-                    
-                    
+                xmlns:f="http://java.sun.com/jsf/core">
+
     <p:growl id="oldOrdersGrowl" showDetail="true"/>
-        
-        <h:form>
+
+    <h:form>
         <p:outputPanel id="customPanel" style="margin-bottom:10px">
             <p:selectOneButton id="customButton" value="#{oldOrdersFilter.command}">
-                <f:selectItem itemLabel="Aktuell" itemValue="recent"/>
+                <f:selectItem itemLabel="Monat" itemValue="recent"/>
                 <f:selectItem itemLabel="Alle" itemValue="all"/>
                 <f:selectItem itemLabel="Benutzerdefiniert" itemValue="date"/>
                 <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="customerPanel dateDialog datePanel"/>
             </p:selectOneButton>
-    </p:outputPanel>
-</h:form>
+        </p:outputPanel>
+    </h:form>
 
-<p:separator/>
-<h:form id="oldOrdersList">
-    <p:dataTable id="orderTable" 
-                 var="order" value="#{oldOrdersFilter.orders}"
-                 emptyMessage="Der Kunde hat noch keine Aufträge!" resizableColumns="true"
-                 selection="#{orderySelectionController.selectedOrders}"
-                 rowKey="#{order.order_id}"
-                 rowSelectMode="multiple"
-                 scrollable="true"
-                 editable="true"
-        editMode="cell">
-                    
-        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                    
-        <p:column  headerText="#">
-            <h:outputText value="#{order.order_id}"/>
-        </p:column>
-                    
-                    
-                    
-        <p:column headerText="Datum">
-            <h:outputText value="#{order.date}">
-                <f:convertDateTime pattern="d.M.yy" />
-            </h:outputText>
-        </p:column>
-                    
-        <p:column>
-            <p:commandButton icon="ui-icon-clipboard" 
-                             action="#{oldOrdersController.setup(order)}" 
-                             actionListener="#{navigationController.setSite('orders')}" 
-                             update="customerPanel">
-            </p:commandButton>
-        </p:column>
-                    
-    </p:dataTable>
     <p:separator/>
-    <p:commandButton 
-        value="Lieferschein erstellen"
-        icon="ui-icon-print"
-        actionListener="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
-        update="@form"/>
-    <p:commandButton value="Zurück"
-                     action="#{navigationController.setSite('customerList')}"
-                     actionListener="#{labelController.label('Kundenliste')}"
-                     update="customerPanel customerListDialog"
-                     oncomplete="PF('customer').show()">
-    </p:commandButton>
-                
-</h:form>
+    <h:form id="oldOrdersList">
+        <p:dataTable id="orderTable"
+                     var="order" value="#{oldOrdersFilter.orders}"
+                     emptyMessage="Der Kunde hat noch keine Aufträge!" resizableColumns="true"
+                     selection="#{orderySelectionController.selectedOrders}"
+                     rowKey="#{order.order_id}"
+                     rowSelectMode="multiple"
+                     scrollable="true"
+                     editable="true"
+                     editMode="cell">
+
+            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+            <p:column  headerText="#">
+                <h:outputText value="#{order.order_id}"/>
+            </p:column>
+
+
+
+            <p:column headerText="Datum">
+                <h:outputText value="#{order.date}">
+                    <f:convertDateTime pattern="d.M.yy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <p:commandButton icon="ui-icon-clipboard"
+                                 action="#{oldOrdersController.setup(order)}"
+                                 actionListener="#{navigationController.setSite('orders')}"
+                                 update="customerPanel">
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+        <p:separator/>
+        <p:commandButton
+                value="Lieferschein erstellen"
+                icon="ui-icon-print"
+                actionListener="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
+                update="@form"/>
+        <p:commandButton value="Zurück"
+                         action="#{navigationController.setSite('customerList')}"
+                         actionListener="#{labelController.label('Kundenliste')}"
+                         update="customerPanel customerListDialog"
+                         oncomplete="PF('customer').show()">
+        </p:commandButton>
+
+    </h:form>
 </ui:composition>
