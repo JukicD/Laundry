@@ -25,7 +25,7 @@ import java.util.List;
  * Created by jd on 8/18/15.
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class MobileAutoCompleteFilter implements Serializable{
 
     @EJB
@@ -55,6 +55,7 @@ public class MobileAutoCompleteFilter implements Serializable{
     public void init(){
 
         customers = customerService.getAllCustomers();
+        filteredItems = new ArrayList<>();
     }
 
     public void filterCustomers(){
@@ -70,12 +71,13 @@ public class MobileAutoCompleteFilter implements Serializable{
 
     public void filterItems(){
         filteredItems = new ArrayList<>();
+        System.out.println(items.size());
+        System.out.println(filteredItems.isEmpty());
+
         items
                 .parallelStream()
                 .filter(i -> i.getItem_product().getName().toLowerCase().contains(queryItems))
                 .forEach(i -> filteredItems.add(i));
-
-        RequestContext.getCurrentInstance().update("second:outputForm:outputCustomers");
     }
 
     public void fillItemsFromCustomer(Customer customer){

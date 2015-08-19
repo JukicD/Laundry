@@ -5,6 +5,7 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Worker;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -51,6 +52,4 @@ public class MobileController implements Serializable{
     public void setBorrowed(boolean borrowed) {
         this.borrowed = borrowed;
     }
-
-
 }
