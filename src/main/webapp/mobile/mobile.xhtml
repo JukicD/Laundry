@@ -14,32 +14,70 @@
 <h:body>
 
     <pm:page id="first">
-
         <pm:content>
+            <pm:header title="Mitarbeiter auswählen"/>
             <h:form>
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
-                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileNavigationController.gotoSecond}"/>
+                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
+                        <p:ajax event="click" listener="#{mobileController.setWorker(worker)}"/>
+                    </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
     </pm:page>
 
-
     <pm:page id="second">
-
         <pm:content>
-            <h:form>
-                <p:outputLabel value="Schnellsuche:" for="themePojo" />
-                <p:autoComplete id="themePojo" placeholder="Namen eingeben" type="search" completeMethod="#{mobileAutoCompleteFilter.selectedCustomers}"
-                                var="customer" itemLabel="#{customer.name}" itemValue="#{customer.name}" autocomplete="off" forceSelection="true">
-                    <p:ajax event="itemSelect" listener="#{mobileAutoCompleteFilter.onItemSelect}"/>
-                </p:autoComplete>
+            <pm:header title="Firma auswählen"/>
+            <p:outputLabel value="#{mobileController.worker.firstName}"/>
+            <h:form id="inputForm">
+                <p:inputText id="customerSearch" placeholder="Namen eingeben" type="search" value="#{mobileAutoCompleteFilter.queryCustomer}">
+                    <p:ajax event="keyup" listener="#{mobileAutoCompleteFilter.filterCustomers}" update="second:outputForm:outputCustomers" process="@form"/>
+                </p:inputText>
             </h:form>
 
+            <h:form id="outputForm">
+                <p:dataGrid id="outputCustomers" var="customer" value="#{empty mobileAutoCompleteFilter.filteredCustomers ? mobileAutoCompleteFilter.customers : mobileAutoCompleteFilter.filteredCustomers}" columns="3">
+                    <p:commandButton value="#{customer.name}" style="font-size: 200%" action="#{mobileController.goTo('pm:third?transition=slide')}">
+                        <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
+                        <p:ajax event="click" listener="#{mobileAutoCompleteFilter.fillItemsFromCustomer(mobileController.customer)}" update="fourth:outputItem"/>
+                    </p:commandButton>
+                </p:dataGrid>
+            </h:form>
         </pm:content>
     </pm:page>
     <pm:page id="third">
-        <p>third</p>
+        <pm:content>
+            <pm:header title="Art des Artikels"/>
+            <h:form>
+                <p:panelGrid columns="2" style="margin-bottom: 17.5%; margin-top: 17.5%">
+                    <p:commandButton value="Leihwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
+                        <p:ajax event="click" listener="#{mobileController.setBorrowed(true)}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Eigenwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
+                        <p:ajax event="click" listener="#{mobileController.setBorrowed(false)}"/>
+                    </p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </pm:content>
+
+    </pm:page>
+    <pm:page id="fourth">
+        <pm:content>
+            <pm:header title="Artikel auswählen"/>
+            <h:form id="inputItem">
+                <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{mobileAutoCompleteFilter.queryItems}">
+                    <p:ajax event="keyup" listener="#{mobileAutoCompleteFilter.filterItems}" update="second:outputForm:outputCustomers" process="@form"/>
+                </p:inputText>
+            </h:form>
+
+            <h:form id="outputItem">
+                <p:dataGrid id="outputItems" var="item" value="#{empty mobileAutoCompleteFilter.filteredItems ? mobileAutoCompleteFilter.items : mobileAutoCompleteFilter.filteredItems}" columns="3">
+                    <p:commandButton value="#{item.item_product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}"/>
+                </p:dataGrid>
+            </h:form>
+        </pm:content>
+
     </pm:page>
 </h:body>
 

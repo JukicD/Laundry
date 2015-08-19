@@ -212,9 +212,7 @@ public class StatisticController implements Serializable{
         
         ChartSeries series = new BarChartSeries();
         series.setLabel(selectedCustomer.getName());
-        
-        
-        
+
         List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(selectedCustomer);
 
         IntStream
@@ -240,9 +238,7 @@ public class StatisticController implements Serializable{
         Map<String, List<Item>> itemsByName = itemService.getItemsGroupedByName(selectedCustomer);
         
         itemsByName.entrySet().stream().sorted((Map.Entry entry1, Map.Entry entry2) -> ((List<Item>)entry1.getValue()).size() - ((List<Item>)entry2.getValue()).size());
-       
-        
-        
+
         itemsByName.keySet().stream().forEach((String key) -> 
         
         {

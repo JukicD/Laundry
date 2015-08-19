@@ -81,9 +81,8 @@ public class CustomerService {
     public Customer findByName(String name){
         
         List<Customer> customers = em.createQuery("SELECT c FROM Customer c WHERE c.name = :name").setParameter("name", name).getResultList();
-        
-        
-            return customers.get(0);
+
+        return customers.get(0);
     }
     
     public List<Customer> getCustomersFrom(Date date){
