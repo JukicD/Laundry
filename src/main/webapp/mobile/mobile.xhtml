@@ -26,28 +26,39 @@
     </pm:page>
 
     <pm:page id="second">
+
+        <pm:header title="Firma auswählen" style="font-size: 200%"/>
         <pm:content>
-            <pm:header title="Firma auswählen"/>
-            <p:outputLabel value="#{mobileController.worker.firstName}"/>
             <h:form id="inputForm">
-                <p:inputText id="customerSearch" placeholder="Namen eingeben" type="search" value="#{mobileAutoCompleteFilter.queryCustomer}">
+                <p:inputText id="customerSearch" placeholder="Schnellsuche" type="search" value="#{mobileAutoCompleteFilter.queryCustomer}">
                     <p:ajax event="keyup" listener="#{mobileAutoCompleteFilter.filterCustomers}" update="second:outputForm:outputCustomers" process="@form"/>
                 </p:inputText>
             </h:form>
 
+            <p:separator/>
             <h:form id="outputForm">
                 <p:dataGrid id="outputCustomers" var="customer" value="#{empty mobileAutoCompleteFilter.filteredCustomers ? mobileAutoCompleteFilter.customers : mobileAutoCompleteFilter.filteredCustomers}" columns="3">
-                    <p:commandButton value="#{customer.name}" style="font-size: 200%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third">
+                    <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third">
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
                         <p:ajax event="click" listener="#{mobileAutoCompleteFilter.fillItemsFromCustomer(customer)}"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
+
+        <pm:footer fixed="true">
+            <p:separator/>
+            <p:tabMenu activeIndex="0">
+                <p:menuitem value="Zurück" icon="ui-icon-circle-arrow-w" outcome="pm:first?transition=fade" iconPos="bottom" />
+                <p:menuitem value="Neuer Kunde" icon="ui-icon-gear" url="#" iconPos="bottom"/>
+                <p:menuitem value="Search" icon="ui-icon-search" url="#" iconPos="bottom"/>
+            </p:tabMenu>
+        </pm:footer>
+
     </pm:page>
     <pm:page id="third">
         <pm:content>
-            <pm:header title="Art des Artikels"/>
+            <pm:header title="Art des Artikels" style="font-size: 200%"/>
             <h:form>
                 <p:panelGrid columns="2" style="margin-bottom: 17.5%; margin-top: 17.5%">
                     <p:commandButton value="Leihwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
@@ -63,18 +74,31 @@
     </pm:page>
     <pm:page id="fourth">
         <pm:content>
-            <pm:header title="Artikel auswählen"/>
+            <pm:header title="Artikel auswählen" style="font-size: 200%"/>
             <h:form id="inputItem">
                 <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{mobileAutoCompleteFilter.queryItems}">
                     <p:ajax event="keyup" listener="#{mobileAutoCompleteFilter.filterItems}" update="fourth:outputItem:outputItems" process="@form"/>
                 </p:inputText>
             </h:form>
 
+            <p:separator/>
+
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="item" value="#{empty mobileAutoCompleteFilter.filteredItems ? mobileAutoCompleteFilter.items : mobileAutoCompleteFilter.filteredItems}" columns="3">
                     <p:commandButton value="#{item.item_product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}"/>
                 </p:dataGrid>
             </h:form>
+        </pm:content>
+    </pm:page>
+
+    <pm:page id="fifth">
+        <pm:content>
+            <pm:field>
+                <h:form>
+                    <p:outputLabel for="inputAmount" value="Stück"/>
+                    <h:inputText id="inputAmount" value="#{mobileController.amount}"/>
+                </h:form>
+            </pm:field>
         </pm:content>
     </pm:page>
 </h:body>

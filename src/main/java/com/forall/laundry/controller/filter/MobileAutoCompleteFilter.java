@@ -60,20 +60,14 @@ public class MobileAutoCompleteFilter implements Serializable{
 
     public void filterCustomers(){
         filteredCustomers = new ArrayList<>();
-        System.out.println(queryCustomer);
         customers
                 .parallelStream()
                 .filter(c -> c.getName().toLowerCase().contains(queryCustomer))
                 .forEach(c -> filteredCustomers.add(c));
-
-        RequestContext.getCurrentInstance().update("second:outputForm:outputCustomers");
     }
 
     public void filterItems(){
         filteredItems = new ArrayList<>();
-        System.out.println(items.size());
-        System.out.println(filteredItems.isEmpty());
-
         items
                 .parallelStream()
                 .filter(i -> i.getItem_product().getName().toLowerCase().contains(queryItems))
@@ -82,7 +76,6 @@ public class MobileAutoCompleteFilter implements Serializable{
 
     public void fillItemsFromCustomer(Customer customer){
         items = itemService.getAllItems(customer);
-        System.out.println(items.size());
     }
 
     public List<Customer> getCustomers() {
@@ -106,9 +99,7 @@ public class MobileAutoCompleteFilter implements Serializable{
     }
 
     public void setCustomer(Customer customer) {
-        System.out.println(customer.getName());
         this.customer = customer;
-        items = itemService.getAllItems(customer);
     }
 
     public String getQueryItems() {

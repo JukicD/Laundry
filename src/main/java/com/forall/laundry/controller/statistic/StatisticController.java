@@ -45,29 +45,20 @@ public class StatisticController implements Serializable{
     private ItemService itemService;
     
     private Date from;
-    
     private Date to;
-    
+
     private LineChartModel grossModel;
-    
     private BarChartModel customerModel;
-    
     private BarChartModel specificCustomerModel;
-    
     private LineChartModel specificItemFromCustomerModel;
-    
     private LineChartModel allItemsFromCustomerModel;
-    
+
     private boolean grossProfitEntered;
-    
     private boolean customerProfitEntered;
-    
     private boolean customerItemSelected;
-    
+
     private Customer selectedCustomer;
-    
     private List<Item> specificItems;
-    
     private String itemName;
     
     public void onTabChange(TabChangeEvent event){

@@ -26,6 +26,8 @@ public class MobileController implements Serializable{
 
     private boolean borrowed;
 
+    private Integer amount;
+
     public String goTo(String nav){
         return nav;
     }
@@ -51,5 +53,13 @@ public class MobileController implements Serializable{
 
     public void setBorrowed(boolean borrowed) {
         this.borrowed = borrowed;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 }
