@@ -53,25 +53,40 @@ public class MobileAutoCompleteFilter implements Serializable{
 
     @PostConstruct
     public void init(){
-
         customers = customerService.getAllCustomers();
-        filteredItems = new ArrayList<>();
+        customers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
     }
 
     public void filterCustomers(){
         filteredCustomers = new ArrayList<>();
         customers
                 .parallelStream()
-                .filter(c -> c.getName().toLowerCase().contains(queryCustomer))
+                .filter(c -> c.getName().toLowerCase().contains(queryCustomer == null ? "" : queryCustomer.toLowerCase()))
                 .forEach(c -> filteredCustomers.add(c));
+        filteredCustomers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
     }
 
-    public void filterItems(){
+    public void filterItems(Customer c){
+        System.out.println(c.getName());
+        items = itemService.getAllItems(c);
+        System.out.println(items.size());
         filteredItems = new ArrayList<>();
         items
                 .parallelStream()
                 .filter(i -> i.getItem_product().getName().toLowerCase().contains(queryItems))
                 .forEach(i -> filteredItems.add(i));
+    }
+
+    public void updateCustomers(){
+        customers = customerService.getAllCustomers();
+        customers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
+    }
+
+    public void reset(){
+        queryCustomer = "";
+        queryItems = "";
+
+        RequestContext.getCurrentInstance().update("second:inputForm");
     }
 
     public void fillItemsFromCustomer(Customer customer){

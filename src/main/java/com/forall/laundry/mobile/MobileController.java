@@ -4,6 +4,8 @@ import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Worker;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +30,7 @@ public class MobileController implements Serializable{
 
     private Integer amount;
 
+
     public String goTo(String nav){
         return nav;
     }
@@ -45,6 +48,7 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        System.out.println(this.customer);
     }
 
     public boolean isBorrowed() {
