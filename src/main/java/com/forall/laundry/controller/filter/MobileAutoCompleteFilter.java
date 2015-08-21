@@ -77,11 +77,6 @@ public class MobileAutoCompleteFilter implements Serializable{
                 .forEach(i -> filteredItems.add(i));
     }
 
-    public void updateCustomers(){
-        customers = customerService.getAllCustomers();
-        customers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
-    }
-
     public void reset(){
         queryCustomer = "";
         queryItems = "";

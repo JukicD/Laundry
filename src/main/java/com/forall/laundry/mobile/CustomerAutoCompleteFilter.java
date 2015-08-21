@@ -5,9 +5,17 @@ import com.forall.laundry.service.CustomerService;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +24,7 @@ import java.util.List;
  * Created by jd on 8/20/15.
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class CustomerAutoCompleteFilter implements Serializable{
 
     @EJB
@@ -24,27 +32,39 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
     private List<Customer> customers;
 
-    private List<Customer> filteredCustomers;
-
     private String query;
 
+    @Inject
     private Customer customer;
 
     @PostConstruct
-    public void init(){
-        customers = customerService.getAllCustomers();
+    public void init() {
+        System.out.println("INIT");
+        System.out.println(query);
+        customers = filterCustomers();
         customers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
     }
 
-    public void filterCustomers(){
-        filteredCustomers = new ArrayList<>();
+    public List<Customer> filterCustomers(){
+
+        if(query == null || query.equals("")){
+            return customerService.getAllCustomers();
+        }
+
+        List<Customer> filter = new ArrayList<>();
+
         customers
                 .parallelStream()
                 .filter(c -> c.getName().toLowerCase().contains(query == null ? "" : query.toLowerCase()))
-                .forEach(c -> filteredCustomers.add(c));
-        filteredCustomers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
+                .forEach(c -> filter.add(c));
+        filter.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
 
-        RequestContext.getCurrentInstance().update("second:outputForm");
+        return filter;
+    }
+
+    public void reset(){
+        query = null;
+        init();
     }
 
     public List<Customer> getCustomers() {
@@ -53,14 +73,6 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
-    }
-
-    public List<Customer> getFilteredCustomers() {
-        return filteredCustomers;
-    }
-
-    public void setFilteredCustomers(List<Customer> filteredCustomers) {
-        this.filteredCustomers = filteredCustomers;
     }
 
     public String getQuery() {
@@ -77,6 +89,6 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        System.out.println("c" + this.customer);
+        System.out.println(this.customer);
     }
 }

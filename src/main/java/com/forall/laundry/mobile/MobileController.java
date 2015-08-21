@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 public class MobileController implements Serializable{
 
     @Inject
-    private MobileAutoCompleteFilter mac;
+    private CustomerAutoCompleteFilter mac;
 
     private Worker worker;
 
@@ -48,7 +49,7 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        System.out.println(this.customer);
+        mac.reset();
     }
 
     public boolean isBorrowed() {
@@ -57,6 +58,7 @@ public class MobileController implements Serializable{
 
     public void setBorrowed(boolean borrowed) {
         this.borrowed = borrowed;
+
     }
 
     public Integer getAmount() {

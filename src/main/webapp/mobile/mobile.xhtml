@@ -5,7 +5,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets">
 
+
+
 <f:view renderKitId="PRIMEFACES_MOBILE" />
+
 
 <h:head>
 
@@ -31,7 +34,7 @@
             <pm:content>
                 <h:form id="inputForm">
                     <p:inputText id="customerSearch" placeholder="Schnellsuche" type="search" value="#{customerAutoCompleteFilter.query}">
-                        <p:ajax event="keyup" listener="#{customerAutoCompleteFilter.filterCustomers}" update="second:outputForm:outputCustomers"/>
+                        <p:ajax event="keyup" listener="#{customerAutoCompleteFilter.init}" update="second:outputForm:outputCustomers"/>
                     </p:inputText>
                 </h:form>
             </pm:content>
@@ -40,19 +43,20 @@
         </pm:header>
         <pm:content>
             <h:form id="outputForm">
-                <p:dataGrid id="outputCustomers" var="customer" value="#{customerAutoCompleteFilter.filteredCustomers == null || empty customerAutoCompleteFilter.filteredCustomers ? customerAutoCompleteFilter.customers : customerAutoCompleteFilter.filteredCustomers}" columns="3">
-                    <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{customerAutoCompleteFilter.setCustomer(customer)}"/>
+                <p:dataGrid id="outputCustomers" var="customer" value="#{customerAutoCompleteFilter.customers}" columns="3">
+                    <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third">
+                        <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
+                    </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
-
         <pm:footer fixed="true">
             <p:separator/>
             <h:form>
                 <p:tabMenu>
                     <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom" />
                     <p:menuitem value="Neuer Kunde" icon="ui-icon-plus" outcome="pm:createCustomer?transition=flip" iconPos="bottom"/>
-                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{mobileAutoCompleteFilter.reset}" iconPos="bottom">
+                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:outputForm:outputCustomers second:inputForm:customerSearch">
                     </p:menuitem>
                 </p:tabMenu>
             </h:form>
@@ -123,7 +127,8 @@
                     <p:outputLabel id="label" for="name" value="Kunde:"/>
                     <p:inputText id="name" value="#{mobileCustomerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                 </pm:field>
-                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}">
+                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second">
+
                 </p:commandButton>
             </h:form>
         </pm:content>
