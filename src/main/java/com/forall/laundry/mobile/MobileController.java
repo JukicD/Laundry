@@ -31,6 +31,9 @@ public class MobileController implements Serializable{
 
     private Integer amount;
 
+    @Inject
+    private ItemAutoCompleteFilter icf;
+
 
     public String goTo(String nav){
         return nav;

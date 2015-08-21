@@ -33,7 +33,6 @@ public class MobileCustomerController implements Serializable{
         customerService.save(customer);
         customer.setName(null);
         mac.reset();
-        RequestContext.getCurrentInstance().update("second");
         return "pm:second?transition=flip";
     }
 

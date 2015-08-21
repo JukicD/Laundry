@@ -44,7 +44,7 @@
         <pm:content>
             <h:form id="outputForm">
                 <p:dataGrid id="outputCustomers" var="customer" value="#{customerAutoCompleteFilter.customers}" columns="3">
-                    <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third">
+                    <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third fourth:outputItem:outputItems">
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
                     </p:commandButton>
                 </p:dataGrid>
@@ -84,15 +84,15 @@
         <pm:content>
             <pm:header title="Artikel auswählen">
                 <h:form id="inputItem">
-                    <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{mobileAutoCompleteFilter.queryItems}">
-                        <p:ajax event="keyup" listener="#{mobileAutoCompleteFilter.filterItems(mobileController.customer)}" update="fourth:outputItem:outputItems" process="@form"/>
+                    <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{itemAutoCompleteFilter.query}">
+                        <p:ajax event="keyup" listener="#{itemAutoCompleteFilter.init}" update="fourth:outputItem:outputItems"/>
                     </p:inputText>
                 </h:form>
                 <p:separator/>
             </pm:header>
 
             <h:form id="outputItem">
-                <p:dataGrid id="outputItems" var="item" value="#{mobileAutoCompleteFilter.queryItems == null || mobileAutoCompleteFilter.queryItems.equals('') ? mobileAutoCompleteFilter.items : mobileAutoCompleteFilter.filteredItems}" columns="3">
+                <p:dataGrid id="outputItems" var="item" value="#{itemAutoCompleteFilter.items}" columns="3">
                     <p:commandButton value="#{item.item_product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}"/>
                 </p:dataGrid>
             </h:form>
@@ -100,9 +100,9 @@
         <pm:footer fixed="true">
             <h:form>
                 <p:tabMenu>
-                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:second?transition=fade" iconPos="bottom" />
+                    <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
                     <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createItem?transition=flip" iconPos="bottom"/>
-                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{mobileAutoCompleteFilter.reset}" iconPos="bottom"/>
+                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{itemAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
                 </p:tabMenu>
             </h:form>
 
@@ -127,7 +127,7 @@
                     <p:outputLabel id="label" for="name" value="Kunde:"/>
                     <p:inputText id="name" value="#{mobileCustomerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                 </pm:field>
-                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second">
+                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second createCustomer">
 
                 </p:commandButton>
             </h:form>

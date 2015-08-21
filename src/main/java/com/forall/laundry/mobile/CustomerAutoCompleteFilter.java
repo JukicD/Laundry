@@ -39,8 +39,6 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
     @PostConstruct
     public void init() {
-        System.out.println("INIT");
-        System.out.println(query);
         customers = filterCustomers();
         customers.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
     }
@@ -55,16 +53,18 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
         customers
                 .parallelStream()
-                .filter(c -> c.getName().toLowerCase().contains(query == null ? "" : query.toLowerCase()))
+                .filter(c -> c.getName().toLowerCase().contains(query.toLowerCase()))
                 .forEach(c -> filter.add(c));
         filter.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
 
         return filter;
     }
 
-    public void reset(){
+    public String reset(){
+        System.out.println("RESET");
         query = null;
         init();
+        return "pm:second";
     }
 
     public List<Customer> getCustomers() {
