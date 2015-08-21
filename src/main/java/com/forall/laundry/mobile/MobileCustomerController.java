@@ -2,7 +2,9 @@ package com.forall.laundry.mobile;
 
 import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.service.OrderyService;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
@@ -29,8 +31,15 @@ public class MobileCustomerController implements Serializable{
     @EJB
     private CustomerService customerService;
 
+    @EJB
+    private OrderyService orderyService;
+
     public String createCustomer(){
+        Ordery ordery = new Ordery();
+        ordery.setCustomer(customer);
+
         customerService.save(customer);
+        orderyService.save(ordery);
         customer.setName(null);
         mac.reset();
         return "pm:second?transition=flip";

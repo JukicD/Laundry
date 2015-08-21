@@ -32,8 +32,6 @@ public class ItemAutoCompleteFilter implements Serializable{
 
     @PostConstruct
     public void init(){
-        System.out.println("INIT " + query);
-
         items = filterItems();
     }
 

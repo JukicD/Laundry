@@ -61,7 +61,6 @@ public class CustomerAutoCompleteFilter implements Serializable{
     }
 
     public String reset(){
-        System.out.println("RESET");
         query = null;
         init();
         return "pm:second";
@@ -89,6 +88,5 @@ public class CustomerAutoCompleteFilter implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        System.out.println(this.customer);
     }
 }

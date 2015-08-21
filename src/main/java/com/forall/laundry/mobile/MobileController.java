@@ -52,7 +52,6 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        mac.reset();
     }
 
     public boolean isBorrowed() {
