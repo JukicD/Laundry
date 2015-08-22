@@ -9,6 +9,7 @@ import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import org.primefaces.context.RequestContext;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -52,6 +53,7 @@ public class CustomerService {
     public void save(Customer customer){
         try{
             em.persist(customer);
+            RequestContext.getCurrentInstance().update("customerPanel");
             logger.info("CUSTOMER CREATED ! Name: " + customer.getName() + ", Address: " +customer.getAddress() + ", ID: " + customer.getId());
         }catch (Exception e){
             logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created !");
