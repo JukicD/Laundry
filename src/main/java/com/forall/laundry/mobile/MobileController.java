@@ -1,11 +1,14 @@
 package com.forall.laundry.mobile;
 
 import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Product;
-import com.forall.laundry.model.Worker;
+import com.forall.laundry.controller.selection.OrderySelectionController;
+import com.forall.laundry.model.*;
+import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.service.ItemService;
+import com.forall.laundry.service.OrderyService;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -13,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by jd on 8/19/15.
@@ -21,8 +25,22 @@ import java.io.Serializable;
 @SessionScoped
 public class MobileController implements Serializable{
 
+    @EJB
+    private OrderyService orderyService;
+
+    @EJB
+    private CustomerService customerService;
+
+    @EJB
+    private ItemService itemService;
+
     @Inject
     private CustomerAutoCompleteFilter mac;
+
+    @Inject
+    private MobileCustomerController mcc;
+
+    private List<Item> currentItems;
 
     private Worker worker;
 
@@ -33,6 +51,25 @@ public class MobileController implements Serializable{
     private boolean borrowed;
 
     private Integer amount;
+
+    public void addItem(){
+
+        Item item = new Item();
+        item.setItem_product(product);
+        item.setAmount(amount);
+        Ordery ordery = mcc.getCurrentOrder();
+
+        item.setOrdery(ordery);
+        ordery.addItem(item);
+
+        itemService.save(item);
+        orderyService.update(ordery);
+        customerService.update(customer);
+
+        amount = null;
+
+        currentItems = customerService.getItems(customer);
+    }
 
 
     public String goTo(String nav){
@@ -52,6 +89,7 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        currentItems = customerService.getItems(customer);
     }
 
     public boolean isBorrowed() {
@@ -77,5 +115,13 @@ public class MobileController implements Serializable{
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Item> getCurrentItems() {
+        return currentItems;
+    }
+
+    public void setCurrentItems(List<Item> currentItems) {
+        this.currentItems = currentItems;
     }
 }

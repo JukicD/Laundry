@@ -93,7 +93,7 @@
 
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
-                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}">
+                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:fifth?transition=slide')}" update="fifth:itemoutputForm">
                         <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
                     </p:commandButton>
                 </p:dataGrid>
@@ -103,8 +103,8 @@
             <h:form>
                 <p:tabMenu>
                     <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
-                    <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createItem?transition=flip" iconPos="bottom"/>
-                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{itemAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
+                    <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
+                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
                 </p:tabMenu>
             </h:form>
 
@@ -114,11 +114,44 @@
     <pm:page id="fifth">
         <pm:content>
             <pm:field>
-                <h:form>
+                <h:form id="iteminputForm">
                     <p:outputLabel for="inputAmount" value="Stück"/>
-                    <h:inputText id="inputAmount" value="#{mobileController.amount}"/>
+                    <p:inputText id="inputAmount" value="#{mobileController.amount}"/>
+                    <p:commandButton value="Hinzufügen" action="#{mobileController.addItem}" update="fifth:itemoutputForm fifth:iteminputForm"/>
                 </h:form>
             </pm:field>
+
+            <h:form id="itemoutputForm">
+                <p:dataTable id="itemoutputTable"
+                             value="#{mobileController.currentItems}" var="item"
+                             emptyMessage="Der Kunde hat noch keine Aufträge!"
+                             resizableColumns="true"
+                             editable="true"
+                             editMode="cell" >
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="#{mobileController.customer.name}" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column  headerText="Produkt">
+                        <h:outputText value="#{item.name}"/>
+                    </p:column>
+
+                    <p:column  headerText="Anzahl">
+                        <h:outputText value="#{item.amount}"/>
+                    </p:column>
+
+                    <p:column  headerText="Einzelpreis">
+                        <h:outputText value="#{item.singlePrice}"/>
+                    </p:column>
+
+                    <p:column headerText="Preis">
+                        <h:outputText value="#{item.sum}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </pm:content>
     </pm:page>
 
@@ -130,6 +163,18 @@
                     <p:inputText id="name" value="#{mobileCustomerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                 </pm:field>
                 <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second createCustomer"/>
+            </h:form>
+        </pm:content>
+    </pm:page>
+
+    <pm:page id="createProduct">
+        <pm:content>
+            <h:form>
+                <pm:field>
+                    <p:outputLabel for="productName" value="Bezeichnung"/>
+                    <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
+                </pm:field>
+                <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth createProduct"/>
             </h:form>
         </pm:content>
     </pm:page>

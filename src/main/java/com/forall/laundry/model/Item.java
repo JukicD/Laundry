@@ -50,7 +50,7 @@ public class Item implements Serializable {
     }
     
     public BigDecimal getSum(){
-        return item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
+        return item_product.getPrice() == null || amount == null ? null : item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
     }
    
     public Integer getAmount() {

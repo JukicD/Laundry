@@ -28,6 +28,9 @@ public class MobileCustomerController implements Serializable{
     @Inject
     private CustomerAutoCompleteFilter mac;
 
+    @Inject
+    private MobileController mc;
+
     @EJB
     private CustomerService customerService;
 
@@ -43,6 +46,10 @@ public class MobileCustomerController implements Serializable{
         customer.setName(null);
         mac.reset();
         return "pm:second?transition=flip";
+    }
+
+    public Ordery getCurrentOrder(){
+        return customerService.getCurrentOrder(mc.getCustomer());
     }
 
     public Customer getCustomer() {
