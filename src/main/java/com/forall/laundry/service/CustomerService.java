@@ -9,6 +9,7 @@ import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import com.forall.laundry.model.Product;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.Stateless;
@@ -109,5 +110,12 @@ public class CustomerService {
                 .getResultList();
         
         return customers;
+    }
+
+    public List<Product> getProductsFrom(Customer customer){
+
+        return em.createQuery("SELECT c.products FROM Customer c WHERE c.id = :id")
+                .setParameter("id", customer.getId())
+                .getResultList();
     }
 }

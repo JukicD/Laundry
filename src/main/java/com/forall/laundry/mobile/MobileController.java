@@ -2,6 +2,7 @@ package com.forall.laundry.mobile;
 
 import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.model.Worker;
 
 import javax.annotation.PostConstruct;
@@ -27,12 +28,11 @@ public class MobileController implements Serializable{
 
     private Customer customer;
 
+    private Product product;
+
     private boolean borrowed;
 
     private Integer amount;
-
-    @Inject
-    private ItemAutoCompleteFilter icf;
 
 
     public String goTo(String nav){
@@ -69,5 +69,13 @@ public class MobileController implements Serializable{
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

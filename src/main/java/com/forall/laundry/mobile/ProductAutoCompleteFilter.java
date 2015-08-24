@@ -1,7 +1,9 @@
 package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
+import com.forall.laundry.service.ProductService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,18 +14,21 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by jd on 8/21/15.
  */
 @Named
 @RequestScoped
-public class ItemAutoCompleteFilter implements Serializable{
+public class ProductAutoCompleteFilter implements Serializable{
 
     @EJB
-    private ItemService itemService;
+    private ProductService productService;
 
-    private List<Item> items;
+
+    private List<Product> products;
 
     private String query;
 
@@ -32,22 +37,22 @@ public class ItemAutoCompleteFilter implements Serializable{
 
     @PostConstruct
     public void init(){
-        items = filterItems();
+        products = filterItems();
     }
 
-    public List<Item> filterItems(){
+    public List<Product> filterItems(){
         if(mc.getCustomer() == null){
             return null;
         }
         System.out.println(mc.getCustomer().getName());
         if(query == null || query.equals("")){
 
-            return items = itemService.getAllItems(mc.getCustomer());
+            return products = productService.getProductsFrom(mc.getCustomer());
         }
 
-        List<Item> filter = new ArrayList<>();
+        List<Product> filter = new ArrayList<>();
 
-        items
+        products
                 .parallelStream()
                 .filter(c -> c.getName().toLowerCase().contains(query.toLowerCase()))
                 .forEach(c -> filter.add(c));
@@ -61,12 +66,12 @@ public class ItemAutoCompleteFilter implements Serializable{
         init();
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public String getQuery() {

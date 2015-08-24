@@ -6,12 +6,14 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  *
@@ -39,5 +41,18 @@ public class ProductService {
         }
        
     }
-    
+
+    public Product find(long id){
+        return em.find(Product.class, id);
+    }
+
+    public List<Product> getProductsFrom(Customer customer) {
+
+        List<Product> products = em.createQuery("SELECT c.products FROM Customer c WHERE c.id = :id")
+                .setParameter("id", customer.getId())
+                .getResultList();
+
+        products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+        return products;
+    }
 }

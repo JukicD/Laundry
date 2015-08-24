@@ -4,13 +4,17 @@ import com.forall.laundry.controller.OldOrdersController;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.controller.statistic.StatisticController;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CellEditEvent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -35,57 +39,27 @@ public class EditController implements Serializable{
     @Inject
     private StatisticController statisticController;
     
-    private List<Item> items;
+    private List<Product> products;
     
     @PostConstruct
     public void init(){
 
-       items = oc.getItems();
+       products = userController.getProducts();
+        products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
     }
     
-    public void onCellEdit(Item item) {
-        
-        productService.update(item.getItem_product());
-        itemService.update(item);
-        statisticController.setSelectedCustomer(userController.getCustomer());
-        statisticController.update();
-        
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.update("statisticPanel");
-        context.update("customerStatisticPanel");
+    public void onCellEdit(Product product) {
+        productService.update(product);
+        products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 
-    public ItemService getItemService() {
-        return itemService;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setItemService(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    public OldOrdersController getOc() {
-        return oc;
-    }
-
-    public void setOc(OldOrdersController oc) {
-        this.oc = oc;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-    
-    public ProductService getProductService() {
-        return productService;
-    }
-
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public UserController getUserController() {

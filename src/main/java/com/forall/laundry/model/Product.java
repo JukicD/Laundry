@@ -18,11 +18,10 @@ public class Product implements Serializable {
     private BigDecimal price;
 
     @Basic
+    private boolean borrowed;
+
+    @Basic
     private String name;
-
-    public Product() {
-
-    }
 
     public BigDecimal getPrice() {
         return price;
@@ -42,6 +41,14 @@ public class Product implements Serializable {
    
     public Long getProduct_id() {
         return this.product_id;
+    }
+
+    public boolean isBorrowed() {
+        return borrowed;
+    }
+
+    public void setBorrowed(boolean borrowed) {
+        this.borrowed = borrowed;
     }
 
     @Override

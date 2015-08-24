@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
@@ -17,6 +18,9 @@ public class Customer implements Serializable, Comparable<Customer> {
     @NotNull
     @Basic(fetch=FetchType.LAZY)
     private String name;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Product> products;
      
     @Basic
     private Integer customerNumber;
@@ -62,6 +66,12 @@ public class Customer implements Serializable, Comparable<Customer> {
         mailAddress = null;
         phoneNumber = null;
         zipCode = null;
+    }
+
+    public void addProduct(Product product){
+        if(!products.contains(product)){
+            products.add(product);
+        }
     }
 
     public int getId() {
@@ -155,7 +165,15 @@ public class Customer implements Serializable, Comparable<Customer> {
     public void setDueTime(int dueTime) {
         this.dueTime = dueTime;
     }
-    
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

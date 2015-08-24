@@ -1593,7 +1593,15 @@
       <column name="skonto" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="zipcode" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="customer_pkey" columns="id"/>
+      <exported-key name="fk_43qxwqt02j84ecpbfqu656n2o" table="customer_product" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_5bjam0nswgy57qy0hi8035c03" table="ordery" schema="public" catalog="laundry" columns="customer_id"/>
+    </table>
+    <table name="customer_product" schema="public" catalog="laundry" type="TABLE">
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="products_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_43qxwqt02j84ecpbfqu656n2o" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_knuacvuq219kkak9qekj4og07" columns="products_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="uk_knuacvuq219kkak9qekj4og07" unique="true" columns="products_product_id"/>
     </table>
     <table name="hibernate_sequence" schema="public" catalog="laundry" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -1636,11 +1644,18 @@
       <foreign-key name="fk_eysmavnmyfbaq14ithvcyoe85" columns="ordery_order_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="order_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="uk_d2q4n09ovrvl0x1teo3ohjn82" unique="true" columns="items_item_id"/>
     </table>
+    <table name="price" schema="public" catalog="laundry" type="TABLE">
+      <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="price" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
+      <primary-key name="price_pkey" columns="id"/>
+    </table>
     <table name="product" schema="public" catalog="laundry" type="TABLE">
       <column name="product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="borrowed" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="price" sqlType="numeric" precision="10" scale="2" nullable="true" jdbcType="2"/>
       <primary-key name="product_pkey" columns="product_id"/>
+      <exported-key name="fk_knuacvuq219kkak9qekj4og07" table="customer_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_20alqgpqjgxjt2umisgsxx41h" table="item" schema="public" catalog="laundry" columns="item_product_product_id"/>
     </table>
     <table name="worker" schema="public" catalog="laundry" type="TABLE">

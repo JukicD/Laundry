@@ -84,16 +84,18 @@
         <pm:content>
             <pm:header title="Artikel auswählen">
                 <h:form id="inputItem">
-                    <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{itemAutoCompleteFilter.query}">
-                        <p:ajax event="keyup" listener="#{itemAutoCompleteFilter.init}" update="fourth:outputItem:outputItems"/>
+                    <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{productAutoCompleteFilter.query}">
+                        <p:ajax event="keyup" listener="#{productAutoCompleteFilter.init}" update="fourth:outputItem:outputItems"/>
                     </p:inputText>
                 </h:form>
                 <p:separator/>
             </pm:header>
 
             <h:form id="outputItem">
-                <p:dataGrid id="outputItems" var="item" value="#{itemAutoCompleteFilter.items}" columns="3">
-                    <p:commandButton value="#{item.item_product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}"/>
+                <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
+                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:third?transition=slide')}">
+                        <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
+                    </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
@@ -127,12 +129,11 @@
                     <p:outputLabel id="label" for="name" value="Kunde:"/>
                     <p:inputText id="name" value="#{mobileCustomerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
                 </pm:field>
-                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second createCustomer">
-
-                </p:commandButton>
+                <p:commandButton value="Erstellen" action="#{mobileCustomerController.createCustomer}" update="second createCustomer"/>
             </h:form>
         </pm:content>
     </pm:page>
+
 </h:body>
 
 </html>

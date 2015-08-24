@@ -8,6 +8,7 @@ package com.forall.laundry.controller;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
+import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CustomerService;
 
 import javax.ejb.EJB;
@@ -34,7 +35,10 @@ public class UserController implements Serializable{
     public UserController(){
         
     }
-    
+
+    public List<Product> getProducts(){
+        return customerService.getProductsFrom(customer);
+    }
     public List<Item> getItems(){
         return customerService.getItems(customer);
     }

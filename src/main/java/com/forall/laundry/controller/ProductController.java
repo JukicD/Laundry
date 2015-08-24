@@ -5,7 +5,9 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
+import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
 
 import javax.ejb.EJB;
@@ -21,15 +23,33 @@ import java.io.Serializable;
 @Named
 @RequestScoped
 public class ProductController implements Serializable{
-    
+
+    @Inject
+    private UserController userController;
+
     @Inject
     private Product product;
     
     @EJB
     private ProductService productService;
 
+    @EJB
+    private CustomerService customerService;
+
     
     public ProductController() {
+    }
+
+    public void addProduct(){
+        Customer customer = userController.getCustomer();
+        customer.addProduct(product);
+
+
+        productService.save(product);
+        customerService.update(customer);
+        product.setName(null);
+        product.setPrice(null);
+        product.setBorrowed(false);
     }
     
     public void save(){
