@@ -57,7 +57,7 @@ public class CustomerService {
             RequestContext.getCurrentInstance().update("customerPanel");
             logger.info("CUSTOMER CREATED ! Name: " + customer.getName() + ", Address: " +customer.getAddress() + ", ID: " + customer.getId());
         }catch (Exception e){
-            logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created !");
+            logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created ! Cause: " + e.getCause());
         } 
     }
     

@@ -64,7 +64,7 @@ public class MobileController implements Serializable{
 
         itemService.save(item);
         orderyService.update(ordery);
-        customerService.update(customer);
+        customerService.save(customer);
 
         amount = null;
 

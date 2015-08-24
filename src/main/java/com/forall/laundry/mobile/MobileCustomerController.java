@@ -49,6 +49,7 @@ public class MobileCustomerController implements Serializable{
     }
 
     public Ordery getCurrentOrder(){
+        System.out.println(mc.getCustomer());
         return customerService.getCurrentOrder(mc.getCustomer());
     }
 
