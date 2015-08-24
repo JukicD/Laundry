@@ -71,6 +71,10 @@ public class MobileController implements Serializable{
         currentItems = customerService.getItems(customer);
     }
 
+    public void update(){
+        currentItems = customerService.getItems(customer);
+    }
+
 
     public String goTo(String nav){
         return nav;

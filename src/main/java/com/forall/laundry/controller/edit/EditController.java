@@ -40,13 +40,15 @@ public class EditController implements Serializable{
     private StatisticController statisticController;
     
     private List<Product> products;
+
+    private List<Item> items;
     
     @PostConstruct
     public void init(){
 
        products = userController.getProducts();
         products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-
+        items = oc.getItems();
     }
     
     public void onCellEdit(Product product) {
@@ -68,5 +70,13 @@ public class EditController implements Serializable{
 
     public void setUserController(UserController userController) {
         this.userController = userController;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

@@ -112,15 +112,15 @@
     </pm:page>
 
     <pm:page id="fifth">
+        <pm:header fixed="true" title="Anzahl">
+            <h:form id="iteminputForm">
+                <pm:field>
+                    <p:inputText id="inputAmount" value="#{mobileController.amount}" placeholder="Stück"/>
+                </pm:field>
+                <p:commandButton value="Hinzufügen" action="#{mobileController.addItem}" update="fifth:itemoutputForm fifth:iteminputForm" style="width: auto"/>
+            </h:form>
+        </pm:header>
         <pm:content>
-            <pm:field>
-                <h:form id="iteminputForm">
-                    <p:outputLabel for="inputAmount" value="Stück"/>
-                    <p:inputText id="inputAmount" value="#{mobileController.amount}"/>
-                    <p:commandButton value="Hinzufügen" action="#{mobileController.addItem}" update="fifth:itemoutputForm fifth:iteminputForm"/>
-                </h:form>
-            </pm:field>
-
             <h:form id="itemoutputForm">
                 <p:dataTable id="itemoutputTable"
                              value="#{mobileController.currentItems}" var="item"
@@ -151,6 +151,7 @@
                         <h:outputText value="#{item.sum}"/>
                     </p:column>
                 </p:dataTable>
+                <p:commandButton value="Lieferung abschließen" action="#{mobileOrderyController.finishOrder}" update="@form"/>
             </h:form>
         </pm:content>
     </pm:page>
