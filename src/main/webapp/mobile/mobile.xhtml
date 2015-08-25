@@ -71,10 +71,12 @@
             <h:form>
                 <p:panelGrid columns="2" style="margin-bottom: 17.5%; margin-top: 17.5%">
                     <p:commandButton value="Leihwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
-                        <p:ajax event="click" listener="#{mobileController.setBorrowed(true)}" update="fourth"/>
+                        <p:ajax event="click" listener="#{mobileController.setBorrowed(true)}" update="fourth:outputItem:outputItems"/>
+                        <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                     </p:commandButton>
                     <p:commandButton value="Eigenwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
-                        <p:ajax event="click" listener="#{mobileController.setBorrowed(false)}" update="fourth"/>
+                        <p:ajax event="click" listener="#{mobileController.setBorrowed(false)}" update="fourth:outputItem:outputItems"/>
+                        <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                     </p:commandButton>
                 </p:panelGrid>
             </h:form>

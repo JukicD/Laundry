@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16c986d2-73cc-4f7c-be2a-deff6d63ff2c" name="Default" comment="choosing orders by dates works">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/edit/EditController.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/edit/EditController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Item.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Item.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/util/LaundryUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/util/LaundryUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="laundry.iws" />
@@ -132,20 +129,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mobile.xhtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mobile.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.625">
-              <caret line="88" column="86" selection-start-line="88" selection-start-column="86" selection-end-line="88" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.23291926">
+              <caret line="74" column="92" selection-start-line="74" selection-start-column="92" selection-end-line="74" selection-end-column="92" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductAutoCompleteFilter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProductAutoCompleteFilter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.9668875">
+            <state vertical-scroll-proportion="0.0">
               <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
               <folding>
                 <element signature="e#905#906#0" expanded="true" />
@@ -158,7 +155,7 @@
       <file leaf-file-name="customerMain.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-56.041668">
+            <state vertical-scroll-proportion="-52.291668">
               <caret line="91" column="45" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
               <folding />
             </state>
@@ -171,19 +168,6 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Item.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="8" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
-              <folding>
-                <element signature="e#2568#2569#0" expanded="true" />
-                <element signature="e#2614#2615#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -249,7 +233,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/desktop.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/CustomerAutoCompleteFilter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/MobileOrderyController.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/MobileProductController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/orders.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/billing/Bill.jrxml" />
@@ -261,6 +244,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/edit/EditController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml" />
       </list>
     </option>
   </component>
@@ -1027,7 +1011,7 @@
       <workItem from="1440459029314" duration="222000" />
       <workItem from="1440496006179" duration="4321000" />
       <workItem from="1440500453833" duration="16000" />
-      <workItem from="1440504261956" duration="5918000" />
+      <workItem from="1440504261956" duration="7042000" />
     </task>
     <task id="LOCAL-00001" summary="choosing orders by dates works">
       <created>1439729831533</created>
@@ -1039,7 +1023,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="141993000" />
+    <option name="totallyTimeSpent" value="143117000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="749" extended-state="6" />
@@ -1055,11 +1039,11 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.71246004" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40095848" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20530303" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2621212" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14621212" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1106,13 +1090,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/eventCustomers.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.125">
-          <caret line="5" column="9" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/filter/OldOrdersFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1501,9 +1478,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///opt/java/jdk1.8.0_51/src.zip!/java/lang/System.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6626506">
+          <caret line="72" column="50" selection-start-line="72" selection-start-column="50" selection-end-line="72" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
+          <folding>
+            <element signature="e#905#906#0" expanded="true" />
+            <element signature="e#945#946#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-56.041668">
+        <state vertical-scroll-proportion="-52.291668">
           <caret line="91" column="45" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
           <folding />
         </state>
@@ -1511,20 +1507,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/mobile/mobile.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.625">
-          <caret line="88" column="86" selection-start-line="88" selection-start-column="86" selection-end-line="88" selection-end-column="86" />
+        <state vertical-scroll-proportion="0.23291926">
+          <caret line="74" column="92" selection-start-line="74" selection-start-column="92" selection-end-line="74" selection-end-column="92" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/mobile/ProductAutoCompleteFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9668875">
-          <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
-          <folding>
-            <element signature="e#905#906#0" expanded="true" />
-            <element signature="e#945#946#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
