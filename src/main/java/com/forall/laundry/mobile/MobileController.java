@@ -58,6 +58,8 @@ public class MobileController implements Serializable{
     public void addItem(){
 
         Item item = new Item();
+        item.setSinglePrice(product.getPrice());
+        System.out.println("PRODUCT: " +product.getPrice());
         item.setItem_product(product);
         item.setAmount(amount);
         Ordery ordery = mcc.getCurrentOrder();

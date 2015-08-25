@@ -53,6 +53,9 @@ public class EditController implements Serializable{
     
     public void onCellEdit(Product product) {
         productService.update(product);
+        Item item = itemService.findItemWithProductID(product.getProduct_id());
+        item.setSinglePrice(product.getPrice());
+        itemService.update(item);
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 

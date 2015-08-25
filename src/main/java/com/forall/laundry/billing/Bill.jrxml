@@ -110,7 +110,7 @@
 c."address" AS customer_address,
 i.amount AS item_amount,
 p."name" AS product_name,
-p.price AS product_price
+i.singleprice AS product_price
 
 FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
 
@@ -135,7 +135,7 @@ c."companyname" AS customer_companyName,
 c."customernumber" AS customer_number,
 i.amount AS item_amount,
 p."name" AS product_name,
-p.price AS product_price,
+i."singleprice" AS product_price,
 b.ownname AS bill_ownname,
 b.address AS bill_address,
 b.uid AS bill_uid,

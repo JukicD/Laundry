@@ -162,4 +162,10 @@ public class ItemService {
                  .stream()
                  .collect(Collectors.groupingBy(Item::getName));
          }
+
+    public Item findItemWithProductID(long id){
+        return (Item) em.createQuery("SELECT i FROM Item i WHERE i.item_product.id = :id")
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }
