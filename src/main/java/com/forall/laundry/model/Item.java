@@ -39,14 +39,14 @@ public class Item implements Serializable {
     @Transient
     private String name;
     
-    @Transient
+    @Basic
     private BigDecimal singlePrice;
     
     @Transient
     private BigDecimal totalSum;
     
     public Item() {
-        
+
     }
     
     public BigDecimal getSum(){
@@ -94,7 +94,7 @@ public class Item implements Serializable {
     }
 
     public BigDecimal getSinglePrice() {
-        return item_product.getPrice();
+        return singlePrice;
     }
 
     public Product getItem_product() {
@@ -102,7 +102,7 @@ public class Item implements Serializable {
     }
 
     public void setSinglePrice(BigDecimal singlePrice) {
-        item_product.setPrice(singlePrice);
+        this.singlePrice = singlePrice;
     }
     
     @Override

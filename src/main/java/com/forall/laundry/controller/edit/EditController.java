@@ -57,9 +57,9 @@ public class EditController implements Serializable{
     }
 
     public void onItemEdit(Item item){
-
-        Product product = item.getItem_product();
-        productService.update(item.getItem_product());
+        System.out.println(item.getSinglePrice());
+        System.out.println(item.getItem_product().getPrice());
+        itemService.update(item);
     }
 
     public List<Product> getProducts() {

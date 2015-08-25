@@ -1619,6 +1619,7 @@
       <column name="item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="borrowed" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="item_product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="item_pkey" columns="item_id"/>
