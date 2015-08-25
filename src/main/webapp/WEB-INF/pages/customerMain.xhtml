@@ -26,7 +26,7 @@
 
         <p:commandButton  actionListener = "#{productController.addProduct}"
                           value="Speichern" style="margin-right:10px; border-radius: 0px"
-                          update="customerMain itemForm:itemTable"
+                          update="customerMain itemForm:itemsTab:ownTable itemForm:itemsTab:rentTable"
                           process="@form">
 
             <p:resetInput target="@form" />
@@ -40,44 +40,90 @@
     <br/>
     <br/>
     <h:form id="itemForm">
-        <p:dataTable id="itemTable"
-                     value="#{editController.products}" var="product"
-                     resizableColumns="true"
-                     rendered="#{not empty userController.products}"
-                     editable="true"
-                     editMode="cell">
+        <p:tabView dynamic="true" cache="true" id="itemsTab">
+            <p:tab title="Eigenwäsche" id="ownTab">
+                <p:dataTable id="ownTable"
+                             value="#{editController.ownProducts}" var="product"
+                             resizableColumns="true"
+                             rendered="#{not empty editController.ownProducts}"
+                             editable="true"
+                             editMode="cell">
 
-            <f:facet name="customerHeader">
-                <p:outputPanel>
-                    <h:outputText value="#{userController.customer.name}" />
-                </p:outputPanel>
-            </f:facet>
+                    <f:facet name="customerHeader">
+                        <p:outputPanel>
+                            <h:outputText value="#{userController.customer.name}" />
+                        </p:outputPanel>
+                    </f:facet>
 
-            <p:column  headerText="Ware">
-                <p:cellEditor>
-                    <f:facet name="output">
-                        <h:outputText value="#{product.name}"/>
-                    </f:facet>
-                    <f:facet name="input">
-                        <h:inputText id="nameInput" value="#{product.name}">
-                            <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
-                        </h:inputText>
-                    </f:facet>
-                </p:cellEditor>
-            </p:column>
+                    <p:column  headerText="Ware">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{product.name}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText id="nameInput" value="#{product.name}">
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                </h:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-            <p:column  headerText="Einzelpreis">
-                <p:cellEditor>
-                    <f:facet name="output">
-                        <h:outputText value="#{product.price}"/>
+                    <p:column  headerText="Einzelpreis">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{product.price}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText id="singlepriceInput" value="#{product.price}">
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                </h:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+
+            </p:tab>
+            <p:tab title="Leihwäsche" id="rentTab">
+                <p:dataTable id="rentTable"
+                             value="#{editController.rentProducts}" var="product"
+                             resizableColumns="true"
+                             rendered="#{not empty editController.rentProducts}"
+                             editable="true"
+                             editMode="cell">
+
+                    <f:facet name="customerHeader">
+                        <p:outputPanel>
+                            <h:outputText value="#{userController.customer.name}" />
+                        </p:outputPanel>
                     </f:facet>
-                    <f:facet name="input">
-                        <h:inputText id="singlepriceInput" value="#{product.price}">
-                            <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
-                        </h:inputText>
-                    </f:facet>
-                </p:cellEditor>
-            </p:column>
-        </p:dataTable>
+
+                    <p:column  headerText="Ware">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{product.name}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText id="nameInput" value="#{product.name}">
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                </h:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column  headerText="Einzelpreis">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{product.price}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText id="singlepriceInput" value="#{product.price}">
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                </h:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
     </h:form>
 </ui:composition>

@@ -47,7 +47,7 @@ public class ProductAutoCompleteFilter implements Serializable{
         System.out.println(mc.getCustomer().getName());
         if(query == null || query.equals("")){
 
-            return productService.getProductsFrom(mc.getCustomer());
+            return productService.getProductsFrom(mc.getCustomer()).stream().filter( p -> p.isBorrowed() != mc.isBorrowed()).collect(Collectors.toList());
         }
 
         List<Product> filter = new ArrayList<>();
@@ -55,6 +55,7 @@ public class ProductAutoCompleteFilter implements Serializable{
         products
                 .parallelStream()
                 .filter(c -> c.getName().toLowerCase().contains(query.toLowerCase()))
+                .filter( p -> p.isBorrowed() != mc.isBorrowed())
                 .forEach(c -> filter.add(c));
         filter.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
 

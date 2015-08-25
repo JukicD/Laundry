@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
@@ -41,12 +42,22 @@ public class EditController implements Serializable{
     
     private List<Product> products;
 
+    private List<Product> ownProducts;
+
+    private List<Product> rentProducts;
+
     private List<Item> items;
     
     @PostConstruct
     public void init(){
 
        products = userController.getProducts();
+        ownProducts = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
+        ownProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+
+        rentProducts = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
+        rentProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+
         products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
         items = oc.getItems();
     }
@@ -60,8 +71,10 @@ public class EditController implements Serializable{
     }
 
     public void onItemEdit(Item item){
-        System.out.println(item.getSinglePrice());
-        System.out.println(item.getItem_product().getPrice());
+
+        if(item.getSinglePrice() == null){
+            item.setSinglePrice(item.getItem_product().getPrice());
+        }
         itemService.update(item);
     }
 
@@ -87,5 +100,21 @@ public class EditController implements Serializable{
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public List<Product> getOwnProducts() {
+        return ownProducts;
+    }
+
+    public void setOwnProducts(List<Product> ownProducts) {
+        this.ownProducts = ownProducts;
+    }
+
+    public List<Product> getRentProducts() {
+        return rentProducts;
+    }
+
+    public void setRentProducts(List<Product> rentProducts) {
+        this.rentProducts = rentProducts;
     }
 }
