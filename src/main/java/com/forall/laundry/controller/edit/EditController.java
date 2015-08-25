@@ -56,6 +56,12 @@ public class EditController implements Serializable{
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 
+    public void onItemEdit(Item item){
+
+        Product product = item.getItem_product();
+        productService.update(item.getItem_product());
+    }
+
     public List<Product> getProducts() {
         return products;
     }

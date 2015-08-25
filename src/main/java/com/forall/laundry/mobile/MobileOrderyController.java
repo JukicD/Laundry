@@ -36,6 +36,7 @@ public class MobileOrderyController implements Serializable{
         o.setCustomer(mc.getCustomer());
         customerService.update(mc.getCustomer());
         orderyService.save(o);
+
         mc.update();
     }
 }

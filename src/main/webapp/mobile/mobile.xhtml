@@ -46,6 +46,7 @@
                 <p:dataGrid id="outputCustomers" var="customer" value="#{customerAutoCompleteFilter.customers}" columns="3">
                     <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third fourth:outputItem:outputItems">
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
+                        <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
@@ -93,8 +94,9 @@
 
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
-                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:fifth?transition=slide')}" update="fifth:itemoutputForm">
+                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:fifth?transition=slide')}" update="fifth:itemoutputForm:itemoutputTable">
                         <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
+                        <p:ajax event="click" listener="#{mobileController.update}" update="fifth:itemoutputForm:itemoutputTable"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
@@ -151,7 +153,9 @@
                         <h:outputText value="#{item.sum}"/>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Lieferung abschließen" action="#{mobileOrderyController.finishOrder}" update="@form"/>
+                <p:commandButton value="Lieferung abschließen" action="#{mobileOrderyController.finishOrder}" update="@form">
+                    <p:ajax event="click" listener="#{customerAutoCompleteFilter.reset}" update="second:outputForm:outputCustomers second:inputForm:customerSearch"/>
+                </p:commandButton>
             </h:form>
         </pm:content>
     </pm:page>
@@ -175,7 +179,7 @@
                     <p:outputLabel for="productName" value="Bezeichnung"/>
                     <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
                 </pm:field>
-                <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth createProduct"/>
+                <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth:outputItem:outputItems createProduct"/>
             </h:form>
         </pm:content>
     </pm:page>

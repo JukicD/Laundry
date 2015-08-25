@@ -21,6 +21,9 @@ public class MobileProductController implements Serializable{
     @Inject
     private MobileController mc;
 
+    @Inject
+    private ProductAutoCompleteFilter pac;
+
     @EJB
     private ProductService productService;
 
@@ -36,6 +39,8 @@ public class MobileProductController implements Serializable{
 
         productService.save(product);
         customerService.update(customer);
+
+        pac.init();
 
         return "pm:fourth?transition=flip";
     }

@@ -30,7 +30,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="productInput" value="#{item.name}">
-                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
+                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
                             </h:inputText>
                         </f:facet>
                     </p:cellEditor>
@@ -43,7 +43,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="amntnpt" value="#{item.amount}">
-                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
+                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
                                 <f:converter converterId="javax.faces.Integer" />
                             </h:inputText>
                         </f:facet>
@@ -57,7 +57,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <h:inputText id="singlepriceInput2" value="#{item.singlePrice}">
-                                <p:ajax event="change" listener="#{editController.onCellEdit(item)}" update="customerPanel"/>
+                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
                                 
                             </h:inputText>
                         </f:facet>

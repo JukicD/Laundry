@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * Created by jd on 8/21/15.
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class ProductAutoCompleteFilter implements Serializable{
 
     @EJB
@@ -47,7 +47,7 @@ public class ProductAutoCompleteFilter implements Serializable{
         System.out.println(mc.getCustomer().getName());
         if(query == null || query.equals("")){
 
-            return products = productService.getProductsFrom(mc.getCustomer());
+            return productService.getProductsFrom(mc.getCustomer());
         }
 
         List<Product> filter = new ArrayList<>();

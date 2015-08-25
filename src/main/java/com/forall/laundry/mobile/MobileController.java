@@ -35,7 +35,10 @@ public class MobileController implements Serializable{
     private ItemService itemService;
 
     @Inject
-    private CustomerAutoCompleteFilter mac;
+    private CustomerAutoCompleteFilter cac;
+
+    @Inject
+    private ProductAutoCompleteFilter pac;
 
     @Inject
     private MobileCustomerController mcc;
@@ -64,9 +67,13 @@ public class MobileController implements Serializable{
 
         itemService.save(item);
         orderyService.update(ordery);
-        customerService.save(customer);
+        customerService.update(customer);
 
         amount = null;
+        cac.reset();
+        pac.reset();
+        update();
+
 
         currentItems = customerService.getItems(customer);
     }
@@ -93,7 +100,7 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        currentItems = customerService.getItems(customer);
+        System.out.println(this.customer);
     }
 
     public boolean isBorrowed() {
