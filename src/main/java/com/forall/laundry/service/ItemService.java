@@ -37,11 +37,12 @@ public class ItemService {
     @Inject
     AppLogger logger;
     
-    public List<Item> getItemsFrom(Ordery order) {
-        
-            return em.createNamedQuery("Item.fromOrder")
-                    .setParameter("id", order.getOrder_id())
-                    .getResultList();
+    public List<Item> getItemsFrom(Ordery... order) {
+
+        List<Object> orders = Arrays.asList(order);
+        List<Item> items = new ArrayList<>();
+        orders.stream().map( o -> ((Ordery) o)).forEach( o -> items.addAll(o.getItems()));
+            return items;
     }
     
     public void save(Item item){

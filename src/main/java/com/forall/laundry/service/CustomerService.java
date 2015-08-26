@@ -96,11 +96,12 @@ public class CustomerService {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
-        
+
+        logger.info("Searching Customers from " + day +"."+month+"."+year);
         
         List<Customer> customers =  em
                 .createQuery("SELECT c FROM Ordery o, Customer c "
-                        + "WHERE o.customer.id. = c.id"
+                        + "WHERE o.customer.id = c.id "
                         + "AND EXTRACT(DAY FROM time) = :day "
                         + "AND EXTRACT(MONTH FROM time) = :month "
                         + "AND EXTRACT(YEAR FROM time) = :year")
@@ -108,7 +109,8 @@ public class CustomerService {
                 .setParameter("month", month)
                 .setParameter("year", year)
                 .getResultList();
-        
+
+        logger.info("Found " + customers.size() + " Customers!");
         return customers;
     }
 

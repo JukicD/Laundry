@@ -4,15 +4,19 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <h:form>
-        <p:outputPanel id="customEventPanel">
-            <p:selectOneButton id="customSelectButton" value="#{eventOrdersFilter.command}" >
-                <f:selectItem itemLabel="Heute" itemValue="today"/>
-                <f:selectItem itemLabel="Diese Woche" itemValue="week"/>
-                <f:selectItem itemLabel="Dieser Monat" itemValue="month"/>
-                <f:selectItem itemLabel="Benutzerdefiniert" itemValue="custom"/>
-                <p:ajax event="change" listener="#{eventOrdersFilter.filter}"/>
-            </p:selectOneButton>
-        </p:outputPanel>
-    </h:form>
+
+        <p:tabView id="eventTabView" cache="true">
+            <p:ajax event="tabChange" listener="#{eventOrdersFilter.onTabChange}" update="eventDataTableForm:eventDataTable"/>
+            <p:tab id="todayTab" title="Heute">
+                <h:form id="eventDataTableForm">
+                    <ui:include src="/WEB-INF/pages/components/eventDataTable.xhtml"/>
+                </h:form>
+                <ui:include src="/WEB-INF/pages/orders.xhtml"/>
+
+            </p:tab>
+            <p:tab id="tmrwTab" title="Morgen">
+                <p>tmrw</p>
+            </p:tab>
+        </p:tabView>
+
 </ui:composition>

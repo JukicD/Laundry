@@ -5,15 +5,23 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
+import com.forall.laundry.service.OrderyService;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -28,6 +36,9 @@ public class ItemController implements Serializable{
     
     @EJB
     private ItemService itemService;
+
+    @EJB
+    private OrderyService orderyService;
     
     @Inject
     private Item item;
@@ -43,6 +54,21 @@ public class ItemController implements Serializable{
         item.setItem_product(product);
         item.setBorrowed(true);
         itemService.save(item);
+    }
+
+    public List<Item> getTodaysItemsFrom(final Customer customer){
+
+        final Date date = new Date();
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+        final int month = cal.get(Calendar.MONTH) + 1;
+        final int year = cal.get(Calendar.YEAR);
+
+        final List<Ordery> orders = orderyService.getOrdersFromToday(day, month, year);
+
+        return orders.parallelStream().filter( o -> o.getCustomer().getId() == customer.getId()).flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
     }
     
     public UserController getUserController() {

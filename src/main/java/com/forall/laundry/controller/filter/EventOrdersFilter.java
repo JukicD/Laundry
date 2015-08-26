@@ -5,20 +5,24 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.TabChangeEvent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by jd on 8/17/15.
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class EventOrdersFilter implements Serializable{
 
     @Inject
@@ -38,16 +42,22 @@ public class EventOrdersFilter implements Serializable{
 
     @PostConstruct
     public void init(){
-
+        command = "Heute";
+        filter();
     }
 
-    public void filter(){
-        System.out.println(command);
+    public void onTabChange(TabChangeEvent event){
+        command = event.getTab().getTitle();
+        filter();
+    }
+
+    private void filter(){
+
         switch(command){
-            case "today":
+            case "Heute":
                 //orders = orderyService.getTodaysOrdersFrom(userController.getCustomer());
-                //customers = customerService.getTodaysCustomers();
-                System.out.println(orders.size());
+                customers = customerService.getCustomersFrom(new Date());
+
                 break;
             case "week":
                 //orders = orderyService.getThisWeeksOrders();

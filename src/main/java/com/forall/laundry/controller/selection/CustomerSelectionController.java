@@ -5,9 +5,11 @@
  */
 package com.forall.laundry.controller.selection;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -18,7 +20,7 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class CustomerSelectionController implements Serializable{
-    
+
     private Customer selectedCustomer;
     
     public void deleteCustomer() {
@@ -32,5 +34,6 @@ public class CustomerSelectionController implements Serializable{
 
     public void setSelectedCustomer(Customer selectedCustomer) {
         this.selectedCustomer = selectedCustomer;
+        System.out.println(this.selectedCustomer.getName());
     }
 }

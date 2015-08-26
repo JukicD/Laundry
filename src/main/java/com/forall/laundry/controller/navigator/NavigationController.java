@@ -5,8 +5,16 @@
  */
 package com.forall.laundry.controller.navigator;
 
+import com.forall.laundry.logger.AppLogger;
+
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
+import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -15,20 +23,22 @@ import java.io.Serializable;
  * @author jd
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class NavigationController implements Serializable{
-    
+
     private String site;
 
     @PostConstruct
     public void init(){
         site ="customerList";
     }
+
     public String getSite() {
         return site;
     }
 
     public void setSite(String site) {
         this.site = site;
+
     }
 }

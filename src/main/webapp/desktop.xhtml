@@ -177,10 +177,9 @@
             </p:dialog>
             <h:form>
                 <p:dock>
-                    <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()" action="#{customerFilter.init}" update="customerPanel">
-                    </p:menuitem>
-                    <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()"/>
-                    <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()"/>
+                    <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()" action="#{customerFilter.init}" update="customerPanel"/>
+                    <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()" update="statisticPanel"/>
+                    <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()" update="eventPanel"/>
                     <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
                 </p:dock>
             </h:form>
