@@ -100,7 +100,7 @@ public class CustomerService {
         logger.info("Searching Customers from " + day +"."+month+"."+year);
         
         List<Customer> customers =  em
-                .createQuery("SELECT c FROM Ordery o, Customer c "
+                .createQuery("SELECT DISTINCT c FROM Ordery o, Customer c "
                         + "WHERE o.customer.id = c.id "
                         + "AND EXTRACT(DAY FROM time) = :day "
                         + "AND EXTRACT(MONTH FROM time) = :month "

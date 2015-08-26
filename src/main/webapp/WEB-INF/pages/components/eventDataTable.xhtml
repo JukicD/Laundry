@@ -9,7 +9,7 @@
                      value="#{eventOrdersFilter.customers}"
                      selectionMode="single"
                      rowKey="#{customer.id}"
-                selection="#{customerSelectionController.selectedCustomer}">
+                     selection="#{customerSelectionController.selectedCustomer}">
 
             <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
             <p:ajax event="rowSelect" listener="#{editController.setItems(itemController.getTodaysItemsFrom(customerSelectionController.selectedCustomer))}" update="eventPanel"/>
@@ -17,6 +17,8 @@
                 <h:outputText value="#{customer.name}"/>
             </p:column>
         </p:dataTable>
+
+
 
     <br/>
     <br/>

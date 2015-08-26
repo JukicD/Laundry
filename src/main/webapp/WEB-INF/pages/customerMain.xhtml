@@ -62,7 +62,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText id="nameInput" value="#{product.name}">
-                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>
@@ -75,7 +75,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText id="singlepriceInput" value="#{product.price}">
-                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>
@@ -104,7 +104,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText id="nameInput" value="#{product.name}">
-                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>
@@ -117,7 +117,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText id="singlepriceInput" value="#{product.price}">
-                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form"/>
+                                    <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>

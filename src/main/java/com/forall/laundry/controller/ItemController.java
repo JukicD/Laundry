@@ -68,7 +68,11 @@ public class ItemController implements Serializable{
 
         final List<Ordery> orders = orderyService.getOrdersFromToday(day, month, year);
 
-        return orders.parallelStream().filter( o -> o.getCustomer().getId() == customer.getId()).flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
+        return orders
+                .parallelStream()
+                .filter( o -> o.getCustomer().getId() == customer.getId())
+                .flatMap( o -> o.getItems().stream())
+                .collect(Collectors.toList());
     }
     
     public UserController getUserController() {
