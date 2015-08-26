@@ -35,6 +35,7 @@ public class MobileProductController implements Serializable{
 
     public String createProduct(){
         Customer customer = customerService.findById(mc.getCustomer().getId());
+        product.setBorrowed(mc.isBorrowed());
         customer.addProduct(product);
 
         productService.save(product);

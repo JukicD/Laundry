@@ -52,11 +52,10 @@ public class Item implements Serializable {
     public BigDecimal getSum(){
 
         if(singlePrice == null || item_product.getPrice() == null || amount == null){
-            return item_product.getPrice().multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
+            return item_product.getPrice() == null && singlePrice == null ? null : singlePrice.multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
         }
 
         return singlePrice.multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
-
     }
    
     public Integer getAmount() {
