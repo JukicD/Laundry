@@ -51,8 +51,16 @@ public class Item implements Serializable {
     
     public BigDecimal getSum(){
 
-        if(singlePrice == null || item_product.getPrice() == null || amount == null){
-            return item_product.getPrice() == null && singlePrice == null ? null : singlePrice.multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
+        if(item_product.getPrice() == null){
+            return new BigDecimal(0.00);
+        }
+
+        if(singlePrice == null){
+            return item_product.getPrice();
+        }
+
+        if(amount == null){
+            amount = 1;
         }
 
         return singlePrice.multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
@@ -63,7 +71,7 @@ public class Item implements Serializable {
     }
     
     public void setName(String name){
-        item_product.setName(name);
+        item_product.getName();
     }
 
     public void setAmount(Integer amount) {
@@ -95,6 +103,7 @@ public class Item implements Serializable {
     }
 
     public String getName() {
+
         return item_product.getName();
     }
 

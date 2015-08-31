@@ -138,11 +138,12 @@ public class StatisticController implements Serializable{
         
         customers
                 .stream()
-                .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue())
-                .forEach( customer -> 
-                {
-                   series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
-                });
+                .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue()).peek( c -> System.out.println(c.getName())
+        )
+                .forEach(customer ->
+        {
+            series.set(customer.getName(), statisticService.getSumFromCustomer(customer).setScale(2, RoundingMode.HALF_UP));
+        });
         
         Axis xAxis = customerModel.getAxis(AxisType.X);
         xAxis.setTickAngle(-50);

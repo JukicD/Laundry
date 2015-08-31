@@ -65,22 +65,22 @@ public class OldOrdersController implements Serializable{
     public void getBill(Ordery o){
         
         PreparedStatement stmt = null;
-        String sql = "SELECT \"public\".ordery.bill FROM \"public\".ordery WHERE \"public\".ordery.order_id = ?";
+        final String sql = "SELECT \"public\".ordery.bill FROM \"public\".ordery WHERE \"public\".ordery.order_id = ?";
         
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry", "jd", "p1l1o1k1");
+            final Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry", "jd", "p1l1o1k1");
             stmt = conn.prepareStatement(sql);
             stmt.setLong(1, o.getOrder_id());
             
-            ResultSet set = stmt.executeQuery();
+            final ResultSet set = stmt.executeQuery();
           
             if(set.next()){
                
-                InputStream in = set.getBinaryStream("bill");
-                OutputStream out = new FileOutputStream(new File("/home/jd/Desktop/wohoo.pdf"));
+                final InputStream in = set.getBinaryStream("bill");
+                final OutputStream out = new FileOutputStream(new File("/home/jd/Desktop/wohoo.pdf"));
                 
                 int bytesRead = -1;
-                byte[] buffer = new byte[512];
+                final byte[] buffer = new byte[512];
                 
                 while((bytesRead = in.read(buffer)) != -1){
                     out.write(buffer, 0, bytesRead);

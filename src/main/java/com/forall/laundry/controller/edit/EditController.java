@@ -10,6 +10,7 @@ import com.forall.laundry.service.ProductService;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.TabChangeEvent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,22 +25,22 @@ import java.util.stream.Collectors;
 @Named
 @RequestScoped
 public class EditController implements Serializable{
-    
+
     @EJB
     private ItemService itemService;
-    
+
     @EJB
     private ProductService productService;
-    
+
     @Inject
     private OldOrdersController oc;
-    
+
     @Inject
     private UserController userController;
-    
+
     @Inject
     private StatisticController statisticController;
-    
+
     private List<Product> products;
 
     private List<Product> ownProducts;
@@ -47,21 +48,22 @@ public class EditController implements Serializable{
     private List<Product> rentProducts;
 
     private List<Item> items;
-    
+
     @PostConstruct
     public void init(){
 
-       products = userController.getProducts();
+        products = userController.getProducts();
         ownProducts = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
         ownProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
+        ownProducts.stream().forEach( p -> System.out.println(p.getPrice()));
         rentProducts = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
         rentProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
         products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
         items = oc.getItems();
     }
-    
+
     public void onCellEdit(Product product) {
         productService.update(product);
         Item item = itemService.findItemWithProductID(product.getProduct_id());
@@ -76,6 +78,19 @@ public class EditController implements Serializable{
             item.setSinglePrice(item.getItem_product().getPrice());
         }
         itemService.update(item);
+    }
+
+    public void onTabChange(TabChangeEvent event){
+        switch(event.getTab().getId()){
+            case("rentTab"):
+                products = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
+                products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                break;
+            case("ownTab"):
+                products = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
+                products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                break;
+        }
     }
 
     public List<Product> getProducts() {
@@ -117,4 +132,5 @@ public class EditController implements Serializable{
     public void setRentProducts(List<Product> rentProducts) {
         this.rentProducts = rentProducts;
     }
+
 }

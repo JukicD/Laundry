@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+    <p:dataTable id="productTable"
+                 value="#{editController.products}" var="product"
+                 resizableColumns="true"
+                 rendered="#{not empty editController.products}"
+                 editable="true"
+                 editMode="cell">
+
+        <f:facet name="customerHeader">
+            <p:outputPanel>
+                <h:outputText value="#{userController.customer.name}"/>
+            </p:outputPanel>
+        </f:facet>
+
+        <p:column  headerText="Ware">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{product.name}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <h:inputText id="nameInput" value="#{product.name}">
+                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
+                    </h:inputText>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column  headerText="Einzelpreis">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{product.price}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <h:inputText id="priceInput" value="#{product.price}">
+                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel"/>
+                    </h:inputText>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+    </p:dataTable>
+</ui:composition>
+

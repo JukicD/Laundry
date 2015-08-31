@@ -6,17 +6,20 @@
 
 
         <p:tabView id="eventTabView" cache="true">
-            <p:ajax event="tabChange" listener="#{eventOrdersFilter.onTabChange}" update="eventDataTableForm:eventDataTable"/>
+            <p:ajax event="tabChange" listener="#{eventOrdersFilter.onTabChange}" update="todayTabForm:eventDataTable"/>
             <p:tab id="todayTab" title="Heute">
-                <h:form id="eventDataTableForm">
+                <h:form id="todayTabForm">
                     <ui:include src="/WEB-INF/pages/components/eventDataTable.xhtml"/>
                 </h:form>
 
                 <ui:include src="/WEB-INF/pages/orders.xhtml"/>
 
             </p:tab>
-            <p:tab id="tmrwTab" title="Morgen">
-                <p>tmrw</p>
+            <p:tab id="weekTab" title="Diese Woche">
+                <h:form id="weekTabForm">
+                    <ui:insert src="/WEB-INF/pages/components/eventDataTable.xhtml"/>
+                </h:form>
+
             </p:tab>
         </p:tabView>
 

@@ -88,14 +88,19 @@ public class CustomerService {
         return customers.get(0);
     }
     
-    public List<Customer> getCustomersFrom(Date date){
+    public List<Customer> getCustomersFrom(final Date from, final Date to){
         
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        final Calendar fromCal = Calendar.getInstance();
+        fromCal.setTime(from);
         
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int year = cal.get(Calendar.YEAR);
+        int day = fromCal.get(Calendar.DAY_OF_MONTH);
+        int month = fromCal.get(Calendar.MONTH) + 1;
+        int year = fromCal.get(Calendar.YEAR);
+
+        final Calendar toCal = Calendar.getInstance();
+        toCal.setTime(to);
+
+
 
         logger.info("Searching Customers from " + day +"."+month+"."+year);
         

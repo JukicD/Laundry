@@ -44,7 +44,6 @@ public class ProductController implements Serializable{
         Customer customer = userController.getCustomer();
         customer.addProduct(product);
 
-
         productService.save(product);
         customerService.update(customer);
         product.setName(null);

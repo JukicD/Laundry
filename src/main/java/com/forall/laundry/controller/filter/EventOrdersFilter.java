@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -56,12 +57,21 @@ public class EventOrdersFilter implements Serializable{
         switch(command){
             case "Heute":
                 //orders = orderyService.getTodaysOrdersFrom(userController.getCustomer());
-                customers = customerService.getCustomersFrom(new Date());
+                //customers = customerService.getCustomersFrom(new Date());
 
                 break;
             case "week":
                 //orders = orderyService.getThisWeeksOrders();
-                //customers = customerService.getThisWeeksCustomers();
+
+                final Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                Date today = new Date();
+                final long now = today.getTime();
+                final long then = now - 1000 * 60 * 60 * 24 * 7;
+
+                Date weekBefore = new Date(then);
+
+                customers = customerService.getCustomersFrom(weekBefore, today);
                 break;
             case "month":
                 //orders = orderyService.getThisMonthsOrders(); break;
