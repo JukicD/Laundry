@@ -3,35 +3,36 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
         >
-        
-        <h:form id="customerList">
-            <p:contextMenu for="customerTable">
-                <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel"/>
-                <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/>
-            </p:contextMenu>
-            
-            <p:dataTable id="customerTable" 
-                         var="customer" value="#{customerFilter.customers}" 
-                         resizableColumns="true" 
-                         widgetVar="customersList"
-                         emptyMessage="Keine Kunden vorhanden!" 
-                         filteredValue="#{customerFilter.filteredCustomers}"
-                         rowKey="#{customer.id}"
-                         selection="#{customerSelectionController.selectedCustomer}"
-                         selectionMode="single"
-                         style="text-align: center">
-                
-                <p:ajax event="contextMenu" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
-                <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
-                <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"  update="customerPanel customerListDialog" oncomplete="PF('customer').show()"/>
-                <p:ajax event="rowSelect" listener="#{labelController.description('Vergangene Aufträge für')}"/>
-                
-                <p:column filterBy="#{customer.name}" 
-                          sortBy="#{customer.name}" 
-                          headerText="Kunde" 
-                          filterMatchMode="contains">
-                    <h:outputText value="#{customer.name}" />
-                </p:column> 
-            </p:dataTable>
-        </h:form>
+
+    <h:form id="customerList">
+        <p:contextMenu for="customerTable">
+            <p:menuitem value="Aktuelle Lieferung" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel"/>
+            <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/>
+        </p:contextMenu>
+
+        <p:dataTable id="customerTable"
+                     var="customer" value="#{customerFilter.customers}"
+                     resizableColumns="true"
+                     widgetVar="customersList"
+                     emptyMessage="Keine Kunden vorhanden!"
+                     filteredValue="#{customerFilter.filteredCustomers}"
+                     rowKey="#{customer.id}"
+                     selection="#{customerSelectionController.selectedCustomer}"
+                     selectionMode="single"
+                     style="text-align: center"
+                     reflow="true">
+
+            <p:ajax event="contextMenu" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+            <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+            <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"  update="customerPanel customerListDialog" oncomplete="PF('customer').show()"/>
+            <p:ajax event="rowSelect" listener="#{labelController.description('Vergangene Aufträge für')}"/>
+
+            <p:column filterBy="#{customer.name}"
+                      sortBy="#{customer.name}"
+                      headerText="Kunde"
+                      filterMatchMode="contains">
+                <h:outputText value="#{customer.name}" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </ui:composition>

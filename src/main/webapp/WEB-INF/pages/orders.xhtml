@@ -3,71 +3,71 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
-        
-        <h:form id="lastOrders">
-            
-            <p:dataTable id="orders" 
-                         value="#{editController.items}" var="item"
-                         emptyMessage="Der Kunde hat noch keine Aufträge!"
-                         resizableColumns="true"
-                         editable="true" 
-                         editMode="cell" >
-                
-                <f:facet name="header"> 
-                    <p:outputPanel>
-                        <h:outputText value="#{userController.customer.name}"/>
-                    </p:outputPanel>
-                    <h:outputText value="#{oldOrdersController.order.date}">
-                        <f:convertDateTime pattern="dd.MM.yy"/>
-                    </h:outputText>
-                </f:facet>
-                    
-                <p:column  headerText="Produkt">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{item.name}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:inputText id="productInput" value="#{item.name}">
-                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-                
-                <p:column  headerText="Anzahl">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{item.amount}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:inputText id="amntnpt" value="#{item.amount}">
-                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
-                                <f:converter converterId="javax.faces.Integer" />
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-                
-                 <p:column  headerText="Einzelpreis">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{item.singlePrice == null ? item.item_product.price : item.singlePrice}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:inputText id="singlepriceInput2" value="#{item.singlePrice}">
-                                <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel"/>
-                                
-                            </h:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-                
-                <p:column headerText="Preis">
-                    <h:outputText value="#{item.sum}">
-                    </h:outputText>
-                </p:column>
-            </p:dataTable>
-            <p:commandButton value="Zurück" action="#{navigationController.setSite('oldOrders')}" update="customerPanel"/>
-        </h:form>
+
+    <h:form id="lastOrders">
+
+        <p:dataTable id="orders"
+                     value="#{editController.items}" var="item"
+                     emptyMessage="Der Kunde hat noch keine Aufträge!"
+                     resizableColumns="true"
+                     editable="true"
+                     editMode="cell"
+                     reflow="true">
+
+            <f:facet name="header">
+                <p:outputPanel>
+                    <h:outputText value="#{userController.customer.name}"/>
+                </p:outputPanel>
+                <h:outputText value="#{oldOrdersController.order.date}">
+                    <f:convertDateTime pattern="dd.MM.yy"/>
+                </h:outputText>
+            </f:facet>
+
+            <p:column  headerText="Produkt">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.name}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <h:inputText id="productInput" value="#{item.name}">
+                            <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel eventPanel"/>
+                        </h:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column  headerText="Anzahl">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.amount}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <h:inputText id="amntnpt" value="#{item.amount}">
+                            <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel eventPanel"/>
+                            <f:converter converterId="javax.faces.Integer" />
+                        </h:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column  headerText="Einzelpreis">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.singlePrice == null ? item.item_product.price : item.singlePrice}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <h:inputText id="singlepriceInput2" value="#{item.singlePrice}">
+                            <p:ajax event="change" listener="#{editController.onItemEdit(item)}" update="customerPanel eventPanel"/>
+
+                        </h:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Preis">
+                <h:outputText value="#{item.sum}">
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </ui:composition>

@@ -77,6 +77,7 @@ public class EditController implements Serializable{
         if(item.getSinglePrice() == null){
             item.setSinglePrice(item.getItem_product().getPrice());
         }
+        System.out.println("EDIT");
         itemService.update(item);
     }
 

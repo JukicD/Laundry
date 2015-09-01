@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
 
-        <p:tabView id="eventTabView" cache="true">
+        <p:tabView id="eventTabView" cache="true" dynamic="true">
             <p:ajax event="tabChange" listener="#{eventOrdersFilter.onTabChange}" update="todayTabForm:eventDataTable"/>
             <p:tab id="todayTab" title="Heute">
                 <h:form id="todayTabForm">
@@ -19,8 +19,6 @@
                 <h:form id="weekTabForm">
                     <ui:insert src="/WEB-INF/pages/components/eventDataTable.xhtml"/>
                 </h:form>
-
             </p:tab>
         </p:tabView>
-
 </ui:composition>

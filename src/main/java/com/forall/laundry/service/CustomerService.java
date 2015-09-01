@@ -125,4 +125,23 @@ public class CustomerService {
                 .setParameter("id", customer.getId())
                 .getResultList();
     }
+
+    public List<Customer> getTodaysCustomers() {
+
+        final Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+        final int month = cal.get(Calendar.MONTH) + 1;
+        final int year = cal.get(Calendar.YEAR);
+
+        List<Customer> customers = em.createQuery("SELECT DISTINCT c FROM Customer c, Ordery o WHERE EXTRACT(DAY FROM time) = :day AND EXTRACT(MONTH FROM time) = :month AND EXTRACT(YEAR FROM time) = :year AND o.customer.id = c.id ORDER BY c.name ASC ")
+                .setParameter("day", day)
+                .setParameter("month", month)
+                .setParameter("year", year)
+                .getResultList();
+
+        return customers;
+    }
 }
