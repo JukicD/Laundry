@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="112"/>
+	<property name="ireport.y" value="168"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -124,6 +124,9 @@ WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.order_
 		<variable name="Summe" class="java.math.BigDecimal" calculation="Sum">
 			<variableExpression><![CDATA[$F{product_price}]]></variableExpression>
 		</variable>
+		<variable name="rowsum" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount})).setScale(2, RoundingMode.HALF_UP)]]></variableExpression>
+		</variable>
 	</subDataset>
 	<parameter name="item_id_list" class="java.util.Collection">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -181,7 +184,7 @@ i.item_product_product_id = p.product_id;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="222" splitType="Stretch">
+		<band height="217" splitType="Stretch">
 			<staticText>
 				<reportElement x="36" y="90" width="127" height="13" uuid="51798e03-42a8-413e-b0e0-2ee6ab90764d"/>
 				<text><![CDATA[Firma]]></text>
@@ -221,7 +224,7 @@ i.item_product_product_id = p.product_id;]]>
 				<textFieldExpression><![CDATA["UID: " + $F{bill_uid}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="36" y="166" width="489" height="56" uuid="b42cb9d8-f296-4929-bd06-d0fc36cf8e2d"/>
+				<reportElement positionType="Float" x="36" y="166" width="489" height="51" uuid="b42cb9d8-f296-4929-bd06-d0fc36cf8e2d"/>
 				<textElement markup="html"/>
 				<textFieldExpression><![CDATA[$F{own_welcome}]]></textFieldExpression>
 			</textField>
@@ -294,15 +297,15 @@ i.item_product_product_id = p.product_id;]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="132">
+		<band height="193">
 			<elementGroup>
 				<textField>
-					<reportElement positionType="Float" x="36" y="49" width="489" height="34" uuid="febd26fa-5af3-4e0e-898e-cc3a32408282"/>
+					<reportElement positionType="Float" x="36" y="49" width="489" height="65" uuid="febd26fa-5af3-4e0e-898e-cc3a32408282"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 					<textFieldExpression><![CDATA[$F{own_information}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="36" y="83" width="489" height="36" uuid="df607f4a-20c3-45c2-974a-d8a8580dbb0a"/>
+					<reportElement positionType="Float" x="36" y="114" width="489" height="79" uuid="df607f4a-20c3-45c2-974a-d8a8580dbb0a"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 					<textFieldExpression><![CDATA[$F{customer_text}]]></textFieldExpression>
 				</textField>
@@ -409,18 +412,17 @@ i.item_product_product_id = p.product_id;]]>
 							</jr:tableHeader>
 							<jr:tableFooter height="31" rowSpan="1">
 								<textField>
-									<reportElement x="11" y="0" width="87" height="30" uuid="d069a3f6-1c54-4eff-b837-500f91e068ce"/>
-									<textElement verticalAlignment="Middle">
-										<font size="12" isBold="true"/>
+									<reportElement x="0" y="0" width="98" height="31" uuid="3dd507c1-1303-479f-8ff0-74f39550759e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$V{Summe}]]></textFieldExpression>
 								</textField>
 							</jr:tableFooter>
 							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
 								<textField>
-									<reportElement x="11" y="0" width="87" height="20" uuid="09de0578-19a2-4cac-933e-77dd28744b59"/>
-									<textElement verticalAlignment="Middle"/>
-									<textFieldExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount})).setScale(2, RoundingMode.HALF_UP)]]></textFieldExpression>
+									<reportElement x="5" y="1" width="93" height="19" uuid="cd63113a-c2d7-4940-909b-538197717e6a"/>
+									<textFieldExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount}))]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>

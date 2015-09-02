@@ -19,7 +19,7 @@ public class Ordery implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long order_id;
+    private Long id;
     
     @Basic(fetch=FetchType.LAZY)
     @Column(name = "time")
@@ -28,14 +28,6 @@ public class Ordery implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="customer_id")
     private Customer customer;
-    
-    @Type(type = "org.hibernate.type.BinaryType")
-    @Basic
-    private byte[] bill;
-    
-    @Basic
-    private boolean partOfBill;
-
     
     public Date trimedDate(){
         
@@ -63,13 +55,13 @@ public class Ordery implements Serializable {
     public void setOrdery_item(List<Item> ordery_item) {
         this.items = ordery_item;
     }
-   
-    public Long getOrder_id() {
-        return this.order_id;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDate() {
@@ -96,26 +88,10 @@ public class Ordery implements Serializable {
         this.items = items;
     }
 
-    public byte[] getBill() {
-        return bill;
-    }
-
-    public void setBill(byte[] bill) {
-        this.bill = bill;
-    }
-
-    public boolean isPartOfBill() {
-        return partOfBill;
-    }
-
-    public void setPartOfBill(boolean partOfBill) {
-        this.partOfBill = partOfBill;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.order_id);
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -128,6 +104,6 @@ public class Ordery implements Serializable {
             return false;
         }
         final Ordery other = (Ordery) obj;
-        return Objects.equals(this.order_id, other.order_id);
+        return Objects.equals(this.id, other.id);
     }
 }

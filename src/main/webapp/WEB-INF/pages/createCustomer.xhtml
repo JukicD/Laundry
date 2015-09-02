@@ -4,73 +4,72 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
         >
-    
-    
-    
+
+
+
     <h:form id='addCustomerForm'>
-        <p:growl id="createCustomerGrowl" sticky="false" life="3500" showDetail="false"/>
         <h1 style="font-size: 20px">Bezeichnung</h1>
         <p:separator/>
         <h:panelGrid id="customer_grid" columns="2" cellspacing="1" cellpadding="5">
-            
+
             <p:outputLabel id="label" for="name" value="Kunde:"/>
             <h:inputText id="name" value="#{customerController.customer.name}" required="true" requiredMessage="Name eingeben!"/>
-            
+
             <p:outputLabel for="companyName" value="Firmenbezeichnung:"/>
             <h:inputText id="companyName" value ="#{customerController.customer.companyName}" required="true" requiredMessage="Firmennamen eingeben!"/>
-            
+
             <p:outputLabel for="customerNumber" value="Kundennummer:" />
             <h:inputText id="customerNumber" value ="#{customerController.customer.customerNumber}" required="true" requiredMessage="Kundennummer eingeben!"/>
-            
+
             <p:outputLabel for="address" value="Adresse:"/>
             <h:inputText id="address" value ="#{customerController.customer.address}" required="true" requiredMessage="Adresse eingeben!"/>
-            
+
             <p:outputLabel for="zipCode" value="Postleitzahl/Ort"/>
             <h:inputText id="zipCode" value ="#{customerController.customer.zipCode}" required="true" requiredMessage="Postleitzahl/Ort eingeben!"/>
-            
+
         </h:panelGrid>
         <h1 style="font-size: 20px">Kontaktdaten</h1>
         <p:separator/>
-        
+
         <h:panelGrid id="contactPanel" columns="2" cellspacing="1" cellpadding="5">
             <p:outputLabel for="eMail" value="E-Mail:"/>
             <h:inputText id="eMail" value ="#{customerController.customer.mailAddress}"/>
-            
+
             <p:outputLabel for="phoneNumber" value="Telefonnummer:"/>
             <h:inputText id="phoneNumber" value ="#{customerController.customer.phoneNumber}"/>
         </h:panelGrid>
-        
+
         <h1 style="font-size: 20px">Zusätzliche Information</h1>
         <p:separator/>
-        
+
         <h:panelGrid id="informationPanel" columns="2" cellspacing="1" cellpadding="5">
             <p:outputLabel for="skonto" value="Skonto:"/>
             <h:inputText id="skonto" value ="#{customerController.customer.skonto}"/>
-            
+
             <p:outputLabel for="dueTime" value="Fälligkeitsdauer:"/>
             <h:inputText id="dueTime" value ="#{customerController.customer.dueTime}"/>
         </h:panelGrid>
-        
-        
+
+
         <h1 style="font-size: 20px">Rechnungstext</h1>
         <p:separator/>
-        
+
         <h:panelGrid>
-            
+
             <p:editor id="greetingsEditor" widgetVar="editorWidget" width="600" value="#{customerController.customer.billingText}"/>
         </h:panelGrid>
         <p:separator/>
-        <p:commandButton  
-                          actionListener="#{customerController.createCustomer}"
-                          value="Speichern" style="margin-right:10px; border-radius: 0px"
-                          update="addCustomerForm customerPanel"
-                          process="@form">
-            
+        <p:commandButton
+                actionListener="#{customerController.createCustomer}"
+                value="Speichern" style="margin-right:10px; border-radius: 0px"
+                update="addCustomerForm customerPanel msgs"
+                process="@form">
+
             <p:resetInput target="@form" />
             <f:actionListener binding="#{customerFilter.init()}"/>
-            <f:actionListener binding="#{growlController.saveMessage('Kunde erfolgreich erstellt !')}"/>
+            <p:ajax listener="#{growlController.sendMessage('Kunde erfolgreich erstellt !')}"/>
         </p:commandButton>
-        
+
         <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true" style="border-radius: 0px"/>
     </h:form>
 </ui:composition>

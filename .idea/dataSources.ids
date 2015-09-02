@@ -1579,6 +1579,18 @@
       <column name="welcome" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="bill_pkey" columns="id"/>
     </table>
+    <table name="category" schema="public" catalog="laundry" type="TABLE">
+      <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="category_pkey" columns="id"/>
+      <exported-key name="fk_n8ly3jam5monf2tghgn4u9bll" table="category_product" schema="public" catalog="laundry" columns="categories_id"/>
+    </table>
+    <table name="category_product" schema="public" catalog="laundry" type="TABLE">
+      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="products_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_n8ly3jam5monf2tghgn4u9bll" columns="categories_id" ref-table="category" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_c9lsx9tgjgyc8mtp4asohyt41" columns="products_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
     <table name="customer" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="address" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -1620,29 +1632,27 @@
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="borrowed" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
-      <column name="item_product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="item_pkey" columns="item_id"/>
-      <foreign-key name="fk_4dwxclqh9smcqbci95dbe0awo" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="order_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_20alqgpqjgxjt2umisgsxx41h" columns="item_product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_4dwxclqh9smcqbci95dbe0awo" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_yhsukor8nxm9rtumwmo19mlf" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_d2q4n09ovrvl0x1teo3ohjn82" table="ordery_item" schema="public" catalog="laundry" columns="items_item_id"/>
     </table>
     <table name="ordery" schema="public" catalog="laundry" type="TABLE">
-      <column name="order_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="bill" sqlType="bytea" precision="2147483647" scale="0" nullable="true" jdbcType="-2"/>
+      <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="time" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
-      <column name="partofbill" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="ordery_pkey" columns="order_id"/>
+      <primary-key name="ordery_pkey" columns="id"/>
       <foreign-key name="fk_5bjam0nswgy57qy0hi8035c03" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_4dwxclqh9smcqbci95dbe0awo" table="item" schema="public" catalog="laundry" columns="ordery_id"/>
-      <exported-key name="fk_eysmavnmyfbaq14ithvcyoe85" table="ordery_item" schema="public" catalog="laundry" columns="ordery_order_id"/>
+      <exported-key name="fk_6iv4vir9mfj0mv8u4031u45nv" table="ordery_item" schema="public" catalog="laundry" columns="ordery_id"/>
     </table>
     <table name="ordery_item" schema="public" catalog="laundry" type="TABLE">
-      <column name="ordery_order_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="items_item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <foreign-key name="fk_d2q4n09ovrvl0x1teo3ohjn82" columns="items_item_id" ref-table="item" ref-schema="public" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_eysmavnmyfbaq14ithvcyoe85" columns="ordery_order_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="order_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_6iv4vir9mfj0mv8u4031u45nv" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="uk_d2q4n09ovrvl0x1teo3ohjn82" unique="true" columns="items_item_id"/>
     </table>
     <table name="price" schema="public" catalog="laundry" type="TABLE">
@@ -1656,8 +1666,14 @@
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="price" sqlType="numeric" precision="10" scale="2" nullable="true" jdbcType="2"/>
       <primary-key name="product_pkey" columns="product_id"/>
+      <exported-key name="fk_c9lsx9tgjgyc8mtp4asohyt41" table="category_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_knuacvuq219kkak9qekj4og07" table="customer_product" schema="public" catalog="laundry" columns="products_product_id"/>
-      <exported-key name="fk_20alqgpqjgxjt2umisgsxx41h" table="item" schema="public" catalog="laundry" columns="item_product_product_id"/>
+      <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>
+    </table>
+    <table name="product_category" schema="public" catalog="laundry" type="TABLE">
+      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <index name="uk_ra5s97oj9k024yvdmuwk15wa3" unique="true" columns="categories_id"/>
     </table>
     <table name="worker" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>

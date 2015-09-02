@@ -29,7 +29,7 @@ public class StatisticService implements Serializable{
     private EntityManager em;
     
     @EJB
-    CustomerService customerService;
+    private CustomerService customerService;
     
     public BigDecimal getSumFromMonth(int month, int year){
         

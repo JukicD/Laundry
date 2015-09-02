@@ -70,7 +70,7 @@ public class OldOrdersController implements Serializable{
         try {
             final Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry", "jd", "p1l1o1k1");
             stmt = conn.prepareStatement(sql);
-            stmt.setLong(1, o.getOrder_id());
+            stmt.setLong(1, o.getId());
             
             final ResultSet set = stmt.executeQuery();
           

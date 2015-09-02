@@ -23,10 +23,10 @@ import java.util.List;
 public class ProductService {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
     
     @Inject
-    AppLogger logger;
+    private AppLogger logger;
     
     public void save(Product product){
         em.persist(product);

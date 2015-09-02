@@ -99,7 +99,7 @@ public class ItemService {
     
     public List<Item> getSpecificItems(final String name, final Customer customer){
         
-        List<Item> items = em.createQuery("Select i FROM Item i, Ordery o, Product p, Customer c WHERE c.id = :id AND c.id = o.customer.id AND i.ordery.order_id = o.order_id AND i.item_product.product_id = p.product_id AND p.name LIKE :name ORDER BY o.date ASC")
+        List<Item> items = em.createQuery("Select i FROM Item i, Ordery o, Product p, Customer c WHERE c.id = :id AND c.id = o.customer.id AND i.ordery.id = o.id AND i.product.product_id = p.product_id AND p.name LIKE :name ORDER BY o.date ASC")
                 .setParameter("id", customer.getId())
                 .setParameter("name", name)
                 .getResultList();
@@ -116,7 +116,7 @@ public class ItemService {
      */
     public List<Item> getAllItems(Customer customer){
         
-        List<Item> items = em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND i.ordery.order_id = o.order_id ORDER BY o.date ASC")
+        List<Item> items = em.createQuery("SELECT i FROM Item i, Ordery o WHERE o.customer.id = :id AND i.ordery.id = o.id ORDER BY o.date ASC")
                 .setParameter("id", customer.getId())
                 .getResultList();
         
@@ -165,7 +165,7 @@ public class ItemService {
          }
 
     public Item findItemWithProductID(long id){
-        return (Item) em.createQuery("SELECT i FROM Item i WHERE i.item_product.id = :id")
+        return (Item) em.createQuery("SELECT i FROM Item i WHERE i.product.id = :id")
                 .setParameter("id", id)
                 .getResultList().get(0);
     }

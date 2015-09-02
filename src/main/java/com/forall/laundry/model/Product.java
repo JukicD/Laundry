@@ -4,6 +4,8 @@ package com.forall.laundry.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,11 +19,23 @@ public class Product implements Serializable {
     @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price;
 
+    @ManyToMany(mappedBy = "products")
+    private List<Category> categories;
+
     @Basic
     private boolean borrowed;
 
     @Basic
     private String name;
+
+    public void addCategory(Category category){
+        if(categories == null){
+            categories = new ArrayList<>();
+        }
+        if(!categories.contains(category)){
+            categories.add(category);
+        }
+    }
 
     public BigDecimal getPrice() {
         return price;
@@ -49,6 +63,14 @@ public class Product implements Serializable {
 
     public void setBorrowed(boolean borrowed) {
         this.borrowed = borrowed;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     @Override

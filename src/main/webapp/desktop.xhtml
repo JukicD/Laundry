@@ -32,7 +32,7 @@
         </h:head>
             
         <h:body>
-            <p:growl showDetail="true" sticky="true"/>
+            <p:growl id="msgs" sticky="false" life="3500" showDetail="false"/>
             <h:form>
                 
                 <p:menubar>
@@ -151,6 +151,14 @@
                     <ui:include src="/WEB-INF/pages/borrowed.xhtml"/>
                 </p:outputPanel>
             </p:dialog>
+
+            <p:dialog id="propDialog"
+                      widgetVar="prop"
+                      hideEffect="clip">
+                <p:outputPanel id="propPanel">
+                    <ui:include src="/WEB-INF/pages/property.xhtml"/>
+                </p:outputPanel>
+            </p:dialog>
                 
             <p:dialog 
                 header="Kunden anlegen" 
@@ -182,6 +190,7 @@
                     <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()" update="statisticPanel"/>
                     <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()" update="eventPanel"/>
                     <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
+                    <p:menuitem value="Artikel" icon="#{resource['images/prop.png']}" onclick="PF('prop').show()" update="propPanel"/>
                 </p:dock>
             </h:form>
         </h:body>

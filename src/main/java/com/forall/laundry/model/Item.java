@@ -11,7 +11,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Item.all", query = "SELECT i FROM Item i"),
         @NamedQuery(name = "Item.fromCustomer", query = "SELECT i From Item i, Ordery o, Customer c WHERE o.customer.id = :id"),
-        @NamedQuery(name ="Item.fromOrder", query = "SELECT i FROM Item i WHERE i.ordery.order_id = :id")})
+        @NamedQuery(name ="Item.fromOrder", query = "SELECT i FROM Item i WHERE i.ordery.id = :id")})
 public class Item implements Serializable {
 
     @Column(unique=true,updatable=false,insertable=false,nullable=false)
@@ -31,19 +31,10 @@ public class Item implements Serializable {
     private boolean borrowed;
     
     @OneToOne
-    private Product item_product;
-    
-    @Transient
-    private BigDecimal sum;
-    
-    @Transient
-    private String name;
+    private Product product;
     
     @Basic
     private BigDecimal singlePrice;
-    
-    @Transient
-    private BigDecimal totalSum;
     
     public Item() {
 
@@ -51,12 +42,12 @@ public class Item implements Serializable {
     
     public BigDecimal getSum(){
 
-        if(item_product.getPrice() == null){
+        if(product.getPrice() == null){
             return new BigDecimal(0.00);
         }
 
         if(singlePrice == null){
-            return item_product.getPrice();
+            return product.getPrice();
         }
 
         if(amount == null){
@@ -71,7 +62,7 @@ public class Item implements Serializable {
     }
     
     public void setName(String name){
-        item_product.getName();
+        product.getName();
     }
 
     public void setAmount(Integer amount) {
@@ -83,7 +74,7 @@ public class Item implements Serializable {
     }
    
     public void setItem_product(Product item_product) {
-        this.item_product = item_product;
+        this.product = item_product;
     }
 
     public boolean isBorrowed() {
@@ -104,7 +95,7 @@ public class Item implements Serializable {
 
     public String getName() {
 
-        return item_product.getName();
+        return product.getName();
     }
 
     public BigDecimal getSinglePrice() {
@@ -112,13 +103,13 @@ public class Item implements Serializable {
     }
 
     public Product getItem_product() {
-        return item_product;
+        return product;
     }
 
     public void setSinglePrice(BigDecimal singlePrice) {
         this.singlePrice = singlePrice;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -140,6 +131,6 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", borrowed=" + borrowed + ", item_product=" + item_product + ", sum=" + sum + ", name=" + name + ", singlePrice=" + singlePrice + '}';
+        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", borrowed=" + borrowed + ", item_product=" + product + ", singlePrice=" + singlePrice + '}';
     }
 }

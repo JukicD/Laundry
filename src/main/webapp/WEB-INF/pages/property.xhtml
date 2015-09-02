@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:tabView id="propTabView">
+        <p:tab id="newArtTab" title="Artikel anlegen">
+            <h:form id="newArtForm">
+                <p:growl id="customerMainGrowl" showDetail="false" sticky="false" life="3500" showSummary="true"/>
+                <h:panelGrid id="itemGrid" columns="2" cellpadding="5" cellspacing="1">
+
+                    <h:outputLabel for="productName2" value="Gegenstand:"/>
+                    <p:inputText id="productName2" value="#{productController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
+
+                    <h:outputLabel for="product_price" value="Preis/Stück:"/>
+                    <p:inputText id="product_price" value="#{productController.product.price}" required="true" requiredMessage="Preis eingeben!"/>
+
+                    <h:outputLabel for="categories" value="Kategorien: "/>
+                    <p:selectManyMenu id="categories" value="#{categoryController.selectedCategories}"
+                                      var="cat" filter="true" filterMatchMode="contains" showCheckbox="true"
+                                      rendered="#{not empty categoryController.categories}" converter="#{categoryConverter}">
+                        <f:selectItems value="#{categoryController.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat}"/>
+
+                        <p:column>
+                            <h:outputText value="#{cat.name}"/>
+                        </p:column>
+                    </p:selectManyMenu>
+
+                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel">
+                        <p:ajax listener="#{growlController.sendMessage('Artikel erfoglreich gespeichert!')}" update="msgs"/>
+                    </p:commandButton>
+
+                </h:panelGrid>
+            </h:form>
+        </p:tab>
+        <p:tab id="newPropTab" title="Art anlegen">
+            <h:form>
+                <p:panelGrid columns="2" cellpadding="5" cellspacing="1">
+                    <h:outputLabel for="propName" value="Art: "/>
+                    <p:inputText id="propName"
+                                 value="#{categoryController.category.name}"
+                                 required="true"
+                                 requiredMessage="Kategorie eingeben!" />
+
+                    <h:outputLabel for="forAll" value="Für alle: "/>
+                    <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
+                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@form propPanel">
+                        <p:ajax listener="#{growlController.sendMessage('Kategorie erfoglreich gespeichert!')}" update="msgs"/>
+                    </p:commandButton>
+                </p:panelGrid>
+
+            </h:form>
+        </p:tab>
+    </p:tabView>
+</ui:composition>

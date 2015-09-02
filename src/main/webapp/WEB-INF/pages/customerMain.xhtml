@@ -9,28 +9,6 @@
 
     <h:form id="customerMain">
 
-        <p:growl id="customerMainGrowl" showDetail="false" sticky="false" life="3500" showSummary="true"/>
-        <h:panelGrid id="itemGrid" columns="2" cellpadding="5" cellspacing="1">
-
-            <h:outputLabel for="productName" value="Gegenstand:"/>
-            <p:inputText id="productName" value="#{productController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
-
-            <h:outputLabel for="product_price" value="Preis/Stück:"/>
-            <p:inputText id="product_price" value="#{productController.product.price}"/>
-
-            <h:outputLabel value="Leihwäsche:" for="borrowed"/>
-            <p:selectBooleanCheckbox id="borrowed" value="#{productController.product.borrowed}" />
-
-        </h:panelGrid>
-        <p:separator/>
-
-        <p:commandButton  actionListener = "#{productController.addProduct}"
-                          value="Speichern" style="margin-right:10px; border-radius: 0px"
-                          update="customerMain itemsTab"
-                          process="@form">
-
-            <p:resetInput target="@form" />
-        </p:commandButton>
         <p:commandButton value="Zurück"
                          action="#{navigationController.setSite('customerList')}"
                          update="customerPanel"

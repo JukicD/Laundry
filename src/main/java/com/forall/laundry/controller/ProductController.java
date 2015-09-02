@@ -5,8 +5,10 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
+import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
 
@@ -29,6 +31,9 @@ public class ProductController implements Serializable{
 
     @Inject
     private Product product;
+
+    @Inject
+    private CategoryController categoryController;
     
     @EJB
     private ProductService productService;
@@ -36,19 +41,24 @@ public class ProductController implements Serializable{
     @EJB
     private CustomerService customerService;
 
-    
-    public ProductController() {
-    }
+    @EJB
+    private CategoryService categoryService;
 
     public void addProduct(){
-        Customer customer = userController.getCustomer();
-        customer.addProduct(product);
-
         productService.save(product);
-        customerService.update(customer);
+
+        categoryController.getSelectedCategories().stream().peek( c -> System.out.println(c.getName())).forEach((Category c) -> {
+            c.addProduct(product);
+            categoryService.update(c);
+            product.addCategory(c);
+            productService.update(product);
+
+        });
         product.setName(null);
         product.setPrice(null);
         product.setBorrowed(false);
+        categoryController.setSelectedCategories(null);
+
     }
     
     public void save(){
