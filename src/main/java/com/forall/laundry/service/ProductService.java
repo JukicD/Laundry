@@ -55,4 +55,8 @@ public class ProductService {
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
         return products;
     }
+
+    public List<Product> getProducts(){
+        return em.createNamedQuery("Product.findAll").getResultList();
+    }
 }

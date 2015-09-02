@@ -52,5 +52,28 @@
 
             </h:form>
         </p:tab>
+        <p:tab title="Übersicht">
+            <h:form>
+                <p:dataTable value="#{productController.allProducts}"
+                             var="product"
+                             resizableColumns="true"
+                        reflow="true"
+                        tableStyle="width: auto">
+
+                    <p:column headerText="Artikel">
+                        <p:outputLabel value="#{product.name}"/>
+                    </p:column>
+
+                    <p:columns value="#{categoryController.categories}" var="cat">
+                        <f:facet name="header">
+                            <h:outputText value="#{cat.name}" />
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{product.hasCategory(cat)}">
+
+                        </p:selectBooleanCheckbox>
+                    </p:columns>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
     </p:tabView>
 </ui:composition>

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+})
 public class Product implements Serializable {
 
     @Id
@@ -19,7 +22,7 @@ public class Product implements Serializable {
     @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany( fetch = FetchType.EAGER, mappedBy = "products")
     private List<Category> categories;
 
     @Basic
@@ -35,6 +38,10 @@ public class Product implements Serializable {
         if(!categories.contains(category)){
             categories.add(category);
         }
+    }
+
+    public boolean hasCategory(Category category){
+        return categories.contains(category);
     }
 
     public BigDecimal getPrice() {

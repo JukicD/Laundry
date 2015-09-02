@@ -19,6 +19,7 @@ public class Category implements Serializable{
     private long id;
 
     @Basic
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -63,6 +64,8 @@ public class Category implements Serializable{
     public void setForAll(boolean forAll) {
         this.forAll = forAll;
     }
+
+
 
     @Override
     public String toString() {

@@ -17,6 +17,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -60,6 +61,10 @@ public class ProductController implements Serializable{
         categoryController.setSelectedCategories(null);
 
     }
+
+    public List<Product> getAllProducts(){
+        return productService.getProducts();
+    }
     
     public void save(){
         productService.save(product);
@@ -80,4 +85,6 @@ public class ProductController implements Serializable{
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
+
+
 }
