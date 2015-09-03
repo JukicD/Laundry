@@ -23,7 +23,7 @@
                      var="order" value="#{oldOrdersFilter.orders}"
                      emptyMessage="Der Kunde hat noch keine Aufträge!" resizableColumns="true"
                      selection="#{orderySelectionController.selectedOrders}"
-                     rowKey="#{order.order_id}"
+                     rowKey="#{order.id}"
                      rowSelectMode="multiple"
                      scrollable="true"
                      editable="true"
@@ -33,7 +33,7 @@
             <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 
             <p:column  headerText="#">
-                <h:outputText value="#{order.order_id}"/>
+                <h:outputText value="#{order.id}"/>
             </p:column>
 
             <p:column headerText="Datum">

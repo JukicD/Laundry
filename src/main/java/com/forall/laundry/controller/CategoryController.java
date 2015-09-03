@@ -37,18 +37,29 @@ public class CategoryController implements Serializable{
 
     private List<Category> categories;
 
+    private List<Category> specificCategories;
+
     private List<Category> selectedCategories;
 
     private Map<Category, Map<Product, Boolean>> map;
 
+    private Map<Category, Map<Product, Boolean>> specificMap;
+
     @PostConstruct
     public void init() {
         map = new HashMap<>();
+        specificMap = new HashMap<>();
 
 
         categories = categoryService.getCategories()
                 .stream()
                 .filter(c -> c.isForAll())
+                .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
+                .collect(Collectors.toList());
+
+        specificCategories = categoryService.getCategories()
+                .stream()
+                .filter(c -> !c.isForAll())
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
 
@@ -62,6 +73,15 @@ public class CategoryController implements Serializable{
             });
             map.put(c,valueMap);
         });
+
+        specificCategories.stream().forEach(c -> {
+            Map<Product, Boolean> valueMap = new HashMap<>();
+            products.stream().forEach(p -> {
+                valueMap.put(p,p.getCategories().contains(c));
+
+            });
+            specificMap.put(c,valueMap);
+        });
     }
 
     public void update(Category category){
@@ -71,6 +91,7 @@ public class CategoryController implements Serializable{
     public void save(){
         categoryService.save(category);
         category.setName(null);
+        category.setForAll(false);
         init();
     }
 
@@ -104,5 +125,21 @@ public class CategoryController implements Serializable{
 
     public void setMap(Map<Category, Map<Product, Boolean>> map) {
         this.map = map;
+    }
+
+    public List<Category> getSpecificCategories() {
+        return specificCategories;
+    }
+
+    public void setSpecificCategories(List<Category> specificCategories) {
+        this.specificCategories = specificCategories;
+    }
+
+    public Map<Category, Map<Product, Boolean>> getSpecificMap() {
+        return specificMap;
+    }
+
+    public void setSpecificMap(Map<Category, Map<Product, Boolean>> specificMap) {
+        this.specificMap = specificMap;
     }
 }

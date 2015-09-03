@@ -9,102 +9,39 @@
 
     <h:form id="customerMain">
 
+        <p:dataTable id="customerMainTable"
+                value="#{productController.allProducts}" var="product"
+                     resizableColumns="true"
+                     reflow="true">
+
+            <p:column style="width: 20px">
+                <f:facet name="header">
+                    <p:selectBooleanCheckbox value="#{false}">
+
+                    </p:selectBooleanCheckbox>
+                </f:facet>
+                <p:selectBooleanCheckbox value="#{customerMainView.specificMap.map[product]}">
+                    
+                </p:selectBooleanCheckbox>
+            </p:column>
+            <p:column headerText="Artikel">
+                <h:outputText value="#{product.name}"/>
+            </p:column>
+
+            <p:columns value="#{customerMainView.specificCategories}" var="cat">
+
+                <f:facet name="header">
+                    <h:outputText value="#{cat.name}"/>
+                </f:facet>
+                <p:selectBooleanCheckbox value="#{customerMainView.specificMap[cat][product]}"/>
+            </p:columns>
+        </p:dataTable>
+        <p:commandButton value="Speichern" action="#{customerMainView.addProducts}">
+            <p:ajax listener="#{growlController.sendMessage('Artikel erfolgreich gespeichert!')}" update="msgs"/>
+        </p:commandButton>
         <p:commandButton value="Zurück"
                          action="#{navigationController.setSite('customerList')}"
                          update="customerPanel"
                          immediate="true"/>
     </h:form>
-
-    <br/>
-    <br/>
-
-        <p:tabView dynamic="true" cache="true" id="itemsTab">
-            <p:tab title="Eigenwäsche" id="ownTab">
-                <h:form>
-                    <p:dataTable id="ownTable"
-                                 value="#{editController.ownProducts}" var="product"
-                                 resizableColumns="true"
-                                 rendered="#{not empty editController.ownProducts}"
-                                 editable="true"
-                                 editMode="cell">
-
-                        <f:facet name="customerHeader">
-                            <p:outputPanel>
-                                <h:outputText value="#{userController.customer.name}"/>
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column  headerText="Ware">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{product.name}"/>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <h:inputText id="ownNameInput" value="#{product.name}">
-                                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel itemsTab"/>
-                                    </h:inputText>
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column  headerText="Einzelpreis">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{product.price}"/>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <h:inputText id="ownPriceInput" value="#{product.price}">
-                                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel itemsTab"/>
-                                    </h:inputText>
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-
-            </p:tab>
-            <p:tab title="Leihwäsche" id="rentTab">
-                <h:form>
-                    <p:dataTable id="rentTable"
-                                 value="#{editController.rentProducts}" var="product"
-                                 resizableColumns="true"
-                                 editable="true"
-                                 editMode="cell">
-
-                        <f:facet name="customerHeader">
-                            <p:outputPanel>
-                                <h:outputText value="#{userController.customer.name}" />
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column  headerText="Ware">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{product.name}"/>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <h:inputText id="nameInput" value="#{product.name}">
-                                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel itemsTab"/>
-                                    </h:inputText>
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-
-                        <p:column  headerText="Einzelpreis">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{product.price}"/>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <h:inputText id="singlepriceInput" value="#{product.price}">
-                                        <p:ajax event="change" listener="#{editController.onCellEdit(product)}" update="@form eventPanel itemsTab"/>
-                                    </h:inputText>
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-
-            </p:tab>
-        </p:tabView>
 </ui:composition>

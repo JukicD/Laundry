@@ -72,6 +72,7 @@ public class ProductController implements Serializable{
         product.setPrice(null);
         product.setBorrowed(false);
         categoryController.setSelectedCategories(null);
+        categoryController.init();
 
     }
 

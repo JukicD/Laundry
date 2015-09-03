@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="PostgreSQL - laundry@localhost" uuid="a61c263d-4a7e-4841-88fa-1110a3d089df">
-    <database-info product="PostgreSQL" version="9.4.4" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
+    <database-info product="PostgreSQL" version="9.4.2" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
@@ -1671,11 +1671,6 @@
       <exported-key name="fk_c9lsx9tgjgyc8mtp4asohyt41" table="category_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_knuacvuq219kkak9qekj4og07" table="customer_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>
-    </table>
-    <table name="product_category" schema="public" catalog="laundry" type="TABLE">
-      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <index name="uk_ra5s97oj9k024yvdmuwk15wa3" unique="true" columns="categories_id"/>
     </table>
     <table name="worker" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
