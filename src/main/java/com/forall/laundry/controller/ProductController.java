@@ -12,12 +12,17 @@ import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -44,6 +49,14 @@ public class ProductController implements Serializable{
 
     @EJB
     private CategoryService categoryService;
+
+    private Map<Product, Boolean> map;
+
+    @PostConstruct
+    public void init(){
+        map = new HashMap<>();
+
+    }
 
     public void addProduct(){
         productService.save(product);
@@ -86,5 +99,29 @@ public class ProductController implements Serializable{
         this.productService = productService;
     }
 
+    public Map<Product, Boolean> getMap() {
+        return map;
+    }
 
+    public void setMap(Map<Product, Boolean> map) {
+        this.map = map;
+    }
+
+    public void update(Product product, Category cat){
+        Product p = productService.find(product.getProduct_id());
+        Category c = categoryService.find(cat.getId());
+
+        if(p.getCategories().contains(cat)){
+            p.getCategories().remove(c);
+            c.getProduct().remove(p);
+        }else{
+            p.getCategories().add(c);
+            c.getProduct().add(p);
+        }
+
+        productService.update(p);
+        categoryService.update(c);
+
+
+    }
 }

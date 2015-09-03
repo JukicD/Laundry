@@ -1581,9 +1581,11 @@
     </table>
     <table name="category" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="forall" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="category_pkey" columns="id"/>
       <exported-key name="fk_n8ly3jam5monf2tghgn4u9bll" table="category_product" schema="public" catalog="laundry" columns="categories_id"/>
+      <index name="uk_foei036ov74bv692o5lh5oi66" unique="true" columns="name"/>
     </table>
     <table name="category_product" schema="public" catalog="laundry" type="TABLE">
       <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>

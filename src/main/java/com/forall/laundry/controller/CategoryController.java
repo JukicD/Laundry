@@ -3,6 +3,7 @@ package com.forall.laundry.controller;
 import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CategoryService;
+import com.forall.laundry.service.ProductService;
 import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,9 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +29,9 @@ public class CategoryController implements Serializable{
     @EJB
     private CategoryService categoryService;
 
+    @EJB
+    private ProductService productService;
+
     @Inject
     private Category category;
 
@@ -33,22 +39,29 @@ public class CategoryController implements Serializable{
 
     private List<Category> selectedCategories;
 
+    private Map<Category, Map<Product, Boolean>> map;
+
     @PostConstruct
-    public void init(){
+    public void init() {
+        map = new HashMap<>();
+
+
         categories = categoryService.getCategories()
                 .stream()
-                .filter( c -> c.isForAll())
+                .filter(c -> c.isForAll())
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
-    }
 
-    public void checkBoxChanged(AjaxBehaviorEvent event){
-        final boolean selected = ((SelectBooleanCheckbox)event.getSource()).isSelected();
-        Product p = (Product)((SelectBooleanCheckbox) event.getSource()).getAttributes().get("product");
-        System.out.println(p.getName());
-        if(selected){
+        List<Product> products = productService.getProducts();
 
-        }
+        categories.stream().forEach(c -> {
+            Map<Product, Boolean> valueMap = new HashMap<>();
+            products.stream().forEach(p -> {
+                valueMap.put(p,p.getCategories().contains(c));
+
+            });
+            map.put(c,valueMap);
+        });
     }
 
     public void update(Category category){
@@ -83,5 +96,13 @@ public class CategoryController implements Serializable{
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Map<Category, Map<Product, Boolean>> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<Category, Map<Product, Boolean>> map) {
+        this.map = map;
     }
 }

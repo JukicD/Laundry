@@ -25,6 +25,10 @@ public class CategoryService implements Serializable{
         return cat;
 
     }
+
+    public Category find(long id){
+        return em.find(Category.class, id);
+    }
     public List<Category> getCategories(){
         return em.createNamedQuery("Category.all").getResultList();
     }

@@ -53,12 +53,13 @@
             </h:form>
         </p:tab>
         <p:tab title="Übersicht">
-            <h:form>
-                <p:dataTable value="#{productController.allProducts}"
+            <h:form id="propForm">
+                <p:dataTable id="propTable"
+                             value="#{productController.allProducts}"
                              var="product"
                              resizableColumns="true"
-                        reflow="true"
-                        tableStyle="width: auto">
+                             reflow="true"
+                             tableStyle="width: auto">
 
                     <p:column headerText="Artikel">
                         <p:outputLabel value="#{product.name}"/>
@@ -68,8 +69,8 @@
                         <f:facet name="header">
                             <h:outputText value="#{cat.name}" />
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{product.hasCategory(cat)}">
-
+                        <p:selectBooleanCheckbox value="#{categoryController.map[cat][product]}">
+                            <p:ajax event="change" listener="#{productController.update(product, cat)}" update="propTabView:propForm:propTable"/>
                         </p:selectBooleanCheckbox>
                     </p:columns>
                 </p:dataTable>
