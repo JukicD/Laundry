@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="16c986d2-73cc-4f7c-be2a-deff6d63ff2c" name="Default" comment="choosing orders by dates works">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Category.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Category.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Product.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Product.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/ProductController.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/ProductController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Property.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Property.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/service/PropertyService.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/service/PropertyService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="16c986d2-73cc-4f7c-be2a-deff6d63ff2c" name="Default" comment="choosing orders by dates works" />
     <ignored path="laundry.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -125,8 +114,8 @@
       <file leaf-file-name="CustomerMainView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36187845">
-              <caret line="85" column="11" selection-start-line="85" selection-start-column="11" selection-end-line="85" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.48618785">
+              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5000#5001#0" expanded="true" />
@@ -1233,7 +1222,7 @@
       <workItem from="1441532436732" duration="16283000" />
       <workItem from="1441615310849" duration="10000" />
       <workItem from="1441615351909" duration="10196000" />
-      <workItem from="1441628912641" duration="19553000" />
+      <workItem from="1441628912641" duration="19968000" />
     </task>
     <task id="LOCAL-00001" summary="choosing orders by dates works">
       <created>1439729831533</created>
@@ -1245,11 +1234,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="290194000" />
+    <option name="totallyTimeSpent" value="290609000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="749" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1261,7 +1250,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37539935" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37539935" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1782,8 +1771,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36187845">
-          <caret line="85" column="11" selection-start-line="85" selection-start-column="11" selection-end-line="85" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.48618785">
+          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5000#5001#0" expanded="true" />
