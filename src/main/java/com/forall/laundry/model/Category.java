@@ -25,6 +25,7 @@ public class Category implements Serializable{
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products;
 
+
     @Basic
     private boolean forAll;
 
@@ -49,11 +50,11 @@ public class Category implements Serializable{
         return id;
     }
 
-    public List<Product> getProduct() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProduct(List<Product> product) {
+    public void setProducts(List<Product> product) {
         this.products = product;
     }
 
@@ -86,5 +87,11 @@ public class Category implements Serializable{
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
+    }
+
+    public void remove(Product product) {
+        if(products.contains(product)){
+            products.remove(product);
+        }
     }
 }

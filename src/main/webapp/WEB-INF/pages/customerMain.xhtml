@@ -10,7 +10,7 @@
     <h:form id="customerMain">
 
         <p:dataTable id="customerMainTable"
-                value="#{productController.allProducts}" var="product"
+                     value="#{productController.allProducts}" var="product"
                      resizableColumns="true"
                      reflow="true">
 
@@ -20,25 +20,27 @@
 
                     </p:selectBooleanCheckbox>
                 </f:facet>
-                <p:selectBooleanCheckbox value="#{customerMainView.specificMap.map[product]}">
-                    
+                <p:selectBooleanCheckbox value="#{customerMainView.map[product]}">
+                    <p:ajax event="change" listener="#{customerMainView.update(product)}" update="@form"/>
                 </p:selectBooleanCheckbox>
             </p:column>
+
             <p:column headerText="Artikel">
                 <h:outputText value="#{product.name}"/>
             </p:column>
 
             <p:columns value="#{customerMainView.specificCategories}" var="cat">
-
                 <f:facet name="header">
                     <h:outputText value="#{cat.name}"/>
                 </f:facet>
-                <p:selectBooleanCheckbox value="#{customerMainView.specificMap[cat][product]}"/>
+                <p:selectBooleanCheckbox value="#{customerMainView.specificMap[cat][product]}"
+                                         disabled="#{customerMainView.isSelected(product)}">
+                    <p:ajax event="change" listener="#{customerMainView.addCategory(product, cat)}"/>
+                </p:selectBooleanCheckbox>
             </p:columns>
+
         </p:dataTable>
-        <p:commandButton value="Speichern" action="#{customerMainView.addProducts}">
-            <p:ajax listener="#{growlController.sendMessage('Artikel erfolgreich gespeichert!')}" update="msgs"/>
-        </p:commandButton>
+        <br/>
         <p:commandButton value="Zurück"
                          action="#{navigationController.setSite('customerList')}"
                          update="customerPanel"

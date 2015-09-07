@@ -60,14 +60,17 @@ public class ProductController implements Serializable{
 
     public void addProduct(){
         productService.save(product);
+        if(categoryController.getSelectedCategories() != null){
 
-        categoryController.getSelectedCategories().stream().peek( c -> System.out.println(c.getName())).forEach((Category c) -> {
+        categoryController.getSelectedCategories().stream().forEach((Category c) -> {
             c.addProduct(product);
             categoryService.update(c);
             product.addCategory(c);
             productService.update(product);
 
-        });
+            });
+        }
+
         product.setName(null);
         product.setPrice(null);
         product.setBorrowed(false);
@@ -92,13 +95,6 @@ public class ProductController implements Serializable{
         this.product = product;
     }
 
-    public ProductService getProductService() {
-        return productService;
-    }
-
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
 
     public Map<Product, Boolean> getMap() {
         return map;
@@ -109,20 +105,20 @@ public class ProductController implements Serializable{
     }
 
     public void update(Product product, Category cat){
-        Product p = productService.find(product.getProduct_id());
-        Category c = categoryService.find(cat.getId());
 
-        if(p.getCategories().contains(cat)){
-            p.getCategories().remove(c);
-            c.getProduct().remove(p);
-        }else{
-            p.getCategories().add(c);
-            c.getProduct().add(p);
+            Product p = productService.find(product.getProduct_id());
+            Category c = categoryService.find(cat.getId());
+
+            if(p.getCategories().contains(cat)){
+                p.getCategories().remove(c);
+                c.getProducts().remove(p);
+            }else{
+                p.getCategories().add(c);
+                c.getProducts().add(p);
+            }
+
+            productService.update(p);
+            categoryService.update(c);
         }
 
-        productService.update(p);
-        categoryService.update(c);
-
-
     }
-}

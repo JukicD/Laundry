@@ -59,4 +59,11 @@ public class ProductService {
     public List<Product> getProducts(){
         return em.createNamedQuery("Product.findAll").getResultList();
     }
+
+    public void delete(Product product) {
+        em.remove(product);
+    }
 }
+
+
+

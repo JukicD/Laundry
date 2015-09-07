@@ -4,9 +4,11 @@ import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
+import com.forall.laundry.model.Property;
 import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
+import com.forall.laundry.service.PropertyService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,6 +37,9 @@ public class CustomerMainView implements Serializable{
     @EJB
     private CustomerService customerService;
 
+    @EJB
+    private PropertyService propertyService;
+
     @Inject
     private UserController userController;
 
@@ -44,45 +49,83 @@ public class CustomerMainView implements Serializable{
 
     private Map<Category, Map<Product, Boolean>> specificMap;
 
-    private List<Product> selectedProducts;
+    private boolean isSelected;
+
 
     @PostConstruct
     public void init(){
+
+        System.out.println("CUSTOMERMAINVIEW INIT");
         map = new HashMap<>();
         specificMap = new HashMap<>();
+        Customer customer = userController.getCustomer();
 
         specificCategories = categoryService.getCategories()
-                .stream()
-                .filter(c -> !c.isForAll())
+                .stream().peek( c -> System.out.println(c.getName()))
+                .filter( c -> !c.isForAll())
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
 
+        System.out.println("SPEC: " + specificCategories.size());
+
         List<Product> products = productService.getProducts();
+        List<Product> customerP = productService.getProductsFrom(userController.getCustomer());
+        Map<Product, Property> prodPropMapping = customer.getPropertyMap();
 
-        specificCategories.stream().forEach(c -> {
+        System.out.println("INT: " + prodPropMapping.entrySet().size());
+        specificCategories.forEach(c -> {
             Map<Product, Boolean> valueMap = new HashMap<>();
-            products.stream().forEach(p -> {
-                valueMap.put(p,p.getCategories().contains(c));
-
+            products.forEach(p -> {
+                valueMap.put(p, prodPropMapping.containsKey(p) ? prodPropMapping.get(p).getCategories().contains(c) : false);
             });
-            specificMap.put(c,valueMap);
+            specificMap.put(c, valueMap);
         });
 
-        products.forEach( p -> {
-            map.put(p, userController.getCustomer().getProducts().contains(p));
-        });
+        products.forEach(p -> map.put(p, customerP.contains(p)));
     }
 
-    public void addProducts(){
+    public void update(Product product){
+
         Customer customer = customerService.findById(userController.getCustomer().getId());
 
-        selectedProducts.stream().forEach( p -> {
-            if(!customer.getProducts().contains(p)){
-                customer.getProducts().add(p);
-            }
-        });
-        selectedProducts.stream().forEach( p -> System.out.println(p.getName()));
+        List<Product> products = customer.getProducts();
+
+        if(products.contains(product)){
+            products.remove(product);
+            System.out.println(customer.getName() + " remove " + product.getName());
+        }else{
+            products.add(product);
+            System.out.println(customer.getName() + " add" + product.getName());
+        }
         customerService.update(customer);
+    }
+
+    public void addCategory(Product product, Category category){
+
+       Customer customer = userController.getCustomer();
+        Map<Product, Property> map = customer.getPropertyMap();
+
+
+        if(map.containsKey(product)){
+            Property prop = map.get(product);
+            prop.getCategories().add(category);
+
+            propertyService.update(prop);
+        }else{
+            Property newProp = new Property();
+            newProp.getCategories().add(category);
+            map.put(product, newProp);
+
+            propertyService.save(newProp);
+           customerService.update(customer);
+        }
+       System.out.println(map.entrySet().size());
+    }
+
+    public boolean isSelected(Product product){
+
+      List<Product> products = productService.getProductsFrom(userController.getCustomer());
+        return !products.contains(product);
     }
 
     public List<Category> getSpecificCategories() {
@@ -99,14 +142,6 @@ public class CustomerMainView implements Serializable{
 
     public void setSpecificMap(Map<Category, Map<Product, Boolean>> specificMap) {
         this.specificMap = specificMap;
-    }
-
-    public List<Product> getSelectedProducts() {
-        return selectedProducts;
-    }
-
-    public void setSelectedProducts(List<Product> selectedProducts) {
-        this.selectedProducts = selectedProducts;
     }
 
     public Map<Product, Boolean> getMap() {

@@ -1,10 +1,11 @@
 package com.forall.laundry.model;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
@@ -19,9 +20,16 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Basic(fetch=FetchType.LAZY)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products;
-     
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Category> categories;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @MapKey
+    private Map<Product, Property> propertyMap;
+
     @Basic
     private Integer customerNumber;
     
@@ -48,13 +56,14 @@ public class Customer implements Serializable, Comparable<Customer> {
     
     @Basic
     private String billingText;
-    
+
     @Basic
     private boolean isActive;
     
     public Customer() {
         isActive = true;
         customerNumber = 0;
+        propertyMap = new HashMap<>();
         
     }
     
@@ -174,6 +183,14 @@ public class Customer implements Serializable, Comparable<Customer> {
         this.products = products;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -201,5 +218,20 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Override
     public String toString() {
         return "Customer{" + "id=" + id + ", name=" + name + ", customerNumber=" + customerNumber + ", address=" + address + ", companyName=" + companyName + ", mailAddress=" + mailAddress + ", phoneNumber=" + phoneNumber + ", zipCode=" + zipCode + '}';
+    }
+
+
+    public void addCategory(Category cat) {
+        if(!categories.contains(cat)){
+            categories.add(cat);
+        }
+    }
+
+    public Map<Product, Property> getPropertyMap() {
+        return propertyMap;
+    }
+
+    public void setPropertyMap(Map<Product, Property> propertyMap) {
+        this.propertyMap = propertyMap;
     }
 }

@@ -45,8 +45,10 @@
 
                     <h:outputLabel for="forAll" value="Für alle: "/>
                     <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@form propPanel customerPanel">
+                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent propTabView:propForm propTabView:newArtForm">
                         <p:ajax listener="#{growlController.sendMessage('Kategorie erfoglreich gespeichert!')}" update="msgs"/>
+                        <p:ajax event="click" update="customerPanel"/>
+
                     </p:commandButton>
                 </p:panelGrid>
 

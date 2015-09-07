@@ -1,8 +1,11 @@
 package com.forall.laundry.controller;
 
+import com.forall.laundry.controller.selection.CustomerSelectionController;
 import com.forall.laundry.model.Category;
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CategoryService;
+import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
 import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
@@ -31,6 +34,9 @@ public class CategoryController implements Serializable{
 
     @EJB
     private ProductService productService;
+
+    @EJB
+    private CustomerService customerService;
 
     @Inject
     private Category category;
@@ -89,10 +95,11 @@ public class CategoryController implements Serializable{
     }
 
     public void save(){
-        categoryService.save(category);
-        category.setName(null);
-        category.setForAll(false);
-        init();
+
+            categoryService.save(category);
+            category.setName(null);
+            category.setForAll(false);
+            init();
     }
 
     public List<Category> getSelectedCategories() {

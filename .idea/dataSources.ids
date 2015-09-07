@@ -1585,6 +1585,8 @@
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="category_pkey" columns="id"/>
       <exported-key name="fk_n8ly3jam5monf2tghgn4u9bll" table="category_product" schema="public" catalog="laundry" columns="categories_id"/>
+      <exported-key name="fk_krg28y4hxnh8veiy0tgf1nxl8" table="customer_category" schema="public" catalog="laundry" columns="categories_id"/>
+      <exported-key name="fk_eu9lwhdufwvw7mp36ctywohqw" table="property_category" schema="public" catalog="laundry" columns="categories_id"/>
       <index name="uk_foei036ov74bv692o5lh5oi66" unique="true" columns="name"/>
     </table>
     <table name="category_product" schema="public" catalog="laundry" type="TABLE">
@@ -1607,15 +1609,22 @@
       <column name="skonto" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="zipcode" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="customer_pkey" columns="id"/>
+      <exported-key name="fk_2jd1x45js52ix8baxqeof468b" table="customer_category" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_43qxwqt02j84ecpbfqu656n2o" table="customer_product" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_5bjam0nswgy57qy0hi8035c03" table="ordery" schema="public" catalog="laundry" columns="customer_id"/>
+      <exported-key name="fk_54widp9fltf4l1a3uxbc45dar" table="property" schema="public" catalog="laundry" columns="customer_id"/>
+    </table>
+    <table name="customer_category" schema="public" catalog="laundry" type="TABLE">
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_krg28y4hxnh8veiy0tgf1nxl8" columns="categories_id" ref-table="category" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_2jd1x45js52ix8baxqeof468b" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="customer_product" schema="public" catalog="laundry" type="TABLE">
       <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="products_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <foreign-key name="fk_43qxwqt02j84ecpbfqu656n2o" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_knuacvuq219kkak9qekj4og07" columns="products_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="uk_knuacvuq219kkak9qekj4og07" unique="true" columns="products_product_id"/>
     </table>
     <table name="hibernate_sequence" schema="public" catalog="laundry" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -1671,6 +1680,23 @@
       <exported-key name="fk_c9lsx9tgjgyc8mtp4asohyt41" table="category_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_knuacvuq219kkak9qekj4og07" table="customer_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>
+      <exported-key name="fk_6rujhpdwqyrdvu6e8p7uka2rk" table="property" schema="public" catalog="laundry" columns="propertymap_key"/>
+    </table>
+    <table name="property" schema="public" catalog="laundry" type="TABLE">
+      <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="propertymap_key" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="property_pkey" columns="id"/>
+      <foreign-key name="fk_54widp9fltf4l1a3uxbc45dar" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_6rujhpdwqyrdvu6e8p7uka2rk" columns="propertymap_key" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_gh4phe4hliv71b3h1hc7ehhi3" table="property_category" schema="public" catalog="laundry" columns="property_id"/>
+    </table>
+    <table name="property_category" schema="public" catalog="laundry" type="TABLE">
+      <column name="property_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_eu9lwhdufwvw7mp36ctywohqw" columns="categories_id" ref-table="category" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_gh4phe4hliv71b3h1hc7ehhi3" columns="property_id" ref-table="property" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="uk_eu9lwhdufwvw7mp36ctywohqw" unique="true" columns="categories_id"/>
     </table>
     <table name="worker" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>

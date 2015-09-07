@@ -103,6 +103,11 @@ public class Product implements Serializable {
     public String toString() {
         return "Product{" + "product_id=" + product_id + ", price=" + price + ", name=" + name + '}';
     }
-    
-    
+
+
+    public void remove(Category category) {
+        if(categories.contains(category)){
+            categories.remove(category);
+        }
+    }
 }
