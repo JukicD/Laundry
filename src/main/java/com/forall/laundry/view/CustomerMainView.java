@@ -13,9 +13,12 @@ import com.forall.laundry.service.PropertyService;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
  * Created by jd on 03.09.15.
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class CustomerMainView implements Serializable{
 
     @EJB
@@ -55,24 +58,20 @@ public class CustomerMainView implements Serializable{
     @PostConstruct
     public void init(){
 
-        System.out.println("CUSTOMERMAINVIEW INIT");
         map = new HashMap<>();
         specificMap = new HashMap<>();
         Customer customer = userController.getCustomer();
 
         specificCategories = categoryService.getCategories()
-                .stream().peek( c -> System.out.println(c.getName()))
+                .stream()
                 .filter( c -> !c.isForAll())
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
-
-        System.out.println("SPEC: " + specificCategories.size());
 
         List<Product> products = productService.getProducts();
         List<Product> customerP = productService.getProductsFrom(userController.getCustomer());
         Map<Product, Property> prodPropMapping = customer.getPropertyMap();
 
-        System.out.println("INT: " + prodPropMapping.entrySet().size());
         specificCategories.forEach(c -> {
             Map<Product, Boolean> valueMap = new HashMap<>();
             products.forEach(p -> {
@@ -92,10 +91,11 @@ public class CustomerMainView implements Serializable{
 
         if(products.contains(product)){
             products.remove(product);
-            System.out.println(customer.getName() + " remove " + product.getName());
+
         }else{
+
             products.add(product);
-            System.out.println(customer.getName() + " add" + product.getName());
+            productService.update(product);
         }
         customerService.update(customer);
     }
@@ -106,20 +106,34 @@ public class CustomerMainView implements Serializable{
         Map<Product, Property> map = customer.getPropertyMap();
 
 
-        if(map.containsKey(product)){
+        if(map.containsKey(product) && !map.containsValue(category)){
             Property prop = map.get(product);
             prop.getCategories().add(category);
 
             propertyService.update(prop);
         }else{
-            Property newProp = new Property();
-            newProp.getCategories().add(category);
-            map.put(product, newProp);
 
-            propertyService.save(newProp);
-           customerService.update(customer);
+            Property prop = new Property();
+            prop.getCategories().add(category);
+            map.put(product,prop);
+            propertyService.save(prop);
         }
-       System.out.println(map.entrySet().size());
+
+        customerService.update(customer);
+    }
+
+    public boolean contains(Product product, Category category){
+
+        Customer customer = userController.getCustomer();
+        Map<Product, Property> mapping = customer.getPropertyMap();
+
+        List<Category> categories = null;
+
+        if(mapping.containsKey(product)){
+            categories = mapping.get(product).getCategories();
+        }
+
+        return categories == null ? false : categories.contains(category);
     }
 
     public boolean isSelected(Product product){

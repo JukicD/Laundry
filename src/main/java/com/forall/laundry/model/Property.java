@@ -16,7 +16,7 @@ public class Property implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Category> categories;
 
     public Property(){
@@ -28,6 +28,7 @@ public class Property implements Serializable {
     }
 
     public void setCategories(List<Category> cat) {
+
         this.categories = cat;
     }
 

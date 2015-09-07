@@ -26,8 +26,10 @@ public class Customer implements Serializable, Comparable<Customer> {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Category> categories;
 
+
+    @CollectionTable(name = "Product_Property")
+    @MapKeyJoinColumn(name = "prod_id")
     @ManyToMany(fetch = FetchType.EAGER)
-    @MapKey
     private Map<Product, Property> propertyMap;
 
     @Basic

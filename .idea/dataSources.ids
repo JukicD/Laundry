@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="PostgreSQL - laundry@localhost" uuid="a61c263d-4a7e-4841-88fa-1110a3d089df">
-    <database-info product="PostgreSQL" version="9.4.2" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
+    <database-info product="PostgreSQL" version="9.4.4" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
@@ -1612,6 +1612,7 @@
       <exported-key name="fk_2jd1x45js52ix8baxqeof468b" table="customer_category" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_43qxwqt02j84ecpbfqu656n2o" table="customer_product" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_5bjam0nswgy57qy0hi8035c03" table="ordery" schema="public" catalog="laundry" columns="customer_id"/>
+      <exported-key name="fk_gxm22xkt8bab1ml3oscx501ug" table="product_property" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_54widp9fltf4l1a3uxbc45dar" table="property" schema="public" catalog="laundry" columns="customer_id"/>
     </table>
     <table name="customer_category" schema="public" catalog="laundry" type="TABLE">
@@ -1625,6 +1626,11 @@
       <column name="products_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <foreign-key name="fk_43qxwqt02j84ecpbfqu656n2o" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_knuacvuq219kkak9qekj4og07" columns="products_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="customer_property" schema="public" catalog="laundry" type="TABLE">
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="propertymap_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="customer_property_pkey" columns="customer_id,propertymap_id"/>
     </table>
     <table name="hibernate_sequence" schema="public" catalog="laundry" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -1680,15 +1686,29 @@
       <exported-key name="fk_c9lsx9tgjgyc8mtp4asohyt41" table="category_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_knuacvuq219kkak9qekj4og07" table="customer_product" schema="public" catalog="laundry" columns="products_product_id"/>
       <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>
-      <exported-key name="fk_6rujhpdwqyrdvu6e8p7uka2rk" table="property" schema="public" catalog="laundry" columns="propertymap_key"/>
+      <exported-key name="fk_im6xc3ikhcp9kms22o82rb5j3" table="product_property" schema="public" catalog="laundry" columns="prod_id"/>
+    </table>
+    <table name="product_category" schema="public" catalog="laundry" type="TABLE">
+      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="categories_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <index name="uk_ra5s97oj9k024yvdmuwk15wa3" unique="true" columns="categories_id"/>
+    </table>
+    <table name="product_property" schema="public" catalog="laundry" type="TABLE">
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="propertymap_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="prod_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="product_property_pkey" columns="customer_id,prod_id"/>
+      <foreign-key name="fk_gxm22xkt8bab1ml3oscx501ug" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_im6xc3ikhcp9kms22o82rb5j3" columns="prod_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_ih0inrm62yxsylesd9jqckyry" columns="propertymap_id" ref-table="property" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="uk_ih0inrm62yxsylesd9jqckyry" unique="true" columns="propertymap_id"/>
     </table>
     <table name="property" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="propertymap_key" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="property_pkey" columns="id"/>
       <foreign-key name="fk_54widp9fltf4l1a3uxbc45dar" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_6rujhpdwqyrdvu6e8p7uka2rk" columns="propertymap_key" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_ih0inrm62yxsylesd9jqckyry" table="product_property" schema="public" catalog="laundry" columns="propertymap_id"/>
       <exported-key name="fk_gh4phe4hliv71b3h1hc7ehhi3" table="property_category" schema="public" catalog="laundry" columns="property_id"/>
     </table>
     <table name="property_category" schema="public" catalog="laundry" type="TABLE">
