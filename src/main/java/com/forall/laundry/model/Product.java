@@ -22,7 +22,7 @@ public class Product implements Serializable {
     @Column(columnDefinition="Decimal(10,2)")
     private BigDecimal price;
 
-    @ManyToMany( fetch = FetchType.EAGER, mappedBy = "products")
+    @ManyToMany( fetch = FetchType.EAGER)
     private List<Category> categories;
 
     @Basic

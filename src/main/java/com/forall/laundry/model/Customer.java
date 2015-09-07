@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
@@ -21,11 +22,7 @@ public class Customer implements Serializable, Comparable<Customer> {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Category> categories;
-
+    private Set<Product> products;
 
     @CollectionTable(name = "Product_Property")
     @MapKeyJoinColumn(name = "prod_id")
@@ -177,20 +174,12 @@ public class Customer implements Serializable, Comparable<Customer> {
         this.dueTime = dueTime;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
     }
 
     @Override
@@ -220,13 +209,6 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Override
     public String toString() {
         return "Customer{" + "id=" + id + ", name=" + name + ", customerNumber=" + customerNumber + ", address=" + address + ", companyName=" + companyName + ", mailAddress=" + mailAddress + ", phoneNumber=" + phoneNumber + ", zipCode=" + zipCode + '}';
-    }
-
-
-    public void addCategory(Category cat) {
-        if(!categories.contains(cat)){
-            categories.add(cat);
-        }
     }
 
     public Map<Product, Property> getPropertyMap() {

@@ -31,6 +31,7 @@ public class PropertyService implements Serializable{
     public void update(Property property){
         try{
             em.merge(property);
+            em.flush();
             logger.info("Property successfully updated! " + property);
         }catch (Exception e){
             logger.info("Property was not updated! Cause: " + e.getCause());

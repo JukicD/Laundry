@@ -63,7 +63,6 @@ public class ProductController implements Serializable{
         if(categoryController.getSelectedCategories() != null){
 
         categoryController.getSelectedCategories().stream().forEach((Category c) -> {
-            c.addProduct(product);
             categoryService.update(c);
             product.addCategory(c);
             productService.update(product);
@@ -111,10 +110,8 @@ public class ProductController implements Serializable{
 
             if(p.getCategories().contains(cat)){
                 p.getCategories().remove(c);
-                c.getProducts().remove(p);
             }else{
                 p.getCategories().add(c);
-                c.getProducts().add(p);
             }
 
             productService.update(p);

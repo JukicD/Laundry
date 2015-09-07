@@ -18,17 +18,14 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created by jd on 03.09.15.
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class CustomerMainView implements Serializable{
 
     @EJB
@@ -51,9 +48,6 @@ public class CustomerMainView implements Serializable{
     private List<Category> specificCategories;
 
     private Map<Category, Map<Product, Boolean>> specificMap;
-
-    private boolean isSelected;
-
 
     @PostConstruct
     public void init(){
@@ -80,46 +74,56 @@ public class CustomerMainView implements Serializable{
             specificMap.put(c, valueMap);
         });
 
-        products.forEach(p -> map.put(p, customerP.contains(p)));
+        products.forEach(p -> {
+            map.put(p, customerP.contains(p));
+        });
     }
 
     public void update(Product product){
 
         Customer customer = customerService.findById(userController.getCustomer().getId());
 
-        List<Product> products = customer.getProducts();
+        Set<Product> products = customer.getProducts();
+
+        Map<Product, Property> map = customer.getPropertyMap();
 
         if(products.contains(product)){
             products.remove(product);
-
+            map.remove(product);
         }else{
 
+            Property prop = new Property();
+            map.put(product, prop);
             products.add(product);
-            productService.update(product);
+            propertyService.save(prop);
         }
         customerService.update(customer);
     }
 
     public void addCategory(Product product, Category category){
 
-       Customer customer = userController.getCustomer();
+       Customer customer = customerService.findById(userController.getCustomer().getId());
+
         Map<Product, Property> map = customer.getPropertyMap();
 
+        System.out.println("Product: " + product.getName() + " Category: " + category.getName() + " Bool: " + map.containsKey(product));
+        if(map.containsKey(product)){
 
-        if(map.containsKey(product) && !map.containsValue(category)){
             Property prop = map.get(product);
-            prop.getCategories().add(category);
+            System.out.println("Property: " + prop.getId());
+            Set<Category> categories = prop.getCategories();
+            System.out.println("Categories: " + categories.size() + " Bool: " + categories.contains(category));
+            if(categories.contains(category)){
+                categories.remove(category);
+                propertyService.update(prop);
 
-            propertyService.update(prop);
-        }else{
-
-            Property prop = new Property();
-            prop.getCategories().add(category);
-            map.put(product,prop);
-            propertyService.save(prop);
+            }else{
+                System.out.println("ADD");
+                categories.add(category);
+                propertyService.update(prop);
+            }
         }
-
-        customerService.update(customer);
+        System.out.println("addCategory");
     }
 
     public boolean contains(Product product, Category category){
@@ -127,7 +131,7 @@ public class CustomerMainView implements Serializable{
         Customer customer = userController.getCustomer();
         Map<Product, Property> mapping = customer.getPropertyMap();
 
-        List<Category> categories = null;
+        Set<Category> categories = null;
 
         if(mapping.containsKey(product)){
             categories = mapping.get(product).getCategories();

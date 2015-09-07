@@ -22,21 +22,9 @@ public class Category implements Serializable{
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
-
-
     @Basic
     private boolean forAll;
 
-    public void addProduct(Product product){
-        if(products == null){
-            products = new ArrayList<>();
-        }
-        if(!products.contains(product)){
-            products.add(product);
-        }
-    }
 
     public String getName() {
         return name;
@@ -50,14 +38,6 @@ public class Category implements Serializable{
         return id;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> product) {
-        this.products = product;
-    }
-
     public boolean isForAll() {
         return forAll;
     }
@@ -65,8 +45,6 @@ public class Category implements Serializable{
     public void setForAll(boolean forAll) {
         this.forAll = forAll;
     }
-
-
 
     @Override
     public String toString() {
@@ -87,11 +65,5 @@ public class Category implements Serializable{
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
-    }
-
-    public void remove(Product product) {
-        if(products.contains(product)){
-            products.remove(product);
-        }
     }
 }
