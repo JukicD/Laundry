@@ -44,17 +44,15 @@ public class CustomerMainView implements Serializable{
     private UserController userController;
 
     private Map<Product, Boolean> map;
-
     private List<Category> specificCategories;
-
     private Map<Category, Map<Product, Boolean>> specificMap;
 
     @PostConstruct
     public void init(){
-
         map = new HashMap<>();
         specificMap = new HashMap<>();
-        Customer customer = customerService.findById(userController.getCustomer().getId());
+
+        final Customer customer = customerService.findById(userController.getCustomer().getId());
 
         specificCategories = categoryService.getCategories()
                 .stream()
@@ -62,12 +60,12 @@ public class CustomerMainView implements Serializable{
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
 
-        List<Product> products = productService.getProducts();
-        Set<Product> customerP = customer.getProducts();
-        Map<Product, Property> prodPropMapping = customer.getPropertyMap();
+        final List<Product> products = productService.getProducts();
+        final Set<Product> customerP = customer.getProducts();
+        final Map<Product, Property> prodPropMapping = customer.getPropertyMap();
 
         specificCategories.forEach(c -> {
-            Map<Product, Boolean> valueMap = new HashMap<>();
+            final Map<Product, Boolean> valueMap = new HashMap<>();
             products.forEach(p -> {
                 valueMap.put(p, prodPropMapping.containsKey(p) ? prodPropMapping.get(p).getCategories().contains(c) : false);
             });
@@ -76,71 +74,59 @@ public class CustomerMainView implements Serializable{
 
         products.forEach(p -> {
             map.put(p, customerP.contains(p));
-            System.out.println(customerP.contains(p));
         });
     }
 
-    public void update(Product product){
+    public void update(final Product product){
 
-        Customer customer = customerService.findById(userController.getCustomer().getId());
-
-        Set<Product> products = customer.getProducts();
-
-        Map<Product, Property> map = customer.getPropertyMap();
+        final Customer customer = customerService.findById(userController.getCustomer().getId());
+        final Set<Product> products = customer.getProducts();
+        final Map<Product, Property> map = customer.getPropertyMap();
 
         if(products.contains(product)){
             products.remove(product);
             map.remove(product);
         }else{
 
-            Property prop = new Property();
+            final Property prop = new Property();
             map.put(product, prop);
             products.add(product);
             propertyService.save(prop);
         }
         customerService.update(customer);
-        init();
     }
 
-    public void addCategory(Product product, Category category){
+    public void addCategory(final Product product, final Category category){
 
-       Customer customer = customerService.findById(userController.getCustomer().getId());
+        final Customer customer = customerService.findById(userController.getCustomer().getId());
+        final Map<Product, Property> map = customer.getPropertyMap();
 
-        Map<Product, Property> map = customer.getPropertyMap();
-
-        System.out.println("Product: " + product.getName() + " Category: " + category.getName() + " Bool: " + map.containsKey(product));
         if(map.containsKey(product)){
 
-            Property prop = map.get(product);
-            System.out.println("Property: " + prop.getId());
-            Set<Category> categories = prop.getCategories();
-            System.out.println("Categories: " + categories.size() + " Bool: " + categories.contains(category));
+            final Property prop = map.get(product);
+            final Set<Category> categories = prop.getCategories();
             if(categories.contains(category)){
+
                 categories.remove(category);
                 propertyService.update(prop);
-
             }else{
-                System.out.println("ADD");
                 categories.add(category);
                 propertyService.update(prop);
             }
         }
-        System.out.println("addCategory");
-        init();
     }
 
-    public boolean contains(Product product, Category category){
+    public boolean contains(final Product product, final Category category){
 
-        Customer customer = userController.getCustomer();
-        Map<Product, Property> mapping = customer.getPropertyMap();
-
+        final Customer customer = customerService.findById(userController.getCustomer().getId());
+        final Map<Product, Property> mapping = customer.getPropertyMap();
         Set<Category> categories = null;
 
         if(mapping.containsKey(product)){
             categories = mapping.get(product).getCategories();
         }
 
-        return categories == null ? false : categories.contains(category);
+        return categories != null && categories.contains(category);
     }
 
     public boolean isSelected(Product product){

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16c986d2-73cc-4f7c-be2a-deff6d63ff2c" name="Default" comment="choosing orders by dates works">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java" afterPath="$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" />
     </list>
     <ignored path="laundry.iws" />
@@ -60,35 +61,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Customer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Customer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="180" column="31" selection-start-line="180" selection-start-column="31" selection-end-line="180" selection-end-column="31" />
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3612#3613#0" expanded="true" />
-                <element signature="e#3643#3644#0" expanded="true" />
+                <element signature="e#3697#3698#0" expanded="true" />
+                <element signature="e#3737#3738#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customerMain.xhtml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="customerMain.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1278409">
-              <caret line="23" column="111" selection-start-line="23" selection-start-column="111" selection-end-line="23" selection-end-column="111" />
+            <state vertical-scroll-proportion="-3.75">
+              <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/ProductController.java">
+      <file leaf-file-name="desktop.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/desktop.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.75">
+              <caret line="54" column="50" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LabelController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/label/LabelController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+              <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+              <folding>
+                <element signature="e#964#965#0" expanded="true" />
+                <element signature="e#992#993#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customerList.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.875">
+              <caret line="9" column="115" selection-start-line="9" selection-start-column="115" selection-end-line="9" selection-end-column="115" />
               <folding />
             </state>
           </provider>
@@ -118,11 +142,11 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="54" selection-start-line="78" selection-start-column="54" selection-end-line="78" selection-end-column="54" />
+              <caret line="74" column="7" selection-start-line="74" selection-start-column="7" selection-end-line="74" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5291#5292#0" expanded="true" />
-                <element signature="e#5317#5318#0" expanded="true" />
+                <element signature="e#4950#4951#0" expanded="true" />
+                <element signature="e#4976#4977#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,31 +157,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="33" column="23" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="laundry.public.customer_product" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/1f34b8d3/a61c263d-4a7e-4841-88fa-1110a3d089df/laundry.public.customer_product">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProductService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/service/ProductService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -234,7 +233,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/filter/EventOrdersFilter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/edit/EditController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/orders.xhtml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/event.xhtml" />
         <option value="dbtable:/1f34b8d3/a61c263d-4a7e-4841-88fa-1110a3d089df/laundry.public.item" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/billing/Bill.jrxml" />
@@ -266,9 +264,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Product.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/service/PropertyService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Property.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java" />
       </list>
     </option>
   </component>
@@ -1221,7 +1220,7 @@
       <workItem from="1441615310849" duration="10000" />
       <workItem from="1441615351909" duration="10196000" />
       <workItem from="1441628912641" duration="19968000" />
-      <workItem from="1441701876374" duration="1479000" />
+      <workItem from="1441701876374" duration="2743000" />
     </task>
     <task id="LOCAL-00001" summary="choosing orders by dates works">
       <created>1439729831533</created>
@@ -1233,7 +1232,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="292088000" />
+    <option name="totallyTimeSpent" value="293352000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="749" extended-state="6" />
@@ -1256,7 +1255,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21666667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22348484" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22348484" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1308,13 +1307,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/filter/EventOrdersFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="65" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/edit/EditController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1355,13 +1347,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="140" column="183" selection-start-line="140" selection-start-column="183" selection-end-line="140" selection-end-column="183" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.6666665">
-          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1483,13 +1468,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.625">
           <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/desktop.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="48.125">
-          <caret line="59" column="50" selection-start-line="59" selection-start-column="50" selection-end-line="59" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -1743,35 +1721,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="180" column="31" selection-start-line="180" selection-start-column="31" selection-end-line="180" selection-end-column="31" />
+          <caret line="74" column="7" selection-start-line="74" selection-start-column="7" selection-end-line="74" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3612#3613#0" expanded="true" />
-            <element signature="e#3643#3644#0" expanded="true" />
+            <element signature="e#4950#4951#0" expanded="true" />
+            <element signature="e#4976#4977#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/view/CustomerMainView.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/desktop.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.75">
+          <caret line="54" column="50" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/controller/label/LabelController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="54" selection-start-line="78" selection-start-column="54" selection-end-line="78" selection-end-column="54" />
+          <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
-            <element signature="e#5317#5318#0" expanded="true" />
+            <element signature="e#964#965#0" expanded="true" />
+            <element signature="e#992#993#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerMain.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1278409">
-          <caret line="23" column="111" selection-start-line="23" selection-start-column="111" selection-end-line="23" selection-end-column="111" />
+        <state vertical-scroll-proportion="-3.75">
+          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/customerList.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.875">
+          <caret line="9" column="115" selection-start-line="9" selection-start-column="115" selection-end-line="9" selection-end-column="115" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/forall/laundry/model/Customer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3697#3698#0" expanded="true" />
+            <element signature="e#3737#3738#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
