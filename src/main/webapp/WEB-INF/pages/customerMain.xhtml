@@ -21,7 +21,7 @@
                     </p:selectBooleanCheckbox>
                 </f:facet>
                 <p:selectBooleanCheckbox value="#{customerMainView.map[product]}">
-                    <p:ajax event="change" listener="#{customerMainView.update(product)}" update="customerPanel"/>
+                    <p:ajax event="change" listener="#{customerMainView.update(product)}" update=":customerMain:customerMainTable"/>
                 </p:selectBooleanCheckbox>
             </p:column>
 
@@ -33,12 +33,12 @@
                 <f:facet name="header">
                     <h:outputText value="#{cat.name}"/>
                 </f:facet>
-                <p:selectBooleanCheckbox value="#{customerMainView.specificMap[cat][product]}"
+                <p:selectBooleanCheckbox id="categoryCheckbox"
+                        value="#{customerMainView.specificMap[cat][product]}"
                                          disabled="#{customerMainView.isSelected(product)}">
                     <p:ajax event="change" listener="#{customerMainView.addCategory(product, cat)}"/>
                 </p:selectBooleanCheckbox>
             </p:columns>
-
         </p:dataTable>
         <br/>
         <p:commandButton value="Zurück"

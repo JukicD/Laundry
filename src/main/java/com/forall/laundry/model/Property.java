@@ -1,15 +1,9 @@
 package com.forall.laundry.model;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
-import javax.annotation.Generated;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,7 +28,13 @@ public class Property implements Serializable {
     }
 
     public Set<Category> getCategories() {
+
         return categories;
+    }
+
+    public void removeAllCategories(){
+        this.categories = null;
+        this.categories = new HashSet<>();
     }
 
     public void addCategeory(Category category){

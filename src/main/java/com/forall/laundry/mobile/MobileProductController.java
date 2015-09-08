@@ -2,8 +2,10 @@ package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
+import com.forall.laundry.model.Property;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
+import com.forall.laundry.service.PropertyService;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -30,15 +32,20 @@ public class MobileProductController implements Serializable{
     @EJB
     private CustomerService customerService;
 
+    @EJB
+    private PropertyService propertyService;
+
     @Inject
     private Product product;
 
     public String createProduct(){
-        Customer customer = customerService.findById(mc.getCustomer().getId());
+        final Customer customer = customerService.findById(mc.getCustomer().getId());
         product.setBorrowed(mc.isBorrowed());
-        customer.addProduct(product);
+        final Property prop = new Property();
+        customer.add(product, prop);
 
         productService.save(product);
+        propertyService.save(prop);
         customerService.update(customer);
 
         pac.init();

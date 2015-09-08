@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -67,7 +68,7 @@ public class CustomerService {
 
     public List<Item> getItems(Customer customer) {
         
-      return em.createQuery("SELECT i FROM Item i, Ordery o  WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.order_id = o.order_id")
+      return em.createQuery("SELECT i FROM Item i, Ordery o  WHERE o.customer.id = :id AND o.date IS NULL AND i.ordery.id = o.id")
                         .setParameter("id", customer.getId())
                         .getResultList();
     }
@@ -117,11 +118,9 @@ public class CustomerService {
         return customers;
     }
 
-    public List<Product> getProductsFrom(Customer customer){
+    public List<Product> getProductsFrom(final Customer customer){
 
-        return em.createQuery("SELECT c.products FROM Customer c WHERE c.id = :id")
-                .setParameter("id", customer.getId())
-                .getResultList();
+        return customer.getPropertyMap().keySet().stream().collect(Collectors.toList());
     }
 
     public List<Customer> getTodaysCustomers() {

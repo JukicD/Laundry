@@ -42,11 +42,8 @@ public class EditController implements Serializable{
     private StatisticController statisticController;
 
     private List<Product> products;
-
     private List<Product> ownProducts;
-
     private List<Product> rentProducts;
-
     private List<Item> items;
 
     @PostConstruct
@@ -56,7 +53,6 @@ public class EditController implements Serializable{
         ownProducts = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
         ownProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
-        ownProducts.stream().forEach( p -> System.out.println(p.getPrice()));
         rentProducts = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
         rentProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 

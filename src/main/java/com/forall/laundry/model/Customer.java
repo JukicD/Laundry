@@ -21,9 +21,6 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Basic(fetch=FetchType.LAZY)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Product> products;
-
     @CollectionTable(name = "Product_Property")
     @MapKeyJoinColumn(name = "prod_id")
     @ManyToMany(fetch = FetchType.EAGER)
@@ -56,11 +53,7 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Basic
     private String billingText;
 
-    @Basic
-    private boolean isActive;
-    
     public Customer() {
-        isActive = true;
         customerNumber = 0;
         propertyMap = new HashMap<>();
         
@@ -74,12 +67,6 @@ public class Customer implements Serializable, Comparable<Customer> {
         mailAddress = null;
         phoneNumber = null;
         zipCode = null;
-    }
-
-    public void addProduct(Product product){
-        if(!products.contains(product)){
-            products.add(product);
-        }
     }
 
     public int getId() {
@@ -142,14 +129,6 @@ public class Customer implements Serializable, Comparable<Customer> {
         this.zipCode = zipCode;
     }
 
-    public boolean isIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
     public String getBillingText() {
         return billingText;
     }
@@ -172,14 +151,6 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     public void setDueTime(int dueTime) {
         this.dueTime = dueTime;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 
     @Override
@@ -217,5 +188,11 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     public void setPropertyMap(Map<Product, Property> propertyMap) {
         this.propertyMap = propertyMap;
+    }
+
+    public void add(final Product product, final Property prop) {
+        if(!propertyMap.containsKey(product)){
+            propertyMap.put(product, prop);
+        }
     }
 }
