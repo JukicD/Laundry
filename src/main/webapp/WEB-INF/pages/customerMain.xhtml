@@ -21,7 +21,7 @@
                     </p:selectBooleanCheckbox>
                 </f:facet>
                 <p:selectBooleanCheckbox value="#{customerMainView.map[product]}">
-                    <p:ajax event="change" listener="#{customerMainView.update(product)}" update="@form"/>
+                    <p:ajax event="change" listener="#{customerMainView.update(product)}" update="customerPanel"/>
                 </p:selectBooleanCheckbox>
             </p:column>
 

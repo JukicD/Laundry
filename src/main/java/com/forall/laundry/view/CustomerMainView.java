@@ -54,7 +54,7 @@ public class CustomerMainView implements Serializable{
 
         map = new HashMap<>();
         specificMap = new HashMap<>();
-        Customer customer = userController.getCustomer();
+        Customer customer = customerService.findById(userController.getCustomer().getId());
 
         specificCategories = categoryService.getCategories()
                 .stream()
@@ -63,7 +63,7 @@ public class CustomerMainView implements Serializable{
                 .collect(Collectors.toList());
 
         List<Product> products = productService.getProducts();
-        List<Product> customerP = productService.getProductsFrom(userController.getCustomer());
+        Set<Product> customerP = customer.getProducts();
         Map<Product, Property> prodPropMapping = customer.getPropertyMap();
 
         specificCategories.forEach(c -> {
@@ -76,6 +76,7 @@ public class CustomerMainView implements Serializable{
 
         products.forEach(p -> {
             map.put(p, customerP.contains(p));
+            System.out.println(customerP.contains(p));
         });
     }
 
@@ -98,6 +99,7 @@ public class CustomerMainView implements Serializable{
             propertyService.save(prop);
         }
         customerService.update(customer);
+        init();
     }
 
     public void addCategory(Product product, Category category){
@@ -124,6 +126,7 @@ public class CustomerMainView implements Serializable{
             }
         }
         System.out.println("addCategory");
+        init();
     }
 
     public boolean contains(Product product, Category category){
