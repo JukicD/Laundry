@@ -49,7 +49,6 @@ public class MobileProductController implements Serializable{
         customerService.update(customer);
 
         pac.init();
-
         return "pm:fourth?transition=flip";
     }
 

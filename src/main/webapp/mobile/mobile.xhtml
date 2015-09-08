@@ -46,6 +46,7 @@
                 <p:dataGrid id="outputCustomers" var="customer" value="#{customerAutoCompleteFilter.customers}" columns="3">
                     <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third fourth:outputItem:outputItems">
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
+                        <p:ajax event="click" listener="#{mobileCategoryController.init}" update="third:categoryForm:categoryTable"/>
                         <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                     </p:commandButton>
                 </p:dataGrid>
@@ -68,17 +69,13 @@
     <pm:page id="third">
         <pm:content>
             <pm:header title="Art des Artikels" style="font-size: 200%"/>
-            <h:form>
-                <p:panelGrid columns="2" style="margin-bottom: 17.5%; margin-top: 17.5%">
-                    <p:commandButton value="Leihwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
-                        <p:ajax event="click" listener="#{mobileController.setBorrowed(true)}" update="fourth:outputItem:outputItems"/>
+            <h:form id="categoryForm">
+                   <p:dataGrid id="categoryTable" var="category" value="#{mobileCategoryController.categories}" columns="2">
+                    <p:commandButton value="#{category.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:fourth?transition=slide')}" update="third fourth:outputItem:outputItems">
                         <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
+                        <p:ajax event="click" listener="#{mobileController.setCategory(category)}"/>
                     </p:commandButton>
-                    <p:commandButton value="Eigenwäsche" style="font-size: 200%" action="#{mobileController.goTo('pm:fourth?transition=slide')}">
-                        <p:ajax event="click" listener="#{mobileController.setBorrowed(false)}" update="fourth:outputItem:outputItems"/>
-                        <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
-                    </p:commandButton>
-                </p:panelGrid>
+                </p:dataGrid>
             </h:form>
         </pm:content>
 

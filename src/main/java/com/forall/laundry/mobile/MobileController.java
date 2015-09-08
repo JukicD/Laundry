@@ -44,22 +44,17 @@ public class MobileController implements Serializable{
     private MobileCustomerController mcc;
 
     private List<Item> currentItems;
-
     private Worker worker;
-
     private Customer customer;
-
+    private Category category;
     private Product product;
-
     private boolean borrowed;
-
     private Integer amount;
 
     public void addItem(){
 
         Item item = new Item();
         item.setSinglePrice(product.getPrice());
-        System.out.println("PRODUCT: " +product.getPrice());
         item.setItem_product(product);
         item.setAmount(amount);
         Ordery ordery = mcc.getCurrentOrder();
@@ -135,6 +130,15 @@ public class MobileController implements Serializable{
     }
 
     public void setCurrentItems(List<Item> currentItems) {
+
         this.currentItems = currentItems;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

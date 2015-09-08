@@ -21,7 +21,7 @@ public class Customer implements Serializable, Comparable<Customer> {
     @Basic(fetch=FetchType.LAZY)
     private String name;
 
-    @CollectionTable(name = "Product_Property")
+    @CollectionTable(name = "customer_product_property_map")
     @MapKeyJoinColumn(name = "prod_id")
     @ManyToMany(fetch = FetchType.EAGER)
     private Map<Product, Property> propertyMap;

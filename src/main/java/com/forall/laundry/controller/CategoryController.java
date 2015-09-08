@@ -42,20 +42,15 @@ public class CategoryController implements Serializable{
     private Category category;
 
     private List<Category> categories;
-
     private List<Category> specificCategories;
-
     private List<Category> selectedCategories;
-
     private Map<Category, Map<Product, Boolean>> map;
-
     private Map<Category, Map<Product, Boolean>> specificMap;
 
     @PostConstruct
     public void init() {
         map = new HashMap<>();
         specificMap = new HashMap<>();
-
 
         categories = categoryService.getCategories()
                 .stream()

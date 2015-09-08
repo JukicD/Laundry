@@ -4,18 +4,23 @@ import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by jd on 9/2/15.
  */
 @Stateless
 public class CategoryService implements Serializable{
+
+    @EJB
+    private CustomerService customerService;
 
     @PersistenceContext
     private EntityManager em;
@@ -44,9 +49,16 @@ public class CategoryService implements Serializable{
         em.persist(category);
     }
 
-    public List<Category> getCategoriesFrom(Customer customer) {
-        return em.createQuery("SELECT c FROM Category c, Customer cu WHERE cu.id = :id")
-                .setParameter("id", customer.getId())
-                .getResultList();
+    public List<Category> getCategoriesFrom(final Customer customer) {
+        if(customer != null){
+            Customer c = customerService.findById(customer.getId());
+            List<Category> categories = c.getPropertyMap().values().stream().flatMap(p -> p.getCategories().stream()).distinct().collect(Collectors.toList());
+
+            List<Category> cat = c.getPropertyMap().keySet().stream().flatMap( p -> p.getCategories().stream()).distinct().collect(Collectors.toList());
+
+            cat.addAll(categories);
+            return cat;
+        }
+       return null;
     }
 }
