@@ -57,7 +57,7 @@ public class CategoryService implements Serializable{
             List<Category> cat = c.getPropertyMap().keySet().stream().flatMap( p -> p.getCategories().stream()).distinct().collect(Collectors.toList());
 
             cat.addAll(categories);
-            return cat;
+            return cat.stream().distinct().collect(Collectors.toList());
         }
        return null;
     }

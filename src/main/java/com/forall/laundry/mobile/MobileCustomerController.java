@@ -38,7 +38,7 @@ public class MobileCustomerController implements Serializable{
     private OrderyService orderyService;
 
     public String createCustomer(){
-        Ordery ordery = new Ordery();
+        final Ordery ordery = new Ordery();
         ordery.setCustomer(customer);
 
         customerService.save(customer);

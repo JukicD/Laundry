@@ -11,8 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by jd on 8/19/15.
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class MobileController implements Serializable{
 
     @EJB
@@ -51,6 +50,12 @@ public class MobileController implements Serializable{
     private boolean borrowed;
     private Integer amount;
 
+    @PostConstruct
+    public void init(){
+        if(customer != null){
+            currentItems = customerService.getItems(customer);
+        }
+    }
     public void addItem(){
 
         Item item = new Item();
@@ -73,6 +78,7 @@ public class MobileController implements Serializable{
 
 
         currentItems = customerService.getItems(customer);
+
     }
 
     public void update(){
@@ -97,7 +103,6 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-        System.out.println(this.customer);
     }
 
     public boolean isBorrowed() {

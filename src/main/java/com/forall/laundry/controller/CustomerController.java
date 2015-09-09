@@ -6,10 +6,13 @@
 package com.forall.laundry.controller;
 
 import com.forall.laundry.logger.AppLogger;
+import com.forall.laundry.mobile.CustomerAutoCompleteFilter;
+import com.forall.laundry.mobile.MobileCustomerController;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
+import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -35,7 +38,10 @@ public class CustomerController implements Serializable{
    
    @Inject
    private Customer customer;
-   
+
+    @Inject
+    private CustomerAutoCompleteFilter customerAutoCompleteFilter;
+
    @Inject
    private AppLogger logger;
 
@@ -62,6 +68,7 @@ public class CustomerController implements Serializable{
             customer.setMailAddress(null);
             customer.setName(null);
        }
+        customerAutoCompleteFilter.init();
    }
    
    public void update(){

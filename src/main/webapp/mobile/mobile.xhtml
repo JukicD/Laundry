@@ -11,13 +11,15 @@
 
 
 <h:head>
-
 </h:head>
 
 <h:body>
+
     <pm:page id="first">
         <pm:content>
             <pm:header title="Mitarbeiter auswählen"/>
+            <p:outputLabel value="Mitarbeiter: #{mobileController.worker.firstName}" rendered="#{not empty mobileController.worker}"/>
+            <p:outputLabel value="Firma: #{mobileController.customer.name}" rendered="#{not empty mobileController.customer}"/>
             <h:form>
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
                     <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
@@ -29,7 +31,6 @@
     </pm:page>
 
     <pm:page id="second">
-
         <pm:header title="Firma auswählen" fixed="true">
             <pm:content>
                 <h:form id="inputForm">
@@ -38,7 +39,6 @@
                     </p:inputText>
                 </h:form>
             </pm:content>
-
             <p:separator/>
         </pm:header>
         <pm:content>
@@ -48,12 +48,16 @@
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
                         <p:ajax event="click" listener="#{mobileCategoryController.init}" update="third:categoryForm:categoryTable"/>
                         <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
+                        <p:ajax event="click" listener="#{mobileController.init}"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
         <pm:footer fixed="true">
             <p:separator/>
+            <p:panelGrid columns="4">
+                <p:outputLabel value="Mitarbeiter: #{mobileController.worker.firstName}" rendered="#{not empty mobileController.worker}"/>
+            </p:panelGrid>
             <h:form>
                 <p:tabMenu>
                     <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom" />
@@ -62,73 +66,80 @@
                     </p:menuitem>
                 </p:tabMenu>
             </h:form>
-
         </pm:footer>
 
     </pm:page>
     <pm:page id="third">
         <pm:content>
-            <pm:header title="Art des Artikels" style="font-size: 200%"/>
+            <pm:header title="Art des Artikels" style="font-size: 120%"/>
             <h:form id="categoryForm">
-                   <p:dataGrid id="categoryTable" var="category" value="#{mobileCategoryController.categories}" columns="2">
-                    <p:commandButton value="#{category.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:fourth?transition=slide')}" update="third fourth:outputItem:outputItems">
+                <p:dataGrid id="categoryTable" var="category" value="#{mobileCategoryController.categories}" columns="2">
+                    <p:commandButton value="#{category.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:fourth?transition=slide')}" update="third fourth:outputItem:outputItems fourth:itemoutputForm:itemoutputTable">
                         <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                         <p:ajax event="click" listener="#{mobileController.setCategory(category)}"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
         </pm:content>
-
+        <pm:footer fixed="true">
+            <p:separator/>
+            <p:panelGrid columns="4">
+                <p:outputLabel value="Mitarbeiter: #{mobileController.worker.firstName}" rendered="#{not empty mobileController.worker}"/>
+                <p:outputLabel value="Kunde: #{mobileController.customer.name}" rendered="#{not empty mobileController.customer}"/>
+            </p:panelGrid>
+            <h:form>
+                <p:tabMenu>
+                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom" />
+                    <p:menuitem value="Neuer Kunde" icon="ui-icon-plus" outcome="pm:createCustomer?transition=flip" iconPos="bottom"/>
+                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:outputForm:outputCustomers second:inputForm:customerSearch"/>
+                    <p:menuitem value="Kunden auswählen" icon="ui-icon-suitcase" iconPos="bottom" outcome="pm:second?transition=slide"/>
+                </p:tabMenu>
+            </h:form>
+        </pm:footer>
     </pm:page>
     <pm:page id="fourth">
-        <pm:content>
-            <pm:header title="Artikel auswählen">
-                <h:form id="inputItem">
-                    <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{productAutoCompleteFilter.query}">
-                        <p:ajax event="keyup" listener="#{productAutoCompleteFilter.init}" update="fourth:outputItem:outputItems"/>
-                    </p:inputText>
+        <p:dialog header="Eingabe" widgetVar="formDialog" showEffect="pop" hideEffect="clip" modal="true" closable="true">
+            <p:outputPanel id="formPanel">
+                <h:form>
+                    <h:outputLabel value="Stück:"/>
+                    <p:inputText value="#{mobileController.amount}" placeholder="Stück eingeben" required="true" requiredMessage="Stück eingeben !"/>
+                    <p:commandButton value="Enter" action="#{mobileController.addItem}" update="fourth:itemoutputForm:itemoutputTable" oncomplete="PF('formDialog').hide();"/>
                 </h:form>
-                <p:separator/>
-            </pm:header>
+            </p:outputPanel>
+        </p:dialog>
 
+        <pm:header title="Artikel auswählen">
+            <h:form id="inputItem">
+                <p:inputText id="itemSearch" placeholder="Bezeichnung eingeben" type="search" value="#{productAutoCompleteFilter.query}">
+                    <p:ajax event="keyup" listener="#{productAutoCompleteFilter.init}" update="fourth:outputItem:outputItems"/>
+                </p:inputText>
+            </h:form>
+            <p:separator/>
+        </pm:header>
+
+        <pm:content>
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
-                    <p:commandButton value="#{product.name}" style="font-size: 200%" action="#{mobileNavigationController.goTo('pm:fifth?transition=slide')}" update="fifth:itemoutputForm:itemoutputTable">
+                    <p:commandButton type="button" value="#{product.name}" style="font-size: 120%" onclick="PF('formDialog').show();" update="fourth:itemoutputForm:itemoutputTable">
                         <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
-                        <p:ajax event="click" listener="#{mobileController.update}" update="fifth:itemoutputForm:itemoutputTable"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
+
         </pm:content>
         <pm:footer fixed="true">
-            <h:form>
-                <p:tabMenu>
-                    <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
-                    <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
-                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
-                </p:tabMenu>
-            </h:form>
 
-        </pm:footer>
-    </pm:page>
-
-    <pm:page id="fifth">
-        <pm:header fixed="true" title="Anzahl">
-            <h:form id="iteminputForm">
-                <pm:field>
-                    <p:inputText id="inputAmount" value="#{mobileController.amount}" placeholder="Stück"/>
-                </pm:field>
-                <p:commandButton value="Hinzufügen" action="#{mobileController.addItem}" update="fifth:itemoutputForm fifth:iteminputForm" style="width: auto"/>
-            </h:form>
-        </pm:header>
-        <pm:content>
             <h:form id="itemoutputForm">
                 <p:dataTable id="itemoutputTable"
                              value="#{mobileController.currentItems}" var="item"
                              emptyMessage="Der Kunde hat noch keine Aufträge!"
                              resizableColumns="true"
                              editable="true"
-                             editMode="cell" >
+                             editMode="cell"
+                             paginator="true"
+                             rows="5"
+                             style="font-size: 80%">
+
 
                     <f:facet name="header">
                         <p:outputPanel>
@@ -152,11 +163,17 @@
                         <h:outputText value="#{item.sum}"/>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="Lieferung abschließen" action="#{mobileOrderyController.finishOrder}" update="@form">
-                    <p:ajax event="click" listener="#{customerAutoCompleteFilter.reset}" update="second:outputForm:outputCustomers second:inputForm:customerSearch"/>
-                </p:commandButton>
             </h:form>
-        </pm:content>
+            <h:form>
+                <p:tabMenu>
+                    <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
+                    <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
+                    <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
+                    <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" iconPos="bottom" outcome="pm:first?transition=slide"/>
+                    <p:menuitem value="Kunden Auswählen" icon="ui-icon-suitcase" outcome="pm:second?transition=slide" iconPos="bottom"/>
+                </p:tabMenu>
+            </h:form>
+        </pm:footer>
     </pm:page>
 
     <pm:page id="createCustomer">
@@ -175,14 +192,26 @@
         <pm:content>
             <h:form>
                 <pm:field>
-                    <p:outputLabel for="productName" value="Bezeichnung"/>
-                    <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
+                    <p:panelGrid columns="2">
+                        <h:outputLabel for="productName" value="Bezeichnung: "/>
+                        <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
+                    </p:panelGrid>
+                </pm:field>
+                <pm:field>
+                    <p:outputLabel value="Kategorie: "/>
+                    <p:panelGrid columns="2">
+
+                        <ui:repeat value="#{categoryController.categories}" var="category">
+                            <p:outputLabel value="#{category.name}"/>
+                            <p:selectBooleanCheckbox>
+                                <p:ajax event="change" listener="#{mobileProductController.add(category)}"/>
+                            </p:selectBooleanCheckbox>
+                        </ui:repeat>
+                    </p:panelGrid>
                 </pm:field>
                 <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth:outputItem:outputItems createProduct"/>
             </h:form>
         </pm:content>
     </pm:page>
-
 </h:body>
-
 </html>

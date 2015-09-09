@@ -33,7 +33,6 @@ public class CustomerService {
         AppLogger logger;
         
         public List<Customer> getAllCustomers(){
-            
             return em.createNamedQuery("Customer.findAll").getResultList();
         }
         

@@ -63,6 +63,7 @@ public class ProductAutoCompleteFilter implements Serializable{
                 }
 
             });
+            products.sort( (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
            return products;
         }
 

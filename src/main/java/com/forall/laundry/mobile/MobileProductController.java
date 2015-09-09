@@ -1,5 +1,6 @@
 package com.forall.laundry.mobile;
 
+import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.model.Property;
@@ -7,17 +8,23 @@ import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
 import com.forall.laundry.service.PropertyService;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by jd on 8/24/15.
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class MobileProductController implements Serializable{
 
     @Inject
@@ -35,13 +42,23 @@ public class MobileProductController implements Serializable{
     @EJB
     private PropertyService propertyService;
 
-    @Inject
     private Product product;
 
+    private Set<Category> categories;
+
+
+    @PostConstruct
+    public void init(){
+        categories = new HashSet<>();
+        product = new Product();
+    }
     public String createProduct(){
         final Customer customer = customerService.findById(mc.getCustomer().getId());
-        product.setBorrowed(mc.isBorrowed());
+
         final Property prop = new Property();
+        System.out.println(categories.size());
+        prop.getCategories().addAll(categories);
+        System.out.println("SIZE: " + categories.size());
         customer.add(product, prop);
 
         productService.save(product);
@@ -49,7 +66,17 @@ public class MobileProductController implements Serializable{
         customerService.update(customer);
 
         pac.init();
+        init();
         return "pm:fourth?transition=flip";
+    }
+
+    public void add(final Category category){
+        if(!categories.contains(category)){
+            categories.add(category);
+        }else{
+            categories.remove(category);
+        }
+        System.out.println("SIZE: " + categories.size());
     }
 
     public Product getProduct() {
@@ -58,5 +85,13 @@ public class MobileProductController implements Serializable{
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

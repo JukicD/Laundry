@@ -63,7 +63,7 @@ public class CustomerAutoCompleteFilter implements Serializable{
     public String reset(){
         query = null;
         init();
-        return "pm:second";
+        return "pm:third";
     }
 
     public List<Customer> getCustomers() {
