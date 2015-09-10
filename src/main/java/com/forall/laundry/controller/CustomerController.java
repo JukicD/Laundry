@@ -10,8 +10,11 @@ import com.forall.laundry.mobile.CustomerAutoCompleteFilter;
 import com.forall.laundry.mobile.MobileCustomerController;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
+import com.forall.laundry.model.Price;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
+import com.forall.laundry.service.PriceService;
+import com.forall.laundry.service.ProductService;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
@@ -20,6 +23,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,38 +34,53 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CustomerController implements Serializable{
-    
-   @EJB
-   private CustomerService customerService;
-   
-   @EJB
-   private OrderyService orderyService;
-   
-   @Inject
-   private Customer customer;
+
+    @EJB
+    private CustomerService customerService;
+
+    @EJB
+    private OrderyService orderyService;
+
+    @EJB
+    private ProductService productService;
+
+    @EJB
+    private PriceService priceService;
+
+    @Inject
+    private Customer customer;
 
     @Inject
     private CustomerAutoCompleteFilter customerAutoCompleteFilter;
 
-   @Inject
-   private AppLogger logger;
+    @Inject
+    private AppLogger logger;
 
-   public void createCustomer(){
-       
-       try{
-           
-        Ordery ordery = new Ordery();
-           ordery.setDate(new Date());
-        ordery.setCustomer(customer);
-        
-        customerService.save(customer);
-        orderyService.save(ordery);
-        
-        logger.info("CUSTOMER CREATED: " +customer.toString());
-        
-       }catch (Exception e){
-           logger.error("FAILURE SAVING: " +customer.toString() + " Cause: " + e.getCause());
-       }finally{
+    public void createCustomer(){
+
+        try{
+
+            Ordery ordery = new Ordery();
+            ordery.setDate(new Date());
+            ordery.setCustomer(customer);
+
+            customerService.save(customer);
+            orderyService.save(ordery);
+
+            productService.getProducts().stream().forEach( p -> {
+                final Price price = new Price();
+                price.setPrice(new BigDecimal(0));
+                price.setProduct(p);
+                priceService.save(price);
+                p.getPriceMap().put(customer, price);
+                productService.update(p);
+            });
+
+            logger.info("CUSTOMER CREATED: " +customer.toString());
+
+        }catch (Exception e){
+            logger.error("FAILURE SAVING: " +customer.toString() + " Cause: " + e.getCause());
+        }finally{
             customer.setAddress(null);
             customer.setCompanyName(null);
             customer.setPhoneNumber(null);
@@ -69,22 +88,22 @@ public class CustomerController implements Serializable{
             customer.setCustomerNumber(0);
             customer.setMailAddress(null);
             customer.setName(null);
-       }
+        }
         customerAutoCompleteFilter.init();
-   }
-   
-   public void update(){
-       try{
-           customerService.update(customer);
-           logger.info("Customer " + customer.getName() + " was updated!");
-       }catch (Exception e){
-           logger.error("Update Failed ! " + customer.getName());
-       }
-   }
-   
-   public List<Customer> getAllCustomers(){
-       return customerService.getAllCustomers();
-   }
+    }
+
+    public void update(){
+        try{
+            customerService.update(customer);
+            logger.info("Customer " + customer.getName() + " was updated!");
+        }catch (Exception e){
+            logger.error("Update Failed ! " + customer.getName());
+        }
+    }
+
+    public List<Customer> getAllCustomers(){
+        return customerService.getAllCustomers();
+    }
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -96,7 +115,7 @@ public class CustomerController implements Serializable{
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }

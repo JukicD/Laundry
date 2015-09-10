@@ -13,9 +13,6 @@
                     <h:outputLabel for="productName2" value="Gegenstand:"/>
                     <p:inputText id="productName2" value="#{productController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
 
-                    <h:outputLabel for="product_price" value="Preis/Stück:"/>
-                    <p:inputText id="product_price" value="#{productController.product.price}" required="true" requiredMessage="Preis eingeben!"/>
-
                     <h:outputLabel for="categories" value="Kategorien: "/>
                     <p:selectManyMenu id="categories" value="#{categoryController.selectedCategories}"
                                       var="cat" filter="true" filterMatchMode="contains" showCheckbox="true"

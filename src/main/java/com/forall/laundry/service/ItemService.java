@@ -77,21 +77,13 @@ public class ItemService {
                                                             .collect(Collectors.toList());
         
         // elimate duplicate item-names by adding their sum -> total-sum for a certain product which is needed for statistics
-        Map<String, BigDecimal> sum = items
-                                                                .stream()
-                                                                .collect(Collectors
-                                                                        .toMap(
-                                                                                item -> item.getItem_product().getName(), //key
-                                                                                item -> item.getSum(),                                // value
-                                                                                (i1, i2) -> i1.add(i2)));                                  // execute if equal
+                                 // execute if equal
         
         
         Comparator<Entry<String, BigDecimal>> cmp = (entry1, entry2) -> entry2.getValue().intValue() - entry1.getValue().intValue();
         
         List<Map.Entry<String, BigDecimal>> ordered = new ArrayList<>();
-        
-        ordered.addAll(sum.entrySet());
-        
+
         Collections.sort(ordered, cmp);
         return ordered;
         
@@ -136,19 +128,9 @@ public class ItemService {
         Map<Date, List<Item>> orderByDate = items.stream().collect(Collectors.groupingBy((Item i) -> i.getOrdery().trimedDate()));
         
         Map<Date, BigDecimal> orderedSums = new TreeMap<>((Object o1, Object o2) -> ((Date)o1).compareTo(((Date)o2)));
-                
-             Map<Date, BigDecimal> sums = orderByDate
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap( // key is the date, mapped-value is derived from List<Item> which is the value
-                                            (Map.Entry key) ->(Date)key.getKey(), 
-                                            (Map.Entry values) -> (
-                                                                                    // stream of List<Item> is reduced to a sum
-                                                                                    (List<Item>)values.getValue())
-                                                                                                                 .stream()
-                                                                                                                 .map((Item i) -> i.getSum())
-                                                                                                                 .reduce(BigDecimal.ZERO, BigDecimal::add)));
-        orderedSums.putAll(sums);
+
+
+        /**ToDo**/
        return orderedSums;
     }
     

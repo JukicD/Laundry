@@ -39,23 +39,6 @@ public class Item implements Serializable {
     public Item() {
 
     }
-    
-    public BigDecimal getSum(){
-
-        if(product.getPrice() == null){
-            return new BigDecimal(0.00);
-        }
-
-        if(singlePrice == null){
-            return product.getPrice();
-        }
-
-        if(amount == null){
-            amount = 1;
-        }
-
-        return singlePrice.multiply(new BigDecimal(amount)).setScale(2, RoundingMode.HALF_UP);
-    }
    
     public Integer getAmount() {
         return this.amount;

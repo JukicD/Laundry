@@ -185,7 +185,8 @@ public class StatisticController implements Serializable{
         series.setLabel("Umsatz");
         
         specificItems.stream().forEach((item) -> {
-            series.set(format.format(item.getOrdery().getDate()), item.getSum().setScale(2, RoundingMode.HALF_UP));
+            /**ToDo**/
+            series.set(format.format(item.getOrdery().getDate()), new BigDecimal(1).setScale(2, RoundingMode.HALF_UP));
         });
         
         specificItemFromCustomerModel.addSeries(series);

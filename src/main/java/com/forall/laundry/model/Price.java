@@ -35,4 +35,12 @@ public class Price implements Serializable{
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

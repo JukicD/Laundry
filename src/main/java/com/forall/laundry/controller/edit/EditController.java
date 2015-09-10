@@ -22,6 +22,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,58 +48,38 @@ public class EditController implements Serializable{
     @Inject
     private StatisticController statisticController;
 
+    private BigDecimal newPrice;
+
     private List<Product> products;
-    private List<Product> ownProducts;
-    private List<Product> rentProducts;
     private List<Item> items;
 
     @PostConstruct
     public void init(){
 
         products = userController.getProducts();
-        ownProducts = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
-        ownProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-
-        rentProducts = products.parallelStream().filter(Product::isBorrowed).collect(Collectors.toList());
-        rentProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
         products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
         items = oc.getItems();
     }
 
     public void onCellEdit(Product product) {
-        productService.update(product);
-        Item item = itemService.findItemWithProductID(product.getProduct_id());
-        item.setSinglePrice(product.getPrice());
-        itemService.update(item);
+
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 
     public void onItemEdit(Item item){
 
-        if(item.getSinglePrice() == null){
-            item.setSinglePrice(item.getItem_product().getPrice());
-        }
+
         itemService.update(item);
     }
 
-    public void editCustomerPrice(final Customer customer, final Product product){
-        Price price = product.getPriceMap().get(customer);
-        price.setPrice(product.getPrice());
-        priceService.update(price);
-    }
-
-    public void onTabChange(TabChangeEvent event){
-        switch(event.getTab().getId()){
-            case("rentTab"):
-                products = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
-                products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-                break;
-            case("ownTab"):
-                products = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
-                products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-                break;
-        }
+    public void editCustomerPrice(Price price, Product product){
+        System.out.println(price.getPrice() + " " + product);
+        Price p = product.getPriceMap().get(userController.getCustomer());
+        p.setPrice(newPrice);
+        priceService.update(p);
+        product.getPriceMap().put(userController.getCustomer(), p);
+        productService.update(product);
     }
 
     public List<Product> getProducts() {
@@ -125,20 +106,11 @@ public class EditController implements Serializable{
         this.items = items;
     }
 
-    public List<Product> getOwnProducts() {
-        return ownProducts;
+    public BigDecimal getPrice() {
+        return newPrice;
     }
 
-    public void setOwnProducts(List<Product> ownProducts) {
-        this.ownProducts = ownProducts;
+    public void setPrice(BigDecimal price) {
+        this.newPrice = price;
     }
-
-    public List<Product> getRentProducts() {
-        return rentProducts;
-    }
-
-    public void setRentProducts(List<Product> rentProducts) {
-        this.rentProducts = rentProducts;
-    }
-
 }

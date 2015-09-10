@@ -21,4 +21,8 @@ public class PriceService implements Serializable{
     public void update(final Price price){
         em.merge(price);
     }
+
+    public void save(final Price price){
+        em.persist(price);
+    }
 }

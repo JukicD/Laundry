@@ -37,15 +37,9 @@ public class StatisticService implements Serializable{
                 .setParameter("month", month + 1)
                 .setParameter("year", year)
                 .getResultList();
-        
-        BigDecimal result = orderys
-                .stream()
-                .flatMap(f ->
-                        f.getItems().stream())
-                .map(i -> i.getSum())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        
-        return result;
+
+        /**ToDo; **/
+        return new BigDecimal(1);
     }
     
     public BigDecimal getSumFromCustomer(Customer customer){
@@ -55,9 +49,7 @@ public class StatisticService implements Serializable{
                 .stream()
                 .flatMap((Ordery o) -> o.getItems().stream())
                 .collect(Collectors.toList());
-        
-        BigDecimal sum = items.stream().map(i -> i.getSum()).reduce(BigDecimal.ZERO, BigDecimal::add);
-        
-        return sum;
+        /**ToDo:**/
+        return new BigDecimal(1);
     }
 }

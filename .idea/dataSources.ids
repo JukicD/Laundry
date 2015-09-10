@@ -1664,9 +1664,7 @@
     </table>
     <table name="product" schema="public" catalog="laundry" type="TABLE">
       <column name="product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="borrowed" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="price" sqlType="numeric" precision="10" scale="2" nullable="true" jdbcType="2"/>
       <primary-key name="product_pkey" columns="product_id"/>
       <exported-key name="fk_609gasilcv35buiq7h5xj1uo0" table="customer_product_property_map" schema="public" catalog="laundry" columns="prod_id"/>
       <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>

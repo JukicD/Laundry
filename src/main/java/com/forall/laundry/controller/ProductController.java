@@ -7,9 +7,11 @@ package com.forall.laundry.controller;
 
 import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Price;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +53,9 @@ public class ProductController implements Serializable{
     @EJB
     private CategoryService categoryService;
 
+    @EJB
+    private PriceService priceService;
+
     private Map<Product, Boolean> map;
 
     @PostConstruct
@@ -59,6 +64,15 @@ public class ProductController implements Serializable{
     }
 
     public void addProduct(){
+
+        customerService.getAllCustomers().forEach( c -> {
+            final Price price = new Price();
+            price.setPrice(new BigDecimal(0));
+            priceService.save(price);
+            product.getPriceMap().put(userController.getCustomer(), price);
+            productService.update(product);
+        });
+
         productService.save(product);
         if(categoryController.getSelectedCategories() != null){
 
@@ -71,8 +85,6 @@ public class ProductController implements Serializable{
         }
 
         product.setName(null);
-        product.setPrice(null);
-        product.setBorrowed(false);
         categoryController.setSelectedCategories(null);
         categoryController.init();
 

@@ -76,7 +76,6 @@ public class OrderyController implements Serializable{
         
         product.setName(null);
         item.setAmount(0);
-        product.setPrice(null);
         editController.init();
     }
     
@@ -99,7 +98,7 @@ public class OrderyController implements Serializable{
         cal.setTime(today);
         
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH)+1;
+        int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
         
         return orderyService.getOrdersFromToday(day, month, year);

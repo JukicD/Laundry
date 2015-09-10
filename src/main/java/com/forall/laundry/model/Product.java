@@ -15,10 +15,6 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long product_id;
-    
-    @Basic
-    @Column(columnDefinition="Decimal(10,2)")
-    private BigDecimal price;
 
     @ManyToMany( fetch = FetchType.EAGER)
     private List<Category> categories;
@@ -27,9 +23,6 @@ public class Product implements Serializable {
     @MapKeyJoinColumn(name = "customer_id")
     @ManyToMany(fetch = FetchType.EAGER)
     Map<Customer, Price> priceMap;
-
-    @Basic
-    private boolean borrowed;
 
     @Basic
     private String name;
@@ -51,14 +44,6 @@ public class Product implements Serializable {
         return categories.contains(category);
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public String getName() {
         return name;
     }
@@ -69,14 +54,6 @@ public class Product implements Serializable {
    
     public Long getProduct_id() {
         return this.product_id;
-    }
-
-    public boolean isBorrowed() {
-        return borrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        this.borrowed = borrowed;
     }
 
     public List<Category> getCategories() {
@@ -113,7 +90,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" + "product_id=" + product_id + ", price=" + price + ", name=" + name + '}';
+        return "Product{" + "product_id=" + product_id + ", name=" + name + '}';
     }
 
 
