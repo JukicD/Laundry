@@ -17,6 +17,9 @@ public class Price implements Serializable{
     @Basic
     private BigDecimal price;
 
+    @ManyToOne
+    private Product product;
+
     public Integer getId() {
         return id;
     }

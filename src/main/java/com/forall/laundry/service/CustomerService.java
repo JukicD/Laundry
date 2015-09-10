@@ -73,8 +73,18 @@ public class CustomerService {
     }
 
     public Ordery getCurrentOrder(Customer customer) {
-      
-            return (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE o.date IS NULL AND o.customer.id = :id")
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+
+            return (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id")
+                    .setParameter("day", day)
+                    .setParameter("month", month)
+                    .setParameter("year", year)
                     .setParameter("id", customer.getId())
                     .getSingleResult();
     }

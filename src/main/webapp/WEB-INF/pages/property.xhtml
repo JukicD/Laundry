@@ -30,7 +30,6 @@
                     <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel">
                         <p:ajax listener="#{growlController.sendMessage('Artikel erfoglreich gespeichert!')}" update="msgs"/>
                     </p:commandButton>
-
                 </h:panelGrid>
             </h:form>
         </p:tab>

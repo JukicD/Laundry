@@ -18,6 +18,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,6 @@ public class ProductController implements Serializable{
     @PostConstruct
     public void init(){
         map = new HashMap<>();
-
     }
 
     public void addProduct(){
@@ -76,6 +76,10 @@ public class ProductController implements Serializable{
         categoryController.setSelectedCategories(null);
         categoryController.init();
 
+    }
+
+    public BigDecimal getPrice(final Customer customer, final Product product){
+        return product.getPriceMap().get(customer).getPrice();
     }
 
     public List<Product> getAllProducts(){

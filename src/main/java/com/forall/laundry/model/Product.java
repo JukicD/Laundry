@@ -4,9 +4,7 @@ package com.forall.laundry.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @NamedQueries({
@@ -25,11 +23,20 @@ public class Product implements Serializable {
     @ManyToMany( fetch = FetchType.EAGER)
     private List<Category> categories;
 
+    @CollectionTable(name = "product_customer_price_map")
+    @MapKeyJoinColumn(name = "customer_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    Map<Customer, Price> priceMap;
+
     @Basic
     private boolean borrowed;
 
     @Basic
     private String name;
+
+    public Product(){
+        priceMap = new HashMap<>();
+    }
 
     public void addCategory(Category category){
         if(categories == null){
@@ -77,7 +84,12 @@ public class Product implements Serializable {
     }
 
     public void setCategories(List<Category> categories) {
+
         this.categories = categories;
+    }
+
+    public Map<Customer, Price> getPriceMap() {
+        return priceMap;
     }
 
     @Override

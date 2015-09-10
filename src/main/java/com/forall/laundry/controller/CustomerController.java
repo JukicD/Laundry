@@ -20,6 +20,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class CustomerController implements Serializable{
        try{
            
         Ordery ordery = new Ordery();
+           ordery.setDate(new Date());
         ordery.setCustomer(customer);
         
         customerService.save(customer);
@@ -58,7 +60,7 @@ public class CustomerController implements Serializable{
         logger.info("CUSTOMER CREATED: " +customer.toString());
         
        }catch (Exception e){
-           logger.error("FAILURE SAVING: " +customer.toString());
+           logger.error("FAILURE SAVING: " +customer.toString() + " Cause: " + e.getCause());
        }finally{
             customer.setAddress(null);
             customer.setCompanyName(null);

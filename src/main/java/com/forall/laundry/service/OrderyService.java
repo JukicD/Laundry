@@ -107,7 +107,7 @@ public class OrderyService {
         return orders;
     }
     
-    public List<Ordery> getOrdersBetween(Date from, Date to, int customerID){
+    public List<Ordery> getOrdersBetween(final Date from, Date to, final int customerID){
         
         Calendar cal = Calendar.getInstance();
         cal.setTime(to);
@@ -143,8 +143,6 @@ public class OrderyService {
         cal.clear(Calendar.MILLISECOND);
         Date beginningOfMonth = cal.getTime();
 
-        System.out.println("TODAY: " + today);
-        System.out.println("MONTH: " + beginningOfMonth);
         List<Ordery> orders = em.createQuery("SELECT o FROM Ordery o WHERE o.date BETWEEN :beginningOfMonth AND :today AND o.customer.id = :id")
                 .setParameter("beginningOfMonth", beginningOfMonth)
                 .setParameter("today", today)
@@ -163,4 +161,20 @@ public class OrderyService {
     }
 
 
+    public List<Ordery> get(final Date date, final int id) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+        final int month = cal.get(Calendar.MONTH) + 1;
+        final int year = cal.get(Calendar.YEAR);
+
+        return em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
+                .setParameter("day", day)
+                .setParameter("month", month)
+                .setParameter("year", year)
+                .setParameter("id", id)
+                .getResultList();
+    }
 }

@@ -6,6 +6,7 @@ import com.forall.laundry.model.*;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.OrderyService;
+import com.forall.laundry.util.LaundryUtil;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,7 +16,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jd on 8/19/15.
@@ -53,7 +57,7 @@ public class MobileController implements Serializable{
     @PostConstruct
     public void init(){
         if(customer != null){
-            currentItems = customerService.getItems(customer);
+            currentItems = orderyService.get(new Date(), customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
         }
     }
     public void addItem(){
@@ -63,6 +67,10 @@ public class MobileController implements Serializable{
         item.setItem_product(product);
         item.setAmount(amount);
         Ordery ordery = mcc.getCurrentOrder();
+
+        if(ordery.getDate() == null || !LaundryUtil.isToday(ordery.getDate())){
+            ordery.setDate(new Date());
+        }
 
         item.setOrdery(ordery);
         ordery.addItem(item);
@@ -76,9 +84,25 @@ public class MobileController implements Serializable{
         pac.reset();
         update();
 
+        currentItems = orderyService.get(new Date(), customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
 
-        currentItems = customerService.getItems(customer);
+    }
 
+    public void getYesterdaysItems(){
+
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+
+        Date yesterday = new Date(cal.getTimeInMillis());
+
+        currentItems = orderyService.get(yesterday, customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
     }
 
     public void update(){
@@ -143,7 +167,8 @@ public class MobileController implements Serializable{
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Category category)
+    {
         this.category = category;
     }
 }

@@ -101,7 +101,7 @@
         <p:dialog header="Eingabe" widgetVar="formDialog" showEffect="pop" hideEffect="clip" modal="true" closable="true">
             <p:outputPanel id="formPanel">
                 <h:form>
-                    <h:outputLabel value="Stück:"/>
+                    <h:outputLabel value="#{mobileController.product.name}"/>
                     <p:inputText value="#{mobileController.amount}" placeholder="Stück eingeben" required="true" requiredMessage="Stück eingeben !"/>
                     <p:commandButton value="Enter" action="#{mobileController.addItem}" update="fourth:itemoutputForm:itemoutputTable" oncomplete="PF('formDialog').hide();"/>
                 </h:form>
@@ -123,6 +123,7 @@
                     <p:commandButton type="button" value="#{product.name}" style="font-size: 120%" onclick="PF('formDialog').show();" update="fourth:itemoutputForm:itemoutputTable">
                         <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
                     </p:commandButton>
+
                 </p:dataGrid>
             </h:form>
 
@@ -140,10 +141,10 @@
                              rows="5"
                              style="font-size: 80%">
 
-
+                <p:ajax event="swiperight" listener="#{mobileController.getYesterdaysItems}" update="@parent"/>
                     <f:facet name="header">
                         <p:outputPanel>
-                            <h:outputText value="#{mobileController.customer.name}" />
+                            <p:outputLabel value="facet"/>
                         </p:outputPanel>
                     </f:facet>
 

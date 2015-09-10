@@ -8,6 +8,12 @@ import java.util.stream.IntStream;
  */
 public class LaundryUtil {
 
+
+    public static boolean isToday(Date date){
+        Date today = new Date();
+
+        return today.getTime() - date.getTime() > 60 * 60 * 1000;
+    }
     public static List<Date> getDaysOfThisWeek(){
         Date today = new Date();
         List<Date> daysOfWeek = new ArrayList<>();

@@ -3,9 +3,12 @@ package com.forall.laundry.controller.edit;
 import com.forall.laundry.controller.OldOrdersController;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.controller.statistic.StatisticController;
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Item;
+import com.forall.laundry.model.Price;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.ItemService;
+import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
@@ -32,6 +35,9 @@ public class EditController implements Serializable{
     @EJB
     private ProductService productService;
 
+    @EJB
+    private PriceService priceService;
+
     @Inject
     private OldOrdersController oc;
 
@@ -53,7 +59,7 @@ public class EditController implements Serializable{
         ownProducts = products.parallelStream().filter( p -> !p.isBorrowed()).collect(Collectors.toList());
         ownProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
-        rentProducts = products.parallelStream().filter( p -> p.isBorrowed()).collect(Collectors.toList());
+        rentProducts = products.parallelStream().filter(Product::isBorrowed).collect(Collectors.toList());
         rentProducts.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
         products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
@@ -73,8 +79,13 @@ public class EditController implements Serializable{
         if(item.getSinglePrice() == null){
             item.setSinglePrice(item.getItem_product().getPrice());
         }
-        System.out.println("EDIT");
         itemService.update(item);
+    }
+
+    public void editCustomerPrice(final Customer customer, final Product product){
+        Price price = product.getPriceMap().get(customer);
+        price.setPrice(product.getPrice());
+        priceService.update(price);
     }
 
     public void onTabChange(TabChangeEvent event){
