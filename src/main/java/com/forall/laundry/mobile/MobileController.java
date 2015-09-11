@@ -70,6 +70,7 @@ public class MobileController implements Serializable{
         Item item = new Item();
         item.setProduct(product);
         item.setAmount(amount);
+        item.setWorker(worker);
         Ordery ordery = mcc.getCurrentOrder();
 
         if(ordery.getDate() == null || !LaundryUtil.isToday(ordery.getDate())){

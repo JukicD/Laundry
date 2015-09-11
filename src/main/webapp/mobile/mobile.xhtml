@@ -159,6 +159,10 @@
                     <p:column headerText="Preis">
                         <h:outputText value="#{productController.getProductPrice(mobileController.customer, item.product)}"/>
                     </p:column>
+
+                    <p:column headerText="Mitarbeiter">
+                        <h:outputText value="#{item.worker.firstName}"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
             <h:form>

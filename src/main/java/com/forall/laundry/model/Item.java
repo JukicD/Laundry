@@ -5,7 +5,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -26,19 +28,15 @@ public class Item implements Serializable {
     @ManyToOne
     @JoinColumn(name="ordery_id")
     private Ordery ordery;
-    
-    @Basic
-    private boolean borrowed;
+
+    @OneToOne
+    private Worker worker;
     
     @OneToOne
     private Product product;
     
     @Basic
     private BigDecimal singlePrice;
-    
-    public Item() {
-
-    }
    
     public Integer getAmount() {
         return this.amount;
@@ -85,6 +83,14 @@ public class Item implements Serializable {
         this.product = product;
     }
 
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -106,6 +112,6 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", borrowed=" + borrowed + ", item_product=" + product + ", singlePrice=" + singlePrice + '}';
+        return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", product=" + product + ", singlePrice=" + singlePrice + '}';
     }
 }
