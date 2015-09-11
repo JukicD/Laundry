@@ -51,8 +51,7 @@ public class ItemController implements Serializable{
     }
     
     public void addItem(){
-        item.setItem_product(product);
-        item.setBorrowed(true);
+        item.setProduct(product);
         itemService.save(item);
     }
 

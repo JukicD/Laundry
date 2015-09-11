@@ -67,7 +67,7 @@ public class OrderyController implements Serializable{
         customerService.update(customer);
         
         item.setOrdery(order);
-        item.setItem_product(product);
+        item.setProduct(product);
         order.addItem(item);
         
         productService.save(product);

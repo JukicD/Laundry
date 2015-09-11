@@ -18,8 +18,6 @@
     <pm:page id="first">
         <pm:content>
             <pm:header title="Mitarbeiter auswählen"/>
-            <p:outputLabel value="Mitarbeiter: #{mobileController.worker.firstName}" rendered="#{not empty mobileController.worker}"/>
-            <p:outputLabel value="Firma: #{mobileController.customer.name}" rendered="#{not empty mobileController.customer}"/>
             <h:form>
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
                     <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
@@ -60,7 +58,7 @@
             </p:panelGrid>
             <h:form>
                 <p:tabMenu>
-                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom" />
+                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom"/>
                     <p:menuitem value="Neuer Kunde" icon="ui-icon-plus" outcome="pm:createCustomer?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:outputForm:outputCustomers second:inputForm:customerSearch">
                     </p:menuitem>
@@ -74,7 +72,7 @@
             <pm:header title="Art des Artikels" style="font-size: 120%"/>
             <h:form id="categoryForm">
                 <p:dataGrid id="categoryTable" var="category" value="#{mobileCategoryController.categories}" columns="2">
-                    <p:commandButton value="#{category.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:fourth?transition=slide')}" update="third fourth:outputItem:outputItems fourth:itemoutputForm:itemoutputTable">
+                    <p:commandButton value="#{category.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:fourth?transition=slide')}" update="third fourth:outputItem:outputItems fourth:itemoutputForm:itemoutputTable fourth:itemoutputForm:infoGrid">
                         <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
                         <p:ajax event="click" listener="#{mobileController.setCategory(category)}"/>
                     </p:commandButton>
@@ -89,7 +87,7 @@
             </p:panelGrid>
             <h:form>
                 <p:tabMenu>
-                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:first?transition=fade" iconPos="bottom" />
+                    <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:second?transition=fade" iconPos="bottom" />
                     <p:menuitem value="Neuer Kunde" icon="ui-icon-plus" outcome="pm:createCustomer?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:outputForm:outputCustomers second:inputForm:customerSearch"/>
                     <p:menuitem value="Kunden auswählen" icon="ui-icon-suitcase" iconPos="bottom" outcome="pm:second?transition=slide"/>
@@ -98,10 +96,10 @@
         </pm:footer>
     </pm:page>
     <pm:page id="fourth">
-        <p:dialog header="Eingabe" widgetVar="formDialog" showEffect="pop" hideEffect="clip" modal="true" closable="true">
+        <p:dialog id="quantDialog" header="Eingabe" widgetVar="formDialog" showEffect="pop" hideEffect="clip" modal="true" closable="true">
             <p:outputPanel id="formPanel">
-                <h:form>
-                    <h:outputLabel value="#{mobileController.product.name}"/>
+                <h:form id="quantForm">
+                    <h:outputLabel value="Ausgewählt: #{mobileController.product.name}"/>
                     <p:inputText value="#{mobileController.amount}" placeholder="Stück eingeben" required="true" requiredMessage="Stück eingeben !"/>
                     <p:commandButton value="Enter" action="#{mobileController.addItem}" update="fourth:itemoutputForm:itemoutputTable" oncomplete="PF('formDialog').hide();"/>
                 </h:form>
@@ -121,7 +119,7 @@
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
                     <p:commandButton type="button" value="#{product.name}" style="font-size: 120%" onclick="PF('formDialog').show();" update="fourth:itemoutputForm:itemoutputTable">
-                        <p:ajax event="click" listener="#{mobileController.setProduct(product)}"/>
+                        <p:ajax event="click" listener="#{mobileController.setProduct(product)}" update="fourth:quantForm"/>
                     </p:commandButton>
 
                 </p:dataGrid>
@@ -131,6 +129,11 @@
         <pm:footer fixed="true">
 
             <h:form id="itemoutputForm">
+                <p:panelGrid id="infoGrid" columns="4">
+                    <h:outputText value="Mitarbeiter: #{mobileController.worker.firstName}"/>
+                    <h:outputText value="Kunde: #{mobileController.customer.name}"/>
+                    <h:outputText value="Datum: #{mobileController.formatedDate}"/>
+                </p:panelGrid>
                 <p:dataTable id="itemoutputTable"
                              value="#{mobileController.currentItems}" var="item"
                              emptyMessage="Der Kunde hat noch keine Aufträge!"
@@ -139,16 +142,13 @@
                              editMode="cell"
                              paginator="true"
                              rows="5"
-                             style="font-size: 80%">
+                             style="font-size: 80%"
+                        paginatorPosition="bottom">
 
-                <p:ajax event="swiperight" listener="#{mobileController.getYesterdaysItems}" update="@parent"/>
-                    <f:facet name="header">
-                        <p:outputPanel>
-                            <p:outputLabel value="facet"/>
-                        </p:outputPanel>
-                    </f:facet>
+                    <p:ajax event="swiperight" listener="#{mobileController.getItems(-1)}" update="@parent"/>
+                    <p:ajax event="swipeleft" listener="#{mobileController.getItems(1)}" update="@parent" />
 
-                    <p:column  headerText="Produkt">
+                    <p:column  headerText="Artikel">
                         <h:outputText value="#{item.name}"/>
                     </p:column>
 
@@ -156,12 +156,8 @@
                         <h:outputText value="#{item.amount}"/>
                     </p:column>
 
-                    <p:column  headerText="Einzelpreis">
-                        <h:outputText value="#{item.singlePrice}"/>
-                    </p:column>
-
                     <p:column headerText="Preis">
-                        <h:outputText value="#{item.sum}"/>
+                        <h:outputText value="#{productController.getProductPrice(mobileController.customer, item.product)}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

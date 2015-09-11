@@ -169,7 +169,6 @@ public class OrderyService {
         final int day = cal.get(Calendar.DAY_OF_MONTH);
         final int month = cal.get(Calendar.MONTH) + 1;
         final int year = cal.get(Calendar.YEAR);
-
         return em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
                 .setParameter("day", day)
                 .setParameter("month", month)

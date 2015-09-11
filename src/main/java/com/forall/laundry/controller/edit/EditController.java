@@ -73,13 +73,9 @@ public class EditController implements Serializable{
         itemService.update(item);
     }
 
-    public void editCustomerPrice(Price price, Product product){
-        System.out.println(price.getPrice() + " " + product);
-        Price p = product.getPriceMap().get(userController.getCustomer());
-        p.setPrice(newPrice);
-        priceService.update(p);
-        product.getPriceMap().put(userController.getCustomer(), p);
-        productService.update(product);
+    public void editCustomerPrice(Price price){
+        price.setPrice(newPrice);
+        priceService.update(price);
     }
 
     public List<Product> getProducts() {

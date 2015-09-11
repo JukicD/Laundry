@@ -73,7 +73,7 @@ public class MobileAutoCompleteFilter implements Serializable{
         filteredItems = new ArrayList<>();
         items
                 .parallelStream()
-                .filter(i -> i.getItem_product().getName().toLowerCase().contains(queryItems))
+                .filter(i -> i.getProduct().getName().toLowerCase().contains(queryItems))
                 .forEach(i -> filteredItems.add(i));
     }
 

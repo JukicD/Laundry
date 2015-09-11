@@ -43,7 +43,7 @@ public class ProductController implements Serializable{
 
     @Inject
     private CategoryController categoryController;
-    
+
     @EJB
     private ProductService productService;
 
@@ -64,22 +64,23 @@ public class ProductController implements Serializable{
     }
 
     public void addProduct(){
+        productService.save(product);
 
-        customerService.getAllCustomers().forEach( c -> {
+        customerService.getAllCustomers().forEach(c -> {
             final Price price = new Price();
             price.setPrice(new BigDecimal(0));
             priceService.save(price);
-            product.getPriceMap().put(userController.getCustomer(), price);
-            productService.update(product);
+            product.getPriceMap().put(c, price);
         });
 
-        productService.save(product);
+        productService.update(product);
+
         if(categoryController.getSelectedCategories() != null){
 
-        categoryController.getSelectedCategories().stream().forEach((Category c) -> {
-            categoryService.update(c);
-            product.addCategory(c);
-            productService.update(product);
+            categoryController.getSelectedCategories().stream().forEach((Category c) -> {
+                categoryService.update(c);
+                product.addCategory(c);
+                productService.update(product);
 
             });
         }
@@ -94,10 +95,14 @@ public class ProductController implements Serializable{
         return product.getPriceMap().get(customer).getPrice();
     }
 
+    public BigDecimal getProductPrice(final Customer customer, final Product product){
+        return product.getPriceMap().get(customer).getPrice();
+    }
+
     public List<Product> getAllProducts(){
         return productService.getProducts();
     }
-    
+
     public void save(){
         productService.save(product);
     }
@@ -110,7 +115,6 @@ public class ProductController implements Serializable{
         this.product = product;
     }
 
-
     public Map<Product, Boolean> getMap() {
         return map;
     }
@@ -121,17 +125,17 @@ public class ProductController implements Serializable{
 
     public void update(Product product, Category cat){
 
-            Product p = productService.find(product.getProduct_id());
-            Category c = categoryService.find(cat.getId());
+        Product p = productService.find(product.getProduct_id());
+        Category c = categoryService.find(cat.getId());
 
-            if(p.getCategories().contains(cat)){
-                p.getCategories().remove(c);
-            }else{
-                p.getCategories().add(c);
-            }
-
-            productService.update(p);
-            categoryService.update(c);
+        if(p.getCategories().contains(cat)){
+            p.getCategories().remove(c);
+        }else{
+            p.getCategories().add(c);
         }
 
+        productService.update(p);
+        categoryService.update(c);
     }
+
+}

@@ -39,6 +39,10 @@ public class WorkerController implements Serializable{
         worker.setFirstName(null);
         worker.setLastName(null);
     }
+
+    public void delete (final Worker worker){
+        workerService.delete(worker);
+    }
     
     public void update(){
         workerService.update(worker);

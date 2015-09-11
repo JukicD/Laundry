@@ -56,18 +56,6 @@ public class Item implements Serializable {
         return this.item_id;
     }
    
-    public void setItem_product(Product item_product) {
-        this.product = item_product;
-    }
-
-    public boolean isBorrowed() {
-        return borrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        this.borrowed = borrowed;
-    }
-
     public Ordery getOrdery() {
         return ordery;
     }
@@ -85,12 +73,16 @@ public class Item implements Serializable {
         return singlePrice;
     }
 
-    public Product getItem_product() {
+    public void setSinglePrice(BigDecimal singlePrice) {
+        this.singlePrice = singlePrice;
+    }
+
+    public Product getProduct() {
         return product;
     }
 
-    public void setSinglePrice(BigDecimal singlePrice) {
-        this.singlePrice = singlePrice;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

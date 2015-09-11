@@ -5,29 +5,47 @@
                 xmlns:f="http://java.sun.com/jsf/core"
         >
 
-            <h:form id="workerMain">
-            
-            <p:growl id="msgsWorker" showDetail="false" sticky="false" life="3500" showSummary="true"/>
-            <h:panelGrid id="workerGrid" columns="2" cellpadding="5" cellspacing="1">
-                
-                <h:outputLabel for="firstName" value="Vorname:"/>         
-                <p:inputText id="firstName" value="#{workerController.worker.firstName}" required="true" requiredMessage="Gegenstand eingeben!" />
-                
-                <h:outputLabel for="lastName" value="Nachname:"/>         
-                <p:inputText id="lastName" value="#{workerController.worker.lastName}" required="true" requiredMessage="Stückzahl eingeben!"/>
-                
-            </h:panelGrid>
-            <p:separator/>
-            <p:commandButton actionListener="#{workerController.save}" value="Speichern" style="margin-right:10px"
-                             icon="ui-icon-check"
-                             ajax="true"
-                             update="@form"
-                             process="@form">
+    <h:form id="workerMain">
+
+        <p:growl id="msgsWorker" showDetail="false" sticky="false" life="3500" showSummary="true"/>
+        <h:panelGrid id="workerGrid" columns="2" cellpadding="5" cellspacing="1">
+
+            <h:outputLabel for="firstName" value="Vorname:"/>
+            <p:inputText id="firstName" value="#{workerController.worker.firstName}" required="true" requiredMessage="Gegenstand eingeben!" />
+
+            <h:outputLabel for="lastName" value="Nachname:"/>
+            <p:inputText id="lastName" value="#{workerController.worker.lastName}" required="true" requiredMessage="Stückzahl eingeben!"/>
+
+        </h:panelGrid>
+        <p:separator/>
+        <p:commandButton actionListener="#{workerController.save}" value="Speichern" style="margin-right:10px"
+                         icon="ui-icon-check"
+                         ajax="true"
+                         update="@form :workerForm"
+                         process="@form">
             <p:resetInput target="@form" />
             <f:actionListener binding="#{growlController.saveMessage('Mitarbeiter erfolgreich erstellt !')}"/>
-            </p:commandButton>
-             
+        </p:commandButton>
         </h:form>
+
+        <br/>
+
+    <h:form id="workerForm">
+        <p:dataTable value="#{workerController.workers}" var="worker">
+            <p:column headerText="Vorname">
+                <h:outputText value="#{worker.firstName}"/>
+            </p:column>
+
+            <p:column headerText="Nachname">
+                <h:outputText value="#{worker.lastName}"/>
+            </p:column>
+            <p:column>
+                <p:commandButton icon="fa fa-user-times" action="#{workerController.delete(worker)}" update="@form">
+                    <p:ajax event="click" listener="#{growlController.sendMessage('Mitarbeiter entfernt !')}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </ui:composition>
 
 

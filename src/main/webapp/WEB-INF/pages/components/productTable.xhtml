@@ -10,12 +10,11 @@
                  resizableColumns="true"
                  rendered="#{not empty editController.products}"
                  editable="true"
-                 editMode="cell">
+                 editMode="cell"
+                 paginatorPosition="bottom">
 
-        <f:facet name="customerHeader">
-            <p:outputPanel>
-                <h:outputText value="#{userController.customer.name}"/>
-            </p:outputPanel>
+        <f:facet name="header">
+            TEST
         </f:facet>
 
         <p:column  headerText="Ware">

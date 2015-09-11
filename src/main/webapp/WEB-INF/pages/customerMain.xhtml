@@ -56,17 +56,15 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText value="#{editController.price}">
-                                    <p:ajax event="change" listener="#{editController.editCustomerPrice(product.priceMap[userController.customer], product)}" update="@parent"/>
+                                    <p:ajax event="change" listener="#{editController.editCustomerPrice(product.priceMap[userController.customer])}" update="@parent"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-
                 </p:dataTable>
             </h:form>
         </p:tab>
     </p:tabView>
-
     <br/>
     <p:commandButton value="Zurück"
                      action="#{navigationController.setSite('customerList')}"

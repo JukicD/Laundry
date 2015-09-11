@@ -10,12 +10,15 @@ import com.forall.laundry.util.LaundryUtil;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
  * Created by jd on 8/19/15.
  */
 @Named
-@ViewScoped
+@ApplicationScoped
 public class MobileController implements Serializable{
 
     @EJB
@@ -51,19 +54,21 @@ public class MobileController implements Serializable{
     private Customer customer;
     private Category category;
     private Product product;
-    private boolean borrowed;
+    private boolean currentItemsFromToday;
     private Integer amount;
+    private Date date;
 
     @PostConstruct
     public void init(){
         if(customer != null){
             currentItems = orderyService.get(new Date(), customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
         }
+        date = new Date();
     }
     public void addItem(){
 
         Item item = new Item();
-        item.setItem_product(product);
+        item.setProduct(product);
         item.setAmount(amount);
         Ordery ordery = mcc.getCurrentOrder();
 
@@ -87,28 +92,45 @@ public class MobileController implements Serializable{
 
     }
 
-    public void getYesterdaysItems(){
+    public void getItems(int offsetFromToday){
 
-        Date today = new Date();
+        if(date == null){
+            date = new Date();
+        }
         Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
+        cal.setTime(date);
 
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.DAY_OF_MONTH, -1);
+        cal.add(Calendar.DAY_OF_MONTH, offsetFromToday);
 
-        Date yesterday = new Date(cal.getTimeInMillis());
-
-        currentItems = orderyService.get(yesterday, customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
+        Date offset = new Date(cal.getTimeInMillis());
+        this.date = offset;
+        currentItems = orderyService.get(offset, customer.getId())
+                .stream()
+                .flatMap(o -> o.getItems().stream())
+                .collect(Collectors.toList());
+        checkCurrentItems();
     }
 
     public void update(){
         currentItems = customerService.getItems(customer);
     }
 
+    public String getFormatedDate(){
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
+        return df.format(date);
+    }
 
+    private void checkCurrentItems(){
+        currentItemsFromToday = currentItems.isEmpty() ? true : LaundryUtil.isToday(currentItems.get(0).getOrdery().getDate());
+        System.out.println(currentItemsFromToday);
+    }
+    public boolean currentItemsFromToday(){
+        return LaundryUtil.isToday(currentItems.get(0).getOrdery().getDate());
+    }
     public String goTo(String nav){
         return nav;
     }
@@ -126,15 +148,6 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public boolean isBorrowed() {
-        return borrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        this.borrowed = borrowed;
-
     }
 
     public Integer getAmount() {
@@ -169,5 +182,21 @@ public class MobileController implements Serializable{
     public void setCategory(Category category)
     {
         this.category = category;
+    }
+
+    public boolean isCurrentItemsFromToday() {
+        return currentItemsFromToday;
+    }
+
+    public void setCurrentItemsFromToday(boolean areCurrentItemsFromToday) {
+        this.currentItemsFromToday = areCurrentItemsFromToday;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

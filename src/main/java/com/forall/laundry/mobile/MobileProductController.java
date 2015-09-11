@@ -1,10 +1,8 @@
 package com.forall.laundry.mobile;
 
-import com.forall.laundry.model.Category;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Product;
-import com.forall.laundry.model.Property;
+import com.forall.laundry.model.*;
 import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
 import com.forall.laundry.service.PropertyService;
 
@@ -15,6 +13,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +41,9 @@ public class MobileProductController implements Serializable{
     @EJB
     private PropertyService propertyService;
 
+    @EJB
+    private PriceService priceService;
+
     private Product product;
 
     private Set<Category> categories;
@@ -56,10 +58,14 @@ public class MobileProductController implements Serializable{
         final Customer customer = customerService.findById(mc.getCustomer().getId());
 
         final Property prop = new Property();
-        System.out.println(categories.size());
         prop.getCategories().addAll(categories);
-        System.out.println("SIZE: " + categories.size());
         customer.add(product, prop);
+
+        final Price p = new Price();
+        p.setPrice(new BigDecimal(0));
+
+        priceService.save(p);
+        product.getPriceMap().put(customer, p);
 
         productService.save(product);
         propertyService.save(prop);
