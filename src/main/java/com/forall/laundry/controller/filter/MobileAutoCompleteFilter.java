@@ -67,9 +67,7 @@ public class MobileAutoCompleteFilter implements Serializable{
     }
 
     public void filterItems(Customer c){
-        System.out.println(c.getName());
         items = itemService.getAllItems(c);
-        System.out.println(items.size());
         filteredItems = new ArrayList<>();
         items
                 .parallelStream()

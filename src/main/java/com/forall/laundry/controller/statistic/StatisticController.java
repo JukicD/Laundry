@@ -138,7 +138,7 @@ public class StatisticController implements Serializable{
         
         customers
                 .stream()
-                .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue()).peek( c -> System.out.println(c.getName())
+                .sorted((c1, c2) -> statisticService.getSumFromCustomer(c2).intValue() - statisticService.getSumFromCustomer(c1).intValue()
         )
                 .forEach(customer ->
         {
@@ -235,12 +235,10 @@ public class StatisticController implements Serializable{
         itemsByName.keySet().stream().forEach((String key) -> 
         
         {
-            System.out.println("FIRST KEY: " + key);
            LineChartSeries series = new LineChartSeries();
            List<Item> items = itemsByName.get(key);
            
            Map<Date, BigDecimal> sums = itemService.getSumOfItems(items);
-           sums.entrySet().stream().forEach((Map.Entry entry) -> System.out.println("KEY: " + entry.getKey() + " KEY: " + key ));
            sums.keySet().stream().forEach((Date dateKey) -> series.set(format.format(dateKey), sums.get(dateKey)));
            series.setLabel(key);
            allItemsFromCustomerModel.addSeries(series);

@@ -96,10 +96,6 @@ public class ProductController implements Serializable{
     }
 
     public BigDecimal getProductPrice(final Customer customer, final Product product){
-        System.out.println(customer + " " + product + " ");
-        System.out.println(product.getPriceMap());
-        System.out.println(product.getPriceMap().get(customer));
-        System.out.println(product.getPriceMap().get(customer).getPrice());
         return product.getPriceMap().get(customer).getPrice();
     }
 
@@ -127,10 +123,10 @@ public class ProductController implements Serializable{
         this.map = map;
     }
 
-    public void update(Product product, Category cat){
+    public void update(final Product product, final Category cat){
 
-        Product p = productService.find(product.getProduct_id());
-        Category c = categoryService.find(cat.getId());
+        final Product p = productService.find(product.getProduct_id());
+        final Category c = categoryService.find(cat.getId());
 
         if(p.getCategories().contains(cat)){
             p.getCategories().remove(c);
@@ -141,5 +137,4 @@ public class ProductController implements Serializable{
         productService.update(p);
         categoryService.update(c);
     }
-
 }

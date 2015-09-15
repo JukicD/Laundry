@@ -19,6 +19,5 @@ public class LaundryBill {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.WEEK_OF_YEAR, 23);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        System.out.println(sdf.format(cal.getTime()));
     }
 }

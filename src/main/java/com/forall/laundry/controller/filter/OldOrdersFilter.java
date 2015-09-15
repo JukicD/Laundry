@@ -48,11 +48,9 @@ public class OldOrdersFilter implements Serializable{
     }
     
     public void filter(){
-        System.out.println(command);
         switch(command){
             case "all":
                 orders = orderyController.getOldOrders();
-                System.out.println(orders.size());
                 dateFrom = null;
                 dateTo = null;
                 isChoosingDate = false;
@@ -81,9 +79,6 @@ public class OldOrdersFilter implements Serializable{
     
     public void filterOrders(SelectEvent event){
         
-    }
-    public void print(){
-        System.out.println(command);
     }
 
     public String getCommand() {

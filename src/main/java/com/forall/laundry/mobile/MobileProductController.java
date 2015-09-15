@@ -51,6 +51,7 @@ public class MobileProductController implements Serializable{
         categories = new HashSet<>();
         product = new Product();
     }
+
     public String createProduct(){
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
@@ -59,13 +60,14 @@ public class MobileProductController implements Serializable{
         final Price pr = new Price();
         pr.setPrice(new BigDecimal(0));
         priceService.save(pr);
-        if(p == null){
+
+        if(p == null){ // product does not exist (by name) use the injected information
 
             product.setCategories(categories);
             product.getPriceMap().put(customer, pr);
             productService.save(product);
 
-        }else{
+        }else{ // use the product from database
             product = p;
         }
 
@@ -89,7 +91,6 @@ public class MobileProductController implements Serializable{
         }else{
             categories.remove(category);
         }
-        System.out.println("SIZE: " + categories.size());
     }
 
     public Product getProduct() {

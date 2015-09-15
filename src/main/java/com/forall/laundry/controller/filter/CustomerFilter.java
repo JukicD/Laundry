@@ -39,7 +39,6 @@ public class CustomerFilter implements Serializable{
     
     @PostConstruct
     public void init(){
-        System.out.println("init");
         customers = cs.getAllCustomers();
     }
     

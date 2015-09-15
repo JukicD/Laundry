@@ -31,9 +31,7 @@ public class ScheduleFilter implements Serializable{
 
     
     public void onDateSelect(SelectEvent event){
-        
         this.date = (Date) event.getObject();
-        System.out.println(date);
     }
     
     public List<Customer> getCustomers() {

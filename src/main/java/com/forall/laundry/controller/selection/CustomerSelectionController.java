@@ -34,6 +34,5 @@ public class CustomerSelectionController implements Serializable{
 
     public void setSelectedCustomer(Customer selectedCustomer) {
         this.selectedCustomer = selectedCustomer;
-        System.out.println(this.selectedCustomer.getName());
     }
 }
