@@ -1,14 +1,8 @@
 package com.forall.laundry.view;
 
 import com.forall.laundry.controller.UserController;
-import com.forall.laundry.model.Category;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Product;
-import com.forall.laundry.model.Property;
-import com.forall.laundry.service.CategoryService;
-import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.ProductService;
-import com.forall.laundry.service.PropertyService;
+import com.forall.laundry.model.*;
+import com.forall.laundry.service.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,6 +32,9 @@ public class CustomerMainView implements Serializable{
 
     @EJB
     private PropertyService propertyService;
+
+    @EJB
+    private PriceService priceService;
 
     @Inject
     private UserController userController;
@@ -77,7 +75,17 @@ public class CustomerMainView implements Serializable{
 
     public void update(final Product product){
 
-        Customer customer = customerService.findById(userController.getCustomer().getId());
+        final Customer customer = customerService.findById(userController.getCustomer().getId());
+
+        if(product.getPriceMap().get(customer) == null){
+            final Price price = new Price();
+            price.setPrice(new BigDecimal(0));
+            priceService.save(price);
+            product.getPriceMap().put(customer, price);
+            productService.update(product);
+        }
+
+
         Map<Product, Property> map = customer.getPropertyMap();
 
         if(map.containsKey(product)){

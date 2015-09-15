@@ -18,7 +18,7 @@
     <pm:page id="first">
         <pm:content>
             <pm:header title="Mitarbeiter auswählen"/>
-            <h:form>
+            <h:form id="workerForm">
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
                     <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
                         <p:ajax event="click" listener="#{mobileController.setWorker(worker)}" update="second"/>
@@ -88,7 +88,7 @@
             <h:form>
                 <p:tabMenu>
                     <p:menuitem value="Zurück" icon="ui-icon-back" outcome="pm:second?transition=fade" iconPos="bottom" />
-                    <p:menuitem value="Neuer Kunde" icon="ui-icon-plus" outcome="pm:createCustomer?transition=flip" iconPos="bottom"/>
+                    <p:menuitem value="Neuer Artikel" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:outputForm:outputCustomers second:inputForm:customerSearch"/>
                     <p:menuitem value="Kunden auswählen" icon="ui-icon-suitcase" iconPos="bottom" outcome="pm:second?transition=slide"/>
                 </p:tabMenu>
@@ -170,7 +170,7 @@
                     <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
                     <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
-                    <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" iconPos="bottom" outcome="pm:first?transition=slide"/>
+                    <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" iconPos="bottom" outcome="pm:first?transition=slide" update="first:workerForm"/>
                     <p:menuitem value="Kunden Auswählen" icon="ui-icon-suitcase" outcome="pm:second?transition=slide" iconPos="bottom"/>
                 </p:tabMenu>
             </h:form>
@@ -210,7 +210,7 @@
                         </ui:repeat>
                     </p:panelGrid>
                 </pm:field>
-                <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth:outputItem:outputItems createProduct"/>
+                <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth:outputItem:outputItems createProduct third:categoryForm:categoryTable"/>
             </h:form>
         </pm:content>
     </pm:page>

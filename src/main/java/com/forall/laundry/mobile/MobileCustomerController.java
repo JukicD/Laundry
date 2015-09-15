@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by jd on 8/20/15.
@@ -39,6 +40,7 @@ public class MobileCustomerController implements Serializable{
 
     public String createCustomer(){
         final Ordery ordery = new Ordery();
+        ordery.setDate(new Date());
         ordery.setCustomer(customer);
 
         customerService.save(customer);

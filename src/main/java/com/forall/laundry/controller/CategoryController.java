@@ -69,8 +69,7 @@ public class CategoryController implements Serializable{
         categories.stream().forEach(c -> {
             Map<Product, Boolean> valueMap = new HashMap<>();
             products.stream().forEach(p -> {
-                valueMap.put(p,p.getCategories().contains(c));
-
+                valueMap.put(p, p.getCategories().contains(c));
             });
             map.put(c,valueMap);
         });

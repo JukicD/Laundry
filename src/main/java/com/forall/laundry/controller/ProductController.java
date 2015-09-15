@@ -96,6 +96,10 @@ public class ProductController implements Serializable{
     }
 
     public BigDecimal getProductPrice(final Customer customer, final Product product){
+        System.out.println(customer + " " + product + " ");
+        System.out.println(product.getPriceMap());
+        System.out.println(product.getPriceMap().get(customer));
+        System.out.println(product.getPriceMap().get(customer).getPrice());
         return product.getPriceMap().get(customer).getPrice();
     }
 

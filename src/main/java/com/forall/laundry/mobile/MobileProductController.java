@@ -1,10 +1,7 @@
 package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.*;
-import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.PriceService;
-import com.forall.laundry.service.ProductService;
-import com.forall.laundry.service.PropertyService;
+import com.forall.laundry.service.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,10 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by jd on 8/24/15.
@@ -44,6 +38,9 @@ public class MobileProductController implements Serializable{
     @EJB
     private PriceService priceService;
 
+    @EJB
+    private OrderyService orderyService;
+
     private Product product;
 
     private Set<Category> categories;
@@ -55,25 +52,35 @@ public class MobileProductController implements Serializable{
         product = new Product();
     }
     public String createProduct(){
-        final Customer customer = customerService.findById(mc.getCustomer().getId());
 
+        final Customer customer = customerService.findById(mc.getCustomer().getId());
+        final Product p = productService.findByName(product.getName());
+
+        final Price pr = new Price();
+        pr.setPrice(new BigDecimal(0));
+        priceService.save(pr);
+        if(p == null){
+
+            product.setCategories(categories);
+            product.getPriceMap().put(customer, pr);
+            productService.save(product);
+
+        }else{
+            product = p;
+        }
+
+        product.getPriceMap().put(customer, pr);
         final Property prop = new Property();
         prop.getCategories().addAll(categories);
         customer.add(product, prop);
 
-        final Price p = new Price();
-        p.setPrice(new BigDecimal(0));
-
-        priceService.save(p);
-        product.getPriceMap().put(customer, p);
-
-        productService.save(product);
         propertyService.save(prop);
+        productService.update(product);
         customerService.update(customer);
 
         pac.init();
         init();
-        return "pm:fourth?transition=flip";
+        return "pm:third?transition=flip";
     }
 
     public void add(final Category category){

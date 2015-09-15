@@ -12,6 +12,7 @@ import com.forall.laundry.model.Ordery;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class OrderyService {
     }
 
 
-    public List<Ordery> get(final Date date, final int id) {
+    public Ordery get(final Date date, final int customerId) {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -169,11 +170,17 @@ public class OrderyService {
         final int day = cal.get(Calendar.DAY_OF_MONTH);
         final int month = cal.get(Calendar.MONTH) + 1;
         final int year = cal.get(Calendar.YEAR);
-        return em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
+        List<Ordery> o = em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
                 .setParameter("day", day)
                 .setParameter("month", month)
                 .setParameter("year", year)
-                .setParameter("id", id)
+                .setParameter("id", customerId)
                 .getResultList();
+
+        if(o.size() > 1){
+            throw new NonUniqueResultException();
+        }
+
+        return o.size() == 1 ? o.get(0) : null;
     }
 }

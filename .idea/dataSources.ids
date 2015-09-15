@@ -1629,13 +1629,14 @@
     <table name="item" schema="public" catalog="laundry" type="TABLE">
       <column name="item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="borrowed" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="item_pkey" columns="item_id"/>
       <foreign-key name="fk_4dwxclqh9smcqbci95dbe0awo" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_yhsukor8nxm9rtumwmo19mlf" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_egbkidxe76b2wf41ymg48qv0n" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_d2q4n09ovrvl0x1teo3ohjn82" table="ordery_item" schema="public" catalog="laundry" columns="items_item_id"/>
     </table>
     <table name="ordery" schema="public" catalog="laundry" type="TABLE">
@@ -1710,6 +1711,7 @@
       <column name="firstname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="lastname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="worker_pkey" columns="id"/>
+      <exported-key name="fk_egbkidxe76b2wf41ymg48qv0n" table="item" schema="public" catalog="laundry" columns="worker_id"/>
     </table>
     <procedure name="RI_FKey_cascade_del" schema="pg_catalog" catalog="laundry" type="2" remarks="cmVmZXJlbnRpYWwgaW50ZWdyaXR5IE9OIERFTEVURSBDQVNDQURF">
       <prototype>

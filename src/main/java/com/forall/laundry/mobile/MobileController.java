@@ -61,7 +61,7 @@ public class MobileController implements Serializable{
     @PostConstruct
     public void init(){
         if(customer != null){
-            currentItems = orderyService.get(new Date(), customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
+            currentItems = orderyService.get(new Date(), customer.getId()).getItems().stream().collect(Collectors.toList());
         }
         date = new Date();
     }
@@ -73,23 +73,19 @@ public class MobileController implements Serializable{
         item.setWorker(worker);
         Ordery ordery = mcc.getCurrentOrder();
 
-        if(ordery.getDate() == null || !LaundryUtil.isToday(ordery.getDate())){
-            ordery.setDate(new Date());
-        }
-
         item.setOrdery(ordery);
         ordery.addItem(item);
 
         itemService.save(item);
         orderyService.update(ordery);
-        customerService.update(customer);
+        //customerService.update(customer);
 
         amount = null;
         cac.reset();
         pac.reset();
         update();
 
-        currentItems = orderyService.get(new Date(), customer.getId()).stream().flatMap( o -> o.getItems().stream()).collect(Collectors.toList());
+        currentItems = orderyService.get(new Date(), customer.getId()).getItems().stream().collect(Collectors.toList());
 
     }
 
@@ -110,9 +106,10 @@ public class MobileController implements Serializable{
         Date offset = new Date(cal.getTimeInMillis());
         this.date = offset;
         currentItems = orderyService.get(offset, customer.getId())
+                .getItems()
                 .stream()
-                .flatMap(o -> o.getItems().stream())
                 .collect(Collectors.toList());
+
         checkCurrentItems();
     }
 
@@ -127,7 +124,6 @@ public class MobileController implements Serializable{
 
     private void checkCurrentItems(){
         currentItemsFromToday = currentItems.isEmpty() ? true : LaundryUtil.isToday(currentItems.get(0).getOrdery().getDate());
-        System.out.println(currentItemsFromToday);
     }
     public boolean currentItemsFromToday(){
         return LaundryUtil.isToday(currentItems.get(0).getOrdery().getDate());

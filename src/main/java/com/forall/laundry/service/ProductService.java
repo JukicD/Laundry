@@ -12,6 +12,7 @@ import com.forall.laundry.model.Product;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +52,18 @@ public class ProductService {
 
         return customer.getPropertyMap().keySet().stream().collect(Collectors.toList());
 
+    }
+
+    public Product findByName(final String name){
+        List<Product> result = em.createQuery("SELECT p FROM Product p WHERE p.name = :name")
+                .setParameter("name", name)
+                .getResultList();
+
+        if(result.size() > 1){
+            throw new NonUniqueResultException();
+        }else{
+            return result.size() == 1 ? result.get(0) : null;
+        }
     }
 
     public List<Product> getProducts(){

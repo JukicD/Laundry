@@ -17,7 +17,7 @@ public class Product implements Serializable {
     private Long product_id;
 
     @ManyToMany( fetch = FetchType.EAGER)
-    private List<Category> categories;
+    private Set<Category> categories;
 
     @CollectionTable(name = "product_customer_price_map")
     @MapKeyJoinColumn(name = "customer_id")
@@ -33,7 +33,7 @@ public class Product implements Serializable {
 
     public void addCategory(Category category){
         if(categories == null){
-            categories = new ArrayList<>();
+            categories = new HashSet<>();
         }
         if(!categories.contains(category)){
             categories.add(category);
@@ -56,11 +56,11 @@ public class Product implements Serializable {
         return this.product_id;
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
 
         this.categories = categories;
     }
