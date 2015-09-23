@@ -11,7 +11,6 @@
 
 
 <h:head>
-
 </h:head>
 
 <h:body>
@@ -175,7 +174,6 @@
                             listener="#{mobileController.getItems(-1)}"
                             update="@parent mobileMsgs"/>
                     <p:ajax event="swipeleft"
-                            disabled="#{mobileController.hasItems}"
                             listener="#{mobileController.getItems(1)}"
                             update="@parent mobileMsgs" />
 

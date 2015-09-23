@@ -1629,7 +1629,9 @@
     <table name="history" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="history_pkey" columns="id"/>
+      <foreign-key name="fk_17hxilacjnniuu8s6wa4regpc" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_8qj7bgxdqysh762h5ej1pvn7i" table="position_history" schema="public" catalog="laundry" columns="history_id"/>
     </table>
     <table name="item" schema="public" catalog="laundry" type="TABLE">
@@ -1673,10 +1675,11 @@
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="sum" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
+      <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="position_pkey" columns="id"/>
+      <foreign-key name="fk_g45un0g2on9dyhh731vvbwnh8" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_esxl2jalobhomgwdu8hch6509" table="ordery_item_position_map" schema="public" catalog="laundry" columns="positionmap_id"/>
       <exported-key name="fk_10lg5f4ypgfss84uqhpapuh12" table="position_history" schema="public" catalog="laundry" columns="position_id"/>
-      <exported-key name="fk_tkvq5jd8piy2c5fybtc1qv9lr" table="position_worker" schema="public" catalog="laundry" columns="position_id"/>
     </table>
     <table name="position_history" schema="public" catalog="laundry" type="TABLE">
       <column name="position_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
@@ -1688,8 +1691,6 @@
     <table name="position_worker" schema="public" catalog="laundry" type="TABLE">
       <column name="position_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="workers_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <foreign-key name="fk_tkvq5jd8piy2c5fybtc1qv9lr" columns="position_id" ref-table="position" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_39vkuhv3kqrx0708w0qld399p" columns="workers_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="price" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -1748,8 +1749,9 @@
       <column name="firstname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="lastname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="worker_pkey" columns="id"/>
+      <exported-key name="fk_17hxilacjnniuu8s6wa4regpc" table="history" schema="public" catalog="laundry" columns="worker_id"/>
       <exported-key name="fk_egbkidxe76b2wf41ymg48qv0n" table="item" schema="public" catalog="laundry" columns="worker_id"/>
-      <exported-key name="fk_39vkuhv3kqrx0708w0qld399p" table="position_worker" schema="public" catalog="laundry" columns="workers_id"/>
+      <exported-key name="fk_g45un0g2on9dyhh731vvbwnh8" table="position" schema="public" catalog="laundry" columns="worker_id"/>
     </table>
     <procedure name="RI_FKey_cascade_del" schema="pg_catalog" catalog="laundry" type="2" remarks="cmVmZXJlbnRpYWwgaW50ZWdyaXR5IE9OIERFTEVURSBDQVNDQURF">
       <prototype>

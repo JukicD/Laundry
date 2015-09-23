@@ -126,7 +126,6 @@ public class MobileController implements Serializable{
     }
 
     public void getItems(final int offsetFromToday){
-        System.out.println(date);
         if(date == null){
             date = new Date();
         }
@@ -140,7 +139,6 @@ public class MobileController implements Serializable{
         cal.add(Calendar.DAY_OF_MONTH, offsetFromToday);
 
         final Date offset = new Date(cal.getTimeInMillis());
-        this.date = offset;
 
         Ordery ordery = orderyService.get(offset, customer.getId());
 
@@ -149,9 +147,12 @@ public class MobileController implements Serializable{
                     .getPositionMap().keySet()
                     .stream()
                     .collect(Collectors.toList());
+            this.date = offset;
+            currentOrder = ordery;
             hasItems = true;
         }catch(NullPointerException e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Der Kunde hatte die letzten fünf Tage keine Positionen !"));
+            String message = offsetFromToday < 0 ? "Der Kunde hatte die letzten 5 Tage keine Lieferungen." : "Ich kann nicht in die Zukunft sehen.";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
             hasItems = false;
         }
     }
