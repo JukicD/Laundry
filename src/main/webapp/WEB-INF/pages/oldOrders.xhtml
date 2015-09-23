@@ -55,8 +55,8 @@
         <p:commandButton
                 value="Lieferschein erstellen"
                 icon="ui-icon-print"
-                actionListener="#{billingController.getBill(orderySelectionController.selectedOrders, userController.customer)}"
-                update="@form"/>
+                actionListener="#{billingController.printBill(orderySelectionController.selectedOrders, userController.customer)}"
+                update="@form billForm"/>
         <p:commandButton value="Zurück"
                          action="#{navigationController.setSite('customerList')}"
                          actionListener="#{labelController.label('Kundenliste')}"

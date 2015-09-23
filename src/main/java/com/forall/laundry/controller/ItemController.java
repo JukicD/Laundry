@@ -70,7 +70,7 @@ public class ItemController implements Serializable{
         return orders
                 .parallelStream()
                 .filter( o -> o.getCustomer().getId() == customer.getId())
-                .flatMap( o -> o.getItems().stream())
+                .flatMap( o -> o.getPositionMap().keySet().stream())
                 .collect(Collectors.toList());
     }
     

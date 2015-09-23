@@ -8,6 +8,7 @@ package com.forall.laundry.service;
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -23,6 +24,7 @@ import javax.persistence.RollbackException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class BillingService {
     AppLogger logger;
     
     public void save(Bill bill){
+
         try{
             em.persist(bill);
             logger.info("Bill Saved!");
@@ -78,23 +81,25 @@ public class BillingService {
     
     public void createBill(Customer customer, List<Ordery> orders) {
         assert(!orders.isEmpty());
-        
+
         try {
             if(orders.isEmpty()){
-                throw new IllegalArgumentException("No Orders selected !");
+                throw new IllegalArgumentException();
             }
             
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/IdeaProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
-            Map parameter = new HashMap();
+            Map<String, Object> parameter = new HashMap();
             parameter.put("item_id_list", getItemIDs(orders));
             
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
             
             String path = "/home/jd/Desktop/wohoo.pdf";
             JasperExportManager.exportReportToPdfFile(print, path);
+
+
         } catch (SQLException | JRException ex) {
             Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException e){
@@ -106,10 +111,10 @@ public class BillingService {
         
         return orderys
                     .parallelStream()
-                    .map(f -> f.getItems())
-                    .flatMap(f -> f.stream())
-                    .map(f -> f.getItem_id())
-                    .map(f -> f.toString())
+                    .map(o -> o.getPositionMap().keySet())
+                    .flatMap(Collection::stream)
+                    .map(Item::getItem_id)
+                    .map(Object::toString)
                     .collect(Collectors.toList());
     }
 }

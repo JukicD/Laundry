@@ -12,6 +12,7 @@ import org.primefaces.context.RequestContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,12 +82,19 @@ public class CustomerService {
         int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
 
-            return (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id")
+        Ordery order = null;
+        try{
+            order = (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id")
                     .setParameter("day", day)
                     .setParameter("month", month)
                     .setParameter("year", year)
                     .setParameter("id", customer.getId())
                     .getSingleResult();
+        }catch (NoResultException e){
+            logger.info("No Order for Today. New Order will be created! " + e.getCause());
+        }finally{
+            return order;
+        }
     }
     
     public Customer findByName(String name){

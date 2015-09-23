@@ -56,7 +56,6 @@ public class Customer implements Serializable, Comparable<Customer> {
     public Customer() {
         customerNumber = 0;
         propertyMap = new HashMap<>();
-        
     }
     
     public void clearFields(){

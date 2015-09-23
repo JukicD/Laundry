@@ -41,7 +41,7 @@ public class ItemService {
 
         List<Object> orders = Arrays.asList(order);
         List<Item> items = new ArrayList<>();
-        orders.stream().map( o -> ((Ordery) o)).forEach( o -> items.addAll(o.getItems()));
+        orders.stream().map( o -> ((Ordery) o)).forEach( o -> items.addAll(o.getPositionMap().keySet()));
             return items;
     }
     
@@ -73,7 +73,7 @@ public class ItemService {
         
         List<Item> items = customerService
                                                             .findOrdersById(customer.getId())
-                                                            .stream().flatMap(o -> o.getItems().stream())
+                                                            .stream().flatMap(o -> o.getPositionMap().keySet().stream())
                                                             .collect(Collectors.toList());
         
         // elimate duplicate item-names by adding their sum -> total-sum for a certain product which is needed for statistics

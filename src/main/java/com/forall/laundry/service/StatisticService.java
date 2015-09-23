@@ -47,7 +47,7 @@ public class StatisticService implements Serializable{
         List<Ordery> orders = customerService.findOrdersById(customer.getId());
         List<Item> items = orders
                 .stream()
-                .flatMap((Ordery o) -> o.getItems().stream())
+                .flatMap((Ordery o) -> o.getPositionMap().keySet().stream())
                 .collect(Collectors.toList());
         /**ToDo:**/
         return new BigDecimal(1);

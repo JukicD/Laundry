@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="168"/>
+	<property name="ireport.y" value="203"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -114,7 +114,7 @@ i.singleprice AS product_price
 
 FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
 
-WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.order_id = i.ordery_id AND i.item_product_product_id = p.product_id;]]>
+WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.id = i.ordery_id AND i.product_product_id = p.product_id;]]>
 		</queryString>
 		<field name="customer_name" class="java.lang.String"/>
 		<field name="customer_address" class="java.lang.String"/>
@@ -159,8 +159,8 @@ FROM
 WHERE
 $X{IN, i.item_id::varChar,item_id_list} AND
 o.customer_id = c.id AND
-o.order_id = i.ordery_id AND
-i.item_product_product_id = p.product_id;]]>
+o.id = i.ordery_id AND
+i.product_product_id = p.product_id;]]>
 	</queryString>
 	<field name="customer_name" class="java.lang.String"/>
 	<field name="customer_address" class="java.lang.String"/>

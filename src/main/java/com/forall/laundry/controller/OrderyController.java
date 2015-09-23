@@ -6,10 +6,7 @@
 package com.forall.laundry.controller;
 
 import com.forall.laundry.controller.edit.EditController;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
-import com.forall.laundry.model.Ordery;
-import com.forall.laundry.model.Product;
+import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
 
 import javax.ejb.EJB;
@@ -54,6 +51,9 @@ public class OrderyController implements Serializable{
     
     @EJB
     private BillingService billingService;
+
+    @EJB
+    private PositionService positionService;
     
     @Inject
     EditController editController;
@@ -68,7 +68,18 @@ public class OrderyController implements Serializable{
         
         item.setOrdery(order);
         item.setProduct(product);
-        order.addItem(item);
+
+        if(order.getPositionMap().containsKey(item)){
+            final Position position = order.getPositionMap().get(item);
+            position.add(item);
+            positionService.update(position);
+
+        }else{
+            final Position pos = new Position();
+            pos.add(item);
+            order.getPositionMap().put(item, pos);
+            positionService.save(pos);
+        }
         
         productService.save(product);
         itemService.save(item);

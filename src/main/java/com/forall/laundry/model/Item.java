@@ -91,23 +91,24 @@ public class Item implements Serializable {
         this.worker = worker;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.item_id);
-        return hash;
+    public BigDecimal getSum(Customer customer){
+        return product.getPriceMap().get(customer).getPrice().multiply(new BigDecimal(amount));
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Item other = (Item) obj;
-        return Objects.equals(this.item_id, other.item_id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        return product.getName().equals(item.product.getName());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return product.getName().hashCode();
     }
 
     @Override

@@ -9,9 +9,11 @@ import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BillingService;
+import com.forall.laundry.service.OrderyService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,11 +25,14 @@ import java.util.List;
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class BillingController implements Serializable{
     
     @EJB
     private BillingService billingService;
+
+    @EJB
+    private OrderyService orderyService;
     
     @Inject
     private Bill bill;
@@ -36,8 +41,20 @@ public class BillingController implements Serializable{
     public void init(){
         this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
     }
-    public void getBill(List<Ordery> orders, Customer customer){
+    public void printBill(List<Ordery> orders, Customer customer){
+        assert(!orders.isEmpty());
+
+        orders.forEach(o -> {
+            o.setIsPrinted(true);
+            orderyService.update(o);
+        });
+
         billingService.createBill(customer, orders);
+
+        if(!orders.isEmpty()){
+            incrementBillNumber();
+        }
+
     }
     
     public void save(){
@@ -46,6 +63,15 @@ public class BillingController implements Serializable{
         }else{
             billingService.save(bill);
         }
+    }
+
+    private void incrementBillNumber(){
+
+        Long number = bill.getNumber();
+        number++;
+        bill.setNumber(number);
+
+        save();
     }
 
     public Bill getBill() {

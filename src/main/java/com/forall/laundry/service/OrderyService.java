@@ -30,44 +30,44 @@ public class OrderyService {
 
     @PersistenceContext
     EntityManager em;
-    
+
     public List<Item> getItemsByOrderID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
+
     public List<Item> getItemsFromCurrentOrder(Customer customer) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }   
+    }
 
     public List<Ordery> getOrdersFrom(Customer customer) {
-       
+
         return em.createNamedQuery("Ordery.findCustomersOrders")
-                            .setParameter("id", customer.getId())
-                            .getResultList();
+                .setParameter("id", customer.getId())
+                .getResultList();
     }
 
     public List<Ordery> getOldOrdersFrom(Customer customer) {
-        
+
         return em.createNamedQuery("Ordery.findCustomersOldOrders")
-                            .setParameter("id", customer.getId())
-                            .getResultList();
+                .setParameter("id", customer.getId())
+                .getResultList();
     }
-    
+
     public List<Ordery> getOrdersFromToday(int day, int month, int year){
-        
+
         List<Ordery> orders = em.createQuery("SELECT o From Ordery o "
-                                                                    + "WHERE EXTRACT(DAY FROM time) = :day "
-                                                                        + "AND EXTRACT(MONTH FROM time) = :month "
-                                                                        + "AND EXTRACT(YEAR FROM time) = :year")
-                                                                     .setParameter("day", day)
-                                                                     .setParameter("month", month)
-                                                                     .setParameter("year", year)
-                                                                     .getResultList();
+                + "WHERE EXTRACT(DAY FROM time) = :day "
+                + "AND EXTRACT(MONTH FROM time) = :month "
+                + "AND EXTRACT(YEAR FROM time) = :year")
+                .setParameter("day", day)
+                .setParameter("month", month)
+                .setParameter("year", year)
+                .getResultList();
         return orders;
-                
+
     }
-    
+
     public List<Ordery> getOrdersFromThisWeek(List<Calendar> daysOfWeek){
         List<Ordery> weeksOrders = new ArrayList<>();
         daysOfWeek
@@ -76,50 +76,50 @@ public class OrderyService {
                     int day = cal.get(Calendar.DAY_OF_MONTH);
                     int month = cal.get(Calendar.MONTH) + 1;
                     int year = cal.get(Calendar.YEAR);
-                    
+
                     List<Ordery> orders = null;
                     try{
                         orders = em.createQuery("SELECT o From Ordery o "
-                                                                    + "WHERE EXTRACT(DAY FROM time) = :day "
-                                                                    + "AND EXTRACT(MONTH FROM time) = :month "
-                                                                    + "AND EXTRACT(YEAR FROM time) = :year")
-                                            .setParameter("day", day)
-                                            .setParameter("month", month)
-                                            .setParameter("year", year)
-                                            .getResultList();
-                   }catch (NoResultException e){ 
-                        
-                   }
-                   
+                                + "WHERE EXTRACT(DAY FROM time) = :day "
+                                + "AND EXTRACT(MONTH FROM time) = :month "
+                                + "AND EXTRACT(YEAR FROM time) = :year")
+                                .setParameter("day", day)
+                                .setParameter("month", month)
+                                .setParameter("year", year)
+                                .getResultList();
+                    }catch (NoResultException e){
+
+                    }
+
                     weeksOrders.addAll(orders);
                 });
 
         return weeksOrders;
     }
-    
+
     public List<Ordery> getOrdersFromMonth(int month, int year){
-        
+
         List<Ordery> orders = em.createQuery("SELECT o From Ordery o "
-                                                    + "WHERE EXTRACT(MONTH FROM time) = :month "
-                                                    + "AND EXTRACT(YEAR FROM time) = :year")
-                            .setParameter("month", month)
-                            .setParameter("year", year)
-                            .getResultList();
+                + "WHERE EXTRACT(MONTH FROM time) = :month "
+                + "AND EXTRACT(YEAR FROM time) = :year")
+                .setParameter("month", month)
+                .setParameter("year", year)
+                .getResultList();
         return orders;
     }
-    
+
     public List<Ordery> getOrdersBetween(final Date from, Date to, final int customerID){
-        
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(to);
         cal.add(Calendar.DAY_OF_MONTH, 1);
         to = cal.getTime();
 
         return em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date BETWEEN :from AND :to")
-                                .setParameter("id", customerID)
-                                .setParameter("from", from)
-                                .setParameter("to", to)
-                                .getResultList();
+                .setParameter("id", customerID)
+                .setParameter("from", from)
+                .setParameter("to", to)
+                .getResultList();
     }
 
     public List<Ordery> getThisMonthsOrdersFrom(Customer customer) {
@@ -156,7 +156,7 @@ public class OrderyService {
     public void save(Ordery o){
         em.merge(o);
     }
-    
+
     public void update(Ordery o){
         em.merge(o);
     }
@@ -166,16 +166,24 @@ public class OrderyService {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+        List<Ordery> o = null;
+        int counter = 0;
+        do{
+            final int day = cal.get(Calendar.DAY_OF_MONTH);
+            final int month = cal.get(Calendar.MONTH) + 1;
+            final int year = cal.get(Calendar.YEAR);
 
-        final int day = cal.get(Calendar.DAY_OF_MONTH);
-        final int month = cal.get(Calendar.MONTH) + 1;
-        final int year = cal.get(Calendar.YEAR);
-        List<Ordery> o = em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
-                .setParameter("day", day)
-                .setParameter("month", month)
-                .setParameter("year", year)
-                .setParameter("id", customerId)
-                .getResultList();
+            o = em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM o.date) = :day AND EXTRACT(MONTH FROM o.date) = :month AND EXTRACT(YEAR FROM o.date) = :year AND o.customer.id = :id ")
+                    .setParameter("day", day)
+                    .setParameter("month", month)
+                    .setParameter("year", year)
+                    .setParameter("id", customerId)
+                    .getResultList();
+
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            counter ++;
+        }while(o == null && counter < 5);
+
 
         if(o.size() > 1){
             throw new NonUniqueResultException();

@@ -1,10 +1,13 @@
 package com.forall.laundry.model;
 
 
+import com.forall.laundry.service.PositionService;
 import org.hibernate.annotations.Type;
 
+import javax.ejb.EJB;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
@@ -14,9 +17,6 @@ import java.util.*;
     @NamedQuery(name = "Ordery.findCustomersOldOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date IS NOT NULL")})
 public class Ordery implements Serializable {
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Item.class)
-    private List<Item> items;
-    
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
@@ -28,10 +28,18 @@ public class Ordery implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="customer_id")
     private Customer customer;
+
+    @Basic
+    private boolean isPrinted;
+
+    @CollectionTable(name = "ordery_item_position_map")
+    @MapKeyJoinColumn(name = "item_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    Map<Item, Position> positionMap;
     
     public Date trimedDate(){
         
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -42,26 +50,12 @@ public class Ordery implements Serializable {
         return cal.getTime();
     }
     public Ordery() {
-       items = new ArrayList<>();
-    }
-   
-    public void addItem(Item item){
-        items.add(item);
-    }
-    public List<Item> getOrdery_item() {
-        return this.items;
-    }
+        positionMap = new HashMap<>();
 
-    public void setOrdery_item(List<Item> ordery_item) {
-        this.items = ordery_item;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getDate() {
@@ -80,12 +74,20 @@ public class Ordery implements Serializable {
         this.customer = customer;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public boolean isPrinted() {
+        return isPrinted;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setIsPrinted(boolean isPrinted) {
+        this.isPrinted = isPrinted;
+    }
+
+    public Map<Item, Position> getPositionMap() {
+        return positionMap;
+    }
+
+    public void setPositionMap(Map<Item, Position> positionMap) {
+        this.positionMap = positionMap;
     }
 
     @Override

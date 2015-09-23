@@ -53,7 +53,7 @@
             <p:column  headerText="Einzelpreis">
                 <p:cellEditor>
                     <f:facet name="output">
-                        <h:outputText value="#{item.singlePrice == null ? item.item_product.price : item.singlePrice}"/>
+                        <h:outputText value="#{item.singlePrice}"/>
                     </f:facet>
                     <f:facet name="input">
                         <h:inputText id="singlepriceInput2" value="#{item.singlePrice}">
@@ -65,7 +65,7 @@
             </p:column>
 
             <p:column headerText="Preis">
-                <h:outputText value="#{item.sum}">
+                <h:outputText value="#{item.getSum(userController.customer)}">
                 </h:outputText>
             </p:column>
         </p:dataTable>
