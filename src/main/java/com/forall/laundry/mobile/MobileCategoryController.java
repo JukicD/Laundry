@@ -1,6 +1,7 @@
 package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.Category;
+import com.forall.laundry.model.Customer;
 import com.forall.laundry.service.CategoryService;
 
 import javax.annotation.PostConstruct;

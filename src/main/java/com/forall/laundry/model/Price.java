@@ -20,6 +20,10 @@ public class Price implements Serializable{
     @ManyToOne
     private Product product;
 
+    public Price(){
+        price = new BigDecimal(0.00);
+    }
+
     public Integer getId() {
         return id;
     }

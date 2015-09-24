@@ -68,23 +68,20 @@ public class ProductController implements Serializable{
 
         customerService.getAllCustomers().forEach(c -> {
             final Price price = new Price();
-            price.setPrice(new BigDecimal(0));
+            price.setPrice(new BigDecimal(0.00));
             priceService.save(price);
             product.getPriceMap().put(c, price);
         });
-
-        productService.update(product);
 
         if(categoryController.getSelectedCategories() != null){
 
             categoryController.getSelectedCategories().stream().forEach((Category c) -> {
                 categoryService.update(c);
                 product.addCategory(c);
-                productService.update(product);
-
             });
-        }
 
+        }
+        productService.update(product);
         product.setName(null);
         categoryController.setSelectedCategories(null);
         categoryController.init();

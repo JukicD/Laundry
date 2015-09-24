@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,12 @@ public class Position implements Serializable{
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.ALL)
     private List<History> history;
+
+    @Basic
+    private String name;
+
+    @Basic
+    private BigDecimal singlePrice;
 
     @Basic
     private Integer amount;
@@ -42,14 +49,15 @@ public class Position implements Serializable{
     public void add(final Item item){
 
         amount += item.getAmount();
-
+        name = item.getName();
+        singlePrice = item.getSinglePrice();
         final History h = new History();
         h.setAmount(item.getAmount());
         h.setWorker(item.getWorker());
+        h.setDate(new Date());
         history.add(h);
 
-
-        final int newSum = sum.intValue() + item.getSinglePrice().intValue() * item.getAmount();
+        final int newSum = sum.intValue() + singlePrice.intValue() * amount;
         sum = null;
         sum = new BigDecimal(newSum);
         worker = item.getWorker();
@@ -64,10 +72,30 @@ public class Position implements Serializable{
     }
 
     public BigDecimal getSum() {
-        return sum;
+        return singlePrice.multiply(new BigDecimal(amount));
     }
 
     public List<History> getHistory() {
         return history;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getSinglePrice() {
+        return singlePrice;
+    }
+
+    public void setSinglePrice(BigDecimal singlePrice) {
+        this.singlePrice = singlePrice;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 }

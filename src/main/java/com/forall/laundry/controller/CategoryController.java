@@ -54,7 +54,7 @@ public class CategoryController implements Serializable{
 
         categories = categoryService.getCategories()
                 .stream()
-                .filter(c -> c.isForAll())
+                .filter(Category::isForAll)
                 .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
 
@@ -78,7 +78,6 @@ public class CategoryController implements Serializable{
             Map<Product, Boolean> valueMap = new HashMap<>();
             products.stream().forEach(p -> {
                 valueMap.put(p,p.getCategories().contains(c));
-
             });
             specificMap.put(c,valueMap);
         });

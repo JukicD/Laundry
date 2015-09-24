@@ -3,11 +3,9 @@ package com.forall.laundry.controller.edit;
 import com.forall.laundry.controller.OldOrdersController;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.controller.statistic.StatisticController;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
-import com.forall.laundry.model.Price;
-import com.forall.laundry.model.Product;
+import com.forall.laundry.model.*;
 import com.forall.laundry.service.ItemService;
+import com.forall.laundry.service.PositionService;
 import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
 import org.primefaces.component.datatable.DataTable;
@@ -39,6 +37,9 @@ public class EditController implements Serializable{
     @EJB
     private PriceService priceService;
 
+    @EJB
+    private PositionService positionService;
+
     @Inject
     private OldOrdersController oc;
 
@@ -48,17 +49,20 @@ public class EditController implements Serializable{
     @Inject
     private StatisticController statisticController;
 
+    @Inject
+    private OldOrdersController oldOrdersController;
+
     private BigDecimal newPrice;
 
     private List<Product> products;
     private List<Item> items;
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
         products = userController.getProducts();
 
-        products.sort((p1 ,p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+        products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
         items = oc.getItems();
     }
 
@@ -69,7 +73,9 @@ public class EditController implements Serializable{
 
     public void onItemEdit(Item item){
 
-
+        Position position = oldOrdersController.getOrder().getPositionMap().get(item);
+        position.setSinglePrice(item.getSinglePrice());
+        positionService.update(position);
         itemService.update(item);
     }
 

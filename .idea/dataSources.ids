@@ -1629,6 +1629,7 @@
     <table name="history" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="date" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
       <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="history_pkey" columns="id"/>
       <foreign-key name="fk_17hxilacjnniuu8s6wa4regpc" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
@@ -1674,6 +1675,8 @@
     <table name="position" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="sum" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="position_pkey" columns="id"/>

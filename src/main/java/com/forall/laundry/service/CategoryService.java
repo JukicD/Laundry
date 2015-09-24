@@ -50,8 +50,10 @@ public class CategoryService implements Serializable{
     }
 
     public List<Category> getCategoriesFrom(final Customer customer) {
+
         if(customer != null){
-            Customer c = customerService.findById(customer.getId());
+            final Customer c = customerService.findById(customer.getId());
+
             List<Category> categories = c.getPropertyMap().values().stream().flatMap(p -> p.getCategories().stream()).distinct().collect(Collectors.toList());
 
             List<Category> cat = c.getPropertyMap().keySet().stream().flatMap( p -> p.getCategories().stream()).distinct().collect(Collectors.toList());

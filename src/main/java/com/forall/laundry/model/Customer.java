@@ -1,5 +1,10 @@
 package com.forall.laundry.model;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,6 +29,7 @@ public class Customer implements Serializable, Comparable<Customer> {
     @CollectionTable(name = "customer_product_property_map")
     @MapKeyJoinColumn(name = "prod_id")
     @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private Map<Product, Property> propertyMap;
 
     @Basic
@@ -185,13 +191,5 @@ public class Customer implements Serializable, Comparable<Customer> {
         return propertyMap;
     }
 
-    public void setPropertyMap(Map<Product, Property> propertyMap) {
-        this.propertyMap = propertyMap;
-    }
 
-    public void add(final Product product, final Property prop) {
-        if(!propertyMap.containsKey(product)){
-            propertyMap.put(product, prop);
-        }
-    }
 }

@@ -14,7 +14,7 @@ import java.util.Set;
         @NamedQuery(name = "Item.all", query = "SELECT i FROM Item i"),
         @NamedQuery(name = "Item.fromCustomer", query = "SELECT i From Item i, Ordery o, Customer c WHERE o.customer.id = :id"),
         @NamedQuery(name ="Item.fromOrder", query = "SELECT i FROM Item i WHERE i.ordery.id = :id")})
-public class Item implements Serializable {
+public class Item implements Serializable, Comparable {
 
     @Column(unique=true,updatable=false,insertable=false,nullable=false)
     @Id
@@ -114,5 +114,10 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         return "Item{" + "item_id=" + item_id + ", amount=" + amount + ", ordery=" + ordery + ", product=" + product + ", singlePrice=" + singlePrice + '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getName().compareToIgnoreCase(((Item)o).getName());
     }
 }

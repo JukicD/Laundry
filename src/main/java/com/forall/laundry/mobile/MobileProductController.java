@@ -2,6 +2,7 @@ package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
+import com.forall.laundry.view.CustomerMainView;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,10 +42,15 @@ public class MobileProductController implements Serializable{
     @EJB
     private OrderyService orderyService;
 
+    @EJB
+    private CategoryService categoryService;
+
     private Product product;
 
-    private Set<Category> categories;
+    @Inject
+    private MobileCategoryController mcc;
 
+    private Set<Category> categories;
 
     @PostConstruct
     public void init(){
@@ -55,39 +61,39 @@ public class MobileProductController implements Serializable{
     public String createProduct(){
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
-        final Product p = productService.findByName(product.getName());
+        Product search = productService.findByName(product.getName());
 
-        final Price pr = new Price();
-        pr.setPrice(new BigDecimal(0));
-        priceService.save(pr);
-
-        if(p == null){ // product does not exist (by name) use the injected information
-
-            product.setCategories(categories);
-            product.getPriceMap().put(customer, pr);
+        if(search != null){
+            product = search;
+        }else{
+            product.getCategories().addAll(categories);
+            System.out.println(categories);
             productService.save(product);
-
-        }else{ // use the product from database
-            product = p;
         }
 
-        product.getPriceMap().put(customer, pr);
-        final Property prop = new Property();
-        prop.getCategories().addAll(categories);
-        customer.add(product, prop);
+        Product p = productService.findByName(product.getName());
 
+        Price price = new Price();
+        price.setPrice(new BigDecimal(0.00));
+        priceService.save(price);
+
+        Property prop = new Property();
+
+        customer.getPropertyMap().put(p, prop);
+
+        p.getPriceMap().put(customer, price);
         propertyService.save(prop);
-        productService.update(product);
         customerService.update(customer);
+        productService.update(product);
 
-        pac.init();
-        init();
         return "pm:third?transition=flip";
     }
 
     public void add(final Category category){
+        System.out.println(category);
         if(!categories.contains(category)){
             categories.add(category);
+            System.out.println(categories);
         }else{
             categories.remove(category);
         }

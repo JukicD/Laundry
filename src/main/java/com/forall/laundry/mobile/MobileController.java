@@ -3,10 +3,7 @@ package com.forall.laundry.mobile;
 import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
 import com.forall.laundry.controller.selection.OrderySelectionController;
 import com.forall.laundry.model.*;
-import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.ItemService;
-import com.forall.laundry.service.OrderyService;
-import com.forall.laundry.service.PositionService;
+import com.forall.laundry.service.*;
 import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 
@@ -44,6 +41,9 @@ public class MobileController implements Serializable{
     @EJB
     private PositionService positionService;
 
+    @EJB
+    private ProductService productService;
+
     @Inject
     private CustomerAutoCompleteFilter cac;
 
@@ -76,32 +76,40 @@ public class MobileController implements Serializable{
     }
     public void addItem(){
 
+        if(!product.getPriceMap().containsKey(customer)){
+
+            Price p = new Price();
+            product.getPriceMap().put(customer, p);
+            productService.update(product);
+        }
+
+        product = productService.findByName(product.getName());
+
         Item item = new Item();
         item.setProduct(product);
         item.setSinglePrice(product.getPriceMap().get(customer).getPrice());
         item.setAmount(amount);
         item.setWorker(worker);
-        Ordery ordery = mcc.getCurrentOrder();
 
-        if(ordery == null){
-            ordery = new Ordery();
-            ordery.setDate(new Date());
-            ordery.setCustomer(customer);
-            orderyService.save(ordery);
-            ordery = mcc.getCurrentOrder();
+        if(currentOrder == null){
+            currentOrder = new Ordery();
+            currentOrder.setDate(new Date());
+            currentOrder.setCustomer(customer);
+            orderyService.save(currentOrder);
         }
 
+        currentOrder = orderyService.get(new Date(), customer.getId());
 
-        item.setOrdery(ordery);
+        item.setOrdery(currentOrder);
         itemService.save(item);
 
-        if(ordery.getPositionMap().containsKey(item)){
-            Position position = ordery.getPositionMap().get(item);
+        if(currentOrder.getPositionMap().containsKey(item)){
+            Position position = currentOrder.getPositionMap().get(item);
             position.add(item);
 
             if(position.getAmount() < 1){
-                ordery.getPositionMap().remove(item);
-                orderyService.update(ordery);
+                currentOrder.getPositionMap().remove(item);
+                orderyService.update(currentOrder);
             }
 
             positionService.update(position);
@@ -109,20 +117,16 @@ public class MobileController implements Serializable{
         }else{
             final Position pos = new Position();
             pos.add(item);
-            ordery.getPositionMap().put(item, pos);
+            currentOrder.getPositionMap().put(item, pos);
             positionService.save(pos);
         }
 
-        orderyService.update(ordery);
-
+        orderyService.update(currentOrder);
         amount = null;
         cac.reset();
         pac.reset();
         update();
-
-        currentOrder = orderyService.get(new Date(), customer.getId());
-        currentItems = currentOrder.getPositionMap().keySet().stream().sorted((i1, i2) -> i1.getName().compareToIgnoreCase(i2.getName())).collect(Collectors.toList());
-
+        currentItems = currentOrder.getPositionMap().keySet().stream().sorted().collect(Collectors.toList());
     }
 
     public void getItems(final int offsetFromToday){
@@ -146,6 +150,7 @@ public class MobileController implements Serializable{
             currentItems = ordery
                     .getPositionMap().keySet()
                     .stream()
+                    .sorted()
                     .collect(Collectors.toList());
             this.date = offset;
             currentOrder = ordery;

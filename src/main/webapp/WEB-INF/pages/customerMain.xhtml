@@ -52,7 +52,7 @@
                     <p:column headerText="Preis">
                         <p:cellEditor>
                             <f:facet name="output">
-                                <h:outputText value="#{product.priceMap[userController.customer].price}"/>
+                                <h:outputText value="#{empty product.priceMap[userController.customer].price ? 0.00 : product.priceMap[userController.customer].price}"/>
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText value="#{editController.price}">

@@ -1,7 +1,13 @@
 package com.forall.laundry.model;
 
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -22,6 +28,7 @@ public class Product implements Serializable {
     @CollectionTable(name = "product_customer_price_map")
     @MapKeyJoinColumn(name = "customer_id")
     @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     Map<Customer, Price> priceMap;
 
     @Basic
@@ -29,6 +36,7 @@ public class Product implements Serializable {
 
     public Product(){
         priceMap = new HashMap<>();
+        categories = new HashSet<>();
     }
 
     public void addCategory(Category category){

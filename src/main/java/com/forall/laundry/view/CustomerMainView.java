@@ -79,12 +79,11 @@ public class CustomerMainView implements Serializable{
 
         if(product.getPriceMap().get(customer) == null){
             final Price price = new Price();
-            price.setPrice(new BigDecimal(0));
+            price.setPrice(new BigDecimal(0.00));
             priceService.save(price);
             product.getPriceMap().put(customer, price);
             productService.update(product);
         }
-
 
         Map<Product, Property> map = customer.getPropertyMap();
 
