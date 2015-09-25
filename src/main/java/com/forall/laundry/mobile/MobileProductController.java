@@ -18,7 +18,7 @@ import java.util.*;
  * Created by jd on 8/24/15.
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class MobileProductController implements Serializable{
 
     @Inject

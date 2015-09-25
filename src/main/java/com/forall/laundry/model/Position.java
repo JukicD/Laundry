@@ -47,7 +47,6 @@ public class Position implements Serializable{
     }
 
     public void add(final Item item){
-
         amount += item.getAmount();
         name = item.getName();
         singlePrice = item.getSinglePrice();
@@ -56,7 +55,6 @@ public class Position implements Serializable{
         h.setWorker(item.getWorker());
         h.setDate(new Date());
         history.add(h);
-
         final int newSum = sum.intValue() + singlePrice.intValue() * amount;
         sum = null;
         sum = new BigDecimal(newSum);

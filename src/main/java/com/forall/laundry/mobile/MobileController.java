@@ -78,14 +78,14 @@ public class MobileController implements Serializable{
 
         if(!product.getPriceMap().containsKey(customer)){
 
-            Price p = new Price();
+            final Price p = new Price();
             product.getPriceMap().put(customer, p);
             productService.update(product);
         }
 
         product = productService.findByName(product.getName());
 
-        Item item = new Item();
+        final Item item = new Item();
         item.setProduct(product);
         item.setSinglePrice(product.getPriceMap().get(customer).getPrice());
         item.setAmount(amount);

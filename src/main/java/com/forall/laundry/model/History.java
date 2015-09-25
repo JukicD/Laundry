@@ -24,9 +24,6 @@ public class History implements Serializable{
     @OneToOne
     private Worker worker;
 
-    @Transient
-    private String formatedDate;
-
     public long getId() {
         return id;
     }
@@ -53,11 +50,5 @@ public class History implements Serializable{
 
     public void setDate(Date date) {
         this.date = date;
-        SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-        formatedDate = format.format(this.date);
-    }
-
-    public String getFormatedDate(){
-        return formatedDate;
     }
 }

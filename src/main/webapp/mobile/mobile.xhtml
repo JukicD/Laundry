@@ -133,7 +133,9 @@
                             <h:outputText value="#{h.worker.firstName}"/>
                         </p:column>
                         <p:column headerText="Uhrzeit">
-                            <h:outputText value="#{h.formatedDate}"/>
+                            <h:outputText value="#{h.date}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
                         </p:column>
                     </p:dataTable>
                 </h:form>
@@ -236,19 +238,19 @@
     <pm:page id="createProduct">
         <pm:content>
             <h:form>
-                <p:panelGrid columns="2">
-                    <h:outputLabel for="productName" value="Bezeichnung: "/>
+                <pm:field>
+                    <h:outputText for="productName" value="Bezeichnung: "/>
                     <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
-                </p:panelGrid>
-                <p:outputLabel value="Kategorie: "/>
-                <p:panelGrid columns="2">
-                    <ui:repeat value="#{categoryController.categories}" var="category">
-                        <p:outputLabel value="#{category.name}"/>
-                        <p:selectBooleanCheckbox>
-                            <p:ajax event="change" listener="#{mobileProductController.add(category)}"/>
-                        </p:selectBooleanCheckbox>
-                    </ui:repeat>
-                </p:panelGrid>
+                </pm:field>
+
+                <pm:field>
+                    <p:outputLabel for="selectManyCheckbox" value="Kategorie: " />
+                    <p:selectManyCheckbox id="selectManyCheckbox" value="#{mobileProductController.categories}" converter="#{categoryConverter}">
+                        <f:selectItems value="#{categoryController.categories}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
+
+                    </p:selectManyCheckbox>
+                </pm:field>
+
                 <p:commandButton value="Erstellen" action="#{mobileProductController.createProduct}" update="fourth:outputItem:outputItems createProduct third:categoryForm:categoryTable"/>
             </h:form>
         </pm:content>
