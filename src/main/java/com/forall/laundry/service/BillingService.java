@@ -6,10 +6,7 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
-import com.forall.laundry.model.Bill;
-import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
-import com.forall.laundry.model.Ordery;
+import com.forall.laundry.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -86,14 +83,15 @@ public class BillingService {
             if(orders.isEmpty()){
                 throw new IllegalArgumentException();
             }
-            
+
+
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/IdeaProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
-            Map<String, Object> parameter = new HashMap();
-            parameter.put("item_id_list", getItemIDs(orders));
-            
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("item_id_list", getPositionIds(orders));
+            parameter.put("customer_id", orders.get(0).getCustomer().getId());
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
             
             String path = "/home/jd/Desktop/wohoo.pdf";
@@ -107,13 +105,13 @@ public class BillingService {
         }
     }
     
-    private List<String> getItemIDs(List<Ordery> orderys){
+    private List<String> getPositionIds(List<Ordery> orderys){
         
         return orderys
                     .parallelStream()
-                    .map(o -> o.getPositionMap().keySet())
+                    .map(Ordery::getPositions)
                     .flatMap(Collection::stream)
-                    .map(Item::getItem_id)
+                    .map(Position::getId)
                     .map(Object::toString)
                     .collect(Collectors.toList());
     }

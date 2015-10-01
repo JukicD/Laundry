@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="203"/>
+	<property name="ireport.y" value="244"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -106,23 +106,24 @@
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select c."name" AS customer_name,
-c."address" AS customer_address,
-i.amount AS item_amount,
+			<![CDATA[select
+p."amount" AS item_amount,
 p."name" AS product_name,
-i.singleprice AS product_price
+p."singleprice" AS product_price,
+p.sum AS product_sum
 
-FROM "public".customer c, "public".item i, "public".ordery o, "public".product p
+FROM "public".position p
 
-WHERE $X{IN, i.item_id::varChar, item_ids} AND o.customer_id = c.id AND o.id = i.ordery_id AND i.product_product_id = p.product_id;]]>
+WHERE $X{IN, p.id::varChar, item_ids}
+
+ORDER BY product_name ASC;]]>
 		</queryString>
-		<field name="customer_name" class="java.lang.String"/>
-		<field name="customer_address" class="java.lang.String"/>
 		<field name="item_amount" class="java.lang.Integer"/>
 		<field name="product_name" class="java.lang.String"/>
 		<field name="product_price" class="java.math.BigDecimal"/>
+		<field name="product_sum" class="java.math.BigDecimal"/>
 		<variable name="Summe" class="java.math.BigDecimal" calculation="Sum">
-			<variableExpression><![CDATA[$F{product_price}]]></variableExpression>
+			<variableExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount}))]]></variableExpression>
 		</variable>
 		<variable name="rowsum" class="java.math.BigDecimal">
 			<variableExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount})).setScale(2, RoundingMode.HALF_UP)]]></variableExpression>
@@ -139,9 +140,9 @@ c."billingtext" AS customer_text,
 c."zipcode" AS customer_zip,
 c."companyname" AS customer_companyName,
 c."customernumber" AS customer_number,
-i.amount AS item_amount,
+p.amount AS item_amount,
 p."name" AS product_name,
-i."singleprice" AS product_price,
+p."singleprice" AS product_price,
 b.ownname AS bill_ownname,
 b.address AS bill_address,
 b.uid AS bill_uid,
@@ -150,17 +151,13 @@ b.welcome AS own_welcome,
 b.number AS bill_offset_number
 
 FROM
-"public".ordery o,
 "public".customer c,
-"public".product p,
-"public".item i,
+"public".position p,
 "public".bill b
 
 WHERE
-$X{IN, i.item_id::varChar,item_id_list} AND
-o.customer_id = c.id AND
-o.id = i.ordery_id AND
-i.product_product_id = p.product_id;]]>
+$X{IN, p.id::varChar,item_id_list} AND
+c.id = 2;]]>
 	</queryString>
 	<field name="customer_name" class="java.lang.String"/>
 	<field name="customer_address" class="java.lang.String"/>
@@ -319,7 +316,7 @@ i.product_product_id = p.product_id;]]>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 						<jr:column width="63" uuid="d18cf325-5057-4eeb-8e62-198d5cf524ca">
-							<jr:tableHeader style="table 3_TH" height="33" rowSpan="1">
+							<jr:tableHeader style="table 3_TH" height="60" rowSpan="1">
 								<staticText>
 									<reportElement x="5" y="0" width="58" height="30" uuid="3189d21a-b9e1-4957-a225-76f67267897e"/>
 									<textElement verticalAlignment="Middle">
@@ -328,8 +325,8 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Position]]></text>
 								</staticText>
 							</jr:tableHeader>
-							<jr:tableFooter height="31" rowSpan="1"/>
-							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
+							<jr:tableFooter height="36" rowSpan="1"/>
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
 									<reportElement x="5" y="0" width="58" height="20" uuid="b2bcbe08-3b27-47a5-89d5-887a903bd4af"/>
 									<textElement verticalAlignment="Middle"/>
@@ -338,7 +335,7 @@ i.product_product_id = p.product_id;]]>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="54" uuid="14a87e23-21e7-40a7-a8c2-eba191329a43">
-							<jr:tableHeader style="table 3_TH" height="33" rowSpan="1">
+							<jr:tableHeader style="table 3_TH" height="60" rowSpan="1">
 								<staticText>
 									<reportElement x="5" y="0" width="49" height="30" uuid="46472555-c895-4858-84ce-6902df5b02e1"/>
 									<textElement verticalAlignment="Middle">
@@ -347,7 +344,7 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Menge]]></text>
 								</staticText>
 							</jr:tableHeader>
-							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
 									<reportElement x="5" y="0" width="49" height="20" uuid="937ff921-1c81-46e5-af0d-749b8e0a1e33"/>
 									<textElement verticalAlignment="Middle"/>
@@ -356,7 +353,7 @@ i.product_product_id = p.product_id;]]>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="184" uuid="1cedfda3-65da-4b25-85c7-48823413e38c">
-							<jr:tableHeader style="table 3_TH" height="33" rowSpan="1">
+							<jr:tableHeader style="table 3_TH" height="60" rowSpan="1">
 								<staticText>
 									<reportElement x="5" y="0" width="179" height="30" uuid="b16008d0-69f9-40dc-84fb-764fb4d03dd8"/>
 									<textElement verticalAlignment="Middle">
@@ -365,7 +362,7 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Bezeichnung]]></text>
 								</staticText>
 							</jr:tableHeader>
-							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
 									<reportElement x="5" y="0" width="179" height="20" uuid="fabe88b3-c73f-4214-a7ee-d06e63d75991"/>
 									<textElement verticalAlignment="Middle"/>
@@ -374,7 +371,7 @@ i.product_product_id = p.product_id;]]>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="90" uuid="2e2eec13-d6d8-4818-9379-7f8e2067127f">
-							<jr:tableHeader style="table 3_TH" height="33" rowSpan="1">
+							<jr:tableHeader style="table 3_TH" height="60" rowSpan="1">
 								<staticText>
 									<reportElement x="6" y="0" width="84" height="30" uuid="ea491b09-bbb9-46b5-9c9a-1b2019824110"/>
 									<textElement verticalAlignment="Middle">
@@ -383,7 +380,7 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Einzelpreis]]></text>
 								</staticText>
 							</jr:tableHeader>
-							<jr:tableFooter height="31" rowSpan="1">
+							<jr:tableFooter height="36" rowSpan="1">
 								<staticText>
 									<reportElement x="6" y="1" width="84" height="30" uuid="251fd59d-0851-4be1-a0a4-469ed4dbe884"/>
 									<textElement verticalAlignment="Middle">
@@ -392,7 +389,7 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Summe:]]></text>
 								</staticText>
 							</jr:tableFooter>
-							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
 									<reportElement x="6" y="0" width="84" height="20" uuid="bb0162ab-f670-4a57-af64-67f9ebeca0a1"/>
 									<textElement verticalAlignment="Middle"/>
@@ -401,7 +398,7 @@ i.product_product_id = p.product_id;]]>
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="98" uuid="a7691be0-af84-49b5-ab36-eecd21cfee37">
-							<jr:tableHeader style="table 3_TH" height="33" rowSpan="1">
+							<jr:tableHeader style="table 3_TH" height="60" rowSpan="1">
 								<staticText>
 									<reportElement x="5" y="0" width="93" height="30" uuid="fb25690d-713c-4a74-8108-fd6e4a044331"/>
 									<textElement verticalAlignment="Middle">
@@ -410,19 +407,19 @@ i.product_product_id = p.product_id;]]>
 									<text><![CDATA[Gesamtpreis]]></text>
 								</staticText>
 							</jr:tableHeader>
-							<jr:tableFooter height="31" rowSpan="1">
+							<jr:tableFooter height="36" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="98" height="31" uuid="3dd507c1-1303-479f-8ff0-74f39550759e"/>
+									<reportElement x="5" y="1" width="93" height="29" uuid="3dd507c1-1303-479f-8ff0-74f39550759e"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
 									<textFieldExpression><![CDATA[$V{Summe}]]></textFieldExpression>
 								</textField>
 							</jr:tableFooter>
-							<jr:detailCell style="table 3_TD" height="21" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="5" y="1" width="93" height="19" uuid="cd63113a-c2d7-4940-909b-538197717e6a"/>
-									<textFieldExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount}))]]></textFieldExpression>
+									<reportElement x="0" y="0" width="98" height="30" uuid="17053b25-74a0-4ea3-ae17-19b94e7bf52e"/>
+									<textFieldExpression><![CDATA[$V{rowsum}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>

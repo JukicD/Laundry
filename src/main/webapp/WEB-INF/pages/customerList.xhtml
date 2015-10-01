@@ -24,7 +24,8 @@
                      reflow="true">
 
             <p:ajax event="contextMenu" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
-            <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/> <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"  update="customerPanel customerListDialog" oncomplete="PF('customer').show()"/>
+            <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+            <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"  update="customerPanel customerListDialog" oncomplete="PF('customer').show()"/>
             <p:ajax event="rowSelect" listener="#{labelController.description('Vergangene Aufträge für')}"/>
 
             <p:column filterBy="#{customer.name}"

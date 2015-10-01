@@ -56,7 +56,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText value="#{editController.price}">
-                                    <p:ajax event="change" listener="#{editController.editCustomerPrice(product.priceMap[userController.customer])}" update="@parent"/>
+                                    <p:ajax event="change" listener="#{editController.editCustomerPrice(product.priceMap[userController.customer], product)}" update="@parent"/>
                                 </h:inputText>
                             </f:facet>
                         </p:cellEditor>

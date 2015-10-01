@@ -3,7 +3,6 @@ package com.forall.laundry.mobile;
 import com.forall.laundry.controller.selection.CustomerSelectionController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.ProductService;
 
 import javax.annotation.PostConstruct;

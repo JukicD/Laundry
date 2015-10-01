@@ -6,9 +6,7 @@
 package com.forall.laundry.controller.statistic;
 
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
 import com.forall.laundry.service.CustomerService;
-import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.StatisticService;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -40,10 +38,6 @@ public class StatisticController implements Serializable{
     
     @EJB
     private CustomerService customerService;
-    
-    @EJB
-    private ItemService itemService;
-    
     private Date from;
     private Date to;
 
@@ -58,7 +52,6 @@ public class StatisticController implements Serializable{
     private boolean customerItemSelected;
 
     private Customer selectedCustomer;
-    private List<Item> specificItems;
     private String itemName;
     
     public void onTabChange(TabChangeEvent event){
@@ -176,18 +169,12 @@ public class StatisticController implements Serializable{
     
     private void createLineChartForSpecificItemFromCustomer(){
         
-        specificItems = itemService.getSpecificItems(itemName, selectedCustomer);
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yy");
         specificItemFromCustomerModel = new LineChartModel();
         ChartSeries series = new ChartSeries();
        
         
         series.setLabel("Umsatz");
-        
-        specificItems.stream().forEach((item) -> {
-            /**ToDo**/
-            series.set(format.format(item.getOrdery().getDate()), new BigDecimal(1).setScale(2, RoundingMode.HALF_UP));
-        });
         
         specificItemFromCustomerModel.addSeries(series);
         specificItemFromCustomerModel.setZoom(true);
@@ -206,16 +193,8 @@ public class StatisticController implements Serializable{
         ChartSeries series = new BarChartSeries();
         series.setLabel(selectedCustomer.getName());
 
-        List<Map.Entry<String, BigDecimal>> sums = itemService.getTotalSum(selectedCustomer);
 
-        IntStream
-                .iterate(0, n -> n+1)
-                .limit(sums.size())
-                .forEach(n -> 
-                {
-                    series.set(sums.get(n).getKey(), sums.get(n).getValue());
-                });
-        
+
         Axis xAxis = specificCustomerModel.getAxis(AxisType.X);
         xAxis.setTickAngle(-50);
         Axis yAxis = specificCustomerModel.getAxis(AxisType.Y);
@@ -228,22 +207,16 @@ public class StatisticController implements Serializable{
     public void allItems(){
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy");
         allItemsFromCustomerModel = new LineChartModel();
-        Map<String, List<Item>> itemsByName = itemService.getItemsGroupedByName(selectedCustomer);
-        
-        itemsByName.entrySet().stream().sorted((Map.Entry entry1, Map.Entry entry2) -> ((List<Item>)entry1.getValue()).size() - ((List<Item>)entry2.getValue()).size());
 
-        itemsByName.keySet().stream().forEach((String key) -> 
-        
+
+
         {
            LineChartSeries series = new LineChartSeries();
-           List<Item> items = itemsByName.get(key);
-           
-           Map<Date, BigDecimal> sums = itemService.getSumOfItems(items);
-           sums.keySet().stream().forEach((Date dateKey) -> series.set(format.format(dateKey), sums.get(dateKey)));
-           series.setLabel(key);
+
            allItemsFromCustomerModel.addSeries(series);
             
-        });
+        }
+
         allItemsFromCustomerModel.setZoom(true);
         allItemsFromCustomerModel.getAxis(AxisType.Y).setLabel("Euro");
         allItemsFromCustomerModel.setLegendPosition("e");

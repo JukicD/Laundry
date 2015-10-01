@@ -60,7 +60,7 @@ public class EventOrdersFilter implements Serializable{
                 customers = customerService.getTodaysCustomers();
 
                 break;
-            case "week":
+            case "Diese Woche":
                 //orders = orderyService.getThisWeeksOrders();
 
                 final Calendar cal = Calendar.getInstance();

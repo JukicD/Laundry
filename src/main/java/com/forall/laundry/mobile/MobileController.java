@@ -36,9 +36,6 @@ public class MobileController implements Serializable{
     private CustomerService customerService;
 
     @EJB
-    private ItemService itemService;
-
-    @EJB
     private PositionService positionService;
 
     @EJB
@@ -53,7 +50,6 @@ public class MobileController implements Serializable{
     @Inject
     private MobileCustomerController mcc;
 
-    private List<Item> currentItems;
     private Ordery currentOrder;
     private Worker worker;
     private Customer customer;
@@ -63,19 +59,17 @@ public class MobileController implements Serializable{
     private Integer amount;
     private Date date;
     private Position selectedPosition;
-    private Item selectedItem;
 
     @PostConstruct
     public void init(){
         if(customer != null){
-            currentItems = orderyService.get(new Date(), customer.getId()).getPositionMap().keySet().stream().collect(Collectors.toList());
-            currentItems.sort((i1, i2) -> i1.getName().compareToIgnoreCase(i2.getName()));
             currentOrder = orderyService.get(new Date(), customer.getId());
         }
         date = new Date();
     }
     public void addItem(){
 
+        //create a price for a customer within a product
         if(!product.getPriceMap().containsKey(customer)){
 
             final Price p = new Price();
@@ -85,12 +79,7 @@ public class MobileController implements Serializable{
 
         product = productService.findByName(product.getName());
 
-        final Item item = new Item();
-        item.setProduct(product);
-        item.setSinglePrice(product.getPriceMap().get(customer).getPrice());
-        item.setAmount(amount);
-        item.setWorker(worker);
-
+        //if there is no order for today
         if(currentOrder == null){
             currentOrder = new Ordery();
             currentOrder.setDate(new Date());
@@ -100,15 +89,13 @@ public class MobileController implements Serializable{
 
         currentOrder = orderyService.get(new Date(), customer.getId());
 
-        item.setOrdery(currentOrder);
-        itemService.save(item);
+        if(currentOrder.has(product.getName())){
 
-        if(currentOrder.getPositionMap().containsKey(item)){
-            Position position = currentOrder.getPositionMap().get(item);
-            position.add(item);
+            Position position = currentOrder.getPosition(product.getName());
+            position.add(worker, amount);
 
             if(position.getAmount() < 1){
-                currentOrder.getPositionMap().remove(item);
+                currentOrder.getPositions().remove(currentOrder.getPosition(product.getName()));
                 orderyService.update(currentOrder);
             }
 
@@ -116,26 +103,26 @@ public class MobileController implements Serializable{
 
         }else{
             final Position pos = new Position();
-            pos.add(item);
-            currentOrder.getPositionMap().put(item, pos);
-            positionService.save(pos);
+            pos.setProduct(product);
+            pos.setSinglePrice(product.getPriceMap().get(customer).getPrice());
+            pos.add(worker, amount);
+            currentOrder.getPositions().add(pos);
         }
 
         orderyService.update(currentOrder);
         amount = null;
         cac.reset();
         pac.reset();
-        update();
-        currentItems = currentOrder.getPositionMap().keySet().stream().sorted().collect(Collectors.toList());
     }
 
     public void getItems(final int offsetFromToday){
         if(date == null){
             date = new Date();
         }
-        final Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
 
+        final Calendar cal = Calendar.getInstance();
+
+        cal.setTime(date);
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -144,31 +131,22 @@ public class MobileController implements Serializable{
 
         final Date offset = new Date(cal.getTimeInMillis());
 
-        Ordery ordery = orderyService.get(offset, customer.getId());
+        final Ordery ordery = orderyService.get(offset, customer.getId());
 
         try{
-            currentItems = ordery
-                    .getPositionMap().keySet()
-                    .stream()
-                    .sorted()
-                    .collect(Collectors.toList());
+
             this.date = offset;
             currentOrder = ordery;
             hasItems = true;
         }catch(NullPointerException e){
-            String message = offsetFromToday < 0 ? "Der Kunde hatte die letzten 5 Tage keine Lieferungen." : "Ich kann nicht in die Zukunft sehen.";
+            final String message = offsetFromToday < 0 ? "Der Kunde hatte die letzten 5 Tage keine Lieferungen." : "Ich kann nicht in die Zukunft sehen.";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
             hasItems = false;
         }
     }
 
-    public void selectPosition(final Item item){
-        selectedPosition = currentOrder.getPositionMap().get(item);
-        selectedItem = item;
-    }
-
-    public void update(){
-        currentItems = customerService.getItems(customer);
+    public void selectPosition(final Position position){
+        selectedPosition = position;
     }
 
     public String getFormatedDate(){
@@ -176,9 +154,6 @@ public class MobileController implements Serializable{
         return df.format(date);
     }
 
-    public boolean currentItemsFromToday(){
-        return LaundryUtil.isToday(currentItems.get(0).getOrdery().getDate());
-    }
     public String goTo(String nav){
         return nav;
     }
@@ -222,15 +197,6 @@ public class MobileController implements Serializable{
         this.currentOrder = currentOrder;
     }
 
-    public List<Item> getCurrentItems() {
-        return currentItems;
-    }
-
-    public void setCurrentItems(List<Item> currentItems) {
-
-        this.currentItems = currentItems;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -258,9 +224,5 @@ public class MobileController implements Serializable{
 
     public void setSelectedPosition(Position selectedPosition) {
         this.selectedPosition = selectedPosition;
-    }
-
-    public Item getSelectedItem() {
-        return selectedItem;
     }
 }

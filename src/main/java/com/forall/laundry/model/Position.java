@@ -25,40 +25,31 @@ public class Position implements Serializable{
     @Cascade(CascadeType.ALL)
     private List<History> history;
 
-    @Basic
-    private String name;
-
-    @Basic
-    private BigDecimal singlePrice;
+    @OneToOne
+    private Product product;
 
     @Basic
     private Integer amount;
 
     @Basic
-    private BigDecimal sum;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    private Worker worker;
+    private BigDecimal singlePrice;
 
     public Position(){
         amount = 0;
-        sum = new BigDecimal(0);
         history = new ArrayList<>();
     }
 
-    public void add(final Item item){
-        amount += item.getAmount();
-        name = item.getName();
-        singlePrice = item.getSinglePrice();
+    public void add(final Worker worker, final Integer additional){
+        amount += additional;
         final History h = new History();
-        h.setAmount(item.getAmount());
-        h.setWorker(item.getWorker());
+        h.setAmount(additional);
+        h.setWorker(worker);
         h.setDate(new Date());
         history.add(h);
-        final int newSum = sum.intValue() + singlePrice.intValue() * amount;
-        sum = null;
-        sum = new BigDecimal(newSum);
-        worker = item.getWorker();
+    }
+
+    public Worker getFirstWorker(){
+        return history.get(0).getWorker();
     }
 
     public long getId() {
@@ -69,16 +60,20 @@ public class Position implements Serializable{
         return amount;
     }
 
-    public BigDecimal getSum() {
-        return singlePrice.multiply(new BigDecimal(amount));
-    }
-
     public List<History> getHistory() {
         return history;
     }
 
-    public String getName() {
-        return name;
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public String getName(){
+        return product.getName();
     }
 
     public BigDecimal getSinglePrice() {
@@ -89,11 +84,27 @@ public class Position implements Serializable{
         this.singlePrice = singlePrice;
     }
 
-    public Worker getWorker() {
-        return worker;
+    public BigDecimal getSum() {
+        System.out.println(singlePrice.multiply(new BigDecimal(amount)));
+        return singlePrice.multiply(new BigDecimal(amount));
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        String name = ((Position) o).getProduct().getName();
+        BigDecimal price = ((Position) o).getSinglePrice();
+
+        return product.getName().equals(name) && price.equals(singlePrice);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = product.getName().hashCode();
+        result = 31 * result + singlePrice.hashCode();
+        return result;
     }
 }

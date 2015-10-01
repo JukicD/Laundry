@@ -2,10 +2,14 @@ package com.forall.laundry.model;
 
 
 import com.forall.laundry.service.PositionService;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
 
 import javax.ejb.EJB;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -32,26 +36,30 @@ public class Ordery implements Serializable {
     @Basic
     private boolean isPrinted;
 
-    @CollectionTable(name = "ordery_item_position_map")
-    @MapKeyJoinColumn(name = "item_id")
-    @ManyToMany(fetch = FetchType.EAGER)
-    Map<Item, Position> positionMap;
-    
-    public Date trimedDate(){
-        
-        final Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        
-        return cal.getTime();
-    }
-    public Ordery() {
-        positionMap = new HashMap<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Position> positions;
 
+    public boolean has(final String name){
+
+        for(Position position: positions){
+            if(position.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Position getPosition(final String name){
+        for (Position position : positions){
+            if(position.getName().equals(name)){
+                return position;
+            }
+        }
+        return null;
+    }
+
+    public Ordery() {
+        positions = new ArrayList<>();
     }
 
     public Long getId() {
@@ -82,12 +90,18 @@ public class Ordery implements Serializable {
         this.isPrinted = isPrinted;
     }
 
-    public Map<Item, Position> getPositionMap() {
-        return positionMap;
+    public List<Position> getPositions() {
+        return positions;
     }
 
-    public void setPositionMap(Map<Item, Position> positionMap) {
-        this.positionMap = positionMap;
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
+
+    public void add(final Position position){
+        if(!positions.contains(position)){
+            positions.add(position);
+        }
     }
 
     @Override

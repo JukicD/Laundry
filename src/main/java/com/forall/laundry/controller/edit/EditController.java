@@ -1,35 +1,26 @@
 package com.forall.laundry.controller.edit;
 
 import com.forall.laundry.controller.OldOrdersController;
+import com.forall.laundry.controller.OrderyController;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.controller.statistic.StatisticController;
 import com.forall.laundry.model.*;
-import com.forall.laundry.service.ItemService;
 import com.forall.laundry.service.PositionService;
 import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.TabChangeEvent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
 public class EditController implements Serializable{
-
-    @EJB
-    private ItemService itemService;
 
     @EJB
     private ProductService productService;
@@ -52,18 +43,17 @@ public class EditController implements Serializable{
     @Inject
     private OldOrdersController oldOrdersController;
 
+    @Inject
+    private OrderyController orderyController;
+
     private BigDecimal newPrice;
 
     private List<Product> products;
-    private List<Item> items;
 
     @PostConstruct
     public void init() {
-
         products = userController.getProducts();
-
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-        items = oc.getItems();
     }
 
     public void onCellEdit(Product product) {
@@ -71,15 +61,22 @@ public class EditController implements Serializable{
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 
-    public void onItemEdit(Item item){
+    public void editCustomerPrice(final Price price, final Product product){
+        System.out.println("TEST " +price.getPrice().intValue());
+        if(price.getPrice().intValue() == 0){
+            System.out.println("CHECK");
+            orderyController.getAllOrdersFrom(userController.getCustomer())
+                    .stream()
+                    .flatMap(o -> o.getPositions().stream())
+                    .filter(p -> p.getName().equals(product.getName()))
+                    .forEach( p -> {
+                        p.setSinglePrice(newPrice);
+                        positionService.update(p);
+                    });
 
-        Position position = oldOrdersController.getOrder().getPositionMap().get(item);
-        position.setSinglePrice(item.getSinglePrice());
-        positionService.update(position);
-        itemService.update(item);
-    }
+        }
 
-    public void editCustomerPrice(Price price){
+
         price.setPrice(newPrice);
         priceService.update(price);
     }
@@ -98,14 +95,6 @@ public class EditController implements Serializable{
 
     public void setUserController(UserController userController) {
         this.userController = userController;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public BigDecimal getPrice() {

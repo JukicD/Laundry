@@ -6,7 +6,6 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 
 import javax.ejb.Stateless;
@@ -30,15 +29,6 @@ public class OrderyService {
 
     @PersistenceContext
     EntityManager em;
-
-    public List<Item> getItemsByOrderID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-    public List<Item> getItemsFromCurrentOrder(Customer customer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public List<Ordery> getOrdersFrom(Customer customer) {
 

@@ -1635,19 +1635,6 @@
       <foreign-key name="fk_17hxilacjnniuu8s6wa4regpc" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_8qj7bgxdqysh762h5ej1pvn7i" table="position_history" schema="public" catalog="laundry" columns="history_id"/>
     </table>
-    <table name="item" schema="public" catalog="laundry" type="TABLE">
-      <column name="item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="amount" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
-      <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="item_pkey" columns="item_id"/>
-      <foreign-key name="fk_4dwxclqh9smcqbci95dbe0awo" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_yhsukor8nxm9rtumwmo19mlf" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_egbkidxe76b2wf41ymg48qv0n" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="fk_h1bjs6toa06vxq321kkgjjkor" table="ordery_item_position_map" schema="public" catalog="laundry" columns="item_id"/>
-    </table>
     <table name="ordery" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="time" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
@@ -1655,33 +1642,25 @@
       <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="ordery_pkey" columns="id"/>
       <foreign-key name="fk_5bjam0nswgy57qy0hi8035c03" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="fk_4dwxclqh9smcqbci95dbe0awo" table="item" schema="public" catalog="laundry" columns="ordery_id"/>
-      <exported-key name="fk_mh04xad746j5u8xbkg9ntbsme" table="ordery_item_position_map" schema="public" catalog="laundry" columns="ordery_id"/>
+      <exported-key name="fk_l80kct0h8vfhxuhm9nh2stcsk" table="ordery_position" schema="public" catalog="laundry" columns="ordery_id"/>
     </table>
-    <table name="ordery_item" schema="public" catalog="laundry" type="TABLE">
+    <table name="ordery_position" schema="public" catalog="laundry" type="TABLE">
       <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="items_item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <index name="uk_d2q4n09ovrvl0x1teo3ohjn82" unique="true" columns="items_item_id"/>
-    </table>
-    <table name="ordery_item_position_map" schema="public" catalog="laundry" type="TABLE">
-      <column name="ordery_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="positionmap_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="item_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="ordery_item_position_map_pkey" columns="ordery_id,item_id"/>
-      <foreign-key name="fk_h1bjs6toa06vxq321kkgjjkor" columns="item_id" ref-table="item" ref-schema="public" ref-catalog="" ref-columns="item_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_mh04xad746j5u8xbkg9ntbsme" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_esxl2jalobhomgwdu8hch6509" columns="positionmap_id" ref-table="position" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <column name="positions_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_l80kct0h8vfhxuhm9nh2stcsk" columns="ordery_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_1tjfli4anns618clnvm55fuol" columns="positions_id" ref-table="position" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="uk_1tjfli4anns618clnvm55fuol" unique="true" columns="positions_id"/>
     </table>
     <table name="position" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
-      <column name="sum" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
+      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="position_pkey" columns="id"/>
+      <foreign-key name="fk_q09kq7ol5ly1mipn7r6g3p10h" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_g45un0g2on9dyhh731vvbwnh8" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="fk_esxl2jalobhomgwdu8hch6509" table="ordery_item_position_map" schema="public" catalog="laundry" columns="positionmap_id"/>
+      <exported-key name="fk_1tjfli4anns618clnvm55fuol" table="ordery_position" schema="public" catalog="laundry" columns="positions_id"/>
       <exported-key name="fk_10lg5f4ypgfss84uqhpapuh12" table="position_history" schema="public" catalog="laundry" columns="position_id"/>
     </table>
     <table name="position_history" schema="public" catalog="laundry" type="TABLE">
@@ -1690,10 +1669,6 @@
       <foreign-key name="fk_8qj7bgxdqysh762h5ej1pvn7i" columns="history_id" ref-table="history" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_10lg5f4ypgfss84uqhpapuh12" columns="position_id" ref-table="position" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="uk_8qj7bgxdqysh762h5ej1pvn7i" unique="true" columns="history_id"/>
-    </table>
-    <table name="position_worker" schema="public" catalog="laundry" type="TABLE">
-      <column name="position_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="workers_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
     </table>
     <table name="price" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -1708,7 +1683,7 @@
       <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="product_pkey" columns="product_id"/>
       <exported-key name="fk_609gasilcv35buiq7h5xj1uo0" table="customer_product_property_map" schema="public" catalog="laundry" columns="prod_id"/>
-      <exported-key name="fk_yhsukor8nxm9rtumwmo19mlf" table="item" schema="public" catalog="laundry" columns="product_product_id"/>
+      <exported-key name="fk_q09kq7ol5ly1mipn7r6g3p10h" table="position" schema="public" catalog="laundry" columns="product_product_id"/>
       <exported-key name="fk_bir1mi6qnuxbgfr71lsq0wajx" table="price" schema="public" catalog="laundry" columns="product_product_id"/>
       <exported-key name="fk_2jyp9t2jl90kvua0u43p65k95" table="product_category" schema="public" catalog="laundry" columns="product_product_id"/>
       <exported-key name="fk_pun6bq6gp1ftscecw4y09173i" table="product_customer_price_map" schema="public" catalog="laundry" columns="product_product_id"/>
@@ -1729,11 +1704,6 @@
       <foreign-key name="fk_7lf5hifnpt24kgtw0mkg1n2oi" columns="pricemap_id" ref-table="price" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_pun6bq6gp1ftscecw4y09173i" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
-    <table name="product_price" schema="public" catalog="laundry" type="TABLE">
-      <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="prices_id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <index name="uk_suph69ou7yxknookcs6ay31ly" unique="true" columns="prices_id"/>
-    </table>
     <table name="property" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="property_pkey" columns="id"/>
@@ -1753,7 +1723,6 @@
       <column name="lastname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="worker_pkey" columns="id"/>
       <exported-key name="fk_17hxilacjnniuu8s6wa4regpc" table="history" schema="public" catalog="laundry" columns="worker_id"/>
-      <exported-key name="fk_egbkidxe76b2wf41ymg48qv0n" table="item" schema="public" catalog="laundry" columns="worker_id"/>
       <exported-key name="fk_g45un0g2on9dyhh731vvbwnh8" table="position" schema="public" catalog="laundry" columns="worker_id"/>
     </table>
     <procedure name="RI_FKey_cascade_del" schema="pg_catalog" catalog="laundry" type="2" remarks="cmVmZXJlbnRpYWwgaW50ZWdyaXR5IE9OIERFTEVURSBDQVNDQURF">

@@ -4,19 +4,19 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-        <p:dataTable id="eventDataTable"
-                     var="customer"
-                     value="#{eventOrdersFilter.customers}"
-                     selectionMode="single"
-                     rowKey="#{customer.id}"
-                     selection="#{customerSelectionController.selectedCustomer}">
+    <p:dataTable id="eventDataTable"
+                 var="customer"
+                 value="#{eventOrdersFilter.customers}"
+                 selectionMode="single"
+                 rowKey="#{customer.id}"
+                 selection="#{customerSelectionController.selectedCustomer}">
 
-            <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
-            <p:ajax event="rowSelect" listener="#{editController.setItems(itemController.getTodaysItemsFrom(customerSelectionController.selectedCustomer))}" update="eventPanel"/>
-            <p:column headerText="Kunde">
-                <h:outputText value="#{customer.name}"/>
-            </p:column>
-        </p:dataTable>
+        <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
+        <p:ajax event="rowSelect" listener="#{editController.setItems(itemController.getTodaysItemsFrom(customerSelectionController.selectedCustomer))}" update="eventPanel"/>
+        <p:column headerText="Kunde">
+            <h:outputText value="#{customer.name}"/>
+        </p:column>
+    </p:dataTable>
 
     <br/>
     <br/>

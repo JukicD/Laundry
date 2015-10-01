@@ -32,13 +32,7 @@ public class OrderyController implements Serializable{
     private UserController userController;
     
     @Inject
-    private Item item;
-    
-    @Inject
     private Product product;
-    
-    @EJB
-    private ItemService itemService;
     
     @EJB
     private ProductService productService;
@@ -56,108 +50,7 @@ public class OrderyController implements Serializable{
     private PositionService positionService;
     
     @Inject
-    EditController editController;
-    
-    
-    public void addItem(){
-        
-        Customer customer = userController.getCustomer();
-        Ordery order = userController.getCurrentOrder();
-        order.setCustomer(customer);
-        customerService.update(customer);
-        
-        item.setOrdery(order);
-        item.setProduct(product);
-
-        if(order.getPositionMap().containsKey(item)){
-            final Position position = order.getPositionMap().get(item);
-            position.add(item);
-            positionService.update(position);
-
-        }else{
-            final Position pos = new Position();
-            pos.add(item);
-            order.getPositionMap().put(item, pos);
-            positionService.save(pos);
-        }
-        
-        productService.save(product);
-        itemService.save(item);
-        orderyService.update(order);
-        
-        product.setName(null);
-        item.setAmount(0);
-        editController.init();
-    }
-    
-    public void finishOrder(){
-        
-        Ordery order = userController.getCurrentOrder();
-        order.setDate(new Date());
-       
-        orderyService.update(order);
-        Ordery o = new Ordery();
-        o.setCustomer(userController.getCustomer());
-        customerService.update(userController.getCustomer());
-        orderyService.save(o);
-    }
-    
-    public List<Ordery> getTodaysOrders(){
-        
-        Date today = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int year = cal.get(Calendar.YEAR);
-        
-        return orderyService.getOrdersFromToday(day, month, year);
-    }
-    
-    public List<Ordery> getThisWeeksOrders(){
-        Date today = new Date();
-        List<Calendar> daysOfWeek = new ArrayList<>();
-        
-        IntStream
-                .iterate(2, n -> n+1)
-                .limit(7)
-                .forEach(n ->
-                {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setFirstDayOfWeek(Calendar.MONDAY);
-                    cal.setTime(today);
-                     
-                    if(n != 8){
-                        cal.set(Calendar.DAY_OF_WEEK, n);
-                    }else{
-                        cal.set(Calendar.DAY_OF_WEEK, 1);
-                    }
-                    daysOfWeek.add(cal);
-                });
-        
-        List<Ordery> weeksOrders = orderyService.getOrdersFromThisWeek(daysOfWeek);
-        
-        if(weeksOrders != null){
-            weeksOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
-        } 
-        return weeksOrders;
-    }
-    
-    public List<Ordery> getThisMonthsOrders(){
-        Date today = new Date();
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        
-        int month = cal.get(Calendar.MONTH) + 1;
-        int year = cal.get(Calendar.YEAR);
-        
-        List<Ordery> monthsOrders = orderyService.getOrdersFromMonth(month, year);
-        monthsOrders.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
-        
-        return monthsOrders;
-    }
+    private EditController editController;
 
     public List<Ordery> getThisMonthsOrdersFrom(){
         return orderyService.getThisMonthsOrdersFrom(userController.getCustomer());
@@ -176,19 +69,16 @@ public class OrderyController implements Serializable{
        return orderyService.getOrdersBetween(from, to, userController.getCustomer().getId());
     }
     
-    public Item getItem() {
-        return item;
-    }
-    
-    public void setItem(Item item) {
-        this.item = item;
-    }
-    
     public Product getProduct() {
         return product;
     }
     
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Ordery> getAllOrdersFrom(final Customer customer) {
+
+        return orderyService.getOrdersFrom(customer);
     }
 }

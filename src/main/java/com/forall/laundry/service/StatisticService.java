@@ -6,7 +6,6 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Item;
 import com.forall.laundry.model.Ordery;
 
 import javax.ejb.EJB;
@@ -45,10 +44,6 @@ public class StatisticService implements Serializable{
     public BigDecimal getSumFromCustomer(Customer customer){
         
         List<Ordery> orders = customerService.findOrdersById(customer.getId());
-        List<Item> items = orders
-                .stream()
-                .flatMap((Ordery o) -> o.getPositionMap().keySet().stream())
-                .collect(Collectors.toList());
         /**ToDo:**/
         return new BigDecimal(1);
     }
