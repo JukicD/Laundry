@@ -8,6 +8,7 @@ package com.forall.laundry.controller;
 import com.forall.laundry.model.Ordery;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class OldOrdersController implements Serializable{
     
     @Inject

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.spi.CalendarNameProvider;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -180,5 +181,31 @@ public class OrderyService {
         }
 
         return o.size() == 1 ? o.get(0) : null;
+    }
+
+    public List<Ordery> getTodaysOrders(final Customer customer) {
+
+
+        final Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+        final int month = cal.get(Calendar.MONTH) + 1;
+        final int year = cal.get(Calendar.YEAR);
+        final int id = customer.getId();
+
+         List<Ordery> orders = em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM time) = :day AND EXTRACT(MONTH FROM time) = :month AND EXTRACT(YEAR FROM time) = :year AND o.customer.id = :id")
+                .setParameter("day", day)
+                .setParameter("month", month)
+                .setParameter("year", year)
+                 .setParameter("id", id)
+                .getResultList();
+
+        orders.stream()
+                .filter(o -> !o.getPositions().isEmpty())
+                .collect(Collectors.toList());
+
+        return orders;
     }
 }

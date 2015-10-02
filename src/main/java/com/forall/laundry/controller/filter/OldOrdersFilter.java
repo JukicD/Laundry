@@ -24,29 +24,29 @@ import java.util.List;
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class OldOrdersFilter implements Serializable{
-    
+
     @Inject
     private OrderyController orderyController;
-    
+
     private String command;
-    
+
     private String select;
 
     private Date dateFrom;
-    
+
     private Date dateTo;
-    
+
     private List<Ordery> orders;
 
     private boolean isChoosingDate;
-    
+
     @PostConstruct
     public void init(){
         orders = orderyController.getThisMonthsOrdersFrom();
     }
-    
+
     public void filter(){
         switch(command){
             case "all":
@@ -64,21 +64,21 @@ public class OldOrdersFilter implements Serializable{
             case "date":
                 isChoosingDate = true;
 
-                                if(dateFrom != null && dateTo != null){
+                if(dateFrom != null && dateTo != null){
 
-                                    orders = orderyController.getOrdersFrom(dateFrom, dateTo);
-                                    isChoosingDate = false;
-                                    break;
-                                }
+                    orders = orderyController.getOrdersFrom(dateFrom, dateTo);
+                    isChoosingDate = false;
+                    break;
+                }
         }
     }
 
     public void onClose() {
         isChoosingDate = false;
     }
-    
+
     public void filterOrders(SelectEvent event){
-        
+
     }
 
     public String getCommand() {

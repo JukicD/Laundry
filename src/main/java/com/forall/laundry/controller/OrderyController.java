@@ -55,6 +55,10 @@ public class OrderyController implements Serializable{
     public List<Ordery> getThisMonthsOrdersFrom(){
         return orderyService.getThisMonthsOrdersFrom(userController.getCustomer());
     }
+
+    public List<Ordery> todaysOrders(final Customer customer){
+        return orderyService.getTodaysOrders(customer);
+    }
     
     public List<Ordery> getOrders(){
         return orderyService.getOrdersFrom(userController.getCustomer());

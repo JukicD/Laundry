@@ -9,16 +9,16 @@
             <p:separator/>
             <h:panelGrid columns="2" cellpadding="5" cellspacing="1">
                 <p:outputLabel for="ownName" value="Firmenbezeichnung:" style="font-size: 16px"/>
-                <h:inputText id="ownName" value="#{billingController.bill.ownName}" />
+                <h:inputText id="ownName" value="#{billingController.bill.ownName}" required="true" requiredMessage="Firmenbezeichnung fehlt!"/>
                 
                 <p:outputLabel for="ownAddress" value="Adresse:" style="font-size: 16px"/>
-                <h:inputText id="ownAddress" value="#{billingController.bill.address}" />
+                <h:inputText id="ownAddress" value="#{billingController.bill.address}" required="true" requiredMessage="Adresse fehlt!"/>
                 
                 <p:outputLabel for="ownUID" value="UID Nr.:" style="font-size: 16px"/>
-                <h:inputText id="ownUID" value="#{billingController.bill.UID}"/>
-                
+                <h:inputText id="ownUID" value="#{billingController.bill.UID}" required="true" requiredMessage="UID fehlt!"/>
+
                 <p:outputLabel for="number" value="Rechnungsnummer:" style="font-size: 16px"/>
-                <h:inputText id="number" value="#{billingController.bill.number}"/>
+                <h:inputText id="number" value="#{billingController.bill.number}" />
             </h:panelGrid>
             
             <br/>

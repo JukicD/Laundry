@@ -12,7 +12,7 @@
                  selection="#{customerSelectionController.selectedCustomer}">
 
         <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
-        <p:ajax event="rowSelect" listener="#{editController.setItems(itemController.getTodaysItemsFrom(customerSelectionController.selectedCustomer))}" update="eventPanel"/>
+        <p:ajax event="rowSelect" listener="#{oldOrdersFilter.setOrders(orderyController.todaysOrders(customerSelectionController.selectedCustomer))}" update="eventPanel"/>
         <p:column headerText="Kunde">
             <h:outputText value="#{customer.name}"/>
         </p:column>

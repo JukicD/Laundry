@@ -18,51 +18,5 @@
     </h:form>
 
     <p:separator/>
-    <h:form id="oldOrdersList">
-        <p:dataTable id="orderTable"
-                     var="order" value="#{oldOrdersFilter.orders}"
-                     emptyMessage="Der Kunde hat noch keine Aufträge!" resizableColumns="true"
-                     selection="#{orderySelectionController.selectedOrders}"
-                     rowKey="#{order.id}"
-                     rowSelectMode="multiple"
-                     scrollable="true"
-                     editable="true"
-                     editMode="cell"
-                     reflow="true">
-
-            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-
-            <p:column  headerText="#">
-                <h:outputText value="#{order.id}"/>
-            </p:column>
-
-            <p:column headerText="Datum">
-                <h:outputText value="#{order.date}">
-                    <f:convertDateTime pattern="d.M.yy" />
-                </h:outputText>
-            </p:column>
-
-            <p:column>
-                <p:commandButton icon="ui-icon-clipboard"
-                                 action="#{oldOrdersController.setup(order)}"
-                                 actionListener="#{navigationController.setSite('orders')}"
-                                 update="customerPanel">
-                </p:commandButton>
-            </p:column>
-
-        </p:dataTable>
-        <p:separator/>
-        <p:commandButton
-                value="Lieferschein erstellen"
-                icon="ui-icon-print"
-                actionListener="#{billingController.printBill(orderySelectionController.selectedOrders, userController.customer)}"
-                update="@form billForm"/>
-        <p:commandButton value="Zurück"
-                         action="#{navigationController.setSite('customerList')}"
-                         actionListener="#{labelController.label('Kundenliste')}"
-                         update="customerPanel customerListDialog"
-                         oncomplete="PF('customer').show()">
-        </p:commandButton>
-
-    </h:form>
+    <ui:include src="/WEB-INF/pages/components/ordersTable.xhtml"/>
 </ui:composition>

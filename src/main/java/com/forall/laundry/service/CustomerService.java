@@ -7,9 +7,12 @@ package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.*;
+import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -31,7 +34,7 @@ public class CustomerService {
         private EntityManager em;
         
         @Inject
-        AppLogger logger;
+        private AppLogger logger;
         
         public List<Customer> getAllCustomers(){
             return em.createNamedQuery("Customer.findAll").getResultList();
@@ -143,12 +146,16 @@ public class CustomerService {
         final int month = cal.get(Calendar.MONTH) + 1;
         final int year = cal.get(Calendar.YEAR);
 
-        List<Customer> customers = em.createQuery("SELECT DISTINCT c FROM Customer c, Ordery o WHERE EXTRACT(DAY FROM time) = :day AND EXTRACT(MONTH FROM time) = :month AND EXTRACT(YEAR FROM time) = :year AND o.customer.id = c.id ORDER BY c.name ASC ")
+        List<Ordery> todaysOrders = em.createQuery("SELECT o FROM Ordery o WHERE EXTRACT(DAY FROM time) = :day AND EXTRACT(MONTH FROM time) = :month AND EXTRACT(YEAR FROM time) = :year")
                 .setParameter("day", day)
                 .setParameter("month", month)
                 .setParameter("year", year)
                 .getResultList();
 
-        return customers;
+        return todaysOrders.stream()
+                .filter(o -> !o.getPositions().isEmpty())
+                .map(Ordery::getCustomer)
+                .sorted(( c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
+                .collect(Collectors.toList());
     }
 }

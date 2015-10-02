@@ -15,11 +15,14 @@ import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
+import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -67,9 +70,10 @@ public class CustomerController implements Serializable{
             customerService.save(customer);
             orderyService.save(ordery);
 
-            productService.getProducts().stream().forEach( p -> {
+            productService.getProducts().stream().forEach(p ->
+            {
                 final Price price = new Price();
-                price.setPrice(new BigDecimal(0));
+                price.setPrice(new BigDecimal(0.00));
                 price.setProduct(p);
                 priceService.save(price);
                 p.getPriceMap().put(customer, price);
@@ -77,9 +81,12 @@ public class CustomerController implements Serializable{
             });
 
             logger.info("CUSTOMER CREATED: " +customer.toString());
-
+            final String message = "Kunde wurde erfolgreich erstellt.";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("",message));
         }catch (Exception e){
-            logger.error("FAILURE SAVING: " +customer.toString() + " Cause: " + e.getCause());
+            logger.error("FAILURE SAVING: " + customer.toString() + " Cause: " + e.getCause());
+            FacesMessage errorMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es ist ein Fehler aufgetreten.", "Kunde wurde nicht gespeichert.");
+            FacesContext.getCurrentInstance().addMessage(null, errorMsg);
         }finally{
             customer.setAddress(null);
             customer.setCompanyName(null);
@@ -96,6 +103,7 @@ public class CustomerController implements Serializable{
         try{
             customerService.update(customer);
             logger.info("Customer " + customer.getName() + " was updated!");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("", "Der Kunde wurde erfolgreich aktualisiert."));
         }catch (Exception e){
             logger.error("Update Failed ! " + customer.getName());
         }

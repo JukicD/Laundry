@@ -7,7 +7,7 @@
     <h:form id="lastOrders">
 
         <p:dataTable id="orders"
-                     value="#{userController.currentOrder.positions}" var="position"
+                     value="#{oldOrdersController.order.positions}" var="position"
                      emptyMessage="Der Kunde hat noch keine Aufträge!"
                      resizableColumns="true"
                      editable="true"

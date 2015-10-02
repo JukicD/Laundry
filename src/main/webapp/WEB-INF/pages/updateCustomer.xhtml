@@ -60,8 +60,7 @@
             </h:panelGrid>
             <p:separator/>
             <p:commandButton  value="Speichern" style="margin-right:10px; border-radius: 0px" 
-                              actionListener="#{userController.update}" update="customerUpdate"> 
-                <f:actionListener binding="#{growlController.saveMessage('Erfolgreich gespeichert !')}"/>
+                              actionListener="#{userController.update}" update="customerUpdate msgs">
                 <f:actionListener binding="#{navigationController.setSite('customerList')}"/>
             </p:commandButton>
             

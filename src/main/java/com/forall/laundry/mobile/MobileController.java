@@ -1,26 +1,18 @@
 package com.forall.laundry.mobile;
 
-import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
-import com.forall.laundry.controller.selection.OrderySelectionController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
-import com.forall.laundry.util.LaundryUtil;
-import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by jd on 8/19/15.
@@ -87,13 +79,14 @@ public class MobileController implements Serializable{
             orderyService.save(currentOrder);
         }
 
-        currentOrder = orderyService.get(new Date(), customer.getId());
-
+        //if current order has a position with the product-name
+        //then get the position and add the amount
         if(currentOrder.has(product.getName())){
 
             Position position = currentOrder.getPosition(product.getName());
             position.add(worker, amount);
 
+            //erase a position if the total amount is 0
             if(position.getAmount() < 1){
                 currentOrder.getPositions().remove(currentOrder.getPosition(product.getName()));
                 orderyService.update(currentOrder);
@@ -134,11 +127,14 @@ public class MobileController implements Serializable{
         final Ordery ordery = orderyService.get(offset, customer.getId());
 
         try{
+            if(ordery == null){
+                throw new IllegalArgumentException();
+            }
 
             this.date = offset;
             currentOrder = ordery;
             hasItems = true;
-        }catch(NullPointerException e){
+        }catch(IllegalArgumentException e){
             final String message = offsetFromToday < 0 ? "Der Kunde hatte die letzten 5 Tage keine Lieferungen." : "Ich kann nicht in die Zukunft sehen.";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
             hasItems = false;

@@ -67,7 +67,6 @@
 
             <p:resetInput target="@form" />
             <f:actionListener binding="#{customerFilter.init()}"/>
-            <p:ajax listener="#{growlController.sendMessage('Kunde erfolgreich erstellt !')}"/>
         </p:commandButton>
 
         <p:commandButton onclick="history.back(); return false;" value="Abbrechen" ajax="true" style="border-radius: 0px"/>

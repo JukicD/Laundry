@@ -56,7 +56,7 @@ public class EventOrdersFilter implements Serializable{
 
         switch(command){
             case "Heute":
-                //orders = orderyService.getTodaysOrdersFrom(userController.getCustomer());
+                //orders = orderyService.getTodaysOrders();
                 customers = customerService.getTodaysCustomers();
 
                 break;

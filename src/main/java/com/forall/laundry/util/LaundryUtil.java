@@ -1,5 +1,7 @@
 package com.forall.laundry.util;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -47,5 +49,10 @@ public class LaundryUtil {
         cal.set(Calendar.MILLISECOND, 0);
 
         return cal.getTime();
+    }
+
+    public static void sendMessage(FacesMessage.Severity s, final String header, final String detail) {
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(s, header, detail));
     }
 }

@@ -9,9 +9,11 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CustomerService;
+import com.forall.laundry.util.LaundryUtil;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -64,6 +66,11 @@ public class UserController implements Serializable{
     }
     
     public void update(){
-        customerService.update(customer);
+        try{
+            customerService.update(customer);
+            LaundryUtil.sendMessage(FacesMessage.SEVERITY_INFO, "", "Der Kunde wurde erfolgreich aktualisiert.");
+        }catch (Exception e){
+            LaundryUtil.sendMessage(FacesMessage.SEVERITY_ERROR, "Es ist ein Fehler aufgetreten.", "Der Kunde konnte nicht aktualisiert werden.");
+        }
     }
 }
