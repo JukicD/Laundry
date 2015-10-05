@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="244"/>
+	<property name="ireport.y" value="131"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -109,8 +109,7 @@
 			<![CDATA[select
 p."amount" AS item_amount,
 p."name" AS product_name,
-p."singleprice" AS product_price,
-p.sum AS product_sum
+p."singleprice" AS product_price
 
 FROM "public".position p
 
@@ -121,7 +120,6 @@ ORDER BY product_name ASC;]]>
 		<field name="item_amount" class="java.lang.Integer"/>
 		<field name="product_name" class="java.lang.String"/>
 		<field name="product_price" class="java.math.BigDecimal"/>
-		<field name="product_sum" class="java.math.BigDecimal"/>
 		<variable name="Summe" class="java.math.BigDecimal" calculation="Sum">
 			<variableExpression><![CDATA[$F{product_price}.multiply(new BigDecimal($F{item_amount}))]]></variableExpression>
 		</variable>

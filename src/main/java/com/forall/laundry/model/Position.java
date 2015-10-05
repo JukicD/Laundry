@@ -34,6 +34,12 @@ public class Position implements Serializable{
     @Basic
     private BigDecimal singlePrice;
 
+    @Basic
+    private String name;
+
+    @Basic
+    private BigDecimal sum;
+
     public Position(){
         amount = 0;
         history = new ArrayList<>();
@@ -85,8 +91,11 @@ public class Position implements Serializable{
     }
 
     public BigDecimal getSum() {
-        System.out.println(singlePrice.multiply(new BigDecimal(amount)));
         return singlePrice.multiply(new BigDecimal(amount));
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -107,4 +116,6 @@ public class Position implements Serializable{
         result = 31 * result + singlePrice.hashCode();
         return result;
     }
+
+
 }

@@ -1654,12 +1654,11 @@
     <table name="position" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="worker_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="position_pkey" columns="id"/>
       <foreign-key name="fk_q09kq7ol5ly1mipn7r6g3p10h" columns="product_product_id" ref-table="product" ref-schema="public" ref-catalog="" ref-columns="product_id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_g45un0g2on9dyhh731vvbwnh8" columns="worker_id" ref-table="worker" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_1tjfli4anns618clnvm55fuol" table="ordery_position" schema="public" catalog="laundry" columns="positions_id"/>
       <exported-key name="fk_10lg5f4ypgfss84uqhpapuh12" table="position_history" schema="public" catalog="laundry" columns="position_id"/>
     </table>
@@ -1723,7 +1722,6 @@
       <column name="lastname" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="worker_pkey" columns="id"/>
       <exported-key name="fk_17hxilacjnniuu8s6wa4regpc" table="history" schema="public" catalog="laundry" columns="worker_id"/>
-      <exported-key name="fk_g45un0g2on9dyhh731vvbwnh8" table="position" schema="public" catalog="laundry" columns="worker_id"/>
     </table>
     <procedure name="RI_FKey_cascade_del" schema="pg_catalog" catalog="laundry" type="2" remarks="cmVmZXJlbnRpYWwgaW50ZWdyaXR5IE9OIERFTEVURSBDQVNDQURF">
       <prototype>

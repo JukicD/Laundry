@@ -85,6 +85,7 @@ public class MobileController implements Serializable{
 
             Position position = currentOrder.getPosition(product.getName());
             position.add(worker, amount);
+            position.setName(product.getName());
 
             //erase a position if the total amount is 0
             if(position.getAmount() < 1){

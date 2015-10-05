@@ -54,7 +54,6 @@ public class BillingController implements Serializable{
         if(!orders.isEmpty()){
             incrementBillNumber();
         }
-
     }
     
     public void save(){

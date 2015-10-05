@@ -66,7 +66,7 @@ public class MobileProductController implements Serializable{
         if(search != null){
             product = search;
         }else{
-            categories.stream().forEach( c -> product.addCategory(c));
+            categories.stream().forEach(product::addCategory);
             productService.save(product);
         }
 
@@ -77,12 +77,12 @@ public class MobileProductController implements Serializable{
         priceService.save(price);
 
         Property prop = new Property();
-
+        categories.forEach(prop::addCategeory);
         customer.getPropertyMap().put(p, prop);
-
+        customerService.update(customer);
         p.getPriceMap().put(customer, price);
         propertyService.save(prop);
-        customerService.update(customer);
+
         productService.update(product);
 
         return "pm:third?transition=flip";
