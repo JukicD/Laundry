@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.criteria.Order;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -45,48 +46,104 @@ public class MobileProductController implements Serializable{
     @EJB
     private CategoryService categoryService;
 
+    @EJB
+    private PositionService positionService;
+
+    @Inject
     private Product product;
 
     @Inject
     private MobileCategoryController mcc;
 
-    private Set<Category> categories;
+    private List<Category> categories;
 
     @PostConstruct
     public void init(){
-        categories = new HashSet<>();
-        product = new Product();
+        categories = categoryService.getCategoriesFrom(mc.getCustomer());
     }
 
     public String createProduct(){
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
-        Product search = productService.findByName(product.getName());
 
-        if(search != null){
-            product = search;
-        }else{
-            categories.stream().forEach(product::addCategory);
-            productService.save(product);
+
+        categories.forEach(product::addCategory);
+        productService.save(product);
+
+        if(!customer.getPropertyMap().containsKey(product)){
+            final Map<Product, Property> map = customer.getPropertyMap();
+            Property prop = new Property();
+
+            map.put(product,prop);
+            customerService.update(customer);
         }
 
-        Product p = productService.findByName(product.getName());
-
-        Price price = new Price();
-        price.setPrice(new BigDecimal(0.00));
-        priceService.save(price);
-
-        Property prop = new Property();
-
-        customer.getPropertyMap().put(p, prop);
-        customerService.update(customer);
-
-        p.getPriceMap().put(customer, price);
-        propertyService.save(prop);
-
-        productService.update(product);
-
         return "pm:third?transition=flip";
+    }
+
+    public void addItem(){
+
+        final Customer customer = customerService.findById(mc.getCustomer().getId());
+        Ordery currentOrder = orderyService.get(new Date(), customer.getId());
+        final Worker worker = mc.getWorker();
+        final Integer amount = mc.getAmount();
+        final Product prod = mc.getProduct();
+
+
+        //create a price for a customer within a product
+        if(!prod.getPriceMap().containsKey(customer)){
+
+            final Price p = new Price();
+            p.setPrice(new BigDecimal(0.00));
+            prod.put(customer, p);
+            productService.update(prod);
+
+            Property prop = new Property();
+            customer.put(prod, prop);
+            prod.getCategories().stream().forEach(c -> System.out.println(c.getName()));
+            customerService.update(customer);
+        }
+
+        product = productService.findByName(product.getName());
+
+        //if there is no order for today
+        if(currentOrder == null){
+            currentOrder = new Ordery();
+            currentOrder.setDate(new Date());
+            currentOrder.setCustomer(customer);
+            orderyService.save(currentOrder);
+        }
+
+        //if current order has a position with the product-name
+        //then get the position and add the amount
+        if(currentOrder.has(prod.getName())){
+
+            Position position = currentOrder.getPosition(prod.getName());
+            position.add(worker, amount);
+            position.setName(prod.getName());
+
+            //delete a position if the total amount is 0
+            if(position.getAmount() < 1){
+                currentOrder.remove(currentOrder.getPosition(prod.getName()));
+                orderyService.update(currentOrder);
+            }
+
+            positionService.update(position);
+
+        }else{
+
+            final Position pos = new Position();
+            pos.setProduct(prod);
+            pos.setSinglePrice(prod.getPriceMap().get(customer).getPrice());
+
+            pos.add(worker, amount);
+            pos.setName(prod.getName());
+            currentOrder.add(pos);
+        }
+
+        orderyService.update(currentOrder);
+        mc.updateCurrentOrder();
+        mc.setAmount(null);
     }
 
     public void add(final Category category){
@@ -107,11 +164,11 @@ public class MobileProductController implements Serializable{
         this.product = product;
     }
 
-    public Set<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 }

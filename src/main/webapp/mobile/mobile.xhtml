@@ -121,7 +121,7 @@
 
                     <p:commandButton
                             value="Enter"
-                            action="#{mobileController.addItem}"
+                            action="#{mobileProductController.addItem}"
                             update="fourth:itemoutputForm:itemoutputTable @form"
                             oncomplete="PF('formDialog').hide();"/>
                 </p:panelGrid>
@@ -272,7 +272,6 @@
                     <p:outputLabel for="selectManyCheckbox" value="Kategorie: " />
                     <p:selectManyCheckbox id="selectManyCheckbox" value="#{mobileProductController.categories}" converter="#{categoryConverter}">
                         <f:selectItems value="#{categoryController.categories}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
-
                     </p:selectManyCheckbox>
                 </pm:field>
 

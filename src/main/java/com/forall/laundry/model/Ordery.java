@@ -59,6 +59,12 @@ public class Ordery implements Serializable {
         return null;
     }
 
+    public void remove(final Position position){
+        if(positions.contains(position)){
+            positions.remove(position);
+        }
+    }
+
     public Ordery() {
         positions = new ArrayList<>();
     }

@@ -61,61 +61,7 @@ public class MobileController implements Serializable{
     public void init(){
 
         currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId());
-
         date = new Date();
-    }
-
-    public void addItem(){
-
-        //create a price for a customer within a product
-        if(!product.getPriceMap().containsKey(customer)){
-
-            final Price p = new Price();
-            p.setPrice(new BigDecimal(0.00));
-            product.getPriceMap().put(customer, p);
-            productService.update(product);
-        }
-
-        product = productService.findByName(product.getName());
-
-        //if there is no order for today
-        if(currentOrder == null){
-            currentOrder = new Ordery();
-            currentOrder.setDate(new Date());
-            currentOrder.setCustomer(customer);
-            orderyService.save(currentOrder);
-        }
-
-        //if current order has a position with the product-name
-        //then get the position and add the amount
-        if(currentOrder.has(product.getName())){
-
-            Position position = currentOrder.getPosition(product.getName());
-            position.add(worker, amount);
-            position.setName(product.getName());
-
-            //delete a position if the total amount is 0
-            if(position.getAmount() < 1){
-                currentOrder.getPositions().remove(currentOrder.getPosition(product.getName()));
-                orderyService.update(currentOrder);
-            }
-
-            positionService.update(position);
-
-        }else{
-
-            final Position pos = new Position();
-            pos.setProduct(product);
-            pos.setSinglePrice(product.getPriceMap().get(customer).getPrice());
-            pos.add(worker, amount);
-            pos.setName(product.getName());
-            currentOrder.add(pos);
-        }
-
-        orderyService.update(currentOrder);
-        amount = null;
-        cac.reset();
-        pac.reset();
     }
 
     public void getItems(final int offsetFromToday){
@@ -149,6 +95,10 @@ public class MobileController implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
             hasItems = false;
         }
+    }
+
+    public void updateCurrentOrder(){
+        currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId());
     }
 
     public void selectPosition(final Position position){

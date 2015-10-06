@@ -48,6 +48,10 @@ public class Product implements Serializable {
         }
     }
 
+    public void put(final Customer customer, final Price price){
+        priceMap.put(customer, price);
+    }
+
     public boolean hasCategory(Category category){
         return categories.contains(category);
     }
@@ -80,7 +84,7 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.product_id);
+        hash = 59 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -93,7 +97,7 @@ public class Product implements Serializable {
             return false;
         }
         final Product other = (Product) obj;
-        return Objects.equals(this.product_id, other.product_id);
+        return Objects.equals(this.name, other.name);
     }
 
     @Override
