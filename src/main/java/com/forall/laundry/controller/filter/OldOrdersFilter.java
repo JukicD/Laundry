@@ -24,7 +24,7 @@ import java.util.List;
  * @author jd
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class OldOrdersFilter implements Serializable{
 
     @Inject

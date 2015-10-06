@@ -6,7 +6,6 @@
         >
 
     <h:form id="workerMain">
-
         <p:growl id="msgsWorker" showDetail="false" sticky="false" life="3500" showSummary="true"/>
         <h:panelGrid id="workerGrid" columns="2" cellpadding="5" cellspacing="1">
 
@@ -18,12 +17,10 @@
 
         </h:panelGrid>
         <p:separator/>
-        <p:commandButton actionListener="#{workerController.save}" value="Speichern" style="margin-right:10px"
+        <p:commandButton action="#{workerController.save}" value="Speichern" style="margin-right:10px"
                          icon="ui-icon-check"
                          ajax="true"
-                         update="@form :workerForm"
-                         process="@form">
-            <p:resetInput target="@form" />
+                         update="workerPanel">
             <f:actionListener binding="#{growlController.saveMessage('Mitarbeiter erfolgreich erstellt !')}"/>
         </p:commandButton>
         </h:form>

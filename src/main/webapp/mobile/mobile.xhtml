@@ -5,16 +5,29 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<f:view renderKitId="PRIMEFACES_MOBILE" />
+<f:view renderKitId="PRIMEFACES_MOBILE"/>
 
 <h:head>
 </h:head>
 
 <h:body>
+    <h:form>
+        <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+                                update="exceptionDialog2"
+                                onexception="PF('exceptionDialog2').show();" />
+
+        <p:dialog id="exceptionDialog2" header="Fehler !" widgetVar="exceptionDialog2">
+
+            <h:outputLabel value="Die Sitzung ist abgelaufen! Aktualisieren Sie die Anwendung!"/>
+            <br/>
+            <br/>
+            <p:button value="Neu laden!"/>
+        </p:dialog>
+    </h:form>
     <p:growl id="mobileMsgs" showDetail="true" showSummary="false" sticky="false" life="1500"/>
     <pm:page id="first">
+        <pm:header title="Mitarbeiter auswählen"/>
         <pm:content>
-            <pm:header title="Mitarbeiter auswählen"/>
             <h:form id="workerForm">
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
                     <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
@@ -93,16 +106,28 @@
         </pm:footer>
     </pm:page>
     <pm:page id="fourth">
-        <p:dialog id="quantDialog" header="Eingabe" widgetVar="formDialog" showEffect="pop" hideEffect="clip" modal="true" closable="true">
-            <h:form id="quantForm">
-                <p:outputPanel id="formPanel">
-                    <h:outputLabel for="amount" value="Ausgewählt: #{mobileController.product.name}"/>
-                    <p:inputText id="amount" value="#{mobileController.amount}" placeholder="Stück eingeben" required="true" requiredMessage="Stück eingeben !"/>
-                    <p:commandButton value="Enter" action="#{mobileController.addItem}" update="fourth:itemoutputForm:itemoutputTable" oncomplete="PF('formDialog').hide();"/>
-                </p:outputPanel>
-            </h:form>
-        </p:dialog>
+        <h:form id="quantForm">
+            <p:dialog id="quantDialog"
+                      header="Eingabe"
+                      widgetVar="formDialog"
+                      showEffect="pop"
+                      hideEffect="clip"
+                      modal="true"
+                      closable="true">
 
+                <p:panelGrid id="formPanel" columns="1" cellpadding="5">
+                    <h:outputLabel id="quantLabel" for="amount" value="Ausgewählt: #{mobileController.product.name}"/>
+                    <p:inputText id="amount" value="#{mobileController.amount}" placeholder="Stück eingeben!" required="true" requiredMessage="Stück eingeben!"/>
+
+                    <p:commandButton
+                            value="Enter"
+                            action="#{mobileController.addItem}"
+                            update="fourth:itemoutputForm:itemoutputTable @form"
+                            oncomplete="PF('formDialog').hide();"/>
+                </p:panelGrid>
+
+            </p:dialog>
+        </h:form>
         <p:dialog id="detailDialog"
                   widgetVar="detailsDialog"
                   modal="true"
@@ -155,7 +180,7 @@
             <h:form id="outputItem">
                 <p:dataGrid id="outputItems" var="product" value="#{productAutoCompleteFilter.products}" columns="3">
                     <p:commandButton type="button" value="#{product.name}" style="font-size: 120%" onclick="PF('formDialog').show();" update="fourth:itemoutputForm:itemoutputTable">
-                        <p:ajax event="click" listener="#{mobileController.setProduct(product)}" update="fourth:quantForm"/>
+                        <p:ajax event="click" listener="#{mobileController.setProduct(product)}" update="fourth:quantForm:quantLabel"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>
@@ -216,7 +241,7 @@
                     <p:menuitem value="Zurück" icon="ui-icon-back" action="#{customerAutoCompleteFilter.reset}" iconPos="bottom" update="second:inputForm:customerSearch second:outputForm:outputCustomers"/>
                     <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
-                    <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" iconPos="bottom" outcome="pm:first?transition=slide" update="first:workerForm"/>
+                    <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" actionListener="#{workerController.init}" update="first" iconPos="bottom" outcome="pm:first?transition=slide"/>
                     <p:menuitem value="Kunden Auswählen" icon="ui-icon-suitcase" outcome="pm:second?transition=slide" iconPos="bottom"/>
                 </p:tabMenu>
             </h:form>

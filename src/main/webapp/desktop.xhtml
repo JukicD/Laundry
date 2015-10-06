@@ -4,196 +4,214 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-          
-    <f:view contentType="text/html">
-        <h:head>
-            <title>
-                <ui:insert name="title">Wäscherei Seebacher</ui:insert>
-            </title>
-            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
-            <style type="text/css">
-                
-                body {
-                    background-image: url(#{resource['images/blue-wallpaper-7.jpg']});
-                    margin: 0;
-                    padding: 0;
-                    font-family: geneva, arial, helvetica, sans-serif;
-                    font-size:80%;
-                }
-                         
-                .ui-dialog .ui-terminal {
-                    border:0;
-                }
-                    
-                .ui-dialog.terminalDialog .ui-dialog-content {
-                    padding:0;
-                }
-            </style>
-        </h:head>
-            
-        <h:body>
-            <p:growl id="msgs" sticky="false" life="3500" showDetail="true"/>
-            <h:form>
-                
-                <p:menubar>
-                    <p:submenu label="Kunden">
-                        <p:menuitem value="Neu" onclick="PF('addCustomer').show()"/>
-                    </p:submenu>
-                        
-                    <p:submenu label="Mitarbeiter">
-                        <p:menuitem value="Neu" onclick="PF('addWorker').show()"/>
-                    </p:submenu>
 
-                    <p:submenu label="Rechnungen">
-                        <p:menuitem value="Einstellungen" onclick="PF('billSettings').show()"/>
-                    </p:submenu>
-                        
-                </p:menubar>
-            </h:form>
+<f:view contentType="text/html">
+    <h:head>
+        <title>
+            <ui:insert name="title">Wäscherei Seebacher</ui:insert>
+        </title>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+        <style type="text/css">
 
-            <p:dialog id="customerListDialog" 
-                      header="#{labelController.label}"
-                      widgetVar="customer" 
-                      height="400" width="600" minimizable="true" dynamic="true" closable="true"
-                      hideEffect="clip">
-                <p:ajax event="close" listener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
-                <p:outputPanel id="customerPanel">
-                    <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
+            body {
+                background-image: url(#{resource['images/blue-wallpaper-7.jpg']});
+                margin: 0;
+                padding: 0;
+                font-family: geneva, arial, helvetica, sans-serif;
+                font-size:80%;
+            }
 
-            <p:dialog id="dateDialog" widgetVar="date" visible="#{oldOrdersFilter.choosingDate}" modal="true"
-                      resizable="false" closable="false">
-                <p:ajax event="close" listener="#{oldOrdersFilter.onClose}"/>
-                <p:outputPanel id="datePanel">
-                    <h:form>
-                        <h:panelGrid columns="2" cellspacing="1">
-                            <p:outputLabel for="dateFrom" value="Von: "/>
-                            <p:calendar id="dateFrom" value="#{oldOrdersFilter.dateFrom}" showOn="button">
-                                <p:ajax event="dateSelect" listener="#{oldOrdersFilter.filter}"
-                                        update="dateDialog customerPanel"/>
-                            </p:calendar>
-                            <p:outputLabel for="dateTo" value="Bis: "/>
-                            <p:calendar id="dateTo" value="#{oldOrdersFilter.dateTo}" showOn="button">
-                                <p:ajax event="dateSelect" listener="#{oldOrdersFilter.filter}"
-                                        update="dateDialog customerPanel"/>
-                            </p:calendar>
-                        </h:panelGrid>
-                    </h:form>
-                </p:outputPanel>
-            </p:dialog>
+            .ui-dialog .ui-terminal {
+                border:0;
+            }
 
-            <p:dialog id="statisticDialog"
-                      widgetVar="statistic"
-                      header="Statistik" 
-                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
-                      hideEffect="clip">
-                          
-                <p:outputPanel id="statisticPanel">
-                    <ui:include src="/WEB-INF/pages/statistic.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
-                
-            <p:dialog id="customerSummary"
-                      widgetVar="customerStatistic"
-                      header="Zusammenfassug für #{statisticController.selectedCustomer.name}"
-                      height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
-                      hideEffect="clip">
-                <p:ajax event="close" listener="#{statisticNavigationController.setSite('customerStatistic')}" update="customerStatisticPanel"/>
-                <p:outputPanel id="customerStatisticPanel">
-                    <ui:include src="/WEB-INF/pages/#{statisticNavigationController.site}.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
-                
-            <p:dialog id="specificItemDialog"
-                      widgetVar="specificItem"
-                      position="center"
-                      minimizable="true"
-                      maximizable="true"
-                      height="470" width="600"
-                      hideEffect="clip"
-                      header="#{statisticController.itemName} für #{statisticController.selectedCustomer.name}">
-                <p:ajax event="close" listener="#{statisticController.setCustomerItemSelected(false)}"/>
-                <p:outputPanel id="specificItemPanel">
-                    <ui:include src="/WEB-INF/pages/customerItemStatistic.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
-            
-            <p:dialog id="scheduleDialog"
-                      widgetVar="schedule"
-                      position="center" 
-                      minimizable="true"
-                      maximizable="true"
-                      height="470" width="600"
-                      hideEffect="clip">
-                <p:outputPanel id="schedulePanel">
-                    <ui:include src="/WEB-INF/pages/#{scheduleNavigator.site}.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
+            .ui-dialog.terminalDialog .ui-dialog-content {
+                padding:0;
+            }
+        </style>
+    </h:head>
 
-            <p:dialog id="eventDialog"
-                      widgetVar="event"
-                      minimizable="true"
-                      maximizable="true"
-                      height="470" width="600"
-                      hideEffect="clip"
-                    dynamic="true">
-                <p:outputPanel id="eventPanel">
-                    <ui:include src="/WEB-INF/pages/event.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
-                
-            <p:dialog id="borrowDialog"
-                      widgetVar="borrow"
-                      style="width: fit-content"
-                      hideEffect="clip">
-                <p:outputPanel id="borrowPanel">
-                    <ui:include src="/WEB-INF/pages/borrowed.xhtml"/>
-                </p:outputPanel>
-            </p:dialog>
+    <h:body>
+        <h:form>
+            <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+                                    update="exceptionDialog"
+                                    onexception="PF('exceptionDialog').show();" />
 
-            <p:dialog id="propDialog"
-                      widgetVar="prop"
-                      hideEffect="clip">
-                <p:outputPanel id="propPanel">
-                    <ui:include src="/WEB-INF/pages/property.xhtml"/>
-                </p:outputPanel>
+            <p:dialog id="exceptionDialog" header="Fehler !" widgetVar="exceptionDialog">
+
+                <h:outputLabel value="Die Sitzung ist abgelaufen! Aktualisieren Sie die Anwendung!"/>
+                <br/>
+                <br/>
+                <p:button value="Neu laden!"/>
             </p:dialog>
-                
-            <p:dialog 
-                header="Kunden anlegen" 
+        </h:form>
+
+        <p:growl id="msgs" sticky="false" life="3500" showDetail="true"/>
+        <h:form>
+
+            <p:menubar>
+                <p:submenu label="Kunden">
+                    <p:menuitem value="Neu" onclick="PF('addCustomer').show()"/>
+                </p:submenu>
+
+                <p:submenu label="Mitarbeiter">
+                    <p:menuitem value="Neu" onclick="PF('addWorker').show()"/>
+                </p:submenu>
+
+                <p:submenu label="Rechnungen">
+                    <p:menuitem value="Einstellungen" onclick="PF('billSettings').show()"/>
+                </p:submenu>
+
+            </p:menubar>
+        </h:form>
+
+        <p:dialog id="customerListDialog"
+                  header="#{labelController.label}"
+                  widgetVar="customer"
+                  height="400" width="600" minimizable="true" dynamic="true" closable="true"
+                  hideEffect="clip">
+
+            <p:ajax event="close" listener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
+            <p:outputPanel id="customerPanel">
+                <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="dateDialog" widgetVar="date" visible="#{oldOrdersFilter.choosingDate}" modal="true"
+                  resizable="false" closable="false">
+            <p:ajax event="close" listener="#{oldOrdersFilter.onClose}"/>
+            <p:outputPanel id="datePanel">
+                <h:form>
+                    <h:panelGrid columns="2" cellspacing="1">
+                        <p:outputLabel for="dateFrom" value="Von: "/>
+                        <p:calendar id="dateFrom" value="#{oldOrdersFilter.dateFrom}" showOn="button">
+                            <p:ajax event="dateSelect" listener="#{oldOrdersFilter.filter}"
+                                    update="dateDialog customerPanel"/>
+                        </p:calendar>
+                        <p:outputLabel for="dateTo" value="Bis: "/>
+                        <p:calendar id="dateTo" value="#{oldOrdersFilter.dateTo}" showOn="button">
+                            <p:ajax event="dateSelect" listener="#{oldOrdersFilter.filter}"
+                                    update="dateDialog customerPanel"/>
+                        </p:calendar>
+                    </h:panelGrid>
+                </h:form>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="statisticDialog"
+                  widgetVar="statistic"
+                  header="Statistik"
+                  height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
+                  hideEffect="clip">
+
+            <p:outputPanel id="statisticPanel">
+                <ui:include src="/WEB-INF/pages/statistic.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="customerSummary"
+                  widgetVar="customerStatistic"
+                  header="Zusammenfassug für #{statisticController.selectedCustomer.name}"
+                  height="100%" width="80%" minimizable="true" closable="true" dynamic="true"
+                  hideEffect="clip">
+            <p:ajax event="close" listener="#{statisticNavigationController.setSite('customerStatistic')}" update="customerStatisticPanel"/>
+            <p:outputPanel id="customerStatisticPanel">
+                <ui:include src="/WEB-INF/pages/#{statisticNavigationController.site}.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="specificItemDialog"
+                  widgetVar="specificItem"
+                  position="center"
+                  minimizable="true"
+                  maximizable="true"
+                  height="470" width="600"
+                  hideEffect="clip"
+                  header="#{statisticController.itemName} für #{statisticController.selectedCustomer.name}">
+            <p:ajax event="close" listener="#{statisticController.setCustomerItemSelected(false)}"/>
+            <p:outputPanel id="specificItemPanel">
+                <ui:include src="/WEB-INF/pages/customerItemStatistic.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="scheduleDialog"
+                  widgetVar="schedule"
+                  position="center"
+                  minimizable="true"
+                  maximizable="true"
+                  height="470" width="600"
+                  hideEffect="clip">
+            <p:outputPanel id="schedulePanel">
+                <ui:include src="/WEB-INF/pages/#{scheduleNavigator.site}.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="eventDialog"
+                  widgetVar="event"
+                  minimizable="true"
+                  maximizable="true"
+                  height="470" width="600"
+                  hideEffect="clip"
+                  dynamic="true">
+            <p:outputPanel id="eventPanel">
+                <ui:include src="/WEB-INF/pages/event.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="borrowDialog"
+                  widgetVar="borrow"
+                  style="width: fit-content"
+                  hideEffect="clip">
+            <p:outputPanel id="borrowPanel">
+                <ui:include src="/WEB-INF/pages/borrowed.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="propDialog"
+                  widgetVar="prop"
+                  hideEffect="clip">
+            <p:outputPanel id="propPanel">
+                <ui:include src="/WEB-INF/pages/property.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                header="Kunden anlegen"
                 widgetVar="addCustomer" height="400" width="600" minimizable="true" style="width: auto"
                 hideEffect="clip">
-                <ui:include src="/WEB-INF/pages/createCustomer.xhtml"/>
-            </p:dialog>
-                
-            <p:dialog header="Mitarbeiter anlegen"
-                      widgetVar="addWorker"
-                      height="400" width="600" minimizable="true"
-                      hideEffect="clip">
-                          
-                <ui:include src="/WEB-INF/pages/workerMain.xhtml"/>
-            </p:dialog>
-                
-            <p:dialog header="Einstellungen"
-                      widgetVar="billSettings"
-                      height="400"
-                      width="600"
-                      minimizable="true"
-                      dynamic="true"
-                      hideEffect="clip">
+            <ui:include src="/WEB-INF/pages/createCustomer.xhtml"/>
+        </p:dialog>
 
-                <ui:include src="/WEB-INF/pages/billSettings.xhtml"/>
-            </p:dialog>
-            <h:form>
-                <p:dock>
-                    <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()" action="#{customerFilter.init}" update="customerPanel"/>
-                    <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()" update="statisticPanel"/>
-                    <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()" update="eventPanel"/>
-                    <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
-                    <p:menuitem value="Artikel" icon="#{resource['images/prop.png']}" onclick="PF('prop').show()" update="propPanel"/>
-                </p:dock>
-            </h:form>
-        </h:body>
-    </f:view>
+        <p:dialog header="Mitarbeiter anlegen"
+                  widgetVar="addWorker"
+                  height="400" width="600" minimizable="true"
+                  hideEffect="clip">
+            <p:outputPanel id="workerPanel">
+                <ui:include src="/WEB-INF/pages/workerMain.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+
+
+        <p:dialog header="Einstellungen"
+                  widgetVar="billSettings"
+                  height="400"
+                  width="600"
+                  minimizable="true"
+                  dynamic="true"
+                  hideEffect="clip">
+
+            <ui:include src="/WEB-INF/pages/billSettings.xhtml"/>
+        </p:dialog>
+        <h:form>
+            <p:dock>
+                <p:menuitem value="Kunden" icon="#{resource['images/customer.png']}" onclick="PF('customer').show()" action="#{customerFilter.init}" update="customerPanel"/>
+                <p:menuitem value="Statistik" icon="#{resource['images/statistics.png']}" onclick="PF('statistic').show()" update="statisticPanel"/>
+                <p:menuitem value="Ereignisse" icon="#{resource['images/Arrows-icon.png']}" onclick="PF('event').show()" update="eventPanel"/>
+                <p:menuitem value="Leihwäsche" icon="#{resource['images/Search-good-icon.png']}" onclick="PF('borrow').show()"/>
+                <p:menuitem value="Artikel" icon="#{resource['images/prop.png']}" onclick="PF('prop').show()" update="propPanel"/>
+            </p:dock>
+        </h:form>
+    </h:body>
+</f:view>
 </HTML>

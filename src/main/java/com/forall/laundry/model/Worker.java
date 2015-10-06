@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Entity
 @NamedQuery(name="Worker.findAll",query="SELECT w FROM Worker w")
-public class Worker implements Serializable{
+public class Worker implements Serializable, Comparable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,5 +51,10 @@ public class Worker implements Serializable{
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.firstName.compareToIgnoreCase(((Worker)o).getFirstName());
     }
 }

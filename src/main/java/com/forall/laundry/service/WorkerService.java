@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,20 +30,9 @@ public class WorkerService implements Serializable{
     private AppLogger logger;
     
     public List<Worker> getWorkers(){
-        return em.createNamedQuery("Worker.findAll").getResultList();
+        return (List<Worker>) em.createNamedQuery("Worker.findAll").getResultList().stream().sorted().collect(Collectors.toList());
     }
 
-    public void delete(final Worker worker){
-        try{
-            em.createQuery("DELETE FROM Worker w WHERE w.id = :id")
-                .setParameter("id", worker.getId())
-                .executeUpdate();
-            logger.info("Worker deleted ! " + worker);
-        }catch (Exception e){
-            logger.error("Worker " + worker.getFirstName() + " " + worker.getLastName() + " was not erased! Cause: " + e.getCause());
-        }
-
-    }
     public void save(Worker worker){
         try{
             em.persist(worker);
@@ -50,7 +40,6 @@ public class WorkerService implements Serializable{
         }catch (Exception e){
             logger.error("Worker was not saved ! " + worker + " Cause: " + e.getCause());
         }
-
     }
     
     public void update(Worker worker){
@@ -60,6 +49,5 @@ public class WorkerService implements Serializable{
         }catch (Exception e){
             logger.error("Worker was not updated! " + worker + " Cause: " + e.getCause());
         }
-
     }
 }

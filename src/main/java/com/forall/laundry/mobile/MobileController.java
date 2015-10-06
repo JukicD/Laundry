@@ -1,5 +1,6 @@
 package com.forall.laundry.mobile;
 
+import com.forall.laundry.controller.WorkerController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
 
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,6 +39,9 @@ public class MobileController implements Serializable{
     private CustomerAutoCompleteFilter cac;
 
     @Inject
+    private WorkerController wc;
+
+    @Inject
     private ProductAutoCompleteFilter pac;
 
     @Inject
@@ -54,17 +59,19 @@ public class MobileController implements Serializable{
 
     @PostConstruct
     public void init(){
-        if(customer != null){
-            currentOrder = orderyService.get(new Date(), customer.getId());
-        }
+
+        currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId());
+
         date = new Date();
     }
+
     public void addItem(){
 
         //create a price for a customer within a product
         if(!product.getPriceMap().containsKey(customer)){
 
             final Price p = new Price();
+            p.setPrice(new BigDecimal(0.00));
             product.getPriceMap().put(customer, p);
             productService.update(product);
         }
@@ -86,7 +93,7 @@ public class MobileController implements Serializable{
             Position position = currentOrder.getPosition(product.getName());
             position.add(worker, amount);
 
-            //erase a position if the total amount is 0
+            //delete a position if the total amount is 0
             if(position.getAmount() < 1){
                 currentOrder.getPositions().remove(currentOrder.getPosition(product.getName()));
                 orderyService.update(currentOrder);
@@ -95,11 +102,12 @@ public class MobileController implements Serializable{
             positionService.update(position);
 
         }else{
+
             final Position pos = new Position();
             pos.setProduct(product);
             pos.setSinglePrice(product.getPriceMap().get(customer).getPrice());
             pos.add(worker, amount);
-            currentOrder.getPositions().add(pos);
+            currentOrder.add(pos);
         }
 
         orderyService.update(currentOrder);

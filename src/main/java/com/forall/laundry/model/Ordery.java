@@ -13,6 +13,7 @@ import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @NamedQueries({
@@ -91,7 +92,7 @@ public class Ordery implements Serializable {
     }
 
     public List<Position> getPositions() {
-        return positions;
+        return positions.stream().sorted().collect(Collectors.toList());
     }
 
     public void setPositions(List<Position> positions) {

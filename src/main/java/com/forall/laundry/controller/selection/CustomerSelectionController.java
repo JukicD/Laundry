@@ -8,7 +8,9 @@ package com.forall.laundry.controller.selection;
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,7 +24,7 @@ import java.io.Serializable;
 public class CustomerSelectionController implements Serializable{
 
     private Customer selectedCustomer;
-    
+
     public void deleteCustomer() {
         
         selectedCustomer = null;

@@ -113,7 +113,7 @@ public class OrderyService {
                 .getResultList();
     }
 
-    public List<Ordery> getThisMonthsOrdersFrom(Customer customer) {
+    public List<Ordery> getThisMonthsOrdersFrom(final Customer customer) {
 
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
@@ -135,13 +135,11 @@ public class OrderyService {
         cal.clear(Calendar.MILLISECOND);
         Date beginningOfMonth = cal.getTime();
 
-        List<Ordery> orders = em.createQuery("SELECT o FROM Ordery o WHERE o.date BETWEEN :beginningOfMonth AND :today AND o.customer.id = :id")
+        return em.createQuery("SELECT o FROM Ordery o WHERE o.date BETWEEN :beginningOfMonth AND :today AND o.customer.id = :id")
                 .setParameter("beginningOfMonth", beginningOfMonth)
                 .setParameter("today", today)
                 .setParameter("id", customer.getId())
                 .getResultList();
-
-        return orders;
     }
 
     public void save(Ordery o){
@@ -157,7 +155,7 @@ public class OrderyService {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        List<Ordery> o = null;
+        List<Ordery> o;
         int counter = 0;
         do{
             final int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -174,11 +172,6 @@ public class OrderyService {
             cal.add(Calendar.DAY_OF_MONTH, -1);
             counter ++;
         }while(o == null && counter < 5);
-
-
-        if(o.size() > 1){
-            throw new NonUniqueResultException();
-        }
 
         return o.size() == 1 ? o.get(0) : null;
     }

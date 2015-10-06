@@ -79,10 +79,11 @@ public class MobileProductController implements Serializable{
         Property prop = new Property();
 
         customer.getPropertyMap().put(p, prop);
+        customerService.update(customer);
 
         p.getPriceMap().put(customer, price);
         propertyService.save(prop);
-        customerService.update(customer);
+
         productService.update(product);
 
         return "pm:third?transition=flip";
