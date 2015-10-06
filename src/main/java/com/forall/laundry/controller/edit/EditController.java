@@ -61,8 +61,17 @@ public class EditController implements Serializable{
         products.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
 
-    public void editCustomerPrice(final Price price, final Product product){
-        System.out.println("TEST " +price.getPrice().intValue());
+    public void editCustomerPrice(Price price, final Product product){
+
+        if(price == null){
+            price = new Price();
+            price.setPrice(newPrice);
+
+            product.getPriceMap().put(userController.getCustomer(), price);
+            productService.update(product);
+        }
+
+        System.out.println("TEST " + price);
         if(price.getPrice().intValue() == 0){
             System.out.println("CHECK");
             orderyController.getAllOrdersFrom(userController.getCustomer())

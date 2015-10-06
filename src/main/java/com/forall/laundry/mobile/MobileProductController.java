@@ -65,10 +65,14 @@ public class MobileProductController implements Serializable{
     public String createProduct(){
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
+        final Product search = productService.findByName(product.getName());
 
-
-        categories.forEach(product::addCategory);
-        productService.save(product);
+        if(search != null){
+            product = search;
+        }else{
+            categories.forEach(product::addCategory);
+            productService.save(product);
+        }
 
         if(!customer.getPropertyMap().containsKey(product)){
             final Map<Product, Property> map = customer.getPropertyMap();
@@ -76,6 +80,15 @@ public class MobileProductController implements Serializable{
 
             map.put(product,prop);
             customerService.update(customer);
+        }
+
+        if(!product.getPriceMap().containsKey(customer)){
+            Map<Customer, Price> map = product.getPriceMap();
+            Price price = new Price();
+            price.setPrice(new BigDecimal(0.00));
+            priceService.save(price);
+            map.put(customer, price);
+            productService.update(product);
         }
 
         return "pm:third?transition=flip";
@@ -91,7 +104,7 @@ public class MobileProductController implements Serializable{
 
 
         //create a price for a customer within a product
-        if(!prod.getPriceMap().containsKey(customer)){
+        if(!prod.getPriceMap().containsKey(customer)) {
 
             final Price p = new Price();
             p.setPrice(new BigDecimal(0.00));
@@ -100,7 +113,6 @@ public class MobileProductController implements Serializable{
 
             Property prop = new Property();
             customer.put(prod, prop);
-            prod.getCategories().stream().forEach(c -> System.out.println(c.getName()));
             customerService.update(customer);
         }
 
@@ -116,32 +128,34 @@ public class MobileProductController implements Serializable{
 
         //if current order has a position with the product-name
         //then get the position and add the amount
+        Position position;
         if(currentOrder.has(prod.getName())){
 
-            Position position = currentOrder.getPosition(prod.getName());
+            position = currentOrder.getPosition(prod.getName());
             position.add(worker, amount);
             position.setName(prod.getName());
 
             //delete a position if the total amount is 0
             if(position.getAmount() < 1){
-                currentOrder.remove(currentOrder.getPosition(prod.getName()));
+                currentOrder.remove(position);
                 orderyService.update(currentOrder);
+                positionService.update(position);
             }
 
-            positionService.update(position);
 
         }else{
 
-            final Position pos = new Position();
-            pos.setProduct(prod);
-            pos.setSinglePrice(prod.getPriceMap().get(customer).getPrice());
+            position = new Position();
+            position.setProduct(prod);
+            position.setSinglePrice(prod.getPriceMap().get(customer).getPrice());
 
-            pos.add(worker, amount);
-            pos.setName(prod.getName());
-            currentOrder.add(pos);
+            position.add(worker, amount);
+            position.setName(prod.getName());
+            currentOrder.add(position);
+            orderyService.update(currentOrder);
         }
 
-        orderyService.update(currentOrder);
+
         mc.updateCurrentOrder();
         mc.setAmount(null);
     }
