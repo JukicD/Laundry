@@ -15,7 +15,7 @@ import java.util.List;
  * Created by jd on 9/21/15.
  */
 @Entity
-public class Position implements Serializable{
+public class Position implements Serializable, Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +33,12 @@ public class Position implements Serializable{
 
     @Basic
     private BigDecimal singlePrice;
+
+    @Basic
+    private String name;
+
+    @Transient
+    private BigDecimal sum;
 
     public Position(){
         amount = 0;
@@ -73,7 +79,7 @@ public class Position implements Serializable{
     }
 
     public String getName(){
-        return product.getName();
+        return this.name;
     }
 
     public BigDecimal getSinglePrice() {
@@ -84,8 +90,11 @@ public class Position implements Serializable{
         this.singlePrice = singlePrice;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public BigDecimal getSum() {
-        System.out.println(singlePrice.multiply(new BigDecimal(amount)));
         return singlePrice.multiply(new BigDecimal(amount));
     }
 
@@ -106,5 +115,10 @@ public class Position implements Serializable{
         int result = product.getName().hashCode();
         result = 31 * result + singlePrice.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.product.getName().compareToIgnoreCase(((Position)o).getProduct().getName());
     }
 }

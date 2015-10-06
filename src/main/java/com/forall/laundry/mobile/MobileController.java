@@ -92,6 +92,7 @@ public class MobileController implements Serializable{
 
             Position position = currentOrder.getPosition(product.getName());
             position.add(worker, amount);
+            position.setName(product.getName());
 
             //delete a position if the total amount is 0
             if(position.getAmount() < 1){
@@ -107,6 +108,7 @@ public class MobileController implements Serializable{
             pos.setProduct(product);
             pos.setSinglePrice(product.getPriceMap().get(customer).getPrice());
             pos.add(worker, amount);
+            pos.setName(product.getName());
             currentOrder.add(pos);
         }
 

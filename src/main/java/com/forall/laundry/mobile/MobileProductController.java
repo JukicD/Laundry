@@ -66,7 +66,7 @@ public class MobileProductController implements Serializable{
         if(search != null){
             product = search;
         }else{
-            categories.stream().forEach( c -> product.addCategory(c));
+            categories.stream().forEach(product::addCategory);
             productService.save(product);
         }
 
