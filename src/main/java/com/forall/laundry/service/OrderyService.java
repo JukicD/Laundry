@@ -142,6 +142,12 @@ public class OrderyService {
                 .getResultList();
     }
 
+    public Ordery findById(final long id){
+        return (Ordery) em.createQuery("SELECT o FROM Ordery o WHERE o.id = :id")
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
     public void save(Ordery o){
         em.merge(o);
     }
@@ -151,13 +157,15 @@ public class OrderyService {
     }
 
 
-    public Ordery get(final Date date, final int customerId) {
+    public Ordery get(final Date date, final int customerId, final int offSetFromToday) {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         List<Ordery> o;
         int counter = 0;
+
         do{
+
             final int day = cal.get(Calendar.DAY_OF_MONTH);
             final int month = cal.get(Calendar.MONTH) + 1;
             final int year = cal.get(Calendar.YEAR);
@@ -169,11 +177,15 @@ public class OrderyService {
                     .setParameter("id", customerId)
                     .getResultList();
 
-            cal.add(Calendar.DAY_OF_MONTH, -1);
+            cal.add(Calendar.DAY_OF_MONTH, offSetFromToday);
             counter ++;
-        }while(o == null && counter < 5);
 
-        return o.size() == 1 ? o.get(0) : null;
+            if(o != null && !o.isEmpty()){
+                return o.get(0);
+            }
+        }while(counter < 5);
+
+        return null;
     }
 
     public List<Ordery> getTodaysOrders(final Customer customer) {

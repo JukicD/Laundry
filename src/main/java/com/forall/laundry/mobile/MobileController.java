@@ -60,7 +60,7 @@ public class MobileController implements Serializable{
     @PostConstruct
     public void init(){
 
-        currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId());
+        currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId(),0);
         date = new Date();
     }
 
@@ -68,7 +68,7 @@ public class MobileController implements Serializable{
         if(date == null){
             date = new Date();
         }
-
+        System.out.println(date + " " + offsetFromToday);
         final Calendar cal = Calendar.getInstance();
 
         cal.setTime(date);
@@ -80,14 +80,14 @@ public class MobileController implements Serializable{
 
         final Date offset = new Date(cal.getTimeInMillis());
 
-        final Ordery ordery = orderyService.get(offset, customer.getId());
+        final Ordery ordery = orderyService.get(offset, customer.getId(), offsetFromToday);
 
         try{
             if(ordery == null){
                 throw new IllegalArgumentException();
             }
 
-            this.date = offset;
+            this.date = ordery.getDate();
             currentOrder = ordery;
             hasItems = true;
         }catch(IllegalArgumentException e){
@@ -98,7 +98,7 @@ public class MobileController implements Serializable{
     }
 
     public void updateCurrentOrder(){
-        currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId());
+        currentOrder = customer == null ? null : orderyService.get(currentOrder.getDate(), customer.getId(), 0);
     }
 
     public void selectPosition(final Position position){

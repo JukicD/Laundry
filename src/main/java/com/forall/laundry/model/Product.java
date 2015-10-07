@@ -28,7 +28,7 @@ public class Product implements Serializable {
     @CollectionTable(name = "product_customer_price_map")
     @MapKeyJoinColumn(name = "customer_id")
     @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.PERSIST)
     Map<Customer, Price> priceMap;
 
     @Basic

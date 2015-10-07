@@ -97,7 +97,7 @@ public class MobileProductController implements Serializable{
     public void addItem(){
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
-        Ordery currentOrder = orderyService.get(new Date(), customer.getId());
+        Ordery currentOrder = orderyService.findById(mc.getCurrentOrder().getId());
         final Worker worker = mc.getWorker();
         final Integer amount = mc.getAmount();
         final Product prod = mc.getProduct();
@@ -126,12 +126,12 @@ public class MobileProductController implements Serializable{
             orderyService.save(currentOrder);
         }
 
-        //if current order has a position with the product-name
+        //if current order has a position with the product-name and price
         //then get the position and add the amount
-        Position position;
-        if(currentOrder.has(prod.getName())){
+        Position position = currentOrder.getPosition(prod.getName(), prod.getPriceMap().get(customer));
+        System.out.println(position + " " + prod.getName() + " " + prod.getPriceMap().get(customer).getPrice());
+        if(position != null){
 
-            position = currentOrder.getPosition(prod.getName());
             position.add(worker, amount);
             position.setName(prod.getName());
 
@@ -139,9 +139,8 @@ public class MobileProductController implements Serializable{
             if(position.getAmount() < 1){
                 currentOrder.remove(position);
                 orderyService.update(currentOrder);
-                positionService.update(position);
             }
-
+            positionService.update(position);
 
         }else{
 
@@ -161,7 +160,7 @@ public class MobileProductController implements Serializable{
     }
 
     public void add(final Category category){
-        System.out.println(category);
+
         if(!categories.contains(category)){
             categories.add(category);
             System.out.println(categories);

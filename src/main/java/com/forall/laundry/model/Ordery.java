@@ -40,19 +40,14 @@ public class Ordery implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Position> positions;
 
-    public boolean has(final String name){
+    public boolean contains(final Position position){
 
-        for(Position position: positions){
-            if(position.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
+        return positions.contains(position);
     }
 
-    public Position getPosition(final String name){
+    public Position getPosition(final String name, final Price price){
         for (Position position : positions){
-            if(position.getName().equals(name)){
+            if(position.getName().equals(name) && position.getSinglePrice().equals(price.getPrice())){
                 return position;
             }
         }

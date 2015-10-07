@@ -58,6 +58,33 @@ public class Position implements Serializable, Comparable{
         return history.get(0).getWorker();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        String name = ((Position) o).getProduct().getName();
+        BigDecimal price = ((Position) o).getSinglePrice();
+
+        return product.getName().equals(name) && price.equals(singlePrice);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = product.getName().hashCode();
+        result = 31 * result + singlePrice.hashCode();
+        return result;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+
+        int cmp = this.product.getName().compareToIgnoreCase(((Position)o).getProduct().getName());
+
+        return cmp == 0 ? this.singlePrice.intValue() - ((Position)o).getSinglePrice().intValue() : cmp;
+    }
+
     public long getId() {
         return id;
     }
@@ -98,27 +125,5 @@ public class Position implements Serializable, Comparable{
         return singlePrice.multiply(new BigDecimal(amount));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        String name = ((Position) o).getProduct().getName();
-        BigDecimal price = ((Position) o).getSinglePrice();
-
-        return product.getName().equals(name) && price.equals(singlePrice);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = product.getName().hashCode();
-        result = 31 * result + singlePrice.hashCode();
-        return result;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return this.product.getName().compareToIgnoreCase(((Position)o).getProduct().getName());
-    }
 }

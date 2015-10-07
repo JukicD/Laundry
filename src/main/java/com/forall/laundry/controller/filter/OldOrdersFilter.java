@@ -7,6 +7,7 @@ package com.forall.laundry.controller.filter;
 
 import com.forall.laundry.controller.OrderyController;
 import com.forall.laundry.model.Ordery;
+import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
@@ -18,13 +19,14 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author jd
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class OldOrdersFilter implements Serializable{
 
     @Inject
@@ -40,11 +42,14 @@ public class OldOrdersFilter implements Serializable{
 
     private List<Ordery> orders;
 
+    private List<Ordery> todaysOrders;
+
     private boolean isChoosingDate;
 
     @PostConstruct
     public void init(){
-        orders = orderyController.getThisMonthsOrdersFrom();
+        orders = orderyController.getThisMonthsOrdersFromCurrentCustomer();
+        todaysOrders = orders.stream().filter( o -> LaundryUtil.isToday(o.getDate())).collect(Collectors.toList());
     }
 
     public void filter(){
@@ -56,7 +61,7 @@ public class OldOrdersFilter implements Serializable{
                 isChoosingDate = false;
                 break;
             case "recent":
-                orders = orderyController.getThisMonthsOrdersFrom();
+                orders = orderyController.getThisMonthsOrdersFromCurrentCustomer();
                 dateFrom = null;
                 dateTo = null;
                 isChoosingDate = false;
@@ -79,6 +84,10 @@ public class OldOrdersFilter implements Serializable{
 
     public void filterOrders(SelectEvent event){
 
+    }
+
+    public List<Ordery> getTodaysOrders() {
+        return todaysOrders;
     }
 
     public String getCommand() {

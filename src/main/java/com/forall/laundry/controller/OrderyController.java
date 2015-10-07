@@ -52,7 +52,7 @@ public class OrderyController implements Serializable{
     @Inject
     private EditController editController;
 
-    public List<Ordery> getThisMonthsOrdersFrom(){
+    public List<Ordery> getThisMonthsOrdersFromCurrentCustomer(){
         return orderyService.getThisMonthsOrdersFrom(userController.getCustomer());
     }
 
