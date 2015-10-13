@@ -6,42 +6,46 @@
         >
     <h:outputLabel value="Artikel für: #{userController.customer.name}"/>
     <p:separator/>
-    <p:tabView id="customerMainTab">
+    <p:tabView id="customerMainTab" cache="true">
         <p:tab title="Artikel">
             <h:form id="customerMain">
                 <p:dataTable id="customerMainTable"
-                             value="#{productController.allProducts}" var="product"
-                             resizableColumns="true"
-                             reflow="true"
-                             editable="true"
-                             editMode="cell">
+                             value="#{productController.allProducts}" var="pr">
 
                     <p:column style="width: 20px">
-                        <p:selectBooleanCheckbox value="#{customerMainView.map[product]}">
-                            <p:ajax event="change" listener="#{customerMainView.update(product)}" update=":customerMainTab:customerMain:customerMainTable"/>
+                        <p:selectBooleanCheckbox value="#{customerMainView.map[pr]}">
+                            <p:ajax event="change" listener="#{customerMainView.update(pr)}" update="customerMainTab:propertyForm customerMainTab:priceForm"/>
                         </p:selectBooleanCheckbox>
                     </p:column>
 
                     <p:column headerText="Artikel">
-                        <h:outputText value="#{product.name}"/>
+                        <h:outputText value="#{pr.name}"/>
                     </p:column>
 
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+        <p:tab title="Eigenschaften">
+            <h:form id="propertyForm">
+                <p:dataTable value="#{customerMainView.customersProducts}" var="product">
+                    <p:column headerText="Name">
+                        <h:outputText value="#{product.name}"/>
+                    </p:column>
                     <p:columns value="#{customerMainView.specificCategories}" var="cat">
                         <f:facet name="header">
                             <h:outputText value="#{cat.name}"/>
                         </f:facet>
-                        <p:selectBooleanCheckbox id="categoryCheckbox"
-                                                 value="#{customerMainView.specificMap[cat][product]}"
-                                                 disabled="#{customerMainView.isSelected(product)}">
+                        <p:selectBooleanCheckbox value="#{customerMainView.specificMap[cat][product]}">
                             <p:ajax event="change" listener="#{customerMainView.addCategory(product, cat)}"/>
                         </p:selectBooleanCheckbox>
                     </p:columns>
                 </p:dataTable>
             </h:form>
+
         </p:tab>
         <p:tab title="Preis">
-            <h:form>
-                <p:dataTable value="#{productController.allProducts}" var="product"
+            <h:form id="priceForm">
+                <p:dataTable value="#{customerMainView.customersProducts}" var="product"
                              editable="true"
                              editMode="cell">
 

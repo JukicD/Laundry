@@ -242,7 +242,7 @@
                     <p:menuitem value="Neue Ware" icon="ui-icon-plus" outcome="pm:createProduct?transition=flip" iconPos="bottom"/>
                     <p:menuitem value="Reset" icon="ui-icon-refresh" action="#{productAutoCompleteFilter.reset}" iconPos="bottom" update="fourth:outputItem:outputItems fourth:inputItem:itemSearch"/>
                     <p:menuitem value="Mitarbeiter auswählen" icon="ui-icon-person" actionListener="#{workerController.init}" update="first" iconPos="bottom" outcome="pm:first?transition=slide"/>
-                    <p:menuitem value="Kunden Auswählen" icon="ui-icon-suitcase" outcome="pm:second?transition=slide" iconPos="bottom"/>
+                    <p:menuitem value="Kunden Auswählen" icon="ui-icon-suitcase" outcome="pm:second?transition=slide" iconPos="bottom" action="#{mobileController.reset}"/>
                 </p:tabMenu>
             </h:form>
         </pm:footer>

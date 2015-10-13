@@ -16,7 +16,7 @@ import java.util.*;
 @NamedQueries({
         @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 })
-public class Product implements Serializable {
+public class Product implements Serializable, Comparable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -110,5 +110,10 @@ public class Product implements Serializable {
         if(categories.contains(category)){
             categories.remove(category);
         }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.name.compareToIgnoreCase(((Product)o).getName());
     }
 }

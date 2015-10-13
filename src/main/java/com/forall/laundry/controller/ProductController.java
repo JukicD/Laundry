@@ -57,10 +57,12 @@ public class ProductController implements Serializable{
     private PriceService priceService;
 
     private Map<Product, Boolean> map;
+    private List<Product> allProducts;
 
     @PostConstruct
     public void init(){
         map = new HashMap<>();
+        allProducts = productService.getProducts().stream().sorted().collect(Collectors.toList());
     }
 
     public void addProduct(){
@@ -97,7 +99,7 @@ public class ProductController implements Serializable{
     }
 
     public List<Product> getAllProducts(){
-        return productService.getProducts();
+        return allProducts;
     }
 
     public void save(){

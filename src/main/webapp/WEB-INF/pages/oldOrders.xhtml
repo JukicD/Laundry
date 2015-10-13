@@ -5,18 +5,122 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <p:growl id="oldOrdersGrowl" showDetail="true"/>
+    <p:tabView id="oldOrdersTab" cache="true">
+        <p:ajax event="tabChange" listener="#{oldOrdersFilter.onTabChange}"/>
+        <p:tab title="Offene Rechnungen">
+            <h:form>
+                <p:outputPanel id="customPanel" style="margin-bottom:10px">
+                    <p:selectOneButton id="customButton" value="#{oldOrdersFilter.command}">
+                        <f:selectItem itemLabel="Monat" itemValue="recent"/>
+                        <f:selectItem itemLabel="Alle" itemValue="all"/>
+                        <f:selectItem itemLabel="Benutzerdefiniert" itemValue="date"/>
+                        <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="dateDialog datePanel"/>
+                    </p:selectOneButton>
+                </p:outputPanel>
+            </h:form>
+            <p:separator/>
+            <h:form id="openOrdersForm">
+                <p:dataTable id="openOrdersTable"
+                             var="order" value="#{oldOrdersFilter.openBills}"
+                             resizableColumns="true"
+                             emptyMessage="Keine Einträge!"
+                             selection="#{orderySelectionController.selectedOrders}"
+                             rowKey="#{order.id}"
+                             rowSelectMode="multiple"
+                             scrollable="true"
+                             editable="true"
+                             editMode="cell"
+                             reflow="true">
 
-    <h:form>
-        <p:outputPanel id="customPanel" style="margin-bottom:10px">
-            <p:selectOneButton id="customButton" value="#{oldOrdersFilter.command}">
-                <f:selectItem itemLabel="Monat" itemValue="recent"/>
-                <f:selectItem itemLabel="Alle" itemValue="all"/>
-                <f:selectItem itemLabel="Benutzerdefiniert" itemValue="date"/>
-                <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="customerPanel dateDialog datePanel"/>
-            </p:selectOneButton>
-        </p:outputPanel>
-    </h:form>
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 
-    <p:separator/>
-    <ui:include src="/WEB-INF/pages/components/ordersTable.xhtml"/>
+                    <p:column  headerText="#">
+                        <h:outputText value="#{order.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Datum">
+                        <h:outputText value="#{order.date}">
+                            <f:convertDateTime pattern="d.M.yy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-clipboard"
+                                         action="#{oldOrdersController.setup(order)}"
+                                         actionListener="#{navigationController.setSite('orders')}"
+                                         update="customerPanel">
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:separator/>
+                <p:commandButton
+                        value="Rechnung erstellen"
+                        icon="ui-icon-print"
+                        action="#{billingController.printBill(orderySelectionController.selectedOrders, userController.customer)}"
+                        actionListener="#{oldOrdersFilter.init}"
+                        update="customerListDialog"
+                        oncomplete="PF('customer').show()">
+                </p:commandButton>
+                <p:commandButton value="Zurück"
+                                 action="#{navigationController.setSite('customerList')}"
+                                 actionListener="#{labelController.label('Kundenliste')}"
+                                 update="customerPanel customerListDialog"
+                                 oncomplete="PF('customer').show()">
+                </p:commandButton>
+
+            </h:form>
+        </p:tab>
+        <p:tab title="Alte Rechnungen">
+            <p:separator/>
+            <h:form>
+                <p:dataTable id="closedordersTable"
+                             var="order" value="#{oldOrdersFilter.closedBills}"
+                             resizableColumns="true"
+                             emptyMessage="Keine Einträge!"
+                             selection="#{orderySelectionController.selectedOrders}"
+                             rowKey="#{order.id}"
+                             rowSelectMode="multiple"
+                             scrollable="true"
+                             editable="true"
+                             editMode="cell"
+                             reflow="true">
+
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                    <p:column  headerText="#">
+                        <h:outputText value="#{order.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Datum">
+                        <h:outputText value="#{order.date}">
+                            <f:convertDateTime pattern="d.M.yy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-clipboard"
+                                         action="#{oldOrdersController.setup(order)}"
+                                         actionListener="#{navigationController.setSite('orders')}"
+                                         update="customerPanel">
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:separator/>
+                <p:commandButton
+                        value="Rechnung erstellen"
+                        icon="ui-icon-print"
+                        actionListener="#{billingController.printBill(orderySelectionController.selectedOrders, userController.customer)}"
+                        update="customerPanel"/>
+                <p:commandButton value="Zurück"
+                                 action="#{navigationController.setSite('customerList')}"
+                                 actionListener="#{labelController.label('Kundenliste')}"
+                                 update="customerPanel customerListDialog"
+                                 oncomplete="PF('customer').show()">
+                </p:commandButton>
+
+            </h:form>
+        </p:tab>
+    </p:tabView>
 </ui:composition>

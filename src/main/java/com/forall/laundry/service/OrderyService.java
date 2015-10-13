@@ -154,6 +154,7 @@ public class OrderyService {
 
     public void update(Ordery o){
         em.merge(o);
+        System.out.println(o.isPrinted());
     }
 
 

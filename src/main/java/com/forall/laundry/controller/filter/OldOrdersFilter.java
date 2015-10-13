@@ -10,6 +10,7 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -33,23 +34,23 @@ public class OldOrdersFilter implements Serializable{
     private OrderyController orderyController;
 
     private String command;
-
     private String select;
-
     private Date dateFrom;
-
     private Date dateTo;
-
     private List<Ordery> orders;
-
     private List<Ordery> todaysOrders;
-
     private boolean isChoosingDate;
+    private List<Ordery> openBills;
+    private List<Ordery> closedBills;
+    private List<Ordery> selectedOrders;
 
     @PostConstruct
     public void init(){
         orders = orderyController.getThisMonthsOrdersFromCurrentCustomer();
         todaysOrders = orders.stream().filter( o -> LaundryUtil.isToday(o.getDate())).collect(Collectors.toList());
+        openBills = orders.stream().filter( o -> !o.isPrinted()).collect(Collectors.toList());
+        closedBills = orders.stream().filter(Ordery::isPrinted).collect(Collectors.toList());
+        System.out.println("INIT");
     }
 
     public void filter(){
@@ -75,6 +76,15 @@ public class OldOrdersFilter implements Serializable{
                     isChoosingDate = false;
                     break;
                 }
+        }
+    }
+
+    public void onTabChange(final TabChangeEvent event){
+        String title = event.getTab().getTitle();
+
+        switch(title){
+            case "Offene Rechnungen": orders = orders.stream().filter( o -> !o.isPrinted()).collect(Collectors.toList()); break;
+            case "Alte Rechnungen": orders = orders.stream().filter(Ordery::isPrinted).collect(Collectors.toList()); break;
         }
     }
 
@@ -136,5 +146,21 @@ public class OldOrdersFilter implements Serializable{
 
     public void setIsChoosingDate(boolean isChoosingDate) {
         this.isChoosingDate = isChoosingDate;
+    }
+
+    public List<Ordery> getOpenBills() {
+        return openBills;
+    }
+
+    public List<Ordery> getClosedBills() {
+        return closedBills;
+    }
+
+    public List<Ordery> getSelectedOrders() {
+        return selectedOrders;
+    }
+
+    public void setSelectedOrders(List<Ordery> selectedOrders) {
+        this.selectedOrders = selectedOrders;
     }
 }

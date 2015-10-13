@@ -61,6 +61,13 @@ public class MobileController implements Serializable{
     public void init(){
 
         currentOrder = customer == null ? null : orderyService.get(new Date(), customer.getId(),0);
+
+        if(customer != null && currentOrder == null){
+            currentOrder = new Ordery();
+            currentOrder.setCustomer(customer);
+            currentOrder.setDate(new Date());
+            orderyService.save(currentOrder);
+        }
         date = new Date();
     }
 
@@ -97,8 +104,12 @@ public class MobileController implements Serializable{
         }
     }
 
+    public void reset(){
+        currentOrder = null;
+    }
+
     public void updateCurrentOrder(){
-        currentOrder = customer == null ? null : orderyService.get(currentOrder.getDate(), customer.getId(), 0);
+        currentOrder = orderyService.get(currentOrder.getDate(), customer.getId(), 0);
     }
 
     public void selectPosition(final Position position){

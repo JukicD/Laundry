@@ -68,8 +68,9 @@
         <p:dialog id="customerListDialog"
                   header="#{labelController.label}"
                   widgetVar="customer"
-                  height="400" width="600" minimizable="true" dynamic="true" closable="true"
-                  hideEffect="clip">
+                  minimizable="true" dynamic="true" closable="true"
+                  hideEffect="clip"
+                  height="100%" width="50%">
 
             <p:ajax event="close" listener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
             <p:outputPanel id="customerPanel">

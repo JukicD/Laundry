@@ -10,10 +10,13 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
+import org.omnifaces.config.FacesConfigXml;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +44,9 @@ public class BillingController implements Serializable{
     public void init(){
         this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
     }
+
     public void printBill(List<Ordery> orders, Customer customer){
+        System.out.println(orders);
         assert(!orders.isEmpty());
 
         orders.forEach(o -> {
@@ -54,6 +59,8 @@ public class BillingController implements Serializable{
         if(!orders.isEmpty()){
             incrementBillNumber();
         }
+
+        RequestContext.getCurrentInstance().update("customerPanel");
     }
     
     public void save(){

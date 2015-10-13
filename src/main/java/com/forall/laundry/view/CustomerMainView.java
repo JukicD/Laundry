@@ -3,10 +3,14 @@ package com.forall.laundry.view;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
+import org.omnifaces.util.Ajax;
+import org.primefaces.component.api.UIData;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -42,6 +46,7 @@ public class CustomerMainView implements Serializable{
     private Map<Product, Boolean> map;
     private List<Category> specificCategories;
     private Map<Category, Map<Product, Boolean>> specificMap;
+    private List<Product> customersProducts;
 
     @PostConstruct
     public void init(){
@@ -59,6 +64,7 @@ public class CustomerMainView implements Serializable{
         final List<Product> products = productService.getProducts();
         final Map<Product, Property> prodPropMapping = customer.getPropertyMap();
         final Set<Product> customerP = prodPropMapping.keySet();
+        customersProducts = customerP.stream().sorted().collect(Collectors.toList());
 
         specificCategories.forEach(c -> {
             final Map<Product, Boolean> valueMap = new HashMap<>();
@@ -134,15 +140,6 @@ public class CustomerMainView implements Serializable{
         return categories != null && categories.contains(category);
     }
 
-    public boolean isSelected(final Product product){
-
-        return !customerService
-                .findById(userController.getCustomer().getId())
-                .getPropertyMap()
-                .keySet()
-                .contains(product);
-    }
-
     public List<Category> getSpecificCategories() {
         return specificCategories;
     }
@@ -165,5 +162,9 @@ public class CustomerMainView implements Serializable{
 
     public void setMap(Map<Product, Boolean> map) {
         this.map = map;
+    }
+
+    public List<Product> getCustomersProducts() {
+        return customersProducts;
     }
 }

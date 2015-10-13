@@ -13,6 +13,8 @@ import org.primefaces.event.UnselectEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -28,7 +30,7 @@ import java.util.List;
 public class OrderySelectionController implements Serializable{
     
     @Inject
-    OrderyController orderyController;
+    private OrderyController orderyController;
     
     private List<Ordery> selectedOrders;
     private List<Ordery> orders;
@@ -36,6 +38,8 @@ public class OrderySelectionController implements Serializable{
     @PostConstruct
     public void init(){
         orders = orderyController.getOldOrders();
+        System.out.println("init");
+        System.out.println(selectedOrders);
     }
     public void onRowSelect(SelectEvent event) {
             
