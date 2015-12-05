@@ -5,13 +5,16 @@
  */
 package com.forall.laundry.controller;
 
+import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
+import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
 import org.omnifaces.config.FacesConfigXml;
 import org.primefaces.context.RequestContext;
+import singletons.TreeViewSingleton;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,7 +23,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +43,12 @@ public class BillingController implements Serializable{
 
     @EJB
     private OrderyService orderyService;
+
+    @EJB
+    private BilService bilService;
+
+    @EJB
+    private TreeViewSingleton treeViewSingleton;
     
     @Inject
     private Bill bill;
@@ -45,22 +58,34 @@ public class BillingController implements Serializable{
         this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
     }
 
-    public void printBill(List<Ordery> orders, Customer customer){
-        System.out.println(orders);
+    public void printBill(final List<Ordery> orders, final Customer customer){
         assert(!orders.isEmpty());
 
-        orders.forEach(o -> {
-            o.setIsPrinted(true);
-            orderyService.update(o);
-        });
+            Bil b = new Bil();
+            b.setBillNumber(billingService.getBillNumber());
+            b.setPrinted(new Date());
+            b.setCustomer(customer);
+            b.setOrders(orders);
 
-        billingService.createBill(customer, orders);
+            bilService.save(b);
 
-        if(!orders.isEmpty()){
-            incrementBillNumber();
-        }
+            orders.forEach(o -> {
+                o.setIsPrinted(true);
+                orderyService.update(o);
+            });
+
+            if(!orders.isEmpty()) {
+                incrementBillNumber();
+            }
+
+        billingService.createBill(orders);
 
         RequestContext.getCurrentInstance().update("customerPanel");
+        treeViewSingleton.init();
+    }
+
+    public void printBillAgain(final Bil bil){
+        billingService.createBill(bil.getOrders());
     }
     
     public void save(){

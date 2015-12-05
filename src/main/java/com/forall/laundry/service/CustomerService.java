@@ -9,6 +9,8 @@ import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.*;
 import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -29,30 +31,30 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class CustomerService {
-    
-        @PersistenceContext
-        private EntityManager em;
-        
-        @Inject
-        private AppLogger logger;
-        
-        public List<Customer> getAllCustomers(){
-            return em.createNamedQuery("Customer.findAll").getResultList();
-        }
-        
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Inject
+    private AppLogger logger;
+
+    public List<Customer> getAllCustomers(){
+        return em.createNamedQuery("Customer.findAll").getResultList();
+    }
+
     public Customer findById(int id) {
-        
+
         return em.find(Customer.class, id);
     }
-    
+
     public List<Ordery> findOrdersById(int id) {
- 
-            return (List<Ordery>) em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id")
-                                                        .setParameter("id", id)
-                                                        .getResultList();
-        
+
+        return (List<Ordery>) em.createQuery("SELECT o FROM Ordery o WHERE o.customer.id = :id")
+                .setParameter("id", id)
+                .getResultList();
+
     }
-    
+
     public void save(Customer customer){
         try{
             em.persist(customer);
@@ -60,18 +62,18 @@ public class CustomerService {
             logger.info("CUSTOMER CREATED ! Name: " + customer.getName() + ", Address: " +customer.getAddress() + ", ID: " + customer.getId());
         }catch (Exception e){
             logger.error("FAILURE. Customer with ID: " + customer.getId() + "was not created ! Cause: " + e.getCause());
-        } 
+        }
     }
-    
+
     public void update(Customer customer){
         em.merge(customer);
         logger.info("Customer successfully updated! " + customer.toString());
     }
-    
+
 
     public Ordery getCurrentOrder(Customer customer) {
-            Date today = new Date();
-            Calendar cal = Calendar.getInstance();
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(today);
 
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -92,19 +94,19 @@ public class CustomerService {
             return order;
         }
     }
-    
+
     public Customer findByName(String name){
-        
+
         List<Customer> customers = em.createQuery("SELECT c FROM Customer c WHERE c.name = :name").setParameter("name", name).getResultList();
 
         return customers.get(0);
     }
-    
+
     public List<Customer> getCustomersFrom(final Date from, final Date to){
-        
+
         final Calendar fromCal = Calendar.getInstance();
         fromCal.setTime(from);
-        
+
         int day = fromCal.get(Calendar.DAY_OF_MONTH);
         int month = fromCal.get(Calendar.MONTH) + 1;
         int year = fromCal.get(Calendar.YEAR);
@@ -115,7 +117,7 @@ public class CustomerService {
 
 
         logger.info("Searching Customers from " + day +"."+month+"."+year);
-        
+
         List<Customer> customers =  em
                 .createQuery("SELECT DISTINCT c FROM Ordery o, Customer c "
                         + "WHERE o.customer.id = c.id "
@@ -155,7 +157,9 @@ public class CustomerService {
         return todaysOrders.stream()
                 .filter(o -> !o.getPositions().isEmpty())
                 .map(Ordery::getCustomer)
-                .sorted(( c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
+                .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
                 .collect(Collectors.toList());
     }
+
+
 }

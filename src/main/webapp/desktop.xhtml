@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
 <f:view contentType="text/html">
     <h:head>
@@ -68,13 +69,22 @@
         <p:dialog id="customerListDialog"
                   header="#{labelController.label}"
                   widgetVar="customer"
-                  minimizable="true" dynamic="true" closable="true"
+                  minimizable="true" dynamic="true" closable="true" maximizable="true"
                   hideEffect="clip"
                   height="100%" width="50%">
 
             <p:ajax event="close" listener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
             <p:outputPanel id="customerPanel">
                 <ui:include src="/WEB-INF/pages/#{navigationController.site}.xhtml"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog id="previewDialog"
+                  widgetVar="preview"
+                  modal="true"
+                  style="width: 700px; height: 500px">
+            <p:outputPanel id="previewPanel">
+                <pe:documentViewer height="500" value="#{treeViewController.pdf}"/>
             </p:outputPanel>
         </p:dialog>
 
@@ -191,8 +201,6 @@
                 <ui:include src="/WEB-INF/pages/workerMain.xhtml"/>
             </p:outputPanel>
         </p:dialog>
-
-
 
         <p:dialog header="Einstellungen"
                   widgetVar="billSettings"

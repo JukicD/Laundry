@@ -18,6 +18,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.RollbackException;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -37,13 +43,13 @@ import java.util.stream.Collectors;
 public class BillingService {
     
     @EJB
-    OrderyService orderyService;
+    private OrderyService orderyService;
     
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
     
     @Inject
-    AppLogger logger;
+    private AppLogger logger;
     
     public void save(Bill bill){
 
@@ -71,19 +77,21 @@ public class BillingService {
         }catch (NoResultException e){
             return null;
         }
-       
         return bill;
+    }
+
+    public Long getBillNumber(){
+        return getBill().getNumber();
     }
     
     
-    public void createBill(Customer customer, List<Ordery> orders) {
+    public byte[] createBill(List<Ordery> orders) {
         assert(!orders.isEmpty());
 
         try {
             if(orders.isEmpty()){
                 throw new IllegalArgumentException();
             }
-
 
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/IdeaProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
@@ -93,16 +101,31 @@ public class BillingService {
             parameter.put("item_id_list", getPositionIds(orders));
             parameter.put("customer_id", orders.get(0).getCustomer().getId());
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
-            
-            String path = "/home/jd/Desktop/wohoo.pdf";
-            JasperExportManager.exportReportToPdfFile(print, path);
 
 
+            String customerName = orders.get(0).getCustomer().getName();
+            String date = orders.get(0).getDate().toString();
+
+            FileSystemView fileSys = FileSystemView.getFileSystemView();
+
+            File[] roots = fileSys.getRoots();
+            String homeDir = fileSys.getHomeDirectory().getAbsolutePath();
+            String pathString = homeDir + "/Desktop/Rechnungen/" + customerName;
+            Path path = Paths.get(pathString);
+
+            if(!Files.exists(path)){
+                new File(pathString).mkdirs();
+            }
+
+            String filePath = pathString + "/" + getBillNumber() + ".pdf";
+            JasperExportManager.exportReportToPdfFile(print, filePath);
+            return JasperExportManager.exportReportToPdf(print);
         } catch (SQLException | JRException ex) {
             Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException e){
             logger.error("Illegal Argument in " + BillingService.class.getName() + ". Details: " + e.getCause());
         }
+        return null;
     }
     
     private List<String> getPositionIds(List<Ordery> orderys){

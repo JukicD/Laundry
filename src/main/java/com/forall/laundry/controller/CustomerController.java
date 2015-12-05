@@ -62,14 +62,7 @@ public class CustomerController implements Serializable{
     public void createCustomer(){
 
         try{
-
-            Ordery ordery = new Ordery();
-            ordery.setDate(new Date());
-            ordery.setCustomer(customer);
-
             customerService.save(customer);
-            orderyService.save(ordery);
-
             productService.getProducts().stream().forEach(p ->
             {
                 final Price price = new Price();

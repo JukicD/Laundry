@@ -47,7 +47,6 @@ public class EditController implements Serializable{
     private OrderyController orderyController;
 
     private BigDecimal newPrice;
-
     private List<Product> products;
 
     @PostConstruct
@@ -71,9 +70,7 @@ public class EditController implements Serializable{
             productService.update(product);
         }
 
-        System.out.println("TEST " + price);
         if(price.getPrice().intValue() == 0){
-            System.out.println("CHECK");
             orderyController.getAllOrdersFrom(userController.getCustomer())
                     .stream()
                     .flatMap(o -> o.getPositions().stream())

@@ -21,10 +21,7 @@ import java.util.List;
 @Named
 @RequestScoped
 public class ScheduleFilter implements Serializable{
-    
-    
-    
-    
+
     private List<Customer> customers;
     
     private Date date;

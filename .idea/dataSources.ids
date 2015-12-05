@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="PostgreSQL - laundry@localhost" uuid="a61c263d-4a7e-4841-88fa-1110a3d089df">
-    <database-info product="PostgreSQL" version="9.4.4" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
+    <database-info product="PostgreSQL" version="9.4.5" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.0 JDBC4 (build 801)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
@@ -2368,6 +2368,22 @@
       <column name="viewowner" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <column name="definition" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
     </table>
+    <table name="bil" schema="public" catalog="laundry" type="TABLE">
+      <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="billnumber" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="printed" sqlType="timestamp" precision="29" scale="6" nullable="true" jdbcType="93"/>
+      <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="bil_pkey" columns="id"/>
+      <foreign-key name="fk_i5cul5fk3bdlgiofs8nyrr6f" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_fdr1r0tpjsghrs7b24701t0ye" table="bil_ordery" schema="public" catalog="laundry" columns="bil_id"/>
+    </table>
+    <table name="bil_ordery" schema="public" catalog="laundry" type="TABLE">
+      <column name="bil_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="orders_id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="fk_fdr1r0tpjsghrs7b24701t0ye" columns="bil_id" ref-table="bil" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_oube11cdxfmnl8ptyfnfmfu0j" columns="orders_id" ref-table="ordery" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="uk_oube11cdxfmnl8ptyfnfmfu0j" unique="true" columns="orders_id"/>
+    </table>
     <table name="bill" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="uid" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -2400,6 +2416,7 @@
       <column name="skonto" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="zipcode" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="customer_pkey" columns="id"/>
+      <exported-key name="fk_i5cul5fk3bdlgiofs8nyrr6f" table="bil" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_qbw7llygssaejcuv9vmb43wsy" table="customer_product_property_map" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_5bjam0nswgy57qy0hi8035c03" table="ordery" schema="public" catalog="laundry" columns="customer_id"/>
       <exported-key name="fk_4hculelcvfdf8v67pyhow2yqi" table="product_customer_price_map" schema="public" catalog="laundry" columns="customer_id"/>
@@ -2441,6 +2458,7 @@
       <column name="customer_id" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="ordery_pkey" columns="id"/>
       <foreign-key name="fk_5bjam0nswgy57qy0hi8035c03" columns="customer_id" ref-table="customer" ref-schema="public" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_oube11cdxfmnl8ptyfnfmfu0j" table="bil_ordery" schema="public" catalog="laundry" columns="orders_id"/>
       <exported-key name="fk_l80kct0h8vfhxuhm9nh2stcsk" table="ordery_position" schema="public" catalog="laundry" columns="ordery_id"/>
     </table>
     <table name="ordery_position" schema="public" catalog="laundry" type="TABLE">
@@ -2453,6 +2471,7 @@
     <table name="position" schema="public" catalog="laundry" type="TABLE">
       <column name="id" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="amount" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="varchar" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="singleprice" sqlType="numeric" precision="19" scale="2" nullable="true" jdbcType="2"/>
       <column name="product_product_id" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="position_pkey" columns="id"/>

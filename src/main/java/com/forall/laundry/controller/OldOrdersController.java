@@ -29,6 +29,7 @@ public class OldOrdersController implements Serializable{
     private Ordery order;
     
     public void setup(Ordery order){
+        order.getPositions().stream().forEach(p -> System.out.println(p.getName()));
         this.order = order;
     }
     

@@ -50,7 +50,6 @@ public class OldOrdersFilter implements Serializable{
         todaysOrders = orders.stream().filter( o -> LaundryUtil.isToday(o.getDate())).collect(Collectors.toList());
         openBills = orders.stream().filter( o -> !o.isPrinted()).collect(Collectors.toList());
         closedBills = orders.stream().filter(Ordery::isPrinted).collect(Collectors.toList());
-        System.out.println("INIT");
     }
 
     public void filter(){
@@ -79,12 +78,17 @@ public class OldOrdersFilter implements Serializable{
         }
     }
 
-    public void onTabChange(final TabChangeEvent event){
-        String title = event.getTab().getTitle();
+    public void onTabChange(TabChangeEvent event){
+        String title = "";
+        if(event.getTab() != null){
+            title = event.getTab().getTitle();
+        }
+
 
         switch(title){
-            case "Offene Rechnungen": orders = orders.stream().filter( o -> !o.isPrinted()).collect(Collectors.toList()); break;
-            case "Alte Rechnungen": orders = orders.stream().filter(Ordery::isPrinted).collect(Collectors.toList()); break;
+            case "Lieferungen": orders = orders.stream().filter( o -> !o.isPrinted()).collect(Collectors.toList()); break;
+            case "Rechnungen": orders = orders.stream().filter(Ordery::isPrinted).collect(Collectors.toList()); break;
+            default : break;
         }
     }
 

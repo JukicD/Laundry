@@ -125,5 +125,7 @@ public class Position implements Serializable, Comparable{
         return singlePrice.multiply(new BigDecimal(amount));
     }
 
-
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
 }

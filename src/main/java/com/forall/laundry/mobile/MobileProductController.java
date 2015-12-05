@@ -98,6 +98,7 @@ public class MobileProductController implements Serializable{
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
         Ordery currentOrder = orderyService.findById(mc.getCurrentOrder().getId());
+        System.out.println("MOBILE: "  + currentOrder.getId());
         final Worker worker = mc.getWorker();
         final Integer amount = mc.getAmount();
         final Product prod = mc.getProduct();
