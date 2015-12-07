@@ -10,7 +10,6 @@ import com.forall.laundry.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;

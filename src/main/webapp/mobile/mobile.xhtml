@@ -115,16 +115,7 @@
                       modal="true"
                       closable="true">
 
-                <p:panelGrid id="formPanel" columns="1" cellpadding="5">
-                    <h:outputLabel id="quantLabel" for="amount" value="Ausgewählt: #{mobileController.product.name}"/>
-                    <p:inputText id="amount" value="#{mobileController.amount}" placeholder="Stück eingeben!" required="true" requiredMessage="Stück eingeben!"/>
-
-                    <p:commandButton
-                            value="Enter"
-                            action="#{mobileProductController.addItem}"
-                            update="fourth:itemoutputForm:itemoutputTable @form"
-                            oncomplete="PF('formDialog').hide();"/>
-                </p:panelGrid>
+                
 
             </p:dialog>
         </h:form>
@@ -264,7 +255,7 @@
         <pm:content>
             <h:form>
                 <pm:field>
-                    <h:outputText for="productName" value="Bezeichnung: "/>
+                    
                     <p:inputText id="productName" value="#{mobileProductController.product.name}"/>
                 </pm:field>
 

@@ -12,7 +12,6 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
-import org.omnifaces.config.FacesConfigXml;
 import org.primefaces.context.RequestContext;
 import singletons.TreeViewSingleton;
 

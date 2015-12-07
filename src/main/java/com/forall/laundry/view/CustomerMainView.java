@@ -3,7 +3,6 @@ package com.forall.laundry.view;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
-import org.omnifaces.util.Ajax;
 import org.primefaces.component.api.UIData;
 
 import javax.annotation.PostConstruct;

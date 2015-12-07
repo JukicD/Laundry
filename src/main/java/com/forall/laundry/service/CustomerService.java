@@ -6,7 +6,10 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
-import com.forall.laundry.model.*;
+import com.forall.laundry.model.Customer;
+import com.forall.laundry.model.Ordery;
+import com.forall.laundry.model.Product;
+
 import com.forall.laundry.util.LaundryUtil;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultTreeNode;
