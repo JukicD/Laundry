@@ -7,15 +7,8 @@ package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.History;
-import com.forall.laundry.model.Ordery;
-import com.forall.laundry.model.Position;
-import com.forall.laundry.model.Price;
-import com.forall.laundry.model.Product;
-import com.forall.laundry.model.Worker;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import net.sf.jasperreports.engine.JRException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -23,7 +16,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 /**

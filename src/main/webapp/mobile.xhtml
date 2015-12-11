@@ -30,9 +30,9 @@
         <pm:content>
             <h:form id="workerForm">
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
-                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
-                        <p:ajax event="click" listener="#{mobileController.setWorker(worker)}" update="second"/>
-                    </p:commandButton>
+                    <p:button value="#{worker.firstName}" outcome="pm:second?transition=slide" style="font-size: 200%">
+                        <p:ajax event="click" listener="#{mobileController.setWorker(worker)}"/>
+                    </p:button>
                 </p:dataGrid>
             </h:form>
         </pm:content>

@@ -93,7 +93,7 @@ public class BillingService {
             }
 
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
-            JasperDesign design = JRXmlLoader.load("/home/jd/IdeaProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
+            JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
             
             Map<String, Object> parameter = new HashMap<>();
