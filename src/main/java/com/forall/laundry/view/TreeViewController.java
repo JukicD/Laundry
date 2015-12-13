@@ -1,16 +1,12 @@
 package com.forall.laundry.view;
 
 import com.forall.laundry.controller.UserController;
-import com.forall.laundry.controller.filter.OldOrdersFilter;
 import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Position;
-import com.forall.laundry.model.Product;
-import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
-import com.forall.laundry.service.PositionService;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
+import com.forall.laundry.service.OrderyService;
+import com.forall.laundry.service.PositionService; 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -23,14 +19,18 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
+import org.primefaces.event.NodeCollapseEvent;
+import org.primefaces.event.NodeExpandEvent;
 
 /**
  * Created by jd on 10/14/15.
@@ -40,17 +40,18 @@ import java.util.stream.Collectors;
 public class TreeViewController implements Serializable {
 
     private TreeNode root;
-    private TreeNode selectedNode;
+    private TreeNode[] selectedNodes;
     private List<Ordery> selectedOrders;
     private List<Ordery> ordersFromDate;
     private Bil bil;
     private StreamedContent pdf;
+    private String radioSelection;
 
     @EJB
     private TreeViewSingleton treeViewSingleton;
 
     @EJB
-    private BilService bilService;
+    private OrderyService orderyService;
 
     @EJB
     private BillingService billingService;
@@ -61,68 +62,107 @@ public class TreeViewController implements Serializable {
     @Inject
     private UserController userController;
 
-    @Inject
-    private OldOrdersFilter oldOrdersFilter;
-
     @PostConstruct
     public void init() {
         root = treeViewSingleton.getNodeMap().get(userController.getCustomer());
+        ordersFromDate = new ArrayList<>();
+        radioSelection = "offen";
     }
 
-    public void onNodeSelect(){
-        if(selectedNode != null && selectedNode.isLeaf()){
+    public void onNodeSelect() {
+        if (selectedNodes != null && selectedNodes.length > 0) {
 
-            final int day = Integer.parseInt((String)selectedNode.getData());
-            final String month = (String) selectedNode.getParent().getData();
-            final int year = Integer.parseInt((String)selectedNode.getParent().getParent().getData());
+            ordersFromDate = null;
+            ordersFromDate = new ArrayList<>();
+            Stream.of(selectedNodes).forEach(selectedNode -> {
+                StringBuilder b = new StringBuilder();
+                TreeNode curNode = selectedNode;
 
-            int intMonth = -1;
-            try {
-                Date date = new SimpleDateFormat("MMMM", Locale.GERMAN).parse(month);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                intMonth = cal.get(Calendar.MONTH) + 1;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            bil = bilService.get(day, intMonth, year, userController.getCustomer());
+                while (!curNode.getData().equals("root")) {
 
-            ordersFromDate = bil.getOrders();
-            selectedOrders = bil.getOrders();
-            sortOrders();
+                    b.append(curNode.getData().toString());
+                    curNode = curNode.getParent();
+                    if (!curNode.getData().equals("root")) {
+                        b.append(".");
+                    }
+                }
+
+                String date = b.toString();
+
+                if (isLegalDate(date)) {
+
+                    Calendar cal = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MMMM.yyyy", Locale.GERMAN);
+                    try {
+                        cal.setTime(sdf.parse(date));
+
+                        Ordery order = orderyService.get(cal.getTime(), userController.getCustomer().getId(), 0);
+
+                        if (!ordersFromDate.contains(order)) {
+                            ordersFromDate.add(order);
+                        }
+
+                    } catch (ParseException ex) {
+                        Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            selectedOrders = ordersFromDate;
+        } else {
+            ordersFromDate = null;
+            ordersFromDate = new ArrayList<>();
+            selectedOrders = ordersFromDate;
         }
     }
 
-    public void showPreview(){
+    public void updateOrders() {
+
+        switch (radioSelection) {
+            case "offen":
+                treeViewSingleton.init();
+                break;
+            case "alle":
+                treeViewSingleton.filterAll();
+                break;
+        }
+        
+        root = treeViewSingleton.getNodeMap().get(userController.getCustomer());
+    }
+
+    public void showPreview() {
         byte[] data = billingService.createBill(selectedOrders);
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
-    public void resetOrders(){
+    public void resetOrders() {
         init();
-        selectedNode = null;
-        ordersFromDate = null;
+        selectedNodes = null;
+        //ordersFromDate = null;
         selectedOrders = null;
     }
 
-    public void select(final Ordery order){
+    public void select(final Ordery order) {
         selectedOrders.add(order);
         sortOrders();
     }
 
-    public void unSelect(final Ordery order){
+    public void unSelect(final Ordery order) {
         selectedOrders.remove(order);
         sortOrders();
     }
 
-    public void onCellEdit(final CellEditEvent event){
+    public void onCellEdit(final CellEditEvent event) {
 
         String source = event.getColumn().getHeaderText();
         FacesContext context = FacesContext.getCurrentInstance();
         Position pos = context.getApplication().evaluateExpressionGet(context, "#{pos}", Position.class);
-        switch(source){
-            case "Anzahl": pos.setAmount((Integer)event.getNewValue()); break;
-            case "Einzelpreis": pos.setSinglePrice((BigDecimal)event.getNewValue()); break;
+        switch (source) {
+            case "Anzahl":
+                pos.setAmount((Integer) event.getNewValue());
+                break;
+            case "Einzelpreis":
+                pos.setSinglePrice((BigDecimal) event.getNewValue());
+                break;
         }
 
         positionService.update(pos);
@@ -136,12 +176,12 @@ public class TreeViewController implements Serializable {
         return root;
     }
 
-    public TreeNode getSelectedNode() {
-        return selectedNode;
+    public TreeNode[] getSelectedNodes() {
+        return selectedNodes;
     }
 
-    public void setSelectedNode(TreeNode selectedNode) {
-        this.selectedNode = selectedNode;
+    public void setSelectedNodes(TreeNode[] selectedNodes) {
+        this.selectedNodes = selectedNodes;
     }
 
     public List<Ordery> getSelectedOrders() {
@@ -162,5 +202,27 @@ public class TreeViewController implements Serializable {
 
     public StreamedContent getPdf() {
         return pdf;
+    }
+
+    public String getRadioSelection() {
+        return radioSelection;
+    }
+
+    public void setRadioSelection(String radioSelection) {
+        this.radioSelection = radioSelection;
+    }
+
+    private boolean isLegalDate(String s) {
+        SimpleDateFormat f = new SimpleDateFormat("dd.MMMM.yyyy", Locale.GERMAN);
+        f.setLenient(false);
+        return f.parse(s, new ParsePosition(0)) != null;
+    }
+
+    public void nodeExpand(NodeExpandEvent event) {
+        event.getTreeNode().setExpanded(true);
+    }
+
+    public void nodeCollapse(NodeCollapseEvent event) {
+        event.getTreeNode().setExpanded(true);
     }
 }

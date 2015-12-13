@@ -19,6 +19,11 @@
 
                 <p:outputLabel for="number" value="Rechnungsnummer:" style="font-size: 16px"/>
                 <h:inputText id="number" value="#{billingController.bill.number}" />
+                
+                <p:outputLabel for="tip" value="Tips: "/>
+                <p:selectBooleanCheckbox id="tip" value="#{toolTipController.enabled}">
+                    <p:ajax event="change" listener="#{toolTipController.change}"/>
+                </p:selectBooleanCheckbox>
             </h:panelGrid>
             
             <br/>

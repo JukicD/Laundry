@@ -24,6 +24,7 @@ public class Bil implements Serializable{
     private Customer customer;
 
     @Basic
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date printed;
 
     @Basic

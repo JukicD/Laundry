@@ -1,6 +1,5 @@
 package singletons;
 
-import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BilService;
@@ -14,13 +13,11 @@ import javax.ejb.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 /**
  * Created by jd on 10/14/15.
  */
-
 @Singleton
 @Startup
 public class TreeViewSingleton implements Serializable {
@@ -37,7 +34,7 @@ public class TreeViewSingleton implements Serializable {
     private Map<Customer, TreeNode> nodeMap;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         long start = System.currentTimeMillis();
         nodeMap = new HashMap<>();
         List<Customer> customers = customerService.getAllCustomers();
@@ -47,30 +44,26 @@ public class TreeViewSingleton implements Serializable {
                 .forEach(
                         c -> {
 
-                            final List<Bil> bils = bilService.getBilsFrom(c);
+                            final List<Ordery> orders = orderyService.getOrdersFrom(c);
                             final List<String> dates = new ArrayList<>();
 
-                            bils
-                                    .stream()
-                                    .forEach(b -> dates.add(parseDate(b.getPrinted()))
-                                    );
+                            orders
+                            .stream()
+                             .filter(order -> !order.isPrinted())
+                            .forEach(order -> dates.add(parseDate(order.getDate()))
+                            );
                             createNodes(dates, c);
                         }
                 );
-
-
-        Ordery ord = orderyService.findById(2);
-        ord.getPositions().stream().forEach( p -> System.out.println(p.getName()));
-
         System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
-    private String parseDate(final Date date){
+    private String parseDate(final Date date) {
         final SimpleDateFormat f = new SimpleDateFormat("dd.MMMM.yyyy", Locale.GERMAN);
         return f.format(date);
     }
 
-    private void createNodes(final List<String> dates, final Customer customer){
+    private void createNodes(final List<String> dates, final Customer customer) {
 
         dates
                 .stream()
@@ -97,12 +90,35 @@ public class TreeViewSingleton implements Serializable {
         return nodeMap;
     }
 
-    private TreeNode contains(final TreeNode node, final String name){
-        for(TreeNode n : node.getChildren()){
-            if(n.getData().equals(name)){
+    private TreeNode contains(final TreeNode node, final String name) {
+        for (TreeNode n : node.getChildren()) {
+            if (n.getData().equals(name)) {
                 return n;
             }
         }
         return null;
+    }
+
+    public void filterAll() {
+        long start = System.currentTimeMillis();
+        nodeMap = new HashMap<>();
+        List<Customer> customers = customerService.getAllCustomers();
+
+        customers
+                .stream()
+                .forEach(
+                        c -> {
+
+                            final List<Ordery> orders = orderyService.getOrdersFrom(c);
+                            final List<String> dates = new ArrayList<>();
+
+                            orders
+                            .stream()
+                            .forEach(order -> dates.add(parseDate(order.getDate()))
+                            );
+                            createNodes(dates, c);
+                        }
+                );
+        System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 }

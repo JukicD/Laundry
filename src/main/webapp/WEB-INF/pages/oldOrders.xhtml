@@ -6,78 +6,9 @@
 
     <p:growl id="oldOrdersGrowl" showDetail="true"/>
     <p:tabView id="oldOrdersTab" cache="true" binding="#{ordersTabView}">
-        <p:ajax event="tabChange" listener="#{oldOrdersFilter.onTabChange}"/>
         <p:ajax event="tabChange" listener="#{treeViewController.resetOrders}" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:closedOrdersForm :oldOrdersTab:selectedPositionsTable"/>
-        <p:tab title="Lieferungen">
-            <p:outputPanel id="tab0">
-                <h:outputText value="Kunde: #{userController.customer.name}"/>
-                <h:form>
-                    <p:outputPanel id="customPanel" style="margin-bottom:10px">
-                        <p:selectOneButton id="customButton" value="#{oldOrdersFilter.command}">
-                            <f:selectItem itemLabel="Monat" itemValue="recent"/>
-                            <f:selectItem itemLabel="Alle" itemValue="all"/>
-                            <f:selectItem itemLabel="Benutzerdefiniert" itemValue="date"/>
-                            <p:ajax event="change" listener="#{oldOrdersFilter.filter}" update="dateDialog datePanel"/>
-                        </p:selectOneButton>
-                    </p:outputPanel>
-                </h:form>
-                <p:separator/>
-                <h:form id="openOrdersForm">
-                    <p:dataTable id="openOrdersTable"
-                                 var="order" value="#{oldOrdersFilter.openBills}"
-                                 resizableColumns="true"
-                                 emptyMessage="Keine Einträge!"
-                                 selection="#{orderySelectionController.selectedOrders}"
-                                 rowKey="#{order.id}"
-                                 rowSelectMode="multiple"
-                                 scrollable="true"
-                                 editable="true"
-                                 editMode="cell"
-                                 reflow="true">
-
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-
-                        <p:column  headerText="#">
-                            <h:outputText value="#{order.id}"/>
-                        </p:column>
-
-                        <p:column headerText="Datum">
-                            <h:outputText value="#{order.date}">
-                                <f:convertDateTime pattern="d.M.yy" />
-                            </h:outputText>
-                        </p:column>
-
-                        <p:column>
-                            <p:commandButton icon="ui-icon-clipboard"
-                                             action="#{oldOrdersController.setup(order)}"
-                                             actionListener="#{navigationController.setSite('orders')}"
-                                             update="customerPanel">
-                            </p:commandButton>
-                        </p:column>
-
-                    </p:dataTable>
-                    <p:separator/>
-                    <p:commandButton
-                            value="Rechnung erstellen"
-                            icon="ui-icon-print"
-                            action="#{billingController.printBill(oldOrdersFilter.openBills, userController.customer)}"
-                            actionListener="#{oldOrdersFilter.init}"
-                            update="@parent"
-                            oncomplete="PF('customer').show()">
-                    </p:commandButton>
-                    <p:commandButton value="Zurück"
-                                     action="#{navigationController.setSite('customerList')}"
-                                     actionListener="#{labelController.label('Kundenliste')}"
-                                     update="customerPanel"
-                                     oncomplete="PF('customer').show()">
-                    </p:commandButton>
-
-                </h:form>
-            </p:outputPanel>
-
-
-        </p:tab>
-        <p:tab title="Rechnungen" id="closedOrdersTab">
+        
+        <p:tab title="Lieferungen" id="closedOrdersTab">
             <p:layout style="height: 500px">
                 <p:layoutUnit position="west" resizable="true" minSize="140">
                     <h:outputText value="Kunde: #{userController.customer.name}"/>
@@ -85,16 +16,19 @@
                         <p:tree value="#{treeViewController.root}" var="node"
                                 animate="true"
                                 style="width: 130px; height: auto"
-                                selectionMode="single"
-                                selection="#{treeViewController.selectedNode}">
+                                selectionMode="checkbox"
+                                selection="#{treeViewController.selectedNodes}">
                             <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
+                            <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
                             <p:treeNode>
                                 <h:outputText value="#{node}"/>
                             </p:treeNode>
                         </p:tree>
                     </h:form>
                 </p:layoutUnit>
-
+                 
                 <p:layoutUnit position="center" resizable="true">
                     <p:layout>
                         <p:layoutUnit position="center" resizable="true">
@@ -128,22 +62,167 @@
                                 </p:dataTable>
                                 <p:separator/>
                                 <p:commandButton
-                                    value="Rechnung anzeigen"
+                                    value="Vorschau"
                                     icon="ui-icon-print"
                                     actionListener="#{treeViewController.showPreview}"
                                         oncomplete="PF('preview').show()"
                                         update="previewDialog"/>
+                                <p:commandButton
+                                    id="createBill"
+                                    value="Rechnung abschließen"
+                                    icon="ui-icon-print"
+                                    action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
+                                    actionListener="#{oldOrdersFilter.init}"
+                                    update="@form"
+                                    oncomplete="PF('customer').show()"/>
                                 <p:commandButton value="Zurück"
                                                  action="#{navigationController.setSite('customerList')}"
                                                  actionListener="#{labelController.label('Kundenliste')}"
                                                  update="customerPanel"
                                                  oncomplete="PF('customer').show()">
                                 </p:commandButton>
+                                <p:tooltip id="toolTipFade" for="createBill" rendered="#{toolTipController.enabled}">
+                                    
+                                    <h:outputText value="Alle Lieferungen werden zu einer Rechnung zusammengeführt."/>
+                                    <br/>
+                                    <h:outputText value="Bereits zugewiesene Lieferungen können nur dann einer anderen Rechnung"/>
+                                    <br/>
+                                    <h:outputText value="zugewiesen werden, wenn diese vorher aus der aktuellen Rechnung gelöscht wird."/>
+                                </p:tooltip>
                             </h:form>
-
+                            
                         </p:layoutUnit>
                         <p:layoutUnit position="south" resizable="true" collapsible="true" minSize="260" header="Zusammenfassung">
                             <h:form id="selectedPositionsTable">
+                                <ui:repeat value="#{treeViewController.selectedOrders}" var="ord">
+                                    <p:dataTable value="#{ord.positions}"
+                                                 var="pos"
+                                                 rendered="#{not empty ord.positions}"
+                                                 editable="true"
+                                                 editMode="cell">
+                                        <p:ajax event="cellEdit" listener="#{treeViewController.onCellEdit}" update="@this" />
+                                        <f:facet name="header">
+                                            <h:outputText value="#{ord.date}">
+                                                <f:convertDateTime pattern="d.M.yy" />
+                                            </h:outputText>
+                                        </f:facet>
+                                        <p:column headerText="Artikel">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pos.name}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{pos.name}"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="Anzahl">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pos.amount}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{pos.amount}"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column headerText="Einzelpreis">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pos.singlePrice}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{pos.singlePrice}"/>
+                                                </f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                    </p:dataTable>
+                                </ui:repeat>
+                            </h:form>
+                        </p:layoutUnit>
+                    </p:layout>
+                </p:layoutUnit>
+            </p:layout>
+        </p:tab>
+        <p:tab title="Rechnungen" id="billTab">
+            <p:layout style="height: 500px">
+                <p:layoutUnit position="west" resizable="true" minSize="140">
+                    <h:outputText value="Kunde: #{userController.customer.name}"/>
+                    <h:form>
+                        <p:tree value="#{treeViewController.root}" var="node"
+                                animate="true"
+                                style="width: 130px; height: auto"
+                                selectionMode="checkbox"
+                                selection="#{treeViewController.selectedNodes}">
+                            <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
+                            <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
+                            <p:treeNode>
+                                <h:outputText value="#{node}"/>
+                            </p:treeNode>
+                        </p:tree>
+                    </h:form>
+                </p:layoutUnit>
+                 
+                <p:layoutUnit position="center" resizable="true">
+                    <p:layout>
+                        <p:layoutUnit position="center" resizable="true">
+                            <h:form>
+                                <p:dataTable 
+                                             var="order" value="#{treeViewController.ordersFromDate}"
+                                             resizableColumns="true"
+                                             emptyMessage="Keine Einträge!"
+                                             selection="#{treeViewController.selectedOrders}"
+                                             rowKey="#{order.id}"
+                                             rowSelectMode="multiple"
+                                             scrollable="true"
+                                             editable="true"
+                                             editMode="cell"
+                                             reflow="true"
+                                             style="width: auto">
+                                    <p:ajax event="rowSelectCheckbox" listener="#{treeViewController.select(order)}" update=":oldOrdersTab:selectedPositionsTable" />
+                                    <p:ajax event="rowUnselectCheckbox" listener="#{treeViewController.unSelect(order)}" update=":oldOrdersTab:selectedPositionsTable"/>
+                                    <p:column selectionMode="multiple" style="width:16px;text-align:center" >
+                                    </p:column>
+
+                                    <p:column  headerText="#">
+                                        <h:outputText value="#{order.id}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Datum">
+                                        <h:outputText value="#{order.date}">
+                                            <f:convertDateTime pattern="d.M.yy" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:separator/>
+                                <p:commandButton
+                                    value="Vorschau"
+                                    icon="ui-icon-print"
+                                    actionListener="#{treeViewController.showPreview}"
+                                        oncomplete="PF('preview').show()"
+                                        update="previewDialog"/>
+                                <p:commandButton
+                                    
+                                    value="Rechnung abschließen"
+                                    icon="ui-icon-print"
+                                    action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
+                                    actionListener="#{oldOrdersFilter.init}"
+                                    update="@form"
+                                    oncomplete="PF('customer').show()"/>
+                                <p:commandButton value="Zurück"
+                                                 action="#{navigationController.setSite('customerList')}"
+                                                 actionListener="#{labelController.label('Kundenliste')}"
+                                                 update="customerPanel"
+                                                 oncomplete="PF('customer').show()">
+                                </p:commandButton>
+                                
+                            </h:form>
+                            
+                        </p:layoutUnit>
+                        <p:layoutUnit position="south" resizable="true" collapsible="true" minSize="260" header="Zusammenfassung">
+                            <h:form>
                                 <ui:repeat value="#{treeViewController.selectedOrders}" var="ord">
                                     <p:dataTable value="#{ord.positions}"
                                                  var="pos"

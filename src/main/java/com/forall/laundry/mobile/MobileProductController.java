@@ -2,18 +2,17 @@ package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
-import com.forall.laundry.view.CustomerMainView;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.criteria.Order;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
+import org.primefaces.context.RequestContext;
+import singletons.TreeViewSingleton;
 
 /**
  * Created by jd on 8/24/15.
@@ -51,6 +50,9 @@ public class MobileProductController implements Serializable{
 
     @Inject
     private Product product;
+    
+    @Inject
+    private TreeViewSingleton treeViewSingleton;
 
     @Inject
     private MobileCategoryController mcc;
@@ -98,7 +100,6 @@ public class MobileProductController implements Serializable{
 
         final Customer customer = customerService.findById(mc.getCustomer().getId());
         Ordery currentOrder = orderyService.findById(mc.getCurrentOrder().getId());
-        System.out.println("MOBILE: "  + currentOrder.getId());
         final Worker worker = mc.getWorker();
         final Integer amount = mc.getAmount();
         final Product prod = mc.getProduct();
@@ -158,6 +159,8 @@ public class MobileProductController implements Serializable{
 
         mc.updateCurrentOrder();
         mc.setAmount(null);
+        treeViewSingleton.init();
+        RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable :closedOrdersTableForm");
     }
 
     public void add(final Category category){

@@ -28,6 +28,7 @@ public class Ordery implements Serializable {
     
     @Basic(fetch=FetchType.LAZY)
     @Column(name = "time")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     
     @ManyToOne(cascade = CascadeType.ALL)

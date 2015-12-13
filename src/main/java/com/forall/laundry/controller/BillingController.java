@@ -80,7 +80,7 @@ public class BillingController implements Serializable{
         billingService.createBill(orders);
 
         RequestContext.getCurrentInstance().update("customerPanel");
-        treeViewSingleton.init();
+        //treeViewSingleton.init();
     }
 
     public void printBillAgain(final Bil bil){
