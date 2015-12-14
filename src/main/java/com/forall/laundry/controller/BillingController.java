@@ -23,7 +23,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Asynchronous;
 import javax.ejb.Stateful;
 
 /**
@@ -34,7 +33,7 @@ import javax.ejb.Stateful;
 @Stateful
 @RequestScoped
 public class BillingController implements Serializable{
-    
+
     @EJB
     private BillingService billingService;
 
@@ -46,13 +45,10 @@ public class BillingController implements Serializable{
 
     @EJB
     private TreeViewSingleton treeViewSingleton;
-    
+
     @Inject
     private Bill bill;
-    
-    @Inject
-    private UserController userController;
-    
+
     @PostConstruct
     public void init(){
         this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
@@ -66,7 +62,8 @@ public class BillingController implements Serializable{
         b.setPrinted(new Date());
         b.setCustomer(customer);
         b.setOrders(orders);
-        b.setBill(billingService.createBill(orders));
+        System.out.println("createnr " + b.getBillNumber());
+        b.setBill(billingService.createBill(orders, b.getBillNumber()));
         bilService.save(b);
 
         orders.forEach(order -> {
@@ -79,18 +76,12 @@ public class BillingController implements Serializable{
         billingService.update(billInfo);
         treeViewSingleton.init();
         RequestContext.getCurrentInstance().update("customerPanel");
-        
     }
 
     public void printBillAgain(final Bil bil){
-        billingService.createBill(bil.getOrders());
+        billingService.createBill(bil.getOrders(), bil.getBillNumber());
     }
-    
-    public void printBillAgain(final Ordery order){
-        Bil bil = bilService.get(order.getDate(), userController.getCustomer().getId());
-        billingService.createBill(bil.getOrders());
-    }
-    
+
     public void save(){
         if(billingService.getBill() != null){
             billingService.update(bill);
@@ -98,11 +89,12 @@ public class BillingController implements Serializable{
             billingService.save(bill);
         }
     }
-    
-    @Asynchronous
+
     public void update(final Ordery order, final int id){
         Bil bil = bilService.get(order.getDate(), id);
-        bil.setBill(billingService.createBill(bil.getOrders()));
+        System.out.println("getnumber: " + bil.getBillNumber());
+        byte[] newBill = billingService.createBill(bil.getOrders(), bil.getBillNumber());
+        bil.setBill(newBill);
         bilService.update(bil);
     }
 

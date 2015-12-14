@@ -25,17 +25,11 @@ public class MobileProductController implements Serializable{
     @Inject
     private MobileController mc;
 
-    @Inject
-    private ProductAutoCompleteFilter pac;
-
     @EJB
     private ProductService productService;
 
     @EJB
     private CustomerService customerService;
-
-    @EJB
-    private PropertyService propertyService;
 
     @EJB
     private PriceService priceService;
@@ -48,18 +42,15 @@ public class MobileProductController implements Serializable{
 
     @EJB
     private PositionService positionService;
-    
+
     @Inject
     private BillingController billingController;
 
     @Inject
     private Product product;
-    
-    @Inject
-    private TreeViewSingleton treeViewSingleton;
 
     @Inject
-    private MobileCategoryController mcc;
+    private TreeViewSingleton treeViewSingleton;
 
     private List<Category> categories;
 
@@ -101,7 +92,7 @@ public class MobileProductController implements Serializable{
     }
 
     public void addItem(){
-
+        System.out.println("addItem");
         final Customer customer = customerService.findById(mc.getCustomer().getId());
         Ordery currentOrder = orderyService.findById(mc.getCurrentOrder().getId());
         final Worker worker = mc.getWorker();
@@ -159,10 +150,11 @@ public class MobileProductController implements Serializable{
             orderyService.update(currentOrder);
         }
 
-        if(currentOrder.isPrinted()){
+        if (currentOrder.isPrinted()) {
+            System.out.println("updateIsPrinted");
             billingController.update(currentOrder, mc.getCustomer().getId());
         }
-        
+
         mc.updateCurrentOrder();
         mc.setAmount(null);
         treeViewSingleton.init();

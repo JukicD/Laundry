@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bill" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="cefc77e1-838c-49e5-9fba-dc4611046880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -135,6 +135,9 @@ ORDER BY product_name ASC;]]>
 	<parameter name="customer_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="bill_num" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
 c."name" AS customer_name,
@@ -150,8 +153,7 @@ b.ownname AS bill_ownname,
 b.address AS bill_address,
 b.uid AS bill_uid,
 b.information AS own_information,
-b.welcome AS own_welcome,
-b.number AS bill_offset_number
+b.welcome AS own_welcome
 
 FROM
 "public".customer c,
@@ -160,7 +162,7 @@ FROM
 
 WHERE
 $X{IN, p.id::varChar,item_id_list} AND
-c.id = $P{customer_id};]]>
+c.id = $P{customer_id}]]>
 	</queryString>
 	<field name="customer_name" class="java.lang.String"/>
 	<field name="customer_address" class="java.lang.String"/>
@@ -176,7 +178,6 @@ c.id = $P{customer_id};]]>
 	<field name="bill_uid" class="java.lang.String"/>
 	<field name="own_information" class="java.lang.String"/>
 	<field name="own_welcome" class="java.lang.String"/>
-	<field name="bill_offset_number" class="java.lang.Long"/>
 	<group name="Waren">
 		<groupExpression><![CDATA[$F{product_price}]]></groupExpression>
 	</group>
@@ -275,12 +276,12 @@ c.id = $P{customer_id};]]>
 					</textElement>
 					<text><![CDATA[Rechnung]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="78" y="61" width="92" height="19" uuid="ead68530-f7e4-41ca-a0df-1b6bb8933d21"/>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{bill_offset_number}]]></textFieldExpression>
-				</textField>
 			</frame>
+			<textField>
+				<reportElement x="465" y="107" width="52" height="20" uuid="35a0a9ee-fe67-48dc-9646-9ece954e3ca1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{bill_num}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageFooter>

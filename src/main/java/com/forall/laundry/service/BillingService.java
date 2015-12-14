@@ -5,12 +5,12 @@
 */
 package com.forall.laundry.service;
 
+import com.forall.laundry.controller.BillingController;
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -39,16 +39,16 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class BillingService {
-    
-    @EJB
-    private OrderyService orderyService;
-    
+
     @PersistenceContext
     private EntityManager em;
-    
+
     @Inject
     private AppLogger logger;
-    
+
+    @Inject
+    private BillingController billingController;
+
     public void save(Bill bill){
 
         try{
@@ -58,7 +58,7 @@ public class BillingService {
             logger.error("ERROR ! Bill was not saved !");
         }
     }
-    
+
     public void update(Bill bill){
          try{
             em.merge(bill);
@@ -67,7 +67,7 @@ public class BillingService {
             logger.error("ERROR ! Bill was not updated !");
         }
     }
-    
+
     public Bill getBill(){
         Bill bill;
         try{
@@ -81,9 +81,9 @@ public class BillingService {
     public Long getBillNumber(){
         return getBill().getNumber();
     }
-    
-    
-    public byte[] createBill(List<Ordery> orders) {
+
+
+    public byte[] createBill(List<Ordery> orders, final Long billNumber) {
         assert(!orders.isEmpty());
 
         try {
@@ -94,19 +94,19 @@ public class BillingService {
             Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
-            
+
             Map<String, Object> parameter = new HashMap<>();
             parameter.put("item_id_list", getPositionIds(orders));
             parameter.put("customer_id", orders.get(0).getCustomer().getId());
+            System.out.println("BILLNR: " + billNumber);
+            parameter.put("bill_num", billNumber);
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
-
 
             String customerName = orders.get(0).getCustomer().getName();
             String date = orders.get(0).getDate().toString();
 
             FileSystemView fileSys = FileSystemView.getFileSystemView();
 
-            File[] roots = fileSys.getRoots();
             String homeDir = fileSys.getHomeDirectory().getAbsolutePath();
             String pathString = homeDir + "/Desktop/Rechnungen/" + customerName;
             Path path = Paths.get(pathString);
@@ -125,9 +125,9 @@ public class BillingService {
         }
         return null;
     }
-    
+
     private List<String> getPositionIds(List<Ordery> orderys){
-        
+
         return orderys
                     .parallelStream()
                     .map(Ordery::getPositions)

@@ -72,7 +72,6 @@
                                     value="Rechnung abschließen"
                                     icon="ui-icon-print"
                                     action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
-                                    actionListener="#{oldOrdersFilter.init}"
                                     update="@form"/>
                                 <p:commandButton value="Zurück"
                                                  action="#{navigationController.setSite('customerList')}"

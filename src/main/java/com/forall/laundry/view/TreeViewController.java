@@ -1,5 +1,6 @@
 package com.forall.laundry.view;
 
+import com.forall.laundry.controller.BillingController;
 import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Ordery;
@@ -67,6 +68,9 @@ public class TreeViewController implements Serializable {
 
     @Inject
     private UserController userController;
+
+    @Inject
+    private BillingController billingController;
 
     @PostConstruct
     public void init() {
@@ -174,12 +178,14 @@ public class TreeViewController implements Serializable {
     }
 
     public void showDeliveryPreview() {
-        byte[] data = billingService.createBill(selectedOrders);
+        byte[] data = billingService.createBill(selectedOrders, billingController.getBill().getNumber());
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
-    
+
     public void showBill(){
-        byte[] data = bilService.get(ordersFromDate.get(0).getDate(), userController.getCustomer().getId()).getBill();
+        Bil b = bilService.get(ordersFromDate.get(0).getDate(), userController.getCustomer().getId());
+
+        byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 

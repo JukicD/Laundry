@@ -49,21 +49,20 @@ public class TreeViewSingleton implements Serializable {
         List<Customer> customers = customerService.getAllCustomers();
 
         customers
-                .stream()
-                .forEach(
-                        c -> {
+            .stream()
+            .forEach( customer -> 
+            {
+            final List<Ordery> orders = orderyService.getOrdersFrom(customer);
+            final List<String> dates = new ArrayList<>();
 
-                            final List<Ordery> orders = orderyService.getOrdersFrom(c);
-                            final List<String> dates = new ArrayList<>();
-
-                            orders
-                            .stream()
-                             .filter(order -> !order.isPrinted())
-                            .forEach(order -> dates.add(parseDate(order.getDate()))
-                            );
-                            deliveryRootMap = createNodes(deliveryRootMap, dates, c);
-                        }
-                );
+            orders
+            .stream()
+            .filter(order -> !order.isPrinted())
+            .forEach(order -> 
+                    dates.add(parseDate(order.getDate()))
+            );
+            deliveryRootMap = createNodes(deliveryRootMap, dates, customer);
+            });
         System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
@@ -111,26 +110,24 @@ public class TreeViewSingleton implements Serializable {
     }
     
     public void initBills(){
-        long start = System.currentTimeMillis();
         billRootMap = new HashMap<>();
         List<Customer> customers = customerService.getAllCustomers();
 
         customers
-                .stream()
-                .forEach(
-                        c -> {
+            .stream()
+            .forEach(
+                c -> {
 
-                            final List<Bil> bills = bilService.getBilsFrom(c);
-                            final List<String> dates = new ArrayList<>();
+                    final List<Bil> bills = bilService.getBilsFrom(c);
+                    final List<String> dates = new ArrayList<>();
 
-                            bills
-                            .stream()
-                            .forEach(bill -> dates.add(parseDate(bill.getPrinted()))
-                            );
-                            billRootMap = createNodes(billRootMap, dates, c);
-                        }
-                );
-        System.out.println("Time: " + (System.currentTimeMillis() - start));
+                    bills
+                    .stream()
+                    .forEach(bill -> dates.add(parseDate(bill.getPrinted()))
+                    );
+                    billRootMap = createNodes(billRootMap, dates, c);
+                }
+            );
     }
 
     public void filterAll() {
@@ -139,20 +136,19 @@ public class TreeViewSingleton implements Serializable {
         List<Customer> customers = customerService.getAllCustomers();
 
         customers
-                .stream()
-                .forEach(
-                        c -> {
+            .stream()
+            .forEach(
+                c -> {
 
-                            final List<Ordery> orders = orderyService.getOrdersFrom(c);
-                            final List<String> dates = new ArrayList<>();
-                            orders
-                            .stream()
-                            .forEach(order -> dates.add(parseDate(order.getDate()))
-                            );
-                            deliveryRootMap = createNodes(deliveryRootMap, dates, c);
-                        }
-                );
-        System.out.println("Time: " + (System.currentTimeMillis() - start));
+                    final List<Ordery> orders = orderyService.getOrdersFrom(c);
+                    final List<String> dates = new ArrayList<>();
+                    orders
+                    .stream()
+                    .forEach(order -> dates.add(parseDate(order.getDate()))
+                    );
+                    deliveryRootMap = createNodes(deliveryRootMap, dates, c);
+                }
+            );
     }
     
     public TreeNode getDeliveryRoot(){
