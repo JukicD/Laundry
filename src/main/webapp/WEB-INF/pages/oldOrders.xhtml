@@ -6,7 +6,7 @@
 
     <p:growl id="oldOrdersGrowl" showDetail="true"/>
     <p:tabView id="oldOrdersTab" cache="true" binding="#{ordersTabView}">
-        <p:ajax event="tabChange" listener="#{treeViewController.resetOrders}" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:closedOrdersForm :oldOrdersTab:selectedPositionsTable"/>
+        <p:ajax event="tabChange" listener="#{treeViewController.onTabChange}" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:closedOrdersForm :oldOrdersTab:selectedPositionsTable :oldOrdersTab:printedBillsForm"/>
         
         <p:tab title="Lieferungen" id="closedOrdersTab">
             <p:layout style="height: 500px">
@@ -18,8 +18,8 @@
                                 style="width: 130px; height: auto"
                                 selectionMode="checkbox"
                                 selection="#{treeViewController.selectedNodes}">
-                            <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
-                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onDeliveryNodeSelect}"/>
+                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onDeliveryNodeSelect}"/>
                             <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
                             <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
                             <p:treeNode>
@@ -50,7 +50,7 @@
                                     <p:column selectionMode="multiple" style="width:16px;text-align:center" >
                                     </p:column>
 
-                                    <p:column  headerText="#">
+                                    <p:column  headerText="Lieferung #">
                                         <h:outputText value="#{order.id}"/>
                                     </p:column>
 
@@ -74,7 +74,8 @@
                                     action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
                                     actionListener="#{oldOrdersFilter.init}"
                                     update="@form"
-                                    oncomplete="PF('customer').show()"/>
+                                    onstart="PF('blockUIWidget').block()"
+                                    oncomplete="PF('blockUIWidget').unblock()"/>
                                 <p:commandButton value="Zurück"
                                                  action="#{navigationController.setSite('customerList')}"
                                                  actionListener="#{labelController.label('Kundenliste')}"
@@ -89,6 +90,7 @@
                                     <br/>
                                     <h:outputText value="zugewiesen werden, wenn diese vorher aus der aktuellen Rechnung gelöscht wird."/>
                                 </p:tooltip>
+                                
                             </h:form>
                             
                         </p:layoutUnit>
@@ -148,14 +150,14 @@
             <p:layout style="height: 500px">
                 <p:layoutUnit position="west" resizable="true" minSize="140">
                     <h:outputText value="Kunde: #{userController.customer.name}"/>
-                    <h:form>
+                    <h:form id='printedBillsForm'>
                         <p:tree value="#{treeViewController.root}" var="node"
                                 animate="true"
                                 style="width: 130px; height: auto"
-                                selectionMode="checkbox"
+                                selectionMode="single"
                                 selection="#{treeViewController.selectedNodes}">
-                            <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
-                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onNodeSelect}"/>
+                            <p:ajax event="select" update=":oldOrdersTab:billTableForm :oldOrdersTab:selectedBillsTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
+                            <p:ajax event="unselect" update=":oldOrdersTab:billTableForm :oldOrdersTab:selectedBillsTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
                             <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
                             <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
                             <p:treeNode>
@@ -168,7 +170,7 @@
                 <p:layoutUnit position="center" resizable="true">
                     <p:layout>
                         <p:layoutUnit position="center" resizable="true">
-                            <h:form>
+                            <h:form id='billTableForm'>
                                 <p:dataTable 
                                              var="order" value="#{treeViewController.ordersFromDate}"
                                              resizableColumns="true"
@@ -222,9 +224,11 @@
                             
                         </p:layoutUnit>
                         <p:layoutUnit position="south" resizable="true" collapsible="true" minSize="260" header="Zusammenfassung">
-                            <h:form>
+                            <h:form id='selectedBillsTableForm'>
                                 <ui:repeat value="#{treeViewController.selectedOrders}" var="ord">
-                                    <p:dataTable value="#{ord.positions}"
+                                    <p:dataTable 
+                                        
+                                                 value="#{ord.positions}"
                                                  var="pos"
                                                  rendered="#{not empty ord.positions}"
                                                  editable="true"

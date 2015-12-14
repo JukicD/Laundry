@@ -4,9 +4,10 @@ import com.forall.laundry.controller.UserController;
 import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Position;
+import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
-import com.forall.laundry.service.PositionService; 
+import com.forall.laundry.service.PositionService;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -31,6 +32,8 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 /**
  * Created by jd on 10/14/15.
@@ -59,6 +62,9 @@ public class TreeViewController implements Serializable {
     @EJB
     private PositionService positionService;
 
+    @EJB
+    private BilService bilService;
+
     @Inject
     private UserController userController;
 
@@ -69,7 +75,7 @@ public class TreeViewController implements Serializable {
         radioSelection = "offen";
     }
 
-    public void onNodeSelect() {
+    public void onDeliveryNodeSelect() {
         if (selectedNodes != null && selectedNodes.length > 0) {
 
             ordersFromDate = null;
@@ -115,6 +121,44 @@ public class TreeViewController implements Serializable {
         }
     }
 
+    public void onBillNodeSelect(NodeSelectEvent event) {
+
+        ordersFromDate = null;
+        ordersFromDate = new ArrayList<>();
+        TreeNode node = event.getTreeNode();
+        if (node.isLeaf()) {
+            StringBuilder b = new StringBuilder();
+            TreeNode curNode = node;
+
+            while (!curNode.getData().equals("root")) {
+
+                b.append(curNode.getData().toString());
+                curNode = curNode.getParent();
+                if (!curNode.getData().equals("root")) {
+                    b.append(".");
+                }
+            }
+
+            String date = b.toString();
+
+            if (isLegalDate(date)) {
+
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MMMM.yyyy", Locale.GERMAN);
+                try {
+                    cal.setTime(sdf.parse(date));
+
+                    Bil bill = bilService.get(cal.getTime(), userController.getCustomer().getId());
+                    ordersFromDate = bill.getOrders();
+
+                } catch (ParseException ex) {
+                    Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            selectedOrders = ordersFromDate;
+        }
+    }
+
     public void updateOrders() {
 
         switch (radioSelection) {
@@ -125,7 +169,7 @@ public class TreeViewController implements Serializable {
                 treeViewSingleton.filterAll();
                 break;
         }
-        
+
         root = treeViewSingleton.getNodeMap().get(userController.getCustomer());
     }
 
@@ -166,6 +210,22 @@ public class TreeViewController implements Serializable {
         }
 
         positionService.update(pos);
+    }
+
+    public void onTabChange(TabChangeEvent event) {
+
+        String title = event.getTab().getTitle();
+
+        switch (title) {
+            case "Rechnungen":
+                treeViewSingleton.initBills();
+                root = treeViewSingleton.getBillRoot();
+                break;
+            case "Lieferungen":
+                treeViewSingleton.init();
+                root = treeViewSingleton.getDeliveryRoot();
+                break;
+        }
     }
 
     private void sortOrders() {

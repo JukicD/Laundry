@@ -18,13 +18,8 @@ import singletons.TreeViewSingleton;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
-import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +75,7 @@ public class BillingController implements Serializable{
         billingService.createBill(orders);
 
         RequestContext.getCurrentInstance().update("customerPanel");
-        //treeViewSingleton.init();
+        treeViewSingleton.init();
     }
 
     public void printBillAgain(final Bil bil){

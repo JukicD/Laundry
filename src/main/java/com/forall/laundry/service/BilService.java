@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,33 +30,22 @@ public class BilService implements Serializable {
                 .getResultList();
     }
 
-    public Bil get(final int day, final int month, final int year, final int id){
-        System.out.println(day + month + year);
-        
-       List<Bil> list;
-        
-        if(month < 0){
-            list = em.createQuery("Select b From Bil b WHERE EXTRACT(year from printed) = :year AND b.customer.id = :id")
-                .setParameter("year", year)
-                .setParameter("id", id)
-                .getResultList(); 
-        }
-        else if(day < 0){
-            list = em.createQuery("Select b From Bil b WHERE EXTRACT(month from printed) = :month AND EXTRACT(year from printed) = :year AND b.customer.id = :id")
-                .setParameter("month", month)
-                .setParameter("year", year)
-                .setParameter("id", id)
-                .getResultList();
-        }
-        else{
-            list = em.createQuery("Select b From Bil b WHERE EXTRACT(DAY from printed) = :day AND EXTRACT(month from printed) = :month AND EXTRACT(year from printed) = :year AND b.customer.id = :id")
+    public Bil get(final Date date, final int id){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        final int day = cal.get(Calendar.DAY_OF_MONTH);
+        final int month = cal.get(Calendar.MONTH) + 1;
+        final int year = cal.get(Calendar.YEAR);
+
+        List<Bil> b = em.createQuery("SELECT b FROM Bil b WHERE EXTRACT(DAY FROM b.printed) = :day AND EXTRACT(MONTH FROM b.printed) = :month AND EXTRACT(YEAR FROM b.printed) = :year AND b.customer.id = :id ")
                 .setParameter("day", day)
                 .setParameter("month", month)
                 .setParameter("year", year)
                 .setParameter("id", id)
                 .getResultList();
-        }
-        
-        return list.get(0);
+
+        return b.get(0);
+
     }
 }

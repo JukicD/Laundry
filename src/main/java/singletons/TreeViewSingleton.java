@@ -1,5 +1,7 @@
 package singletons;
 
+import com.forall.laundry.controller.UserController;
+import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BilService;
@@ -14,6 +16,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
 
 /**
  * Created by jd on 10/14/15.
@@ -30,13 +33,19 @@ public class TreeViewSingleton implements Serializable {
 
     @EJB
     private OrderyService orderyService;
+    
+    @Inject
+    private UserController userController;
 
-    private Map<Customer, TreeNode> nodeMap;
+    private Map<Customer, TreeNode> deliveryRootMap;
+    
+    private Map<Customer, TreeNode> billRootMap;
 
     @PostConstruct
+    @Asynchronous
     public void init() {
         long start = System.currentTimeMillis();
-        nodeMap = new HashMap<>();
+        deliveryRootMap = new HashMap<>();
         List<Customer> customers = customerService.getAllCustomers();
 
         customers
@@ -52,7 +61,7 @@ public class TreeViewSingleton implements Serializable {
                              .filter(order -> !order.isPrinted())
                             .forEach(order -> dates.add(parseDate(order.getDate()))
                             );
-                            createNodes(dates, c);
+                            deliveryRootMap = createNodes(deliveryRootMap, dates, c);
                         }
                 );
         System.out.println("Time: " + (System.currentTimeMillis() - start));
@@ -63,7 +72,7 @@ public class TreeViewSingleton implements Serializable {
         return f.format(date);
     }
 
-    private void createNodes(final List<String> dates, final Customer customer) {
+    private Map<Customer, TreeNode> createNodes(Map<Customer, TreeNode> rootMap, final List<String> dates, final Customer customer) {
 
         dates
                 .stream()
@@ -73,7 +82,7 @@ public class TreeViewSingleton implements Serializable {
                     final String yearS = ds[2];
                     final String monthS = ds[1];
                     final String dayS = ds[0];
-                    final TreeNode root = nodeMap.containsKey(customer) ? nodeMap.get(customer) : new DefaultTreeNode("root", null);
+                    final TreeNode root = rootMap.containsKey(customer) ? rootMap.get(customer) : new DefaultTreeNode("root", null);
 
                     final TreeNode year = contains(root, yearS) == null ? new DefaultTreeNode(yearS, root) : contains(root, yearS);
                     final TreeNode month = contains(year, monthS) == null ? new DefaultTreeNode(monthS, year) : contains(year, monthS);
@@ -82,12 +91,14 @@ public class TreeViewSingleton implements Serializable {
                     month.getChildren().add(day);
 
                     root.getChildren().add(year);
-                    nodeMap.put(customer, root);
+                    rootMap.put(customer, root);
                 });
+        
+        return rootMap;
     }
 
     public Map<Customer, TreeNode> getNodeMap() {
-        return nodeMap;
+        return deliveryRootMap;
     }
 
     private TreeNode contains(final TreeNode node, final String name) {
@@ -98,10 +109,33 @@ public class TreeViewSingleton implements Serializable {
         }
         return null;
     }
+    
+    public void initBills(){
+        long start = System.currentTimeMillis();
+        billRootMap = new HashMap<>();
+        List<Customer> customers = customerService.getAllCustomers();
+
+        customers
+                .stream()
+                .forEach(
+                        c -> {
+
+                            final List<Bil> bills = bilService.getBilsFrom(c);
+                            final List<String> dates = new ArrayList<>();
+
+                            bills
+                            .stream()
+                            .forEach(bill -> dates.add(parseDate(bill.getPrinted()))
+                            );
+                            billRootMap = createNodes(billRootMap, dates, c);
+                        }
+                );
+        System.out.println("Time: " + (System.currentTimeMillis() - start));
+    }
 
     public void filterAll() {
         long start = System.currentTimeMillis();
-        nodeMap = new HashMap<>();
+        deliveryRootMap = new HashMap<>();
         List<Customer> customers = customerService.getAllCustomers();
 
         customers
@@ -111,14 +145,21 @@ public class TreeViewSingleton implements Serializable {
 
                             final List<Ordery> orders = orderyService.getOrdersFrom(c);
                             final List<String> dates = new ArrayList<>();
-
                             orders
                             .stream()
                             .forEach(order -> dates.add(parseDate(order.getDate()))
                             );
-                            createNodes(dates, c);
+                            deliveryRootMap = createNodes(deliveryRootMap, dates, c);
                         }
                 );
         System.out.println("Time: " + (System.currentTimeMillis() - start));
+    }
+    
+    public TreeNode getDeliveryRoot(){
+        return deliveryRootMap.get(userController.getCustomer());
+    }
+    
+    public TreeNode getBillRoot(){
+        return billRootMap.get(userController.getCustomer());
     }
 }
