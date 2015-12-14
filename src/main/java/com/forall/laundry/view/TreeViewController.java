@@ -173,8 +173,13 @@ public class TreeViewController implements Serializable {
         root = treeViewSingleton.getNodeMap().get(userController.getCustomer());
     }
 
-    public void showPreview() {
+    public void showDeliveryPreview() {
         byte[] data = billingService.createBill(selectedOrders);
+        pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
+    }
+    
+    public void showBill(){
+        byte[] data = bilService.get(ordersFromDate.get(0).getDate(), userController.getCustomer().getId()).getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
@@ -208,7 +213,6 @@ public class TreeViewController implements Serializable {
                 pos.setSinglePrice((BigDecimal) event.getNewValue());
                 break;
         }
-
         positionService.update(pos);
     }
 

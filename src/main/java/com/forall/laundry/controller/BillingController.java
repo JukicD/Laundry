@@ -23,12 +23,15 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Asynchronous;
+import javax.ejb.Stateful;
 
 /**
  *
  * @author jd
  */
 @Named
+@Stateful
 @RequestScoped
 public class BillingController implements Serializable{
     
@@ -47,6 +50,9 @@ public class BillingController implements Serializable{
     @Inject
     private Bill bill;
     
+    @Inject
+    private UserController userController;
+    
     @PostConstruct
     public void init(){
         this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
@@ -55,30 +61,33 @@ public class BillingController implements Serializable{
     public void printBill(final List<Ordery> orders, final Customer customer){
         assert(!orders.isEmpty());
 
-            Bil b = new Bil();
-            b.setBillNumber(billingService.getBillNumber());
-            b.setPrinted(new Date());
-            b.setCustomer(customer);
-            b.setOrders(orders);
+        Bil b = new Bil();
+        b.setBillNumber(billingService.getBillNumber());
+        b.setPrinted(new Date());
+        b.setCustomer(customer);
+        b.setOrders(orders);
+        b.setBill(billingService.createBill(orders));
+        bilService.save(b);
 
-            bilService.save(b);
+        orders.forEach(order -> {
+            order.setIsPrinted(true);
+            orderyService.update(order);
+        });
 
-            orders.forEach(o -> {
-                o.setIsPrinted(true);
-                orderyService.update(o);
-            });
-
-            if(!orders.isEmpty()) {
-                incrementBillNumber();
-            }
-
-        billingService.createBill(orders);
-
-        RequestContext.getCurrentInstance().update("customerPanel");
+        Bill billInfo = billingService.getBill();
+        billInfo.setNumber(billInfo.getNumber() + 1);
+        billingService.update(billInfo);
         treeViewSingleton.init();
+        RequestContext.getCurrentInstance().update("customerPanel");
+        
     }
 
     public void printBillAgain(final Bil bil){
+        billingService.createBill(bil.getOrders());
+    }
+    
+    public void printBillAgain(final Ordery order){
+        Bil bil = bilService.get(order.getDate(), userController.getCustomer().getId());
         billingService.createBill(bil.getOrders());
     }
     
@@ -89,14 +98,12 @@ public class BillingController implements Serializable{
             billingService.save(bill);
         }
     }
-
-    private void incrementBillNumber(){
-
-        Long number = bill.getNumber();
-        number++;
-        bill.setNumber(number);
-
-        save();
+    
+    @Asynchronous
+    public void update(final Ordery order, final int id){
+        Bil bil = bilService.get(order.getDate(), id);
+        bil.setBill(billingService.createBill(bil.getOrders()));
+        bilService.update(bil);
     }
 
     public Bill getBill() {

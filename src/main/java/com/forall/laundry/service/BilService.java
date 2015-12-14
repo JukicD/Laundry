@@ -38,14 +38,22 @@ public class BilService implements Serializable {
         final int month = cal.get(Calendar.MONTH) + 1;
         final int year = cal.get(Calendar.YEAR);
 
-        List<Bil> b = em.createQuery("SELECT b FROM Bil b WHERE EXTRACT(DAY FROM b.printed) = :day AND EXTRACT(MONTH FROM b.printed) = :month AND EXTRACT(YEAR FROM b.printed) = :year AND b.customer.id = :id ")
+        Bil b = (Bil)em.createQuery("SELECT b FROM Bil b WHERE EXTRACT(DAY FROM b.printed) = :day AND EXTRACT(MONTH FROM b.printed) = :month AND EXTRACT(YEAR FROM b.printed) = :year AND b.customer.id = :id ")
                 .setParameter("day", day)
                 .setParameter("month", month)
                 .setParameter("year", year)
                 .setParameter("id", id)
-                .getResultList();
+                .getSingleResult();
 
-        return b.get(0);
+        return b;
 
+    }
+    
+    public void update(Bil bil){
+        try{
+            em.merge(bil);
+        }catch(Exception e){
+            System.out.println("Error updating Bill with id " + bil.getId() + "!");
+        }
     }
 }

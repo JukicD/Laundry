@@ -17,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.RollbackException;
-import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.nio.file.Files;

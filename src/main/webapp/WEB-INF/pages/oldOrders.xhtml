@@ -64,18 +64,16 @@
                                 <p:commandButton
                                     value="Vorschau"
                                     icon="ui-icon-print"
-                                    actionListener="#{treeViewController.showPreview}"
-                                        oncomplete="PF('preview').show()"
-                                        update="previewDialog"/>
+                                    actionListener="#{treeViewController.showDeliveryPreview}"
+                                    oncomplete="PF('preview').show()"
+                                    update="previewDialog"/>
                                 <p:commandButton
                                     id="createBill"
                                     value="Rechnung abschließen"
                                     icon="ui-icon-print"
                                     action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
                                     actionListener="#{oldOrdersFilter.init}"
-                                    update="@form"
-                                    onstart="PF('blockUIWidget').block()"
-                                    oncomplete="PF('blockUIWidget').unblock()"/>
+                                    update="@form"/>
                                 <p:commandButton value="Zurück"
                                                  action="#{navigationController.setSite('customerList')}"
                                                  actionListener="#{labelController.label('Kundenliste')}"
@@ -154,8 +152,7 @@
                         <p:tree value="#{treeViewController.root}" var="node"
                                 animate="true"
                                 style="width: 130px; height: auto"
-                                selectionMode="single"
-                                selection="#{treeViewController.selectedNodes}">
+                                selectionMode="single">
                             <p:ajax event="select" update=":oldOrdersTab:billTableForm :oldOrdersTab:selectedBillsTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
                             <p:ajax event="unselect" update=":oldOrdersTab:billTableForm :oldOrdersTab:selectedBillsTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
                             <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
@@ -200,17 +197,16 @@
                                 </p:dataTable>
                                 <p:separator/>
                                 <p:commandButton
-                                    value="Vorschau"
+                                    value="Anzeigen"
                                     icon="ui-icon-print"
-                                    actionListener="#{treeViewController.showPreview}"
+                                    actionListener="#{treeViewController.showBill}"
                                         oncomplete="PF('preview').show()"
                                         update="previewDialog"/>
                                 <p:commandButton
                                     
-                                    value="Rechnung abschließen"
+                                    value="Rechnung aktualisieren"
                                     icon="ui-icon-print"
                                     action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
-                                    actionListener="#{oldOrdersFilter.init}"
                                     update="@form"
                                     oncomplete="PF('customer').show()"/>
                                 <p:commandButton value="Zurück"
@@ -233,7 +229,7 @@
                                                  rendered="#{not empty ord.positions}"
                                                  editable="true"
                                                  editMode="cell">
-                                        <p:ajax event="cellEdit" listener="#{treeViewController.onCellEdit}" update="@this" />
+                                        <p:ajax event="cellEdit" listener="#{treeViewController.onCellEdit}" update="@this"/>
                                         <f:facet name="header">
                                             <h:outputText value="#{ord.date}">
                                                 <f:convertDateTime pattern="d.M.yy" />

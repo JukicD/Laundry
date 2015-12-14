@@ -1,6 +1,5 @@
 package com.forall.laundry.model;
 
-import javax.enterprise.inject.Model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +28,10 @@ public class Bil implements Serializable{
 
     @Basic
     private Long billNumber;
+    
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] bill;
 
     public Long getId() {
         return id;
@@ -65,4 +68,14 @@ public class Bil implements Serializable{
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public byte[] getBill() {
+        return bill;
+    }
+
+    public void setBill(byte[] bill) {
+        this.bill = bill;
+    }
+    
+    
 }

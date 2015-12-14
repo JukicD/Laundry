@@ -1,5 +1,6 @@
 package com.forall.laundry.mobile;
 
+import com.forall.laundry.controller.BillingController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
 
@@ -47,6 +48,9 @@ public class MobileProductController implements Serializable{
 
     @EJB
     private PositionService positionService;
+    
+    @Inject
+    private BillingController billingController;
 
     @Inject
     private Product product;
@@ -131,7 +135,6 @@ public class MobileProductController implements Serializable{
         //if current order has a position with the product-name and price
         //then get the position and add the amount
         Position position = currentOrder.getPosition(prod.getName(), prod.getPriceMap().get(customer));
-        System.out.println(position + " " + prod.getName() + " " + prod.getPriceMap().get(customer).getPrice());
         if(position != null){
 
             position.add(worker, amount);
@@ -156,7 +159,10 @@ public class MobileProductController implements Serializable{
             orderyService.update(currentOrder);
         }
 
-
+        if(currentOrder.isPrinted()){
+            billingController.update(currentOrder, mc.getCustomer().getId());
+        }
+        
         mc.updateCurrentOrder();
         mc.setAmount(null);
         treeViewSingleton.init();
