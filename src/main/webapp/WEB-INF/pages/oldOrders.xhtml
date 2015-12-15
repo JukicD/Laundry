@@ -72,11 +72,11 @@
                                     value="Rechnung abschließen"
                                     icon="ui-icon-print"
                                     action="#{billingController.printBill(treeViewController.selectedOrders, userController.customer)}"
-                                    update="@form"/>
+                                    update=":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable"/>
                                 <p:commandButton value="Zurück"
                                                  action="#{navigationController.setSite('customerList')}"
                                                  actionListener="#{labelController.label('Kundenliste')}"
-                                                 update="customerPanel"
+                                                 update="customerPanel" 
                                                  oncomplete="PF('customer').show()">
                                 </p:commandButton>
                                 <p:tooltip id="toolTipFade" for="createBill" rendered="#{toolTipController.enabled}">

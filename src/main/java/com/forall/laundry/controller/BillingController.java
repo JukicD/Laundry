@@ -12,6 +12,7 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
+import com.forall.laundry.view.TreeViewController;
 import org.primefaces.context.RequestContext;
 import singletons.TreeViewSingleton;
 
@@ -47,6 +48,9 @@ public class BillingController implements Serializable{
     private TreeViewSingleton treeViewSingleton;
 
     @Inject
+    private TreeViewController treeViewController;
+
+    @Inject
     private Bill bill;
 
     @PostConstruct
@@ -62,7 +66,6 @@ public class BillingController implements Serializable{
         b.setPrinted(new Date());
         b.setCustomer(customer);
         b.setOrders(orders);
-        System.out.println("createnr " + b.getBillNumber());
         b.setBill(billingService.createBill(orders, b.getBillNumber()));
         bilService.save(b);
 
@@ -74,8 +77,10 @@ public class BillingController implements Serializable{
         Bill billInfo = billingService.getBill();
         billInfo.setNumber(billInfo.getNumber() + 1);
         billingService.update(billInfo);
-        treeViewSingleton.init();
-        RequestContext.getCurrentInstance().update("customerPanel");
+
+        treeViewController.deleteSelectedNodes();
+        treeViewController.resetOrders();
+        RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable");
     }
 
     public void printBillAgain(final Bil bil){
@@ -92,7 +97,6 @@ public class BillingController implements Serializable{
 
     public void update(final Ordery order, final int id){
         Bil bil = bilService.get(order.getDate(), id);
-        System.out.println("getnumber: " + bil.getBillNumber());
         byte[] newBill = billingService.createBill(bil.getOrders(), bil.getBillNumber());
         bil.setBill(newBill);
         bilService.update(bil);

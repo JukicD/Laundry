@@ -92,7 +92,6 @@ public class MobileProductController implements Serializable{
     }
 
     public void addItem(){
-        System.out.println("addItem");
         final Customer customer = customerService.findById(mc.getCustomer().getId());
         Ordery currentOrder = orderyService.findById(mc.getCurrentOrder().getId());
         final Worker worker = mc.getWorker();
@@ -151,7 +150,6 @@ public class MobileProductController implements Serializable{
         }
 
         if (currentOrder.isPrinted()) {
-            System.out.println("updateIsPrinted");
             billingController.update(currentOrder, mc.getCustomer().getId());
         }
 
@@ -165,7 +163,6 @@ public class MobileProductController implements Serializable{
 
         if(!categories.contains(category)){
             categories.add(category);
-            System.out.println(categories);
         }else{
             categories.remove(category);
         }

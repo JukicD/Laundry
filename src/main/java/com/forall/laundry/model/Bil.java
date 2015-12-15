@@ -28,9 +28,9 @@ public class Bil implements Serializable{
 
     @Basic
     private Long billNumber;
-    
+
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
     private byte[] bill;
 
     public Long getId() {
@@ -76,6 +76,6 @@ public class Bil implements Serializable{
     public void setBill(byte[] bill) {
         this.bill = bill;
     }
-    
-    
+
+
 }

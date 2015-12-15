@@ -5,6 +5,7 @@
  */
 package com.forall.laundry.controller;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -14,8 +15,8 @@ import javax.inject.Named;
  * @author jd
  */
 @Named
-public class GrowlController {
-    
+public class GrowlController implements Serializable {
+
     private String message;
 
     public String getMessage() {
@@ -25,12 +26,12 @@ public class GrowlController {
     public void setMessage(String message) {
         this.message = message;
     }
-    
+
     public void saveMessage(String msg){
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(msg));
     }
-    
+
     public void sendMessage(String msg){
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(msg));

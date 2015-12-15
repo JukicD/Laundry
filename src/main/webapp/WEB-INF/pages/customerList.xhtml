@@ -27,7 +27,7 @@
             <p:ajax event="rowSelect" listener="#{userController.setup(customerSelectionController.selectedCustomer)}"/>
             <p:ajax event="rowSelect" listener="#{navigationController.setSite('oldOrders')}"/>
             <p:ajax event="rowSelect" listener="#{labelController.description('Vergangene Aufträge für')}"/>
-            <p:ajax event="rowSelect" listener="#{treeViewController.resetOrders}" update="customerPanel" oncomplete="PF('customer').show()"/>
+            <p:ajax event="rowSelect" listener="#{treeViewController.init}" update="customerPanel" oncomplete="PF('customer').show()"/>
 
             <p:column filterBy="#{customer.name}"
                       sortBy="#{customer.name}"

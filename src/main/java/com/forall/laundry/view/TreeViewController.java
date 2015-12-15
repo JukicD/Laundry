@@ -31,6 +31,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -184,15 +185,13 @@ public class TreeViewController implements Serializable {
 
     public void showBill(){
         Bil b = bilService.get(ordersFromDate.get(0).getDate(), userController.getCustomer().getId());
-
         byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
     public void resetOrders() {
-        init();
         selectedNodes = null;
-        //ordersFromDate = null;
+        ordersFromDate = null;
         selectedOrders = null;
     }
 
@@ -223,19 +222,48 @@ public class TreeViewController implements Serializable {
     }
 
     public void onTabChange(TabChangeEvent event) {
-
+        resetOrders();
         String title = event.getTab().getTitle();
 
         switch (title) {
             case "Rechnungen":
                 treeViewSingleton.initBills();
                 root = treeViewSingleton.getBillRoot();
+                RequestContext.getCurrentInstance().update(":oldOrdersTab:printBillsForm :oldOrdersTab:billTableForm :oldOrdersTab:selectedBillsTableForm");
                 break;
             case "Lieferungen":
                 treeViewSingleton.init();
                 root = treeViewSingleton.getDeliveryRoot();
+                RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable");
                 break;
         }
+    }
+
+    public void deleteSelectedNodes() {
+        Stream.of(selectedNodes).parallel().forEach(node -> {
+            removeNode(root, node);
+        });
+    }
+
+    private boolean removeNode(TreeNode root, TreeNode nodeToDelete) {
+        if (root.getChildren().remove(nodeToDelete)) {
+            return true;
+        } else {
+            for (TreeNode childNode : root.getChildren()) {
+                if (childNode.getChildCount() > 0) {
+                    return removeNode(childNode, nodeToDelete);
+                }
+            }
+            return false;
+        }
+    }
+
+    public void feleteNode(Date date) {
+
+    }
+
+    public void resetDeliveryRoot() {
+        root = treeViewSingleton.getDeliveryRoot();
     }
 
     private void sortOrders() {
