@@ -9,7 +9,6 @@
 
 <h:head>
 </h:head>
-
 <h:body>
     <h:form>
         <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
@@ -30,7 +29,7 @@
         <pm:content>
             <h:form id="workerForm">
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
-                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
+                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second')}">
                         <p:ajax event="click" listener="#{mobileController.setWorker(worker)}" update="second"/>
                     </p:commandButton>
                 </p:dataGrid>

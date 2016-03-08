@@ -7,16 +7,15 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
-import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.TreeNode;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
+import javax.ejb.*;
 import javax.inject.Inject;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  * Created by jd on 10/14/15.
@@ -42,7 +41,6 @@ public class TreeViewSingleton implements Serializable {
     private Map<Customer, TreeNode> billRootMap;
 
     @PostConstruct
-    @Asynchronous
     public void init() {
         long start = System.currentTimeMillis();
         deliveryRootMap = new HashMap<>();

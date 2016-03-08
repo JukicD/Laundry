@@ -13,4 +13,9 @@
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
+    <application>
+      <navigation-handler>
+         org.primefaces.mobile.application.MobileNavigationHandler
+      </navigation-handler>
+   </application>
 </faces-config>

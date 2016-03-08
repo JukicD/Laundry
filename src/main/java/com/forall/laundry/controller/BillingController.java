@@ -13,25 +13,21 @@ import com.forall.laundry.service.BilService;
 import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.view.TreeViewController;
-import org.primefaces.context.RequestContext;
-import singletons.TreeViewSingleton;
-
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.Stateful;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author jd
  */
 @Named
-@Stateful
 @RequestScoped
 public class BillingController implements Serializable{
 
@@ -43,9 +39,6 @@ public class BillingController implements Serializable{
 
     @EJB
     private BilService bilService;
-
-    @EJB
-    private TreeViewSingleton treeViewSingleton;
 
     @Inject
     private TreeViewController treeViewController;

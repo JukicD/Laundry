@@ -1,22 +1,17 @@
 package com.forall.laundry.mobile;
 
-import com.forall.laundry.controller.filter.MobileAutoCompleteFilter;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
-import org.primefaces.context.RequestContext;
-
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-/**
+/** 
  * Created by jd on 8/20/15.
  */
 @Named

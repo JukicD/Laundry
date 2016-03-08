@@ -3,7 +3,9 @@ package com.forall.laundry.mobile;
 import com.forall.laundry.controller.WorkerController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
-
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -11,12 +13,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
-/**
+/** 
  * Created by jd on 8/19/15.
  */
 @Named

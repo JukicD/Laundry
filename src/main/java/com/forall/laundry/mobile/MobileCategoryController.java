@@ -1,20 +1,14 @@
 package com.forall.laundry.mobile;
 
 import com.forall.laundry.model.Category;
-import com.forall.laundry.model.Customer;
 import com.forall.laundry.service.CategoryService;
-
+import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Created by jd on 9/8/15.

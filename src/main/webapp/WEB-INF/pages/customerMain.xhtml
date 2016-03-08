@@ -10,7 +10,10 @@
         <p:tab title="Artikel">
             <h:form id="customerMain">
                 <p:dataTable id="customerMainTable"
-                             value="#{productController.allProducts}" var="pr">
+                             value="#{productController.allProducts}" 
+                             var="pr"
+                             scrollable="true"
+                             scrollHeight="400">
 
                     <p:column style="width: 20px">
                         <p:selectBooleanCheckbox value="#{customerMainView.map[pr]}">
@@ -27,7 +30,10 @@
         </p:tab>
         <p:tab title="Eigenschaften">
             <h:form id="propertyForm">
-                <p:dataTable value="#{customerMainView.customersProducts}" var="product">
+                <p:dataTable value="#{customerMainView.customersProducts}" 
+                             var="product"
+                             scrollable="true"
+                             scrollHeight="400">
                     <p:column headerText="Name">
                         <h:outputText value="#{product.name}"/>
                     </p:column>
@@ -45,9 +51,12 @@
         </p:tab>
         <p:tab title="Preis">
             <h:form id="priceForm">
-                <p:dataTable value="#{customerMainView.customersProducts}" var="product"
+                <p:dataTable value="#{customerMainView.customersProducts}" 
+                             var="product"
                              editable="true"
-                             editMode="cell">
+                             editMode="cell"
+                             scrollable="true"
+                             scrollHeight="400">
 
                     <p:column headerText="Artikel">
                         <h:outputText value="#{product.name}"/>
