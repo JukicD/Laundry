@@ -40,6 +40,9 @@ public class CategoryController implements Serializable{
 
     @Inject
     private Category category;
+    
+    @Inject
+    private GrowlController gc;
 
     private List<Category> categories;
     private List<Category> specificCategories;
@@ -88,8 +91,13 @@ public class CategoryController implements Serializable{
     }
 
     public void save(){
-
+        try{
             categoryService.save(category);
+            gc.sendMessage("Kategorie kwurde erfolgreich gespeichert !", "info");
+        }catch(Exception e){
+            gc.sendMessage("Kategorie konnte nicht gespeichert werden !", "error");
+        }
+            
             category.setName(null);
             category.setForAll(false);
             init();

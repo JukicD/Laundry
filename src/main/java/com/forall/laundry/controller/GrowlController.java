@@ -18,6 +18,7 @@ import javax.inject.Named;
 public class GrowlController implements Serializable {
 
     private String message;
+    private String severity;
 
     public String getMessage() {
         return message;
@@ -32,8 +33,16 @@ public class GrowlController implements Serializable {
         context.addMessage(null, new FacesMessage(msg));
     }
 
-    public void sendMessage(String msg){
+    public void sendMessage(String msg, String severity){
+        this.severity = severity;
+        
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(msg));
     }
+
+    public String getSeverity() {
+        return severity;
+    }
+    
+    
 }

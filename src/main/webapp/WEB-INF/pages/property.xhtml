@@ -3,7 +3,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
-
+    
     <p:tabView id="propTabView">
         <p:tab id="newArtTab" title="Artikel anlegen">
             <h:form id="newArtForm">
@@ -32,21 +32,19 @@
         </p:tab>
         <p:tab id="newPropTab" title="Art anlegen">
             <h:form>
-                
-                    <h:outputLabel for="propName" value="Art: "/>
-                    <p:inputText id="propName"
-                                 value="#{categoryController.category.name}"
-                                 required="true"
-                                 requiredMessage="Kategorie eingeben!" />
 
-                    <h:outputLabel for="forAll" value="Für alle: "/>
-                    <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent propTabView:propForm propTabView:newArtForm">
-                        <p:ajax listener="#{growlController.sendMessage('Kategorie erfoglreich gespeichert!')}" update="msgs"/>
-                        <p:ajax event="click" update="customerPanel"/>
+                <h:outputLabel for="propName" value="Art: "/>
+                <p:inputText id="propName"
+                             value="#{categoryController.category.name}"
+                             required="true"
+                             requiredMessage="Kategorie eingeben!" />
 
-                    </p:commandButton>
-                
+                <h:outputLabel for="forAll" value="Für alle: "/>
+                <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
+                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent propTabView:propForm propTabView:newArtForm">
+                    <p:ajax event="click" update="customerPanel"/>
+                </p:commandButton>
+
 
             </h:form>
         </p:tab>
@@ -55,19 +53,19 @@
                 <p:dataTable id="propTable"
                              value="#{productController.allProducts}"
                              var="product"
-                             resizableColumns="true"
-                             reflow="true"
-                             tableStyle="width: auto">
+                             scrollable="true"
+                             scrollHeight="400"
+                             style="width: available">
 
-                    <p:column headerText="Artikel">
+                    <p:column headerText="Artikel" resizable="true" style="width: auto">
                         <p:outputLabel value="#{product.name}"/>
                     </p:column>
 
-                    <p:columns value="#{categoryController.categories}" var="cat">
+                    <p:columns value="#{categoryController.categories}" var="cat" resizable="true" style="align-content: center">
                         <f:facet name="header">
                             <h:outputText value="#{cat.name}" />
                         </f:facet>
-                        <p:selectBooleanCheckbox value="#{categoryController.map[cat][product]}">
+                        <p:selectBooleanCheckbox value="#{categoryController.map[cat][product]}" style="align-content: center">
                             <p:ajax event="change" listener="#{productController.update(product, cat)}"/>
                         </p:selectBooleanCheckbox>
                     </p:columns>

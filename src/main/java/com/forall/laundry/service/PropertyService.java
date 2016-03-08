@@ -25,7 +25,12 @@ public class PropertyService implements Serializable{
     private AppLogger logger;
 
     public void save(Property property){
-        em.persist(property);
+        try{
+            em.merge(property);
+            logger.info("Property successfully created! " + property);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public void update(Property property){
