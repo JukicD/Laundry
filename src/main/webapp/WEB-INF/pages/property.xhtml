@@ -4,7 +4,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
     
-    <p:tabView id="propTabView">
+    <p:tabView id="propTabView" style="width: available">
         <p:tab id="newArtTab" title="Artikel anlegen">
             <h:form id="newArtForm">
                 <p:growl id="customerMainGrowl" showDetail="false" sticky="false" life="3500" showSummary="true"/>
@@ -55,7 +55,7 @@
                              var="product"
                              scrollable="true"
                              scrollHeight="400"
-                             style="width: available">
+                             style="width: auto">
 
                     <p:column headerText="Artikel" resizable="true" style="width: auto">
                         <p:outputLabel value="#{product.name}"/>

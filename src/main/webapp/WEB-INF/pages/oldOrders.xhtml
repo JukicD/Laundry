@@ -168,7 +168,7 @@
                         <p:layoutUnit position="center" resizable="true">
                             <h:form id='billTableForm'>
                                 <p:dataTable 
-                                             var="order" value="#{treeViewController.ordersFromDate}"
+                                    var="order" value="#{treeViewController.selectedOrders}"
                                              resizableColumns="true"
                                              emptyMessage="Keine Einträge!"
                                              selection="#{treeViewController.selectedOrders}"
@@ -199,8 +199,9 @@
                                     value="Anzeigen"
                                     icon="ui-icon-print"
                                     actionListener="#{treeViewController.showBill}"
-                                        oncomplete="PF('preview').show()"
-                                        update="previewDialog"/>
+                                    oncomplete="PF('preview').show()"
+                                    update="previewDialog"/>
+                                
                                 <p:commandButton
                                     
                                     value="Rechnung aktualisieren"

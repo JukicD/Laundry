@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.ejb.EJB;
 
 /**
  *
@@ -29,6 +30,9 @@ public class CustomerService {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private OrderyService os;
 
     @Inject
     private AppLogger logger;
@@ -156,5 +160,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-
+    public void delete(Customer customer) {
+       em.remove(em.find(Customer.class, customer.getId()));
+    }
 }

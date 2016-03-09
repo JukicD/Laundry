@@ -51,6 +51,7 @@ public class TreeViewController implements Serializable {
     private Bil bil;
     private StreamedContent pdf;
     private String radioSelection;
+    private Date billDate;
 
     @EJB
     private TreeViewSingleton treeViewSingleton;
@@ -131,14 +132,16 @@ public class TreeViewController implements Serializable {
         ordersFromDate = null;
         ordersFromDate = new ArrayList<>();
         TreeNode node = event.getTreeNode();
+        
         if (node.isLeaf()) {
             StringBuilder b = new StringBuilder();
             TreeNode curNode = node;
 
             while (!curNode.getData().equals("root")) {
-
+                
                 b.append(curNode.getData().toString());
                 curNode = curNode.getParent();
+                
                 if (!curNode.getData().equals("root")) {
                     b.append(".");
                 }
@@ -154,13 +157,13 @@ public class TreeViewController implements Serializable {
                     cal.setTime(sdf.parse(date));
 
                     Bil bill = bilService.get(cal.getTime(), userController.getCustomer().getId());
-                    ordersFromDate = bill.getOrders();
+                    selectedOrders = bill.getOrders();
+                    billDate = bill.getPrinted();
 
                 } catch (ParseException ex) {
                     Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            selectedOrders = ordersFromDate;
         }
     }
 
@@ -184,7 +187,9 @@ public class TreeViewController implements Serializable {
     }
 
     public void showBill(){
-        Bil b = bilService.get(ordersFromDate.get(0).getDate(), userController.getCustomer().getId());
+        System.out.println("showBill " + billDate);
+        Bil b = bilService.get(billDate, userController.getCustomer().getId());
+        System.out.println("showBill " + Arrays.toString(b.getBill()));
         byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
@@ -322,5 +327,13 @@ public class TreeViewController implements Serializable {
 
     public void nodeCollapse(NodeCollapseEvent event) {
         event.getTreeNode().setExpanded(true);
+    }
+
+    public Date getBillDate() {
+        return billDate;
+    }
+
+    public void setBillDate(Date billDate) {
+        this.billDate = billDate;
     }
 }

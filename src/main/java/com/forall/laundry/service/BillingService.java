@@ -85,13 +85,14 @@ public class BillingService {
 
     public byte[] createBill(List<Ordery> orders, final Long billNumber) {
         assert(!orders.isEmpty());
-
+        byte[] pdf = null;
+        
         try {
             if(orders.isEmpty()){
                 throw new IllegalArgumentException();
             }
 
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","jd", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
 
@@ -116,14 +117,14 @@ public class BillingService {
             }
 
             String filePath = pathString + "/" + getBillNumber() + ".pdf";
-            JasperExportManager.exportReportToPdfFile(print, filePath);
-            return JasperExportManager.exportReportToPdf(print);
+            pdf = JasperExportManager.exportReportToPdf(print);
+         
         } catch (SQLException | JRException ex) {
             Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException e){
             logger.error("Illegal Argument in " + BillingService.class.getName() + ". Details: " + e.getCause());
         }
-        return null;
+        return pdf;
     }
 
     private List<String> getPositionIds(List<Ordery> orderys){

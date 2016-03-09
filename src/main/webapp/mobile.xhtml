@@ -29,7 +29,7 @@
         <pm:content>
             <h:form id="workerForm">
                 <p:dataGrid id="workers" var="worker" value="#{workerController.workers}" columns="3">
-                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second')}">
+                    <p:commandButton value="#{worker.firstName}" style="font-size: 200%" action="#{mobileController.goTo('pm:second?transition=slide')}">
                         <p:ajax event="click" listener="#{mobileController.setWorker(worker)}" update="second"/>
                     </p:commandButton>
                 </p:dataGrid>
@@ -54,8 +54,6 @@
                     <p:commandButton value="#{customer.name}" style="font-size: 150%" action="#{mobileController.goTo('pm:third?transition=slide')}" update="third fourth:outputItem:outputItems">
                         <p:ajax event="click" listener="#{mobileController.setCustomer(customer)}"/>
                         <p:ajax event="click" listener="#{mobileCategoryController.init}" update="third:categoryForm:categoryTable"/>
-                        <p:ajax event="click" listener="#{productAutoCompleteFilter.init}"/>
-                        <p:ajax event="click" listener="#{mobileController.init}"/>
                     </p:commandButton>
                 </p:dataGrid>
             </h:form>

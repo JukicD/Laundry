@@ -1,6 +1,5 @@
 package com.forall.laundry.mobile;
 
-import com.forall.laundry.controller.WorkerController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /** 
@@ -23,27 +21,6 @@ public class MobileController implements Serializable{
 
     @EJB
     private OrderyService orderyService;
-
-    @EJB
-    private CustomerService customerService;
-
-    @EJB
-    private PositionService positionService;
-
-    @EJB
-    private ProductService productService;
-
-    @Inject
-    private CustomerAutoCompleteFilter cac;
-
-    @Inject
-    private WorkerController wc;
-
-    @Inject
-    private ProductAutoCompleteFilter pac;
-
-    @Inject
-    private MobileCustomerController mcc;
 
     private Ordery currentOrder;
     private Worker worker;
@@ -136,6 +113,7 @@ public class MobileController implements Serializable{
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        init();
     }
 
     public Integer getAmount() {

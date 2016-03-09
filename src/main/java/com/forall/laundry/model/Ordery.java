@@ -1,17 +1,12 @@
 package com.forall.laundry.model;
 
 
-import com.forall.laundry.service.PositionService;
-import org.hibernate.annotations.*;
-
-import javax.ejb.EJB;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +14,7 @@ import java.util.stream.Collectors;
 @NamedQueries({
     @NamedQuery(name = "Ordery.findAll", query = "SELECT o FROM Ordery o"),
     @NamedQuery(name = "Ordery.findCustomersOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id"),
+    @NamedQuery(name = "Ordery.findOpenOrdersFromCustomer", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.isPrinted IS FALSE"),
     @NamedQuery(name = "Ordery.findCustomersOldOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date IS NOT NULL")})
 public class Ordery implements Serializable {
 
@@ -89,8 +85,8 @@ public class Ordery implements Serializable {
         return isPrinted;
     }
 
-    public void setIsPrinted(boolean isPrinted) {
-        this.isPrinted = isPrinted;
+    public void setIsPrinted(boolean isClosed) {
+        this.isPrinted = isClosed;
     }
 
     public List<Position> getPositions() {

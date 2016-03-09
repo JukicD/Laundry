@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,18 +30,10 @@ public class BilService implements Serializable {
     }
 
     public Bil get(final Date date, final int id){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        final int day = cal.get(Calendar.DAY_OF_MONTH);
-        final int month = cal.get(Calendar.MONTH) + 1;
-        final int year = cal.get(Calendar.YEAR);
-
-        Bil b = (Bil)em.createQuery("SELECT b FROM Bil b WHERE EXTRACT(DAY FROM b.printed) = :day AND EXTRACT(MONTH FROM b.printed) = :month AND EXTRACT(YEAR FROM b.printed) = :year AND b.customer.id = :id ")
-                .setParameter("day", day)
-                .setParameter("month", month)
-                .setParameter("year", year)
+        
+        Bil b = em.createQuery("SELECT b FROM Bil b WHERE b.customer.id = :id AND b.printed = :date ", Bil.class)
                 .setParameter("id", id)
+                .setParameter("date", date)
                 .getSingleResult();
 
         return b;

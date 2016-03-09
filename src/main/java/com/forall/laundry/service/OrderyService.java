@@ -11,14 +11,11 @@ import com.forall.laundry.model.Ordery;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.spi.CalendarNameProvider;
 import java.util.stream.Collectors;
 
 /**
@@ -213,5 +210,14 @@ public class OrderyService {
                 .collect(Collectors.toList());
 
         return orders;
+    }
+
+    public boolean hasOpenOrders(Customer customer) {
+        List<Ordery> orders = em
+                                .createNamedQuery("Ordery.findOpenOrdersFromCustomer", Ordery.class)
+                                .setParameter("id", customer.getId())
+                                .getResultList();
+        System.out.println("open orders: "  + orders.size());
+        return !orders.isEmpty();
     }
 }

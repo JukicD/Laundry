@@ -14,6 +14,7 @@ import com.forall.laundry.service.BillingService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.view.TreeViewController;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -59,7 +60,12 @@ public class BillingController implements Serializable{
         b.setPrinted(new Date());
         b.setCustomer(customer);
         b.setOrders(orders);
-        b.setBill(billingService.createBill(orders, b.getBillNumber()));
+        
+        byte[] pdf = billingService.createBill(orders, b.getBillNumber());
+        
+        System.out.println("PRINTING BILL: " + Arrays.toString(pdf));
+        
+        b.setBill(pdf);
         bilService.save(b);
 
         orders.forEach(order -> {

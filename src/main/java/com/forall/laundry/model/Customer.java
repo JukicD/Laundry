@@ -1,17 +1,20 @@
 package com.forall.laundry.model;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
@@ -23,13 +26,12 @@ public class Customer implements Serializable, Comparable<Customer> {
     private int id;
     
     @NotNull
-    @Basic(fetch=FetchType.LAZY)
+    @Basic(fetch=FetchType.EAGER)
     private String name;
 
     @CollectionTable(name = "customer_product_property_map")
     @MapKeyJoinColumn(name = "prod_id")
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Map<Product, Property> propertyMap;
 
     @Basic

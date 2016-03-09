@@ -7,27 +7,21 @@ package com.forall.laundry.controller;
 
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.mobile.CustomerAutoCompleteFilter;
-import com.forall.laundry.mobile.MobileCustomerController;
 import com.forall.laundry.model.Customer;
-import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Price;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
-import com.forall.laundry.util.LaundryUtil;
-import org.primefaces.context.RequestContext;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,6 +93,19 @@ public class CustomerController implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("", "Der Kunde wurde erfolgreich aktualisiert."));
         }catch (Exception e){
             logger.error("Update Failed ! " + customer.getName());
+        }
+    }
+    
+    public void delete(Customer customer){
+        try{
+            if(orderyService.hasOpenOrders(customer)){
+                System.out.println("has open orders");
+            }else{
+                System.out.println("delete");
+                customerService.delete(customer);
+            }
+        }catch(Exception e){
+            
         }
     }
 

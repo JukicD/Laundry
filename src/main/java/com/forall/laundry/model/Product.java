@@ -1,16 +1,25 @@
 package com.forall.laundry.model;
 
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyJoinColumn;
 
 @Entity
 @NamedQueries({
@@ -27,8 +36,7 @@ public class Product implements Serializable, Comparable {
 
     @CollectionTable(name = "product_customer_price_map")
     @MapKeyJoinColumn(name = "customer_id")
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Map<Customer, Price> priceMap;
 
     @Basic

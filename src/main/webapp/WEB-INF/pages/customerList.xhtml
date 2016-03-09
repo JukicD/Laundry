@@ -2,14 +2,17 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-        >
+                >
 
     <h:form id="customerList">
         <p:contextMenu for="customerTable">
             <p:menuitem value="Artikel setzen" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel">
                 <p:ajax event="click" listener="#{labelController.label('Artikelübersicht')}" update="customerPanel"/>
             </p:menuitem>
-            <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/> </p:contextMenu>
+            <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/> 
+            <p:menuitem value="Löschen" icon="ui-icon-delete" actionListener="#{customerController.delete(userController.customer)}"/>
+        </p:contextMenu>
+
 
         <p:dataTable id="customerTable"
                      var="customer" value="#{customerFilter.customers}"
