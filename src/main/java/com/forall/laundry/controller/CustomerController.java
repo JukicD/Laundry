@@ -97,14 +97,11 @@ public class CustomerController implements Serializable{
     
     public void delete(Customer customer){
         try{
-            if(orderyService.hasOpenOrders(customer)){
-                System.out.println("has open orders");
-            }else{
-                System.out.println("delete");
+            if(!orderyService.hasOpenOrders(customer)){
                 customerService.delete(customer);
             }
         }catch(Exception e){
-            
+            logger.info("Deleting Customer failed! " + e.getMessage());
         }
     }
 

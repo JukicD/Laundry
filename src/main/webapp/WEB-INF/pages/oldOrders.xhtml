@@ -157,7 +157,6 @@
                                 style="width: 130px; height: auto"
                                 selectionMode="single">
                             <p:ajax event="select" update=":oldOrdersTab:billTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
-                            <p:ajax event="unselect" update=":oldOrdersTab:billTableForm" listener="#{treeViewController.onBillNodeSelect}"/>
                             <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
                             <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
                             <p:treeNode>
@@ -169,13 +168,14 @@
 
                 <p:layoutUnit position="center" style="height: auto">
                     <h:form id='billTableForm'>
-                        <pe:documentViewer value="#{treeViewController.pdf}" rendered="#{not empty treeViewController.pdf}"/>
+                        <pe:documentViewer value="#{treeViewController.pdf}" rendered="#{treeViewController.isLeaf}"/>
                         
                         <p:commandButton value="Zurück"
                                          action="#{navigationController.setSite('customerList')}"
                                          actionListener="#{labelController.label('Kundenliste')}"
                                          update="customerPanel"
                                          oncomplete="PF('customer').show()">
+                            <p:ajax event="click" listener="#{treeViewController.reset}"/>
                         
                         </p:commandButton>
                     </h:form>

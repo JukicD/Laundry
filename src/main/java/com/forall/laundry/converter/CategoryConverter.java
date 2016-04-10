@@ -22,7 +22,6 @@ public class CategoryConverter implements Converter{
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-        System.out.println(categoryService);
         return categoryService.findBy(s);
     }
 

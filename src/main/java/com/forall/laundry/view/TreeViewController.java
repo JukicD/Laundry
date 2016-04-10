@@ -52,6 +52,7 @@ public class TreeViewController implements Serializable {
     private StreamedContent pdf;
     private String radioSelection;
     private Date billDate;
+    private boolean isLeaf;
 
     @EJB
     private TreeViewSingleton treeViewSingleton;
@@ -133,6 +134,7 @@ public class TreeViewController implements Serializable {
         TreeNode node = event.getTreeNode();
         
         if (node.isLeaf()) {
+            isLeaf = true;
             StringBuilder b = new StringBuilder();
             TreeNode curNode = node;
 
@@ -162,9 +164,10 @@ public class TreeViewController implements Serializable {
                     Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            showBill();
+        }else{
+            isLeaf = false;
         }
-        
-        showBill();
     }
 
     public void updateOrders() {
@@ -188,9 +191,7 @@ public class TreeViewController implements Serializable {
     }
 
     public void showBill(){
-        System.out.println("showBill " + billDate);
         Bill b = billService.get(billDate, userController.getCustomer().getId());
-        System.out.println("showBill " + Arrays.toString(b.getBill()));
         byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
@@ -241,6 +242,7 @@ public class TreeViewController implements Serializable {
                 treeViewSingleton.init();
                 root = treeViewSingleton.getDeliveryRoot();
                 RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable");
+                reset();
                 break;
         }
     }
@@ -263,9 +265,10 @@ public class TreeViewController implements Serializable {
             return false;
         }
     }
-
-    public void feleteNode(Date date) {
-
+    
+    public void reset(){
+        isLeaf = false;
+        pdf = null;
     }
 
     public void resetDeliveryRoot() {
@@ -336,5 +339,13 @@ public class TreeViewController implements Serializable {
 
     public void setBillDate(Date billDate) {
         this.billDate = billDate;
+    }
+
+    public boolean isIsLeaf() {
+        return isLeaf;
+    }
+
+    public void setIsLeaf(boolean isLeaf) {
+        this.isLeaf = isLeaf;
     }
 }

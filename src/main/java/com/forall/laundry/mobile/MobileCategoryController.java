@@ -31,13 +31,10 @@ public class MobileCategoryController implements Serializable {
 
     @PostConstruct
     public void init(){
-        long start = System.currentTimeMillis();
-        System.out.println("INIT START");
         categories = categoryService.getCategoriesFrom(mobileController.getCustomer());
         if(categories != null){
             categories.sort((c1, c2) -> c1.isForAll() ? c2.isForAll() ? c1.getName().compareToIgnoreCase(c2.getName()) : -1 : 1);
         }
-        System.out.println("INIT END " + (System.currentTimeMillis() - start));
     }
 
     public List<Category> getCategories() {

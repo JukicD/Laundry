@@ -38,8 +38,6 @@ public class CustomerServiceTest {
                 .addPackage(AppLogger.class.getPackage())
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        
-        System.out.println(wa.toString(true));
         return wa;
     }
     

@@ -13,7 +13,6 @@
             <p:menuitem value="Löschen" icon="ui-icon-delete" actionListener="#{customerController.delete(userController.customer)}"/>
         </p:contextMenu>
 
-
         <p:dataTable id="customerTable"
                      var="customer" value="#{customerFilter.customers}"
                      resizableColumns="true"
@@ -21,6 +20,8 @@
                      emptyMessage="Keine Kunden vorhanden!"
                      filteredValue="#{customerFilter.filteredCustomers}"
                      rowKey="#{customer.id}"
+                     scrollable="true"
+                     scrollHeight="400"
                      selection="#{customerSelectionController.selectedCustomer}"
                      selectionMode="single"
                      style="text-align: center"

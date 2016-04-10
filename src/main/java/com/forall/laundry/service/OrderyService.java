@@ -151,7 +151,6 @@ public class OrderyService {
 
     public void update(Ordery o){
         em.merge(o);
-        System.out.println(o.isPrinted());
     }
 
 
@@ -217,7 +216,6 @@ public class OrderyService {
                                 .createNamedQuery("Ordery.findOpenOrdersFromCustomer", Ordery.class)
                                 .setParameter("id", customer.getId())
                                 .getResultList();
-        System.out.println("open orders: "  + orders.size());
         return !orders.isEmpty();
     }
 

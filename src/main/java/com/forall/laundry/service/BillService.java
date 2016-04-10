@@ -1,5 +1,6 @@
 package com.forall.laundry.service;
 
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 
@@ -9,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Created by jd on 10/15/15.
@@ -18,6 +20,9 @@ public class BillService implements Serializable {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @Inject
+    private AppLogger logger;
 
     public void save(final Bill bill){
         try{
@@ -47,7 +52,7 @@ public class BillService implements Serializable {
         try{
             em.merge(bill);
         }catch(Exception e){
-            System.out.println("Error updating Bill with id " + bill.getId() + "!");
+           logger.info("Error updating Bill with id " + bill.getId() + "!");
         }
     }
 }

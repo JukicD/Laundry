@@ -13,7 +13,6 @@ import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.PriceService;
 import com.forall.laundry.service.ProductService;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -25,8 +24,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +33,6 @@ import java.util.stream.Collectors;
 @Named
 @RequestScoped
 public class ProductController implements Serializable{
-
-    @Inject
-    private UserController userController;
 
     @Inject
     private Product product;
@@ -83,7 +77,6 @@ public class ProductController implements Serializable{
                 categoryService.update(c);
                 product.addCategory(c);
             });
-
         }
         
         productService.update(product);
@@ -110,9 +103,6 @@ public class ProductController implements Serializable{
                 customerService.update(customer);
             }
         });
-        
-        
-        
         productService.delete(prod);
     }
 

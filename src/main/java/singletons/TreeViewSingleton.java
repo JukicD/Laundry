@@ -61,7 +61,6 @@ public class TreeViewSingleton implements Serializable {
             );
             deliveryRootMap = createNodes(deliveryRootMap, dates, customer);
             });
-        System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
     private String parseDate(final Date date) {

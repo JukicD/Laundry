@@ -34,9 +34,7 @@ public class ToolTipController {
     }
     
     public void change(){
-        System.out.println("change " + enabled);
         enabled = !enabled;
-        
         RequestContext.getCurrentInstance().update("toolTipFade");
     }
 }

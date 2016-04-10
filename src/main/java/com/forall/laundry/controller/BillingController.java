@@ -67,7 +67,7 @@ public class BillingController implements Serializable{
         
         byte[] pdf = billingService.createBill(orders, b.getBillNumber());
         
-        orders.stream().forEach(order -> { 
+        orders.stream().forEach(order -> {
             orderyService.delete(order);
             order.getPositions().stream().forEach(position -> {
                 positionService.delete(position.getId());

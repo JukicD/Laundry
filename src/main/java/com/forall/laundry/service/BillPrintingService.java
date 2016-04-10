@@ -94,7 +94,6 @@ public class BillPrintingService {
             Map<String, Object> parameter = new HashMap<>();
             parameter.put("item_id_list", getPositionIds(orders));
             parameter.put("customer_id", orders.get(0).getCustomer().getId());
-            System.out.println("BILLNR: " + billNumber);
             parameter.put("bill_num", billNumber);
             JasperPrint print = JasperFillManager.fillReport(report, parameter, con);
 

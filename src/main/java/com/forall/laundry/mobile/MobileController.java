@@ -50,7 +50,6 @@ public class MobileController implements Serializable{
         if(date == null){
             date = new Date();
         }
-        System.out.println(date + " " + offsetFromToday);
         final Calendar cal = Calendar.getInstance();
 
         cal.setTime(date);
