@@ -23,7 +23,8 @@ import javax.persistence.MapKeyJoinColumn;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+        @NamedQuery(name = "Product.delete", query = "DELETE FROM Product where product_id = :id")
 })
 public class Product implements Serializable, Comparable {
 
@@ -36,7 +37,7 @@ public class Product implements Serializable, Comparable {
 
     @CollectionTable(name = "product_customer_price_map")
     @MapKeyJoinColumn(name = "customer_id")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     Map<Customer, Price> priceMap;
 
     @Basic

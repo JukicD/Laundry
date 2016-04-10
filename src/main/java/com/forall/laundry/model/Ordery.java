@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
     @NamedQuery(name = "Ordery.findAll", query = "SELECT o FROM Ordery o"),
     @NamedQuery(name = "Ordery.findCustomersOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id"),
     @NamedQuery(name = "Ordery.findOpenOrdersFromCustomer", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.isPrinted IS FALSE"),
-    @NamedQuery(name = "Ordery.findCustomersOldOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date IS NOT NULL")})
+    @NamedQuery(name = "Ordery.findCustomersOldOrders", query = "SELECT o FROM Ordery o WHERE o.customer.id = :id AND o.date IS NOT NULL"),
+    @NamedQuery(name = "Ordery.delete", query = "DELETE FROM Ordery where id = :id")
+})
 public class Ordery implements Serializable {
 
     @Id
@@ -27,7 +29,7 @@ public class Ordery implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
 

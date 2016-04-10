@@ -25,4 +25,12 @@ public class PriceService implements Serializable{
     public void save(final Price price){
         em.persist(price);
     }
+
+    public void deletePricesFrom(Product product) {
+        em.createNamedQuery("Price.delete").setParameter("id", product.getProduct_id());
+    }
+
+    public void delete(Price price) {
+       em.createNamedQuery("Price.delete").setParameter("id", price.getId());
+    }
 }

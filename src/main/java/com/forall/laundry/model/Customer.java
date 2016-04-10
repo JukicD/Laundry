@@ -31,8 +31,8 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     @CollectionTable(name = "customer_product_property_map")
     @MapKeyJoinColumn(name = "prod_id")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Map<Product, Property> propertyMap;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private final Map<Product, Property> propertyMap;
 
     @Basic
     private Integer customerNumber;
@@ -68,6 +68,10 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     public void put(final Product product, final Property property){
         propertyMap.put(product, property);
+    }
+    
+    public void remove(Product product){
+        propertyMap.remove(product);
     }
     
     public void clearFields(){

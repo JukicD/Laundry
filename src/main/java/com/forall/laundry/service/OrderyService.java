@@ -220,4 +220,8 @@ public class OrderyService {
         System.out.println("open orders: "  + orders.size());
         return !orders.isEmpty();
     }
+
+    public void delete(Ordery order) {
+       em.createNamedQuery("Ordery.delete").setParameter("id", order.getId()).executeUpdate();
+    }
 }

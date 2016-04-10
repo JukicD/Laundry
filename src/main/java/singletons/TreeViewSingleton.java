@@ -1,10 +1,10 @@
 package singletons;
 
 import com.forall.laundry.controller.UserController;
-import com.forall.laundry.model.Bil;
+import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
-import com.forall.laundry.service.BilService;
+import com.forall.laundry.service.BillService;
 import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import java.io.Serializable;
@@ -28,7 +28,7 @@ public class TreeViewSingleton implements Serializable {
     private CustomerService customerService;
 
     @EJB
-    private BilService bilService;
+    private BillService billService;
 
     @EJB
     private OrderyService orderyService;
@@ -113,17 +113,15 @@ public class TreeViewSingleton implements Serializable {
 
         customers
             .stream()
-            .forEach(
-                c -> {
-
-                    final List<Bil> bills = bilService.getBilsFrom(c);
+            .forEach(customer -> {
+                    final List<Bill> bills = billService.getBilsFrom(customer);
                     final List<String> dates = new ArrayList<>();
 
                     bills
                     .stream()
                     .forEach(bill -> dates.add(parseDate(bill.getPrinted()))
                     );
-                    billRootMap = createNodes(billRootMap, dates, c);
+                    billRootMap = createNodes(billRootMap, dates, customer);
                 }
             );
     }

@@ -21,9 +21,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -83,11 +85,35 @@ public class ProductController implements Serializable{
             });
 
         }
+        
         productService.update(product);
         product.setName(null);
         categoryController.setSelectedCategories(null);
         categoryController.init();
 
+    }
+    
+    public void delete(final Product product){
+        Product prod = productService.find(product.getProduct_id());
+        
+        Collection<Price> prices = prod.getPriceMap().values();
+        
+        List<Customer> customers = customerService.getAllCustomers();
+        
+        prices.forEach(price -> {
+            priceService.delete(price);
+        });
+        
+        customers.stream().forEach(customer -> {
+            if(customer.getPropertyMap().containsKey(prod)){
+                customer.getPropertyMap().remove(prod);
+                customerService.update(customer);
+            }
+        });
+        
+        
+        
+        productService.delete(prod);
     }
 
     public BigDecimal getPrice(final Customer customer, final Product product){

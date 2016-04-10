@@ -71,7 +71,7 @@ public class ProductService {
     }
 
     public void delete(Product product) {
-        em.remove(product);
+        em.createNamedQuery("Product.delete").setParameter("id", product.getProduct_id()).executeUpdate();
     }
 }
 

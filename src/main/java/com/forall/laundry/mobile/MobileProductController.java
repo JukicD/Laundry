@@ -150,10 +150,6 @@ public class MobileProductController implements Serializable{
             orderyService.update(currentOrder);
         }
 
-        if (currentOrder.isPrinted()) {
-            billingController.update(currentOrder, mc.getCustomer().getId());
-        }
-
         mc.updateCurrentOrder();
         mc.setAmount(null);
         treeViewSingleton.init();

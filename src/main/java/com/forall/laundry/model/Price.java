@@ -8,6 +8,9 @@ import java.math.BigDecimal;
  * Created by jd on 8/23/15.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Price.delete", query = "DELETE FROM Price where id = :id")
+})
 public class Price implements Serializable{
 
     @Id
@@ -16,9 +19,6 @@ public class Price implements Serializable{
 
     @Basic
     private BigDecimal price;
-
-    @ManyToOne
-    private Product product;
 
     public Price(){
         price = new BigDecimal(0.00);
@@ -38,13 +38,5 @@ public class Price implements Serializable{
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 }

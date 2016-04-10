@@ -1,6 +1,7 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.controller.GrowlController;
+import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.Category;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.hibernate.annotations.common.util.impl.Log_$logger;
 
 /**
  * Created by jd on 9/2/15.
@@ -26,6 +28,9 @@ public class CategoryService implements Serializable{
     
     @Inject
     private GrowlController gc;
+    
+    @Inject
+    private AppLogger logger;
 
     @PersistenceContext
     private EntityManager em;
@@ -67,5 +72,13 @@ public class CategoryService implements Serializable{
             return cat.stream().distinct().collect(Collectors.toList());
         }
        return null;
+    }
+
+    public void delete(long id) {
+        try{
+            em.createNamedQuery("Category.remove").setParameter("id", id).executeUpdate();
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
     }
 }

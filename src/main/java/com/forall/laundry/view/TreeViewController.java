@@ -2,11 +2,11 @@ package com.forall.laundry.view;
 
 import com.forall.laundry.controller.BillingController;
 import com.forall.laundry.controller.UserController;
-import com.forall.laundry.model.Bil;
+import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Position;
-import com.forall.laundry.service.BilService;
-import com.forall.laundry.service.BillingService;
+import com.forall.laundry.service.BillService;
+import com.forall.laundry.service.BillPrintingService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PositionService;
 import org.primefaces.event.CellEditEvent;
@@ -48,7 +48,7 @@ public class TreeViewController implements Serializable {
     private TreeNode[] selectedNodes;
     private List<Ordery> selectedOrders;
     private List<Ordery> ordersFromDate;
-    private Bil bil;
+    private Bill bill;
     private StreamedContent pdf;
     private String radioSelection;
     private Date billDate;
@@ -60,13 +60,13 @@ public class TreeViewController implements Serializable {
     private OrderyService orderyService;
 
     @EJB
-    private BillingService billingService;
+    private BillPrintingService billPrintingService;
 
     @EJB
     private PositionService positionService;
 
     @EJB
-    private BilService bilService;
+    private BillService billService;
 
     @Inject
     private UserController userController;
@@ -122,7 +122,6 @@ public class TreeViewController implements Serializable {
             selectedOrders = ordersFromDate;
         } else {
             ordersFromDate = null;
-            ordersFromDate = new ArrayList<>();
             selectedOrders = ordersFromDate;
         }
     }
@@ -156,8 +155,7 @@ public class TreeViewController implements Serializable {
                 try {
                     cal.setTime(sdf.parse(date));
 
-                    Bil bill = bilService.get(cal.getTime(), userController.getCustomer().getId());
-                    selectedOrders = bill.getOrders();
+                    Bill bill = billService.get(cal.getTime(), userController.getCustomer().getId());
                     billDate = bill.getPrinted();
 
                 } catch (ParseException ex) {
@@ -165,6 +163,8 @@ public class TreeViewController implements Serializable {
                 }
             }
         }
+        
+        showBill();
     }
 
     public void updateOrders() {
@@ -182,13 +182,14 @@ public class TreeViewController implements Serializable {
     }
 
     public void showDeliveryPreview() {
-        byte[] data = billingService.createBill(selectedOrders, billingController.getBill().getNumber());
-        pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
+    
+            byte[] data = billPrintingService.createBill(selectedOrders, billingController.getBill().getNumber());
+            pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
     public void showBill(){
         System.out.println("showBill " + billDate);
-        Bil b = bilService.get(billDate, userController.getCustomer().getId());
+        Bill b = billService.get(billDate, userController.getCustomer().getId());
         System.out.println("showBill " + Arrays.toString(b.getBill()));
         byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
@@ -299,8 +300,8 @@ public class TreeViewController implements Serializable {
         this.selectedOrders = selectedOrders;
     }
 
-    public Bil getBil() {
-        return bil;
+    public Bill getBil() {
+        return bill;
     }
 
     public StreamedContent getPdf() {

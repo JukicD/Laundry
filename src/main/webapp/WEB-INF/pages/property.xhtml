@@ -18,21 +18,19 @@
                                       var="cat" filter="true" filterMatchMode="contains" showCheckbox="true"
                                       rendered="#{not empty categoryController.categories}" converter="#{categoryConverter}">
                         <f:selectItems value="#{categoryController.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat}"/>
-
                         <p:column>
                             <h:outputText value="#{cat.name}"/>
                         </p:column>
                     </p:selectManyMenu>
 
                     <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel">
-                        <p:ajax listener="#{growlController.sendMessage('Artikel erfoglreich gespeichert!')}" update="msgs"/>
+                        <p:ajax listener="#{growlController.sendMessage('Artikel erfoglreich gespeichert!', 'info')}" update="msgs"/>
                     </p:commandButton>
                 </h:panelGrid>
             </h:form>
         </p:tab>
         <p:tab id="newPropTab" title="Kategorie anlegen">
             <h:form>
-
                 <h:outputLabel for="propName" value="Art: "/>
                 <p:inputText id="propName"
                              value="#{categoryController.category.name}"
@@ -63,12 +61,15 @@
 
                     <p:columns value="#{categoryController.categories}" var="cat" resizable="true" style="align-content: center">
                         <f:facet name="header">
-                            <h:outputText value="#{cat.name}" />
+                            <h:outputText value="#{cat.name}"/>
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{categoryController.map[cat][product]}" style="align-content: center">
                             <p:ajax event="change" listener="#{productController.update(product, cat)}"/>
                         </p:selectBooleanCheckbox>
                     </p:columns>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-trash" action="#{productController.delete(product)}" update="@parent"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
         </p:tab>

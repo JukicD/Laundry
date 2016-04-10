@@ -44,7 +44,7 @@ public class OrderyController implements Serializable{
     private CustomerService customerService;
     
     @EJB
-    private BillingService billingService;
+    private BillPrintingService billingService;
 
     @EJB
     private PositionService positionService;

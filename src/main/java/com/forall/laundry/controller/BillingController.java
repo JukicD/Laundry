@@ -5,13 +5,14 @@
  */
 package com.forall.laundry.controller;
 
-import com.forall.laundry.model.Bil;
 import com.forall.laundry.model.Bill;
+import com.forall.laundry.model.BillSetting;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
-import com.forall.laundry.service.BilService;
-import com.forall.laundry.service.BillingService;
+import com.forall.laundry.service.BillService;
+import com.forall.laundry.service.BillPrintingService;
 import com.forall.laundry.service.OrderyService;
+import com.forall.laundry.service.PositionService;
 import com.forall.laundry.view.TreeViewController;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -33,57 +35,54 @@ import org.primefaces.context.RequestContext;
 public class BillingController implements Serializable{
 
     @EJB
-    private BillingService billingService;
+    private BillPrintingService billingService;
 
     @EJB
     private OrderyService orderyService;
 
     @EJB
-    private BilService bilService;
+    private BillService billService;
+    
+    @EJB
+    private PositionService positionService;
 
     @Inject
     private TreeViewController treeViewController;
 
     @Inject
-    private Bill bill;
+    private BillSetting bill;
 
     @PostConstruct
     public void init(){
-        this.bill = billingService.getBill() != null ? billingService.getBill() : new Bill();
+        this.bill = billingService.getBill() != null ? billingService.getBill() : new BillSetting();
     }
 
     public void printBill(final List<Ordery> orders, final Customer customer){
         assert(!orders.isEmpty());
-
-        Bil b = new Bil();
+        
+        Bill b = new Bill();
         b.setBillNumber(billingService.getBillNumber());
         b.setPrinted(new Date());
         b.setCustomer(customer);
-        b.setOrders(orders);
         
         byte[] pdf = billingService.createBill(orders, b.getBillNumber());
         
-        System.out.println("PRINTING BILL: " + Arrays.toString(pdf));
-        
-        b.setBill(pdf);
-        bilService.save(b);
-
-        orders.forEach(order -> {
-            order.setIsPrinted(true);
-            orderyService.update(order);
+        orders.stream().forEach(order -> { 
+            orderyService.delete(order);
+            order.getPositions().stream().forEach(position -> {
+                positionService.delete(position.getId());
+            });
         });
+        b.setBill(pdf);
+        billService.save(b);
 
-        Bill billInfo = billingService.getBill();
+        BillSetting billInfo = billingService.getBill();
         billInfo.setNumber(billInfo.getNumber() + 1);
         billingService.update(billInfo);
 
         treeViewController.deleteSelectedNodes();
         treeViewController.resetOrders();
         RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable");
-    }
-
-    public void printBillAgain(final Bil bil){
-        billingService.createBill(bil.getOrders(), bil.getBillNumber());
     }
 
     public void save(){
@@ -93,19 +92,12 @@ public class BillingController implements Serializable{
             billingService.save(bill);
         }
     }
-
-    public void update(final Ordery order, final int id){
-        Bil bil = bilService.get(order.getDate(), id);
-        byte[] newBill = billingService.createBill(bil.getOrders(), bil.getBillNumber());
-        bil.setBill(newBill);
-        bilService.update(bil);
-    }
-
-    public Bill getBill() {
+    
+    public BillSetting getBill() {
         return bill;
     }
 
-    public void setBill(Bill bill) {
+    public void setBill(BillSetting bill) {
         this.bill = bill;
     }
 }

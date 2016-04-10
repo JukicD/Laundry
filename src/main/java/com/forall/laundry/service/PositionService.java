@@ -31,4 +31,8 @@ public class PositionService implements Serializable{
         }
 
     }
+
+    public void delete(long id) {
+        em.createNamedQuery("Position.delete").setParameter("id", id).executeUpdate();
+    }
 }

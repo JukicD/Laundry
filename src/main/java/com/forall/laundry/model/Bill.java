@@ -1,87 +1,69 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.forall.laundry.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- *
- * @author jd
+ * Created by jd on 10/14/15.
  */
+
 @Entity
 public class Bill implements Serializable{
-    
-    @Id
-    @GeneratedValue
-    private int id;
-    
-    private String ownName;
-    
-    private String address;
-    
-    private String UID;
-    
-    private String welcome;
-    
-    private String information;
-    
-    private Long number;
 
-    public int getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToOne
+    private Customer customer;
+
+    @Basic
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date printed;
+
+    @Basic
+    private Long billNumber;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    private byte[] bill;
+
+    public Long getId() {
         return id;
     }
 
-    public String getOwnName() {
-        return ownName;
+    public Date getPrinted() {
+        return printed;
     }
 
-    public void setOwnName(String ownName) {
-        this.ownName = ownName;
+    public void setPrinted(Date printed) {
+        this.printed = printed;
     }
 
-    public String getAddress() {
-        return address;
+    public Long getBillNumber() {
+        return billNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBillNumber(Long billNumber) {
+        this.billNumber = billNumber;
     }
 
-    public String getUID() {
-        return UID;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setUID(String UID) {
-        this.UID = UID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public String getWelcome() {
-        return welcome;
+    public byte[] getBill() {
+        return bill;
     }
 
-    public void setWelcome(String welcome) {
-        this.welcome = welcome;
+    public void setBill(byte[] bill) {
+        this.bill = bill;
     }
 
-    public String getInformation() {
-        return information;
-    }
 
-    public void setInformation(String information) {
-        this.information = information;
-    }
-
-    public Long getNumber() {
-        return number;
-    }
-
-    public void setNumber(Long number) {
-        this.number = number;
-    }
 }

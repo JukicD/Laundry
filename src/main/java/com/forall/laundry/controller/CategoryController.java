@@ -12,8 +12,6 @@ import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -34,9 +32,6 @@ public class CategoryController implements Serializable{
 
     @EJB
     private ProductService productService;
-
-    @EJB
-    private CustomerService customerService;
 
     @Inject
     private Category category;
@@ -101,6 +96,10 @@ public class CategoryController implements Serializable{
             category.setName(null);
             category.setForAll(false);
             init();
+    }
+    
+    public void delete(Category category){
+        categoryService.delete(category.getId());
     }
 
     public List<Category> getSelectedCategories() {

@@ -1,20 +1,23 @@
 package com.forall.laundry.model;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.*;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 /**
  * Created by jd on 9/21/15.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Position.delete", query = "DELETE FROM Position where id = :id")
+})
 public class Position implements Serializable, Comparable{
 
     @Id

@@ -4,8 +4,6 @@
 * and open the template in the editor.
 */
 package com.forall.laundry.service;
-
-import com.forall.laundry.controller.BillingController;
 import com.forall.laundry.logger.AppLogger;
 import com.forall.laundry.model.*;
 import net.sf.jasperreports.engine.*;
@@ -38,7 +36,7 @@ import java.util.stream.Collectors;
  * @author jd
  */
 @Stateless
-public class BillingService {
+public class BillPrintingService {
 
     @PersistenceContext
     private EntityManager em;
@@ -46,10 +44,7 @@ public class BillingService {
     @Inject
     private AppLogger logger;
 
-    @Inject
-    private BillingController billingController;
-
-    public void save(Bill bill){
+    public void save(BillSetting bill){
 
         try{
             em.persist(bill);
@@ -59,19 +54,19 @@ public class BillingService {
         }
     }
 
-    public void update(Bill bill){
+    public void update(BillSetting bill){
          try{
             em.merge(bill);
             logger.info("Bill updated!");
         }catch (RollbackException e){
-            logger.error("ERROR ! Bill was not updated !");
+            logger.error("ERROR ! Bill was not updated !" + " " + e.getCause());
         }
     }
 
-    public Bill getBill(){
-        Bill bill;
+    public BillSetting getBill(){
+        BillSetting bill;
         try{
-            bill = (Bill) em.createQuery("Select b FROM Bill b").setMaxResults(1).getSingleResult();
+            bill = (BillSetting) em.createQuery("Select b FROM BillSetting b").setMaxResults(1).getSingleResult();
         }catch (NoResultException e){
             return null;
         }
@@ -92,7 +87,7 @@ public class BillingService {
                 throw new IllegalArgumentException();
             }
 
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "m1j1n1h1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
 
@@ -120,9 +115,9 @@ public class BillingService {
             pdf = JasperExportManager.exportReportToPdf(print);
          
         } catch (SQLException | JRException ex) {
-            Logger.getLogger(BillingService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BillPrintingService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException e){
-            logger.error("Illegal Argument in " + BillingService.class.getName() + ". Details: " + e.getCause());
+            logger.error("Illegal Argument in " + BillPrintingService.class.getName() + ". Details: " + e.getCause());
         }
         return pdf;
     }

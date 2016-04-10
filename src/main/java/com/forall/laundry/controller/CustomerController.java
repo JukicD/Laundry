@@ -61,7 +61,6 @@ public class CustomerController implements Serializable{
             {
                 final Price price = new Price();
                 price.setPrice(new BigDecimal(0.00));
-                price.setProduct(p);
                 priceService.save(price);
                 p.getPriceMap().put(customer, price);
                 productService.update(p);

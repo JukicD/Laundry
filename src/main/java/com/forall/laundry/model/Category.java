@@ -9,7 +9,8 @@ import java.util.Objects;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Category.all", query = "SELECT c FROM Category c")
+        @NamedQuery(name = "Category.all", query = "SELECT c FROM Category c"),
+        @NamedQuery(name = "Category.remove", query = "DELETE FROM Category WHERE id = :id")
 })
 public class Category implements Serializable{
 
