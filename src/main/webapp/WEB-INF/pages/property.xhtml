@@ -32,28 +32,43 @@
                             <h:outputText value="#{cat.name}"/>
                         </p:column>
                     </p:selectManyMenu>
-                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel :propTabView:propForm:propTable"/>
+                    <p:commandButton value="Speichern" 
+                                     action="#{productController.addProduct}" 
+                                     update="propPanel :propTabView:propForm:propTable"/>
                 </h:panelGrid>
             </h:form>
         </p:tab>
-        <p:tab id="newPropTab" title="Kategorie">
+        <p:tab id="newPropTab" 
+               title="Kategorie">
             <h:form id="newPropForm">
-                <h:panelGrid id="newPropGrid" columns="2" style="margin-bottom:10px" cellpadding="5">
-                    <h:outputLabel for="propName" value="Art: "/>
+                <h:panelGrid id="newPropGrid" 
+                             columns="2" 
+                             style="margin-bottom:10px" 
+                             cellpadding="5">
+                    <h:outputLabel for="propName" 
+                                   value="Kategorie: "/>
                     <p:inputText id="propName"
                                  value="#{categoryController.category.name}"
                                  required="true"
                                  requiredMessage="Kategorie eingeben!" />
 
-                    <h:outputLabel for="forAll" value="Für alle: "/>
-                    <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm:propTable :propTabView:catForm:catTable :propTabView:newArtForm">
-                        <p:ajax event="click" update="customerPanel"/>
+                    <h:outputLabel for="forAll" 
+                                   value="Für alle: "/>
+                    <p:selectBooleanCheckbox id="forAll" 
+                                             value="#{categoryController.category.forAll}"/>
+                    <p:commandButton 
+                        value="Speichern" 
+                        action="#{categoryController.save}" 
+                        update="@parent :propTabView:propForm:propTable :propTabView:catForm:catTable :propTabView:newArtForm">
+                        
+                        <p:ajax event="click" 
+                                update="customerPanel"/>
                     </p:commandButton>
                 </h:panelGrid>
             </h:form>
             <p:separator/>
             <h:form id="catForm">
+                
                 <p:dataTable id="catTable"
                              var="cat"
                              value="#{categoryController.categories}"
@@ -62,10 +77,11 @@
 
                     <p:ajax event="rowSelect" 
                             listener="#{categoryController.onRowSelect}"/>
-
+                    
                     <p:column headerText="Kategorie">
                         <p:outputLabel value="#{cat.name}"/>
                     </p:column>
+                    
                 </p:dataTable>
                 <p:separator/>
                 <p:commandButton value="Löschen" 

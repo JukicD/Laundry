@@ -9,8 +9,7 @@
             <p:menuitem value="Artikel setzen" icon="ui-icon-search" actionListener="#{navigationController.setSite('customerMain')}" update="customerPanel">
                 <p:ajax event="click" listener="#{labelController.label('Artikelübersicht')}" update="customerPanel"/>
             </p:menuitem>
-            <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/> 
-            <p:menuitem value="Löschen" icon="ui-icon-delete" actionListener="#{customerController.delete(userController.customer)}"/>
+            <p:menuitem value="Bearbeiten" icon="ui-icon-arrowrefresh-1-e" actionListener="#{navigationController.setSite('updateCustomer')}" update="customerPanel"/>
         </p:contextMenu>
 
         <p:dataTable id="customerTable"
