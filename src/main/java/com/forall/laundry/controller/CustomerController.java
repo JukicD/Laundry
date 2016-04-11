@@ -68,7 +68,7 @@ public class CustomerController implements Serializable{
 
             logger.info("CUSTOMER CREATED: " +customer.toString());
             final String message = "Kunde wurde erfolgreich erstellt.";
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("",message));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,message, ""));
         }catch (Exception e){
             logger.error("FAILURE SAVING: " + customer.toString() + " Cause: " + e.getCause());
             FacesMessage errorMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es ist ein Fehler aufgetreten.", "Kunde wurde nicht gespeichert.");

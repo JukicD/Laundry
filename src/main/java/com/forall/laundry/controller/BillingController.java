@@ -15,15 +15,15 @@ import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PositionService;
 import com.forall.laundry.view.TreeViewController;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.transaction.Transactional;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -85,12 +85,20 @@ public class BillingController implements Serializable{
         RequestContext.getCurrentInstance().update(":oldOrdersTab:closedOrdersForm :oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable");
     }
 
-    public void save(){
-        if(billingService.getBill() != null){
-            billingService.update(bill);
-        }else{
-            billingService.save(bill);
+    public void save() {
+        try {
+            if (billingService.getBill() != null) {
+                billingService.update(bill);
+            } else {
+                billingService.save(bill);
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Die Rechnungseinstellungen wurden erfolgreich geändert",""));
+        }catch (Exception e){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Die Rechnungseinstellungen konnten nicht geändert werden!",""));
         }
+
+        bill = null;
     }
     
     public BillSetting getBill() {

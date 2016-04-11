@@ -19,10 +19,18 @@
                                 style="width: 130px; height: auto"
                                 selectionMode="checkbox"
                                 selection="#{treeViewController.selectedNodes}">
-                            <p:ajax event="select" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onDeliveryNodeSelect}"/>
-                            <p:ajax event="unselect" update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" listener="#{treeViewController.onDeliveryNodeSelect}"/>
-                            <p:ajax event="expand" listener="#{treeViewController.nodeExpand}" />
-                            <p:ajax event="collapse" listener="#{treeViewController.nodeCollapse}" />
+                            
+                            <p:ajax event="select" 
+                                    update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" 
+                                    listener="#{treeViewController.onDeliveryNodeSelect}"/>
+                            <p:ajax event="unselect" 
+                                    update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" 
+                                    listener="#{treeViewController.onDeliveryNodeSelect}"/>
+                            <p:ajax event="expand" 
+                                    listener="#{treeViewController.nodeExpand}" />
+                            <p:ajax event="collapse" 
+                                    listener="#{treeViewController.nodeCollapse}" />
+                            
                             <p:treeNode>
                                 <h:outputText value="#{node}"/>
                             </p:treeNode>
@@ -35,7 +43,8 @@
                         <p:layoutUnit position="center" resizable="true">
                             <h:form id="closedOrdersTableForm">
                                 <p:dataTable id="closedordersTable"
-                                             var="order" value="#{treeViewController.ordersFromDate}"
+                                             var="order" 
+                                             value="#{treeViewController.ordersFromDate}"
                                              resizableColumns="true"
                                              emptyMessage="Keine Einträge!"
                                              selection="#{treeViewController.selectedOrders}"

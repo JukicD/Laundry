@@ -22,10 +22,7 @@
                             <h:outputText value="#{cat.name}"/>
                         </p:column>
                     </p:selectManyMenu>
-
-                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel">
-                        <p:ajax listener="#{growlController.sendMessage('Artikel erfoglreich gespeichert!', 'info')}" update="msgs"/>
-                    </p:commandButton>
+                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel"/>
                 </h:panelGrid>
             </h:form>
         </p:tab>
@@ -39,7 +36,7 @@
 
                 <h:outputLabel for="forAll" value="Für alle: "/>
                 <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent propTabView:propForm propTabView:newArtForm">
+                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm :propTabView:newArtForm">
                     <p:ajax event="click" update="customerPanel"/>
                 </p:commandButton>
 
@@ -68,7 +65,7 @@
                         </p:selectBooleanCheckbox>
                     </p:columns>
                     <p:column>
-                        <p:commandButton icon="ui-icon-trash" action="#{productController.delete(product)}" update="@parent"/>
+                        <p:commandButton icon="ui-icon-trash" action="#{productController.delete(product)}" update="@parent msgs"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

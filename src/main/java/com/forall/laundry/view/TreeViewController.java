@@ -85,8 +85,8 @@ public class TreeViewController implements Serializable {
     public void onDeliveryNodeSelect() {
         if (selectedNodes != null && selectedNodes.length > 0) {
 
-            ordersFromDate = null;
             ordersFromDate = new ArrayList<>();
+            
             Stream.of(selectedNodes).forEach(selectedNode -> {
                 StringBuilder b = new StringBuilder();
                 TreeNode curNode = selectedNode;
@@ -122,8 +122,8 @@ public class TreeViewController implements Serializable {
             });
             selectedOrders = ordersFromDate;
         } else {
-            ordersFromDate = null;
-            selectedOrders = ordersFromDate;
+            ordersFromDate = new ArrayList<>();
+            selectedOrders = new ArrayList<>();
         }
     }
 
@@ -185,7 +185,7 @@ public class TreeViewController implements Serializable {
     }
 
     public void showDeliveryPreview() {
-    
+            System.out.println("sel ord " + selectedOrders.get(0).getDate() + " " + billingController.getBill() + " " + billingController.getBill().getNumber());
             byte[] data = billPrintingService.createBill(selectedOrders, billingController.getBill().getNumber());
             pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }

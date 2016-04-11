@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -32,7 +34,7 @@ import java.util.stream.Collectors;
  */
 @Named
 @RequestScoped
-public class ProductController implements Serializable{
+public class ProductController implements Serializable {
 
     @Inject
     private Product product;
@@ -56,12 +58,12 @@ public class ProductController implements Serializable{
     private List<Product> allProducts;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         map = new HashMap<>();
         allProducts = productService.getProducts().stream().sorted().collect(Collectors.toList());
     }
 
-    public void addProduct(){
+    public void addProduct() {
         productService.save(product);
 
         customerService.getAllCustomers().forEach(c -> {
@@ -71,54 +73,64 @@ public class ProductController implements Serializable{
             product.getPriceMap().put(c, price);
         });
 
-        if(categoryController.getSelectedCategories() != null){
+        if (categoryController.getSelectedCategories() != null) {
 
             categoryController.getSelectedCategories().stream().forEach((Category c) -> {
                 categoryService.update(c);
                 product.addCategory(c);
             });
         }
-        
+
         productService.update(product);
         product.setName(null);
         categoryController.setSelectedCategories(null);
         categoryController.init();
-
+        
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Produkt wurde erfolgreich erstellt!","Produkt: " + product.getName()));
     }
-    
-    public void delete(final Product product){
+
+    public void delete(final Product product) {
+
         Product prod = productService.find(product.getProduct_id());
-        
-        Collection<Price> prices = prod.getPriceMap().values();
-        
-        List<Customer> customers = customerService.getAllCustomers();
-        
-        prices.forEach(price -> {
-            priceService.delete(price);
-        });
-        
-        customers.stream().forEach(customer -> {
-            if(customer.getPropertyMap().containsKey(prod)){
-                customer.getPropertyMap().remove(prod);
-                customerService.update(customer);
-            }
-        });
-        productService.delete(prod);
+        try {
+            
+
+            Collection<Price> prices = prod.getPriceMap().values();
+
+            List<Customer> customers = customerService.getAllCustomers();
+
+            prices.forEach(price -> {
+                priceService.delete(price);
+            });
+
+            customers.stream().forEach(customer -> {
+                if (customer.getPropertyMap().containsKey(prod)) {
+                    customer.getPropertyMap().remove(prod);
+                    customerService.update(customer);
+                }
+            });
+            productService.delete(prod);
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Produkt wurde erfolgreich gelöscht!", "Produkt: " + prod.getName()));
+        }catch (Exception e){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achtung", "Produkt: " + prod.getName() + " befindet sich in einer nicht abgeschlossenen Rechnung."));
+        }
+
     }
 
-    public BigDecimal getPrice(final Customer customer, final Product product){
+    public BigDecimal getPrice(final Customer customer, final Product product) {
         return product.getPriceMap().get(customer).getPrice();
     }
 
-    public BigDecimal getProductPrice(final Customer customer, final Product product){
+    public BigDecimal getProductPrice(final Customer customer, final Product product) {
         return product.getPriceMap().get(customer).getPrice();
     }
 
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() {
         return allProducts;
     }
 
-    public void save(){
+    public void save() {
         productService.save(product);
     }
 
@@ -138,14 +150,14 @@ public class ProductController implements Serializable{
         this.map = map;
     }
 
-    public void update(final Product product, final Category cat){
+    public void update(final Product product, final Category cat) {
 
         final Product p = productService.find(product.getProduct_id());
         final Category c = categoryService.find(cat.getId());
 
-        if(p.getCategories().contains(cat)){
+        if (p.getCategories().contains(cat)) {
             p.getCategories().remove(c);
-        }else{
+        } else {
             p.getCategories().add(c);
         }
 
