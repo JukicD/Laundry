@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,10 +76,7 @@ public class CategoryService implements Serializable{
     }
 
     public void delete(long id) {
-        try{
-            em.createNamedQuery("Category.remove").setParameter("id", id).executeUpdate();
-        }catch(Exception e){
-            logger.error(e.getMessage());
-        }
+        
+        em.createNamedQuery("Category.remove").setParameter("id", id).executeUpdate();
     }
 }

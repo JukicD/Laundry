@@ -5,7 +5,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <p:tabView id="propTabView" style="width: available">
-        <p:tab id="newArtTab" title="Artikel anlegen">
+        <p:tab id="newArtTab" title="Artikel">
             <h:form id="newArtForm">
                 <p:growl id="customerMainGrowl" showDetail="false" sticky="false" life="3500" showSummary="true"/>
                 <h:panelGrid id="itemGrid" columns="2" cellpadding="5" cellspacing="1">
@@ -14,10 +14,20 @@
                     <p:inputText id="productName2" value="#{productController.product.name}" required="true" requiredMessage="Gegenstand eingeben!" />
 
                     <h:outputLabel for="categories" value="Kategorien: "/>
-                    <p:selectManyMenu id="categories" value="#{categoryController.selectedCategories}"
-                                      var="cat" filter="true" filterMatchMode="contains" showCheckbox="true"
-                                      rendered="#{not empty categoryController.categories}" converter="#{categoryConverter}">
-                        <f:selectItems value="#{categoryController.categories}" var="cat" itemLabel="#{cat.name}" itemValue="#{cat}"/>
+                    <p:selectManyMenu id="categories" 
+                                      value="#{categoryController.selectedCategories}"
+                                      var="cat" 
+                                      filter="true" 
+                                      filterMatchMode="contains" 
+                                      showCheckbox="true"
+                                      rendered="#{not empty categoryController.categories}" 
+                                      converter="#{categoryConverter}">
+                        
+                        <f:selectItems id="categorySelection"
+                                       value="#{categoryController.categories}" 
+                                       var="cat" 
+                                       itemLabel="#{cat.name}" 
+                                       itemValue="#{cat}"/>
                         <p:column>
                             <h:outputText value="#{cat.name}"/>
                         </p:column>
@@ -26,21 +36,41 @@
                 </h:panelGrid>
             </h:form>
         </p:tab>
-        <p:tab id="newPropTab" title="Kategorie anlegen">
-            <h:form>
-                <h:outputLabel for="propName" value="Art: "/>
-                <p:inputText id="propName"
-                             value="#{categoryController.category.name}"
-                             required="true"
-                             requiredMessage="Kategorie eingeben!" />
+        <p:tab id="newPropTab" title="Kategorie">
+            <h:form id="newPropForm">
+                <h:panelGrid id="newPropGrid" columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <h:outputLabel for="propName" value="Art: "/>
+                    <p:inputText id="propName"
+                                 value="#{categoryController.category.name}"
+                                 required="true"
+                                 requiredMessage="Kategorie eingeben!" />
 
-                <h:outputLabel for="forAll" value="Für alle: "/>
-                <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm:propTable :propTabView:newArtForm">
-                    <p:ajax event="click" update="customerPanel"/>
-                </p:commandButton>
+                    <h:outputLabel for="forAll" value="Für alle: "/>
+                    <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
+                    <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm:propTable :propTabView:catForm:catTable :propTabView:newArtForm">
+                        <p:ajax event="click" update="customerPanel"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+            <p:separator/>
+            <h:form id="catForm">
+                <p:dataTable id="catTable"
+                             var="cat"
+                             value="#{categoryController.categories}"
+                             selectionMode="single"
+                             rowKey="#{cat.name}">
 
+                    <p:ajax event="rowSelect" 
+                            listener="#{categoryController.onRowSelect}"/>
 
+                    <p:column headerText="Kategorie">
+                        <p:outputLabel value="#{cat.name}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:separator/>
+                <p:commandButton value="Löschen" 
+                                 action="#{categoryController.deleteSelected}"
+                                 update="@parent :propTabView:newPropForm:newPropGrid :propTabView:propForm:propTable :propTabView:newArtForm:itemGrid"/>
             </h:form>
         </p:tab>
         <p:tab title="Übersicht">

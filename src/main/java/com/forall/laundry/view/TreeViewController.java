@@ -7,6 +7,7 @@ import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Position;
 import com.forall.laundry.service.BillService;
 import com.forall.laundry.service.BillPrintingService;
+import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PositionService;
 import org.primefaces.event.CellEditEvent;
@@ -69,6 +70,9 @@ public class TreeViewController implements Serializable {
 
     @EJB
     private BillService billService;
+    
+    @EJB
+    private CustomerService customerService;
 
     @Inject
     private UserController userController;

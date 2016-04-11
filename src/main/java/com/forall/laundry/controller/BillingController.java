@@ -11,6 +11,7 @@ import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.service.BillService;
 import com.forall.laundry.service.BillPrintingService;
+import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.OrderyService;
 import com.forall.laundry.service.PositionService;
 import com.forall.laundry.view.TreeViewController;
@@ -45,6 +46,9 @@ public class BillingController implements Serializable{
     
     @EJB
     private PositionService positionService;
+    
+    @EJB
+    private CustomerService customerService;
 
     @Inject
     private TreeViewController treeViewController;
@@ -60,10 +64,12 @@ public class BillingController implements Serializable{
     public void printBill(final List<Ordery> orders, final Customer customer){
         assert(!orders.isEmpty());
         
+        Customer cus = customerService.findById(customer.getId());
+        
         Bill b = new Bill();
         b.setBillNumber(billingService.getBillNumber());
         b.setPrinted(new Date());
-        b.setCustomer(customer);
+        
         
         byte[] pdf = billingService.createBill(orders, b.getBillNumber());
         
@@ -75,6 +81,8 @@ public class BillingController implements Serializable{
         });
         b.setBill(pdf);
         billService.save(b);
+        cus.add(b);
+        customerService.update(cus);
 
         BillSetting billInfo = billingService.getBill();
         billInfo.setNumber(billInfo.getNumber() + 1);

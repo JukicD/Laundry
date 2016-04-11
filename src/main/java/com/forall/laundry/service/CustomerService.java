@@ -6,6 +6,7 @@
 package com.forall.laundry.service;
 
 import com.forall.laundry.logger.AppLogger;
+import com.forall.laundry.model.Bill;
 import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Ordery;
 import com.forall.laundry.model.Product;

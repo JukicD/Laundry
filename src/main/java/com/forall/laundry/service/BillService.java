@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 /**
@@ -32,20 +33,13 @@ public class BillService implements Serializable {
         }
     }
 
-    public List<Bill> getBilsFrom(final Customer customer){
-        return em.createQuery("SELECT b FROM Bill b WHERE b.customer.id = :id")
-                .setParameter("id", customer.getId())
-                .getResultList();
-    }
-
     public List<Bill> get(final Date date, final int id){
         
-        List<Bill> b = em.createQuery("SELECT b FROM Bill b WHERE b.customer.id = :id AND b.printed = :date ")
+        Customer customer = em.createQuery("SELECT c FROM Customer c WHERE c.id = :id", Customer.class)
                 .setParameter("id", id)
-                .setParameter("date", date)
-                .getResultList();
+                .getSingleResult();
 
-        return b;
+        return customer.getBills().stream().filter(bill -> bill.getPrinted().equals(date)).collect(Collectors.toList());
     }
     
     public void update(Bill bill){
@@ -54,5 +48,12 @@ public class BillService implements Serializable {
         }catch(Exception e){
            logger.info("Error updating Bill with id " + bill.getId() + "!");
         }
+    }
+
+    public List<Bill> getBillsFrom(Customer customer) {
+       Customer cus = em.createQuery("SELECT c FROM Customer c WHERE c.id = :id", Customer.class)
+                .setParameter("id", customer.getId())
+                .getSingleResult();
+        return cus.getBills();
     }
 }

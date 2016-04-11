@@ -15,9 +15,6 @@ public class Bill implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    private Customer customer;
-
     @Basic
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date printed;
@@ -49,14 +46,6 @@ public class Bill implements Serializable{
         this.billNumber = billNumber;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public byte[] getBill() {
         return bill;
     }
@@ -64,6 +53,4 @@ public class Bill implements Serializable{
     public void setBill(byte[] bill) {
         this.bill = bill;
     }
-
-
 }

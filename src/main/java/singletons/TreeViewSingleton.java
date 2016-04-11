@@ -113,7 +113,7 @@ public class TreeViewSingleton implements Serializable {
         customers
             .stream()
             .forEach(customer -> {
-                    final List<Bill> bills = billService.getBilsFrom(customer);
+                    final List<Bill> bills = billService.getBillsFrom(customer);
                     final List<String> dates = new ArrayList<>();
 
                     bills

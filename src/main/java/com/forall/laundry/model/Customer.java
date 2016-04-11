@@ -1,7 +1,9 @@
 package com.forall.laundry.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -13,11 +15,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
+@NamedQueries({
+    @NamedQuery(name="Customer.findAll",query="SELECT c FROM Customer c")
+})
+
 public class Customer implements Serializable, Comparable<Customer> {
     
     @NotNull
@@ -60,9 +67,13 @@ public class Customer implements Serializable, Comparable<Customer> {
     
     @Basic
     private String billingText;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Bill> bills;
 
     public Customer() {
         customerNumber = 0;
+        bills = new ArrayList<>();
         propertyMap = new HashMap<>();
     }
 
@@ -72,6 +83,12 @@ public class Customer implements Serializable, Comparable<Customer> {
     
     public void remove(Product product){
         propertyMap.remove(product);
+    }
+    
+    public void add(Bill bill){
+        if(!bills.contains(bill)){
+            bills.add(bill);
+        }
     }
     
     public void clearFields(){
@@ -166,6 +183,14 @@ public class Customer implements Serializable, Comparable<Customer> {
 
     public void setDueTime(int dueTime) {
         this.dueTime = dueTime;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
     }
 
     @Override

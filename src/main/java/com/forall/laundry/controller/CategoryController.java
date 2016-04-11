@@ -1,14 +1,9 @@
 package com.forall.laundry.controller;
 
-import com.forall.laundry.controller.selection.CustomerSelectionController;
 import com.forall.laundry.model.Category;
-import com.forall.laundry.model.Customer;
 import com.forall.laundry.model.Product;
 import com.forall.laundry.service.CategoryService;
-import com.forall.laundry.service.CustomerService;
 import com.forall.laundry.service.ProductService;
-import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -19,12 +14,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import org.primefaces.event.SelectEvent;
 
 /**
  * Created by jd on 9/2/15.
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class CategoryController implements Serializable{
 
     @EJB
@@ -44,6 +43,7 @@ public class CategoryController implements Serializable{
     private List<Category> selectedCategories;
     private Map<Category, Map<Product, Boolean>> map;
     private Map<Category, Map<Product, Boolean>> specificMap;
+    private Category selectedCategory;
 
     @PostConstruct
     public void init() {
@@ -83,12 +83,13 @@ public class CategoryController implements Serializable{
 
     public void update(Category category){
         categoryService.update(category);
+        init();
     }
 
     public void save(){
         try{
             categoryService.save(category);
-            gc.sendMessage("Kategorie kwurde erfolgreich gespeichert !", "info");
+            gc.sendMessage("Kategorie wurde erfolgreich gespeichert !", "error");
         }catch(Exception e){
             gc.sendMessage("Kategorie konnte nicht gespeichert werden !", "error");
         }
@@ -99,7 +100,22 @@ public class CategoryController implements Serializable{
     }
     
     public void delete(Category category){
-        categoryService.delete(category.getId());
+        try{
+            categoryService.delete(category.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Kategorie wurde erfolgreich entfernt!"));
+        }catch(Exception e){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achtung", "Eine Kategorie kann nur dann gelöscht werden wenn sie nicht mehr einem Produkt zugeordnet ist!"));
+        }
+        init();
+    }
+    
+    public void deleteSelected(){
+        delete(selectedCategory);
+    }
+    
+    public void onRowSelect(SelectEvent event){
+        selectedCategory = (Category) event.getObject();
+        System.out.println("selected: " + selectedCategory.getId());
     }
 
     public List<Category> getSelectedCategories() {
