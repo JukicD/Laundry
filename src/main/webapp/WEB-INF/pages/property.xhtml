@@ -3,7 +3,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <p:tabView id="propTabView" style="width: available">
         <p:tab id="newArtTab" title="Artikel anlegen">
             <h:form id="newArtForm">
@@ -22,7 +22,7 @@
                             <h:outputText value="#{cat.name}"/>
                         </p:column>
                     </p:selectManyMenu>
-                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel"/>
+                    <p:commandButton value="Speichern" action="#{productController.addProduct}" update="propPanel :propTabView:propForm:propTable"/>
                 </h:panelGrid>
             </h:form>
         </p:tab>
@@ -36,7 +36,7 @@
 
                 <h:outputLabel for="forAll" value="Für alle: "/>
                 <p:selectBooleanCheckbox id="forAll" value="#{categoryController.category.forAll}"/>
-                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm :propTabView:newArtForm">
+                <p:commandButton value="Speichern" action="#{categoryController.save}" update="@parent :propTabView:propForm:propTable :propTabView:newArtForm">
                     <p:ajax event="click" update="customerPanel"/>
                 </p:commandButton>
 
@@ -65,7 +65,7 @@
                         </p:selectBooleanCheckbox>
                     </p:columns>
                     <p:column>
-                        <p:commandButton icon="ui-icon-trash" action="#{productController.delete(product)}" update="@parent msgs"/>
+                        <p:commandButton icon="ui-icon-trash" action="#{productController.delete(product)}" update="propTable msgs"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

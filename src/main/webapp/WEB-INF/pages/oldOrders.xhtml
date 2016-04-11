@@ -19,7 +19,7 @@
                                 style="width: 130px; height: auto"
                                 selectionMode="checkbox"
                                 selection="#{treeViewController.selectedNodes}">
-                            
+
                             <p:ajax event="select" 
                                     update=":oldOrdersTab:closedOrdersTableForm :oldOrdersTab:selectedPositionsTable" 
                                     listener="#{treeViewController.onDeliveryNodeSelect}"/>
@@ -30,7 +30,7 @@
                                     listener="#{treeViewController.nodeExpand}" />
                             <p:ajax event="collapse" 
                                     listener="#{treeViewController.nodeCollapse}" />
-                            
+
                             <p:treeNode>
                                 <h:outputText value="#{node}"/>
                             </p:treeNode>
@@ -157,7 +157,7 @@
             </p:layout>
         </p:tab>
         <p:tab title="Rechnungen" id="billTab">
-            <p:layout style="height: 500px">
+            <p:layout style="height: 600px">
                 <p:layoutUnit position="west" resizable="true" minSize="140">
                     <h:outputText value="Kunde: #{userController.customer.name}"/>
                     <h:form id='printedBillsForm'>
@@ -175,17 +175,31 @@
                     </h:form>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="center" style="height: auto">
+                <p:layoutUnit position="center" resizable="true" style="height: 650px">
                     <h:form id='billTableForm'>
-                        <pe:documentViewer value="#{treeViewController.pdf}" rendered="#{treeViewController.isLeaf}"/>
-                        
+
+                        <p:dataTable id="printedBills"
+                                     var="bill"
+                                     value="#{treeViewController.printedBills}"
+                                     selectionMode="single"
+                                     rowKey="#{bill.billNumber}">
+                            <p:ajax event="rowSelect" 
+                                    listener="#{treeViewController.onRowSelect}" 
+                                    oncomplete="PF('preview').show()"
+                                    update="previewDialog"/>
+
+                            <p:column headerText="Rechnungsnummer">
+                                <p:outputLabel value="#{bill.billNumber}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:separator/>
                         <p:commandButton value="Zurück"
                                          action="#{navigationController.setSite('customerList')}"
                                          actionListener="#{labelController.label('Kundenliste')}"
                                          update="customerPanel"
                                          oncomplete="PF('customer').show()">
                             <p:ajax event="click" listener="#{treeViewController.reset}"/>
-                        
                         </p:commandButton>
                     </h:form>
                 </p:layoutUnit>

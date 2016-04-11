@@ -85,6 +85,7 @@ public class ProductController implements Serializable {
         product.setName(null);
         categoryController.setSelectedCategories(null);
         categoryController.init();
+        init();
         
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Produkt wurde erfolgreich erstellt!","Produkt: " + product.getName()));
     }
@@ -110,7 +111,7 @@ public class ProductController implements Serializable {
                 }
             });
             productService.delete(prod);
-            
+            allProducts.remove(prod);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Produkt wurde erfolgreich gelöscht!", "Produkt: " + prod.getName()));
         }catch (Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achtung", "Produkt: " + prod.getName() + " befindet sich in einer nicht abgeschlossenen Rechnung."));

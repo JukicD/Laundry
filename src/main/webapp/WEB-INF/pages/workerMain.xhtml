@@ -24,7 +24,6 @@
             <f:actionListener binding="#{growlController.saveMessage('Mitarbeiter erfolgreich erstellt !')}"/>
         </p:commandButton>
         </h:form>
-
         <br/>
 
     <h:form id="workerForm">
@@ -37,8 +36,8 @@
                 <h:outputText value="#{worker.lastName}"/>
             </p:column>
             <p:column>
-                <p:commandButton icon="fa fa-user-times" action="#{workerController.delete(worker)}" update="@form">
-                    <p:ajax event="click" listener="#{growlController.sendMessage('Mitarbeiter entfernt !')}"/>
+                <p:commandButton icon="ui-icon-trash" action="#{workerController.delete(worker)}" update="@form">
+                    <p:ajax event="click" listener="#{growlController.saveMessage('Mitarbeiter entfernt !')}"/>
                 </p:commandButton>
             </p:column>
         </p:dataTable>

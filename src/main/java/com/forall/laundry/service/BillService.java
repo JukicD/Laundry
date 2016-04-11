@@ -38,12 +38,12 @@ public class BillService implements Serializable {
                 .getResultList();
     }
 
-    public Bill get(final Date date, final int id){
+    public List<Bill> get(final Date date, final int id){
         
-        Bill b = em.createQuery("SELECT b FROM Bill b WHERE b.customer.id = :id AND b.printed = :date ", Bill.class)
+        List<Bill> b = em.createQuery("SELECT b FROM Bill b WHERE b.customer.id = :id AND b.printed = :date ")
                 .setParameter("id", id)
                 .setParameter("date", date)
-                .getSingleResult();
+                .getResultList();
 
         return b;
     }

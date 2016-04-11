@@ -35,6 +35,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 
 /**
@@ -48,7 +49,7 @@ public class TreeViewController implements Serializable {
     private TreeNode[] selectedNodes;
     private List<Ordery> selectedOrders;
     private List<Ordery> ordersFromDate;
-    private Bill bill;
+    private List<Bill> printedBills;
     private StreamedContent pdf;
     private String radioSelection;
     private Date billDate;
@@ -157,8 +158,8 @@ public class TreeViewController implements Serializable {
                 try {
                     cal.setTime(sdf.parse(date));
 
-                    Bill bill = billService.get(cal.getTime(), userController.getCustomer().getId());
-                    billDate = bill.getPrinted();
+                    printedBills = billService.get(cal.getTime(), userController.getCustomer().getId());
+                    billDate = printedBills.get(0).getPrinted();
 
                 } catch (ParseException ex) {
                     Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -180,18 +181,16 @@ public class TreeViewController implements Serializable {
                 treeViewSingleton.filterAll();
                 break;
         }
-
         root = treeViewSingleton.getNodeMap().get(userController.getCustomer());
     }
 
     public void showDeliveryPreview() {
-            System.out.println("sel ord " + selectedOrders.get(0).getDate() + " " + billingController.getBill() + " " + billingController.getBill().getNumber());
             byte[] data = billPrintingService.createBill(selectedOrders, billingController.getBill().getNumber());
             pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
     public void showBill(){
-        Bill b = billService.get(billDate, userController.getCustomer().getId());
+        Bill b = billService.get(billDate, userController.getCustomer().getId()).get(0);
         byte[] data = b.getBill();
         pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
@@ -210,6 +209,16 @@ public class TreeViewController implements Serializable {
     public void unSelect(final Ordery order) {
         selectedOrders.remove(order);
         sortOrders();
+    }
+    
+    public void onRowSelect(SelectEvent event){
+        Bill bill = (Bill) event.getObject();
+        createPDF(bill.getBill());
+        
+    }
+    
+    private void createPDF(byte[] data){
+        pdf = new DefaultStreamedContent(new ByteArrayInputStream(data));
     }
 
     public void onCellEdit(final CellEditEvent event) {
@@ -267,8 +276,10 @@ public class TreeViewController implements Serializable {
     }
     
     public void reset(){
+        selectedOrders = new ArrayList<>();
         isLeaf = false;
         pdf = null;
+        printedBills = null;
     }
 
     public void resetDeliveryRoot() {
@@ -303,10 +314,10 @@ public class TreeViewController implements Serializable {
         this.selectedOrders = selectedOrders;
     }
 
-    public Bill getBil() {
-        return bill;
+    public List<Bill> getPrintedBills() {
+        return printedBills;
     }
-
+    
     public StreamedContent getPdf() {
         return pdf;
     }

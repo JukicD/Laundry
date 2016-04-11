@@ -76,8 +76,7 @@ public class BillPrintingService {
     public Long getBillNumber(){
         return getBill().getNumber();
     }
-
-
+    
     public byte[] createBill(List<Ordery> orders, final Long billNumber) {
         assert(!orders.isEmpty());
         byte[] pdf = null;
@@ -87,7 +86,7 @@ public class BillPrintingService {
                 throw new IllegalArgumentException();
             }
 
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "m1j1n1h1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
 
