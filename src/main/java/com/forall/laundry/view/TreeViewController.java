@@ -164,7 +164,7 @@ public class TreeViewController implements Serializable {
 
                     printedBills = billService.get(cal.getTime(), userController.getCustomer().getId());
                     billDate = printedBills.get(0).getPrinted();
-
+                    
                 } catch (ParseException ex) {
                     Logger.getLogger(TreeViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }

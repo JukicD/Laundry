@@ -86,7 +86,7 @@ public class BillPrintingService {
                 throw new IllegalArgumentException();
             }
 
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "m1j1n1h1");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/laundry","postgres", "p1l1o1k1");
             JasperDesign design = JRXmlLoader.load("/home/jd/NetBeansProjects/Laundry/src/main/java/com/forall/laundry/billing/Bill.jrxml");
             JasperReport report = JasperCompileManager.compileReport(design);
 

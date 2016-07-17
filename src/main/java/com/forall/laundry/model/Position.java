@@ -1,7 +1,6 @@
 package com.forall.laundry.model;
 
 
-import org.hibernate.annotations.CascadeType;
 import javax.persistence.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,8 +24,8 @@ public class Position implements Serializable, Comparable{
     private long id;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
-    private List<History> history;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private final List<History> history;
 
     @OneToOne
     private Product product;

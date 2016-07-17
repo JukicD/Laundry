@@ -70,7 +70,6 @@ public class BillingController implements Serializable{
         b.setBillNumber(billingService.getBillNumber());
         b.setPrinted(new Date());
         
-        
         byte[] pdf = billingService.createBill(orders, b.getBillNumber());
         
         orders.stream().forEach(order -> {
@@ -79,11 +78,15 @@ public class BillingController implements Serializable{
                 positionService.delete(position.getId());
             });
         });
+        
         b.setBill(pdf);
+        
         billService.save(b);
+        System.out.println("BILL ID: " + b.getId());
+        
         cus.add(b);
         customerService.update(cus);
-
+        
         BillSetting billInfo = billingService.getBill();
         billInfo.setNumber(billInfo.getNumber() + 1);
         billingService.update(billInfo);

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.hibernate.annotations.common.util.impl.Log_$logger;
 
 /**
  * Created by jd on 9/2/15.

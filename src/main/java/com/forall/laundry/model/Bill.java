@@ -13,10 +13,10 @@ public class Bill implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     @Basic
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date printed;
 
     @Basic
@@ -52,5 +52,30 @@ public class Bill implements Serializable{
 
     public void setBill(byte[] bill) {
         this.bill = bill;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Bill other = (Bill) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 }
