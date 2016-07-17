@@ -49,21 +49,5 @@
                 <p:outputLabel for="dueTime_update" value="Fälligkeitsdauer:"/>
                 <h:inputText id="dueTime_update" value ="#{userController.customer.dueTime}"/>
             </h:panelGrid>
-            
-            
-            <h1 style="font-size: 20px">Rechnungstext</h1>
-            <p:separator/>
-            
-            <h:panelGrid>
-                
-                <p:editor id="greetingsEditor_update" widgetVar="editorWidget" width="600" value="#{userController.customer.billingText}"/>
-            </h:panelGrid>
-            <p:separator/>
-            <p:commandButton  value="Speichern" style="margin-right:10px; border-radius: 0px" 
-                              actionListener="#{userController.update}" update="customerUpdate msgs">
-                <f:actionListener binding="#{navigationController.setSite('customerList')}"/>
-            </p:commandButton>
-            
-            <p:commandButton value="Zurück" actionListener="#{navigationController.setSite('customerList')}" update="customerPanel"/>
         </h:form>
 </ui:composition>

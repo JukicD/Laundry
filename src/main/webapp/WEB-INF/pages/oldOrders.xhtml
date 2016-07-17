@@ -78,6 +78,8 @@
                                     actionListener="#{treeViewController.showDeliveryPreview}"
                                     oncomplete="PF('preview').show()"
                                     update="previewDialog"/>
+
+                                <p:commandButton value="Rechnungstext" disabled="#{empty treeViewController.selectedNodes}" onclick="PF('billText').show()"/>
                                 <p:commandButton
                                     id="createBill"
                                     value="Rechnung abschließen"
@@ -206,4 +208,28 @@
             </p:layout>
         </p:tab>
     </p:tabView>
+
+    <p:dialog id="billTextDialog"
+              widgetVar="billText"
+              minimizable="true"
+              maximizable="true"
+              height="470" width="600"
+              hideEffect="clip"
+              dynamic="true">
+        <p:outputPanel id="billTextDialogPanel">
+            <h1 style="font-size: 20px">Rechnungstext</h1>
+            <p:separator/>
+            <h:form>
+                <h:panelGrid>
+                    <p:editor id="billtextEditor2" widgetVar="editorWidget2" width="600" value="#{userController.customer.billingText}"/>
+                </h:panelGrid>
+                <p:separator/>
+                <p:commandButton  value="Speichern" style="margin-right:10px; border-radius: 0px" 
+                                  actionListener="#{userController.update}" update="billtextEditor2">
+
+                </p:commandButton>
+                <p:commandButton value="Schließen" onclick="PF('billText').hide()"/>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
 </ui:composition>
