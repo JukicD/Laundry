@@ -6,7 +6,6 @@ import com.forall.laundry.service.CategoryService;
 import com.forall.laundry.service.ProductService;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;

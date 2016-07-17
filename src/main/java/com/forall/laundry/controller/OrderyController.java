@@ -5,7 +5,6 @@
 */
 package com.forall.laundry.controller;
 
-import com.forall.laundry.controller.edit.EditController;
 import com.forall.laundry.model.*;
 import com.forall.laundry.service.*;
 
@@ -14,11 +13,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  *
@@ -35,22 +31,7 @@ public class OrderyController implements Serializable{
     private Product product;
     
     @EJB
-    private ProductService productService;
-    
-    @EJB
     private OrderyService orderyService;
-    
-    @EJB
-    private CustomerService customerService;
-    
-    @EJB
-    private BillPrintingService billingService;
-
-    @EJB
-    private PositionService positionService;
-    
-    @Inject
-    private EditController editController;
 
     public List<Ordery> getThisMonthsOrdersFromCurrentCustomer(){
         return orderyService.getThisMonthsOrdersFrom(userController.getCustomer());

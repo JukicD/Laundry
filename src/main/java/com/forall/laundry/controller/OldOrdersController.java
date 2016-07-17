@@ -7,12 +7,10 @@ package com.forall.laundry.controller;
 
 import com.forall.laundry.model.Ordery;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.*;
+import java.io.*; 
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
